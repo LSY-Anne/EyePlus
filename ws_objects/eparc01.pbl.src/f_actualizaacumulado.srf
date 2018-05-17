@@ -1,0 +1,76 @@
+﻿$PBExportHeader$f_actualizaacumulado.srf
+global type f_actualizaacumulado from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizaacumulado (string as_ori, string as_acc, datawindow adw_1)
+end prototypes
+
+global function boolean f_actualizaacumulado (string as_ori, string as_acc, datawindow adw_1);/* f_ActualizaAcumulado( as_ori, as_acc, adw_1 ) */
+Dec{2}	ldc_bul
+Integer	i
+Long		ll_row
+String	ls_pro, ls_eti, ls_mer
+uo_DataStore lds_1
+
+
+If as_ori = 'PAL' Or as_ori = 'CIE' Then
+	Destroy lds_1
+	lds_1 = Create uo_DataStore
+	lds_1.DataObject = 'd_arch_acumulado_edit'
+	lds_1.SetTransObject( SqlCa ) 
+
+	For i = 1 To adw_1.RowCount( )
+		ls_mer = ''
+		ls_pro = f_Trim( adw_1.Object.c_codigo_pro[ i] )
+		
+		Select	c_merdes_pro
+		Into		:ls_mer
+		From		t_producto (nolock)
+		Where		c_codigo_pro = :ls_pro ;
+		
+		ls_eti = f_Trim( adw_1.Object.c_codigo_eti[ i] )
+		ldc_bul = f_Zero( adw_1.Object.n_bulxpa_pal[ i] )
+		ll_row = lds_1.Retrieve( gs_codtem + ls_pro + ls_eti + ls_mer + ls_mer )
+		If ll_row = 0 Then
+			ll_row = lds_1.InsertRow(0)
+			lds_1.Object.c_codigo_tem[ll_row] = gs_codtem
+			lds_1.Object.c_codigo_pro[ll_row] = ls_pro
+			lds_1.Object.c_codigo_eti[ll_row] = ls_eti
+			lds_1.Object.c_merori_acu[ll_row] = ls_mer
+			lds_1.Object.c_merdes_acu[ll_row] = ls_mer
+			lds_1.Object.n_emphoy_acu[ll_row] = 0
+			lds_1.Object.c_codigo_usu[ll_row] = gs_usuario
+			lds_1.Object.d_creacion[ll_row] = DateTime( Today( ) )
+			lds_1.Object.c_activo[ll_row] = '1'
+		Else
+			lds_1.Object.c_usumod[ll_row] = gs_usuario
+			lds_1.Object.d_modifi[ll_row] = DateTime( Today( ) )
+			lds_1.Object.c_activo[ll_row] = '1'
+		End If
+		If as_acc = 'E' Then
+			lds_1.Object.n_emphoy_acu[ll_row] = f_Zero(lds_1.Object.n_emphoy_acu[ll_row]) - ldc_bul
+			
+//		en el botón eliminar,  resta dependiendo si el pallet es menor a la fecha de empaque	
+//		If ld_empaque < ld_trabajo Then
+// 			lds_acu.Object.n_emptot_acu[ll_row] = f_Zero(lds_acu.Object.n_emptot_acu[ll_row]) - ldc_bul
+//			lds_acu.Object.n_sobtot_acu[ll_row] = f_Zero(lds_acu.Object.n_sobtot_acu[ll_row]) - ldc_bul 
+//		Else	
+//			lds_acu.Object.n_emphoy_acu[ll_row] = f_Zero(lds_acu.Object.n_emphoy_acu[ll_row]) - ldc_bul
+		Else
+			lds_1.Object.n_emphoy_acu[ll_row] = f_Zero(lds_1.Object.n_emphoy_acu[ll_row]) + ldc_bul
+		End If
+//Agregar la parte del costeo segun embarque.	
+		lds_1.AcceptText( )
+		If Not lds_1.Update( ) = 1 Then
+			Destroy lds_1
+			Return False
+		End If
+	Next
+End If
+
+Destroy lds_1
+
+Return True
+end function
+

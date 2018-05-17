@@ -1,0 +1,78 @@
+﻿$PBExportHeader$d_rpt_pallet_beltran_5secciones.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="Pallet Standard" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 0 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1936 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=c_codigo_pal dbname="c_codigo_pal" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="v_nombre_pro" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="v_nombre_eti" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bulxpa_pal dbname="n_bulxpa_pal" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="v_nombre_env" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_lot dbname="c_codigo_lot" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lot dbname="v_nombre_lot" )
+ column=(type=datetime updatewhereclause=yes name=d_empaque_pal dbname="d_empaque_pal" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_col dbname="c_codigo_col" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_tam dbname="v_nombre_tam" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pesbul_pro dbname="n_pesbul_pro" )
+ retrieve="  SELECT t_palet.c_codigo_pal,   
+         t_producto.v_nombre_pro,   
+         t_etiqueta.v_nombre_eti,   
+         t_palet.n_bulxpa_pal,   
+         t_envase.v_nombre_env,   
+         t_lote.c_codigo_lot,   
+         t_lote.v_nombre_lot,   
+         t_palet.d_empaque_pal,   
+         t_palet.c_codigo_col,   
+         t_tamanio.v_nombre_tam  ,
+			n_pesbul_pro = t_producto.n_pesbul_pro
+    FROM t_palet (nolock),   
+         t_producto(nolock),  
+         t_etiqueta(nolock),  
+         t_envase(nolock),  
+         t_lote(nolock),   
+         t_tamanio (nolock) 
+   WHERE ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and  
+         ( t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti ) and  
+         ( t_envase.c_codigo_env = t_palet.c_codigo_env ) and  
+         ( t_lote.c_codigo_tem = t_palet.c_codigo_tem ) and  
+         ( t_lote.c_codigo_lot = t_palet.c_codigo_lot ) and  
+         ( t_tamanio.c_codigo_tam = t_producto.c_codigo_tam ) and  
+         ( ( t_palet.c_codigo_tem = :as_tem ) AND  
+         ( t_palet.c_codigo_pal = :as_cod ) )    
+" arguments=(("as_tem", string),("as_cod", string)) )
+text(band=detail alignment="0" text="Pallet:"border="0" color="0" x="55" y="64" height="60" width="187"  name=t_palet_c_codigo_pal_t  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="347" y="56" height="72" width="480" format="[general]"  name=c_codigo_pal edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression="String( f_GetJulian( d_empaque_pal ), '000' ) +  String( d_empaque_pal, 'yy' ) "border="0" color="0" x="553" y="360" height="56" width="439" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1266" y="64" height="60" width="128" format=""  name=c_codigo_col edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression=" '*' + c_codigo_pal +'*' "border="0" color="0" x="50" y="224" height="160" width="1371" format="[general]"  font.face="3 of 9 Barcode" font.height="-32" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Shipper:"border="0" color="0" x="50" y="144" height="60" width="238"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_trim(f_getparmvalue('004'))"border="0" color="0" x="347" y="144" height="60" width="1079" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Pallet:"border="0" color="0" x="96" y="1420" height="48" width="187"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression=" '*' + c_codigo_pal +'*' "border="0" color="0" x="91" y="1472" height="152" width="1307" format="[general]"  font.face="3 of 9 Barcode" font.height="-20" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1266" y="1420" height="60" width="128" format="" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="Trim( v_nombre_pro ) + '/'+ Trim( v_nombre_env ) + '/'+ Trim( v_nombre_eti ) + '/' +  Trim( String( n_bulxpa_pal ) ) + ' Pcks'"border="0" color="0" x="91" y="1564" height="48" width="1307" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="59" y="432" height="168" width="1307" format="[general]"  name=v_nombre_tam edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial Narrow" font.height="-27" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1221" y="496" height="60" width="128" format="~t'C:'  +  c_codigo_col" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="64" y="612" height="168" width="1307" format="[general]"  name=v_nombre_eti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-25" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression=" '*' + c_codigo_pal +'*' "border="0" color="0" x="59" y="836" height="100" width="1307" format="[general]" visible="1~t0"  font.face="3 of 9 Barcode" font.height="-20" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="Trim( String( n_bulxpa_pal ) )  +  ' BOXES'"border="0" color="0" x="64" y="792" height="148" width="1307" format="[general]"  font.face="Arial Black" font.height="-21" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="n_bulxpa_pal * n_pesbul_pro  + ' kgs'"border="0" color="0" x="73" y="952" height="80" width="517" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Grower/Field:"border="0" color="0" x="69" y="1040" height="56" width="393"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="379" y="1040" height="60" width="745" format="~t c_codigo_lot + '/' + v_nombre_lot"  name=v_nombre_lot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Pallet:"border="0" color="0" x="101" y="1152" height="48" width="187"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression=" '*' + c_codigo_pal +'*' "border="0" color="0" x="91" y="1204" height="152" width="1307" format="[general]"  font.face="3 of 9 Barcode" font.height="-20" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1266" y="1152" height="60" width="128" format="" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="Trim( v_nombre_pro ) + '/'+ Trim( v_nombre_env ) + '/'+ Trim( v_nombre_eti ) + '/' +  Trim( String( n_bulxpa_pal ) ) + ' Pcks'"border="0" color="0" x="91" y="1296" height="48" width="1307" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Pallet:"border="0" color="0" x="96" y="1720" height="48" width="187"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression=" '*' + c_codigo_pal +'*' "border="0" color="0" x="91" y="1772" height="152" width="1307" format="[general]"  font.face="3 of 9 Barcode" font.height="-20" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1266" y="1720" height="60" width="128" format="" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="Trim( v_nombre_pro ) + '/'+ Trim( v_nombre_env ) + '/'+ Trim( v_nombre_eti ) + '/' +  Trim( String( n_bulxpa_pal ) ) + ' Pcks'"border="0" color="0" x="91" y="1864" height="48" width="1307" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="850" y="56" height="72" width="402" format="dd/mm/yyyy"  name=d_empaque_pal edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="809" y="1720" height="52" width="338" format="dd/mm/yyyy" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="809" y="1420" height="52" width="338" format="dd/mm/yyyy" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="809" y="1152" height="52" width="338" format="dd/mm/yyyy" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="315" y="1720" height="48" width="489" format="[general]" edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="315" y="1420" height="48" width="489" format="[general]" edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="315" y="1152" height="48" width="489" format="[general]" edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

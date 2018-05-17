@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_getmaterial.srf
+global type f_getmaterial from function_object
+end type
+
+forward prototypes
+global function string f_getmaterial (string as_cod)
+end prototypes
+
+global function string f_getmaterial (string as_cod);/* f_GetMaterial() */
+
+String	ls_nom
+
+Select	 v_nombre_pro
+Into		:ls_nom
+From		invproducto (Nolock)
+Where		c_codigo_pro = :as_cod
+Using		SqlCa ;
+
+If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla invproducto' ) = -1 Then
+	Return '@ERROR'
+End If
+
+ls_nom = f_Trim( ls_nom )
+
+Return ls_nom
+end function
+

@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_version.srf
+global type f_version from function_object
+end type
+
+forward prototypes
+global function string f_version ()
+end prototypes
+
+global function string f_version ();return gs_version
+end function
+

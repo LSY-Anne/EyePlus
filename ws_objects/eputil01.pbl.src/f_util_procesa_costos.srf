@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_util_procesa_costos.srf
+global type f_util_procesa_costos from function_object
+end type
+
+forward prototypes
+global function integer f_util_procesa_costos (string as_todo, datetime ad_fec)
+end prototypes
+
+global function integer f_util_procesa_costos (string as_todo, datetime ad_fec);Long ll_ret=0
+
+	//ll_ret = f_util_procesa_costos_mer_eye(as_todo, ad_fec)
+	ll_ret = f_util_procesa_costos_mer_eye('S', ad_fec)
+
+Return ll_ret
+
+end function
+

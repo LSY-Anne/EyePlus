@@ -1,0 +1,79 @@
+﻿$PBExportHeader$d_rpt_colores_sanita.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=4 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no  crosstab.dynamic = yes grid.lines=1 grid.columnmove=no selected.mouse=no )
+header[1](height=0 color="536870912" )
+header[2](height=64 color="536870912" )
+summary(height=76 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=v_nombre_env dbname="v_nombre_env" )
+ column=(type=char(20) updatewhereclause=yes name=v_nombre_eti dbname="v_nombre_eti" )
+ column=(type=char(20) updatewhereclause=yes name=v_nombre_tam dbname="v_nombre_tam" )
+ column=(type=number updatewhereclause=yes name=porciento dbname="porciento" )
+ column=(type=number updatewhereclause=yes name=n_bulxpa_pal dbname="n_bulxpa_pal" )
+ retrieve="  SELECT pro.c_codigo_pro,
+	c_codigo_col = p.c_codigo_col,  
+         c_codigo_eti = p.c_codigo_eti,   
+         v_nombre_eti = e.v_nombre_eti,   
+         v_nombre_tam = t.v_nombre_tam,   
+         c_codigo_tam = t.c_codigo_tam,   
+         sum(p.n_bulxpa_pal) As n_bulxpa_pal,   
+	v_nombre_env = (select v_nombre_env from t_envase where c_codigo_env = pro.c_codigo_env),
+	c_codigo_env = pro.c_codigo_env,
+	total =(select sum(n_bulxpa_pal) from t_palet where c_codigo_pro = pro.c_codigo_pro),
+
+porciento = (select sum(n_bulxpa_pal) from t_palet where c_codigo_pro = pro.c_codigo_pro)*100 /(select sum(n_bulxpa_pal) from t_palet where c_codigo_env = p.c_codigo_env)
+    FROM t_manifiesto m,   
+         t_palet p,   
+         t_producto pro,   
+         t_etiqueta e,   
+         t_color c,   
+         t_tamanio t  
+   WHERE ( m.c_codigo_man = p.c_codigo_man ) and 
+         ( pro.c_codigo_pro = p.c_codigo_pro ) and  
+         ( e.c_codigo_eti = p.c_codigo_eti ) and  
+         ( c.c_codigo_col = p.c_codigo_col ) and  
+         ( t.c_codigo_tam = pro.c_codigo_tam ) and  
+         ( m.c_activo_man = '1' ) AND  
+         ( p.c_activo_pal = '1' ) AND  
+         ( e.c_activo_eti = '1' ) AND  
+         ( c.c_activo_col = '1' ) AND  
+         ( t.c_activo_tam = '1' ) AND  
+         ( pro.c_activo_pro = '1' ) AND
+	      (m.c_codigo_tem = :as_tem)   AND 
+			(m.c_codigo_man like :as_man) 
+
+group by  p.c_codigo_eti,   
+         p.c_codigo_col,   
+         e.v_nombre_eti,   
+         t.c_codigo_tam,     
+         t.v_nombre_tam,
+	 pro.c_codigo_env,
+	pro.c_codigo_pro,
+	p.c_codigo_env
+order by c_codigo_col" arguments=(("as_tem", string),("as_man", string))  sort="v_nombre_env A v_nombre_eti A v_nombre_tam A porciento A " )
+group(level=1 header.height=0 trailer.height=84 by=("v_nombre_env" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=0 trailer.height=0 by=("v_nombre_eti" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=0 trailer.height=4 by=("v_nombre_tam" ) header.color="536870912" trailer.color="536870912" )
+text(band=header[2] alignment="0" text="Envase"border="0" color="16711680" x="9" y="4" height="56" width="585"  name=v_nombre_env_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header[2] alignment="0" text="Etiqueta"border="0" color="16711680" x="603" y="4" height="56" width="594"  name=v_nombre_eti_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header[2] alignment="0" text="Tamaño"border="0" color="16711680" x="1207" y="4" height="56" width="622"  name=v_nombre_tam_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header[2] alignment="1" text="Total"border="0" color="16711680" x="2464" y="4" height="56" width="274"  name=grand_sum_n_bulxpa_pal_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header[2] alignment="2" text="%"border="0" color="16711680" x="1838" y="4" height="56" width="270"  name=porciento_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header[2] alignment="2" text="@c_codigo_col"border="0" color="16711680" x="2117" y="4" height="56" width="338"  name=n_bulxpa_pal_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="56" width="585" format="[general]"  name=v_nombre_env edit.limit=25 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="603" y="4" height="56" width="594" format="[general]"  name=v_nombre_eti edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1207" y="4" height="56" width="622" format="[general]"  name=v_nombre_tam edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1838" y="4" height="56" width="270" format="#,##0.00"  name=porciento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2117" y="4" height="56" width="338" format="#,##0"  name=n_bulxpa_pal edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes crosstab.repeat=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="0" color="0" x="2464" y="4" height="56" width="274" format="#,##0"  name=grand_sum_n_bulxpa_pal  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="v_nombre_env + ~" Total~""border="0" color="0" x="9" y="12" height="56" width="585" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(porciento for group 1)"border="0" color="0" x="1838" y="12" height="56" width="270" format="#,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_bulxpa_pal for group 1)"border="0" color="0" x="2117" y="12" height="56" width="338" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(grand_sum_n_bulxpa_pal for group 1)"border="0" color="0" x="2464" y="12" height="56" width="274" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="~"Total embarcados~""border="0" color="0" x="9" y="4" height="56" width="585" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_bulxpa_pal for all )"border="0" color="0" x="2117" y="4" height="56" width="338" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(grand_sum_n_bulxpa_pal for all )"border="0" color="0" x="2464" y="4" height="56" width="274" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "c_codigo_col" rows = "v_nombre_env, v_nombre_eti, v_nombre_tam, porciento" values = "sum(n_bulxpa_pal for crosstab)" sourcenames = "c_codigo_pro, c_codigo_col, c_codigo_eti, v_nombre_eti, v_nombre_tam, c_codigo_tam, n_bulxpa_pal, v_nombre_env, c_codigo_env, total, porciento")
+sparse(names="v_nombre_env	v_nombre_eti	v_nombre_tam")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

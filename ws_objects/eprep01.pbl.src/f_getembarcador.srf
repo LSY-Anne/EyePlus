@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_getembarcador.srf
+global type f_getembarcador from function_object
+end type
+
+forward prototypes
+global function string f_getembarcador (string as_cod)
+end prototypes
+
+global function string f_getembarcador (string as_cod);string ls_nomd
+as_cod = right('00'+as_cod,2)
+
+SELECT v_nombre_emb
+INTO   :ls_nomd
+FROM   t_embarcador (nolock)
+WHERE  c_codigo_emb = :as_cod
+USING  sqlca;
+If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla t_embarcador' ) = -1 Then
+	Return '@ERROR'
+End If
+
+Return ls_nomd
+
+end function
+

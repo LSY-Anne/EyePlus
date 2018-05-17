@@ -1,0 +1,54 @@
+﻿$PBExportHeader$m_sheet.srm
+$PBExportComments$Menú Ancestro de Windows Sheet.
+forward
+global type m_sheet from m_principal
+end type
+end forward
+
+global type m_sheet from m_principal
+end type
+global m_sheet m_sheet
+
+on m_sheet.create
+m_sheet=this
+call super::create
+end on
+
+on m_sheet.destroy
+call super::destroy
+end on
+
+on m_archivosep1.create
+call super::create
+this.Visible=true
+end on
+
+on m_cerrar.create
+call super::create
+this.ToolBarItemName="Exit!"
+this.ToolBarItemText="Cerrar, Cerrar esta Ventana"
+this.Visible=true
+this.ToolBarItemOrder=100
+this.ToolBarItemSpace=1
+end on
+
+on m_salir1.create
+call super::create
+this.ToolBarItemName=""
+this.ToolBarItemText=""
+this.ToolBarItemOrder=0
+this.ToolBarItemVisible=false
+this.ToolBarItemSpace=0
+end on
+
+on m_seleccionartemporada.create
+call super::create
+this.ToolBarItemVisible=false
+end on
+
+on m_contenidodeayuda.create
+call super::create
+this.ToolBarItemName=""
+this.ToolBarItemText=""
+end on
+

@@ -1,0 +1,216 @@
+﻿$PBExportHeader$m_principal_repair.srm
+$PBExportComments$Menú Repair Database
+forward
+global type m_principal_repair from m_principal
+end type
+type m_diariodeempaque from menu within m_reporte
+end type
+end forward
+
+global type m_principal_repair from m_principal
+end type
+global m_principal_repair m_principal_repair
+
+on m_principal_repair.create
+m_principal_repair=this
+call super::create
+end on
+
+on m_principal_repair.destroy
+call super::destroy
+end on
+
+on m_pallet.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_manifiesto.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_otrosmovimientos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_tipodecambio.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_archacumulados.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_acumuladosdecostos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_archivosep1.create
+call super::create
+this.Visible=true
+end on
+
+on m_cerrar.create
+call super::create
+this.ToolBarItemName="Exit!"
+this.Visible=true
+this.ToolBarItemOrder=100
+this.ToolBarItemSpace=1
+end on
+
+on m_archivosep2.create
+call super::create
+this.Visible=true
+end on
+
+on m_guardar.create
+call super::create
+this.ToolBarItemName="Save!"
+this.ToolBarItemText="Guardar, Guardar el Resultado"
+this.Visible=true
+end on
+
+on m_salir1.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_producto.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_preciospro.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_etiqueta.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_envase.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_cultivo.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_lote.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_opcionsheet.create
+call super::create
+this.Text="R&epair"
+this.Visible=true
+end on
+
+on m_opcionsheet1.create
+call super::create
+this.Text="&Nuevo"
+this.Enabled=true
+end on
+
+on m_opcionsheet2.create
+call super::create
+this.Text="-"
+end on
+
+on m_opcionsheet3.create
+call super::create
+this.Text="&Ejecutar~tCtrl+E"
+this.ToolBarItemName="ExecuteSQL5!"
+this.ToolBarItemText="Ejecutar"
+this.Visible=true
+this.Enabled=true
+this.Shortcut=325
+end on
+
+event m_opcionsheet3::clicked;Window	lw_active
+
+lw_active = gw_frame.GetActiveSheet( )
+If IsValid( lw_active ) Then
+	lw_active.TriggerEvent( 'ue_exec' )
+End If
+end event
+
+on m_opcionsheet4.create
+call super::create
+this.Text="Actualizar DB"
+this.ToolBarItemName="CheckIn5!"
+this.ToolBarItemText="ActualizaDB, Actualizar DataBase"
+this.Visible=true
+this.Enabled=true
+end on
+
+event m_opcionsheet4::clicked;Window	lw_active
+
+lw_active = gw_frame.GetActiveSheet( )
+If IsValid( lw_active ) Then
+	lw_active.TriggerEvent( 'ue_upddb' )
+End If
+end event
+
+type m_reporte from m_principal`m_reporte within m_principal_repair
+m_diariodeempaque m_diariodeempaque
+end type
+
+on m_reporte.create
+call super::create
+this.m_diariodeempaque=create m_diariodeempaque
+this.Item[UpperBound(this.item)+1]=this.m_diariodeempaque
+end on
+
+on m_reporte.destroy
+call super::destroy
+destroy(this.m_diariodeempaque)
+end on
+
+on m_cierrededia.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_cambiarcontrasenia.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_importardatos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_copiarcostosdeproductos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_opciones.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_contenidodeayuda.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+type m_diariodeempaque from menu within m_reporte
+end type
+
+on m_diariodeempaque.create
+this.Text="Diario de Empaque"
+end on
+

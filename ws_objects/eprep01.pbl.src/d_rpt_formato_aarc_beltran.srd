@@ -1,0 +1,185 @@
+﻿$PBExportHeader$d_rpt_formato_aarc_beltran.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=1864 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=1208 color="536870912" )
+detail(height=0 color="553648127" )
+table(column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_tem dbname="t_manifiesto.c_codigo_tem" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_merdes_man dbname="t_manifiesto.c_merdes_man" values="Nacional	N/Extranjero	E/" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_aga dbname="t_manifiesto.c_codigo_aga" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_ageext_man dbname="t_manifiesto.c_ageext_man" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=c_numfac_man dbname="t_manifiesto.c_numfac_man" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_emb dbname="t_manifiesto.c_codigo_emb" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=c_numvia_man dbname="t_manifiesto.c_numvia_man" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=v_chofer_man dbname="t_manifiesto.v_chofer_man" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=v_medtra_man dbname="t_manifiesto.v_medtra_man" values="Tracto Camion	Tracto Camion/Trailer	Trailer/Camioneta	Camioneta/" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=v_numpla_man dbname="t_manifiesto.v_numpla_man" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=v_numcaj_man dbname="t_manifiesto.v_numcaj_man" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_temper_man dbname="t_manifiesto.n_temper_man" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_temmed_man dbname="t_manifiesto.c_temmed_man" initial="C" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_importe_man dbname="t_manifiesto.n_importe_man" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_totbul_man dbname="t_manifiesto.n_totbul_man" initial="0" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_marca_man dbname="t_manifiesto.v_marca_man" )
+ column=(type=char(4) updatewhereclause=yes name=v_anofab_man dbname="t_manifiesto.v_anofab_man" )
+ column=(type=char(15) updatewhereclause=yes name=c_rfc_emb dbname="t_embarcador.c_rfc_emb" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=v_lugdes_man dbname="t_manifiesto.v_lugdes_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_pal dbname="c_codigo_pal" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_aga dbname="t_agencia_aduanal.v_nombre_aga" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb dbname="t_embarcador.v_nombre_emb" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lit dbname="t_linea_transporte.v_nombre_lit" )
+ column=(type=char(100) updatewhereclause=yes name=v_ageext dbname="t_agencia_aduanal.v_ageext" )
+ column=(type=char(100) updatewhereclause=yes name=v_direcc_emb dbname="t_embarcador.v_direcc_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_emb dbname="t_embarcador.v_ciudad_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ptoemb_emb dbname="t_embarcador.v_ptoemb_emb" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(10) updatewhereclause=yes name=c_claveasoc_dis dbname="t_distribuidor.c_claveasoc_dis" )
+ column=(type=long updatewhereclause=yes name=countpalet dbname="countpalet" )
+ column=(type=char(20) updatewhereclause=yes name=c_codigo_alt dbname="t_codigo_alterno.c_codigo_alt" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_alt dbname="t_codigo_alterno.v_nombre_alt" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_tam dbname="t_tamanio.v_nombre_tam" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="t_envase.v_nombre_env" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cantidad dbname="n_cantidad" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pesbul_pro dbname="t_producto.n_pesbul_pro" )
+ column=(type=decimal(9) updatewhereclause=yes name=n_peso_ton dbname="n_peso_ton" )
+ retrieve="SELECT t_manifiesto.c_codigo_man,
+		t_manifiesto.c_codigo_tem,
+		t_manifiesto.c_merdes_man,
+		t_manifiesto.c_codigo_aga,   
+		t_manifiesto.c_ageext_man,   
+		t_manifiesto.c_numfac_man,
+		t_manifiesto.c_codigo_emb,   
+		t_manifiesto.c_numvia_man,   
+		t_manifiesto.v_chofer_man,   
+		t_manifiesto.v_medtra_man,   
+		t_manifiesto.v_numpla_man,   
+		t_manifiesto.v_numcaj_man,   
+		t_manifiesto.n_temper_man,   
+		t_manifiesto.c_temmed_man,   
+		t_manifiesto.n_importe_man,   
+		t_manifiesto.n_totbul_man,   
+		t_manifiesto.d_embarque_man,  
+		t_manifiesto.v_marca_man,
+		t_manifiesto.v_anofab_man,
+		t_embarcador.c_rfc_emb,
+		t_manifiesto.v_lugdes_man,
+		Space(10 ) As c_codigo_pal,
+		age_a.v_nombre_aga,
+		t_embarcador.v_nombre_emb,
+		t_linea_transporte.v_nombre_lit,
+		t_agencia_aduanal_b.v_nombre_aga v_ageext,
+		t_embarcador.v_direcc_emb,
+		t_embarcador.v_ciudad_emb,
+		t_embarcador.v_ptoemb_emb,
+		t_distribuidor.v_nombre_dis,
+		t_distribuidor.c_claveasoc_dis,
+		countpalet = (Select Count(Distinct c_codigo_pal)
+						  From   t_palet
+						  Where  c_codigo_tem = :as_tem
+						  And    c_codigo_man = :as_man),
+		t_codigo_alterno.c_codigo_alt,
+		t_codigo_alterno.v_nombre_alt,
+		t_tamanio.v_nombre_tam,
+		t_envase.v_nombre_env,
+		n_cantidad = (Select Sum(l.n_bulxpa_pal)
+						  From   t_palet l
+						  Where  l.c_codigo_man = t_manifiesto.c_codigo_man
+						  And    l.c_codigo_pro = t_producto.c_Codigo_pro
+						  And    l.c_codigo_tem = t_manifiesto.c_codigo_tem),
+		t_cultivo.v_nombre_cul,
+		t_producto.n_pesbul_pro,
+		Sum(( t_palet.n_bulxpa_pal * n_pesbul_pro ) / 1000 ) As n_peso_ton
+ FROM t_manifiesto,
+		t_agencia_aduanal age_a,
+		t_embarcador,
+		t_linea_transporte,
+		t_agencia_aduanal t_agencia_aduanal_b,
+		t_distribuidor,
+		t_palet,
+		t_producto,
+		t_tamanio,
+		t_etiqueta,
+		t_cultivo,
+		t_codigo_alterno,
+		t_envase
+WHERE ((t_manifiesto.c_codigo_tem = :as_tem ) and
+		( t_manifiesto.c_codigo_man = :as_man ) ) and 
+		( t_manifiesto.c_ageext_man *= t_agencia_aduanal_b.c_codigo_aga) and
+		( t_manifiesto.c_codigo_aga = age_a.c_codigo_aga ) and
+		( t_manifiesto.c_codigo_lit = t_linea_transporte.c_codigo_lit ) and
+		( t_manifiesto.c_codigo_emb = t_embarcador.c_codigo_emb ) and
+		( t_distribuidor.c_codigo_dis = t_manifiesto.c_codigo_dis ) and
+		( t_manifiesto.c_codigo_tem = t_palet.c_codigo_tem ) and
+		( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and
+		( t_producto.c_codigo_pro = t_codigo_alterno.c_codigo_pro ) and
+		( t_producto.c_codigo_env  = t_envase.c_codigo_env ) and
+		( t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti ) and
+		( t_producto.c_codigo_tam = t_tamanio.c_codigo_tam) and
+		( t_cultivo.c_codigo_cul = t_producto.c_codigo_cul ) and
+		( t_codigo_alterno.c_codigo_dis = t_distribuidor.c_codigo_dis) and
+		( t_codigo_alterno.c_codigo_pro = t_palet.c_codigo_pro	)
+Group By t_manifiesto.c_codigo_man,
+		t_manifiesto.c_codigo_tem,
+		t_manifiesto.c_merdes_man,
+		t_manifiesto.c_codigo_aga,
+		t_manifiesto.c_ageext_man,
+		t_manifiesto.c_numfac_man,   
+		t_manifiesto.c_codigo_emb,   
+		t_manifiesto.c_numvia_man,   
+		t_manifiesto.v_chofer_man,   
+		t_manifiesto.v_medtra_man,   
+		t_manifiesto.v_numpla_man,   
+		t_manifiesto.v_numcaj_man,   
+		t_manifiesto.n_temper_man,   
+		t_manifiesto.c_temmed_man,   
+		t_manifiesto.n_importe_man,   
+		t_manifiesto.n_totbul_man,   
+		t_manifiesto.d_embarque_man,
+		t_manifiesto.v_marca_man,  
+		t_manifiesto.v_anofab_man,   
+		t_embarcador.c_rfc_emb,   
+		t_manifiesto.v_lugdes_man,   
+		age_a.v_nombre_aga,
+		t_embarcador.v_nombre_emb,   
+		t_linea_transporte.v_nombre_lit,   
+		t_agencia_aduanal_b.v_nombre_aga,   
+		t_embarcador.v_direcc_emb,   
+		t_embarcador.v_ciudad_emb, 
+		t_embarcador.v_ptoemb_emb,   
+		t_distribuidor.v_nombre_dis,   
+		t_distribuidor.c_claveasoc_dis,   
+		t_codigo_alterno.c_codigo_alt,
+		t_codigo_alterno.v_nombre_alt,
+		t_tamanio.v_nombre_tam,
+		t_envase.v_nombre_env, 
+		t_cultivo.v_nombre_cul, 
+		t_producto.n_pesbul_pro,
+		t_producto.c_codigo_pro" arguments=(("as_tem", string),("as_man", string))  sort="c_codigo_alt A " )
+group(level=1 header.height=84 trailer.height=0 by=("c_codigo_alt" ) header.color="536870912" trailer.color="553648127" )
+column(band=header id=17 alignment="0" tabsequence=32766 border="0" color="33554432" x="2802" y="684" height="52" width="530" format="dd     /     mm     /     yyyy"  name=d_embarque_man edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=24 alignment="0" tabsequence=32766 border="0" color="33554432" x="453" y="920" height="56" width="1170" format="[general]"  name=v_nombre_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=30 alignment="0" tabsequence=32766 border="0" color="33554432" x="1979" y="920" height="56" width="832" format="[general]"  name=v_nombre_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=27 alignment="0" tabsequence=32766 border="0" color="33554432" x="453" y="1052" height="56" width="1170" format="[general]"  name=v_direcc_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=21 alignment="0" tabsequence=32766 border="0" color="33554432" x="1979" y="1048" height="60" width="1083" format="[general]"  name=v_lugdes_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=28 alignment="0" tabsequence=32766 border="0" color="33554432" x="453" y="1180" height="56" width="613" format="[general]"  name=v_ciudad_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression=" If ( c_merdes_man = 'N', v_nombre_aga, v_ageext ) "border="0" color="33554432" x="1979" y="1180" height="56" width="1083" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=20 alignment="0" tabsequence=32766 border="0" color="33554432" x="453" y="1288" height="56" width="553" format="[general]"  name=c_rfc_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="1979" y="1288" height="56" width="462" format="[general]"  name=v_marca_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=19 alignment="0" tabsequence=32766 border="0" color="33554432" x="2679" y="1288" height="56" width="265" format="[general]"  name=v_anofab_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=29 alignment="0" tabsequence=32766 border="0" color="33554432" x="448" y="1428" height="56" width="526" format="[general]"  name=v_ptoemb_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=28 alignment="0" tabsequence=32766 border="0" color="33554432" x="1170" y="1428" height="56" width="439" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=11 alignment="0" tabsequence=32766 border="0" color="33554432" x="1979" y="1428" height="56" width="279" format="[general]"  name=v_numpla_man edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=12 alignment="0" tabsequence=32766 border="0" color="33554432" x="2629" y="1428" height="56" width="329" format="[general]"  name=v_numcaj_man edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="'X'"border="0" color="0" x="709" y="1548" height="56" width="73" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="1979" y="1548" height="56" width="864" format="[general]"  name=v_chofer_man edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=33 alignment="0" tabsequence=32766 border="0" color="33554432" x="146" y="8" height="56" width="311" format="[general]"  name=c_codigo_alt edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=34 alignment="0" tabsequence=32766 border="0" color="33554432" x="489" y="8" height="56" width="1170" format="[general]"  name=v_nombre_alt edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=35 alignment="1" tabsequence=32766 border="0" color="33554432" x="1787" y="8" height="56" width="320" format="[general]"  name=v_nombre_tam edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header.1 alignment="1" expression="sum(n_cantidad for group 1)"border="0" color="33554432" x="2263" y="8" height="56" width="297" format="#,##0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header.1 alignment="1" expression="sum(n_peso_ton for group 1)"border="0" color="33554432" x="2624" y="8" height="56" width="347" format="#,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="sum(n_cantidad for all)"border="0" color="33554432" x="2263" y="324" height="56" width="297" format="#,##0" visible="1~tif( c_merdes_man = 'E',1,0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="1" expression="sum( n_peso_ton for all )"border="0" color="33554432" x="2633" y="324" height="56" width="347" format="#,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,191 @@
+﻿$PBExportHeader$d_rpt_rendimiento_x_lote.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=296 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=152 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=t_lote_c_codigo_tem dbname="t_lote.c_codigo_tem" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_cul dbname="t_cultivo.c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=char(3) updatewhereclause=yes name=tiporeg dbname="tiporeg" )
+ column=(type=decimal(0) updatewhereclause=yes name=n_kgsxur_cul dbname="t_cultivo.n_kgsxur_cul" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_lot dbname="t_lote.c_codigo_lot" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="c_codigo_pro" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lot dbname="t_lote.v_nombre_lot" )
+ column=(type=decimal(2) updatewhereclause=yes name=baldes dbname="Baldes" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pesbul_pro dbname="n_pesbul_pro" )
+ retrieve="Select   t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul,  
+         t_cultivo.v_nombre_cul, 
+         tiporeg='BAL',
+         t_cultivo.n_kgsxur_cul,
+         t_lote.c_codigo_lot,
+         c_codigo_pro = '    ',
+         t_lote.v_nombre_lot,
+         Baldes = ( Select IsNull( sum( prc.n_baldes_prc ), 0) 
+                     From   t_produccion_campo prc
+                     Where  prc.c_codigo_cul = t_cultivo.c_codigo_cul
+                     And    prc.c_codigo_tem = t_lote.c_codigo_tem
+                     And    prc.c_codigo_lot = t_lote.c_codigo_lot 
+                     And    prc.d_trabajo_prc Between :ad_fecini And :ad_fecfin
+                     And    prc.c_activo_prc = '1' ),
+         n_pesbul_pro = 0.00
+From     t_lote,   
+         t_palet,
+         t_producto,
+         t_cultivo
+Where 
+         t_palet.c_codigo_pro = t_producto.c_codigo_pro
+And      t_palet.c_codigo_tem = t_lote.c_codigo_tem
+And      t_palet.c_codigo_lot = t_lote.c_codigo_lot
+And      t_lote.c_codigo_tem = :as_tem
+And      t_producto.c_codigo_cul = t_cultivo.c_codigo_cul 
+And      t_palet.d_empaque_pal Between :ad_fecini And :ad_fecfin 
+And      t_palet.c_codigo_lot Like :as_lot
+And      t_cultivo.c_codigo_cul Like :as_cul
+And      t_palet.c_activo_pal = '1' 
+And      t_lote.c_activo_lot = '1' 
+And      t_cultivo.c_activo_cul = '1' 
+And      t_producto.c_activo_pro = '1' 
+
+Group By t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul, 
+         t_cultivo.v_nombre_cul, 
+         t_lote.c_codigo_lot,   
+         t_lote.v_nombre_lot,
+         t_cultivo.n_kgsxur_cul
+
+
+Union
+
+Select   t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul,  
+         t_cultivo.v_nombre_cul, 
+         tiporeg = 'CAJ',
+         t_cultivo.n_kgsxur_cul,
+         t_lote.c_codigo_lot,
+         t_palet.c_codigo_pro,   
+         t_producto.v_nombre_pro,   
+         cajas = Sum( t_palet.n_bulxpa_pal ),   
+         t_producto.n_pesbul_pro
+From     t_lote,   
+         t_palet,
+         t_producto,
+         t_cultivo
+Where 
+         t_palet.c_codigo_pro = t_producto.c_codigo_pro
+And      t_palet.c_codigo_tem = t_lote.c_codigo_tem
+And      t_palet.c_codigo_lot = t_lote.c_codigo_lot
+And      t_lote.c_codigo_tem = :as_tem
+And      t_producto.c_codigo_cul = t_cultivo.c_codigo_cul 
+And      t_palet.d_empaque_pal Between :ad_fecini And :ad_fecfin 
+And      t_palet.c_codigo_lot Like :as_lot
+And      t_cultivo.c_codigo_cul Like :as_cul
+And      t_palet.c_activo_pal = '1' 
+And      t_lote.c_activo_lot = '1' 
+And      t_cultivo.c_activo_cul = '1' 
+And      t_producto.c_activo_pro = '1' 
+
+Group By t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul, 
+         t_cultivo.v_nombre_cul, 
+         t_cultivo.n_kgsxur_cul,
+         t_lote.c_codigo_lot,
+         t_palet.c_codigo_pro,   
+         t_producto.v_nombre_pro,   
+         t_producto.n_pesbul_pro    
+
+Union
+
+Select   
+         t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul,  
+         t_cultivo.v_nombre_cul, 
+         tiporeg = 'BAL',
+         t_cultivo.n_kgsxur_cul,
+         t_lote.c_codigo_lot,
+         c_codigo_pro = '    ',
+         t_lote.v_nombre_lot,
+         Baldes = Sum( IsNull( prc.n_baldes_prc, 0 ) ), 
+         n_pesbul_pro = 0
+From     t_lote,   
+         t_produccion_campo prc,
+         t_cultivo
+Where 
+         prc.c_codigo_cul = t_cultivo.c_codigo_cul
+And      prc.c_codigo_tem = t_lote.c_codigo_tem
+And      prc.c_codigo_lot = t_lote.c_codigo_lot 
+And      t_lote.c_codigo_tem = :as_tem
+And      prc.d_trabajo_prc       Between :ad_fecini And :ad_fecfin 
+And      prc.c_codigo_lot Not In ( Select distinct pal.c_codigo_lot 
+                                   From   t_palet  pal
+                                   Where  pal.d_empaque_pal Between :ad_fecini And :ad_fecfin )
+And      prc.c_codigo_lot Like :as_lot
+And      t_cultivo.c_codigo_cul Like :as_cul
+And      t_lote.c_activo_lot = '1' 
+And      t_cultivo.c_activo_cul = '1' 
+And      prc.c_activo_prc = '1'
+Group By t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul,  
+         t_cultivo.v_nombre_cul, 
+         t_cultivo.n_kgsxur_cul,
+         t_lote.c_codigo_lot,
+         t_lote.v_nombre_lot
+
+Order By 1, 2, 3, 4, 6, 7
+" arguments=(("as_tem", string),("ad_fecini", datetime),("ad_fecfin", datetime),("as_cul", string),("as_lot", string))  sort="c_codigo_cul A c_codigo_lot A tiporeg A c_codigo_pro A " )
+group(level=1 header.height=172 trailer.height=88 by=("c_codigo_cul" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=72 trailer.height=92 by=("c_codigo_lot" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression="'Fecha del Sistema: ' + String( f_GetSysDateA( ), 'dd/mm/yyyy' )"border="0" color="0" x="41" y="240" height="52" width="1061" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2501" y="20" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2729" y="20" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="2990" y="20" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3159" y="20" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="2990" y="68" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3159" y="68" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="2990" y="116" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3159" y="116" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="2990" y="164" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3159" y="164" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_rendimiento_x_lote"border="0" color="0" x="2843" y="212" height="44" width="571"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="933" y="16" height="76" width="1559" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression="'PRODUCCION Y RENDIMIENTOS POR CULTIVO Y LOTE ~~r~~n POR EL PERIODO: ' +  String( ad_fecini , 'dd/mm/yyyy' ) + ' AL: ' + String( ad_fecfin , 'dd/mm/yyyy' )"border="0" color="33554432" x="933" y="92" height="116" width="1559" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+rectangle(band=header.1 x="14" y="8" height="68" width="3415" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="15780518" )
+text(band=header.1 alignment="1" text="Kilos Cortados "border="0" color="0" x="2958" y="12" height="56" width="453"  name=n_precme_pal_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.1 alignment="1" text="Kilos x U.R."border="0" color="0" x="2382" y="12" height="56" width="453"  name=n_precmn_pal_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.1 alignment="1" text="U.R. Cortados "border="0" color="0" x="1751" y="12" height="56" width="453"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.1 alignment="0" text="Cultivo"border="0" color="0" x="41" y="96" height="56" width="206"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header.1 alignment="0" text="Lote"border="0" color="0" x="41" y="12" height="56" width="128"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=3 alignment="0" tabsequence=32766 border="0" color="0" x="347" y="96" height="60" width="2107" format="[general]"  name=v_nombre_cul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text=" Nombre del Lote"border="0" color="0" x="233" y="12" height="56" width="507"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=2 alignment="0" tabsequence=32766 border="0" color="0" x="233" y="96" height="60" width="151" format=" [general]"  name=c_codigo_cul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=header.2 alignment="1" expression="If(  tiporeg ='BAL',  String( baldes  *  n_kgsxur_cul, '#,##0.00' ) ,  '' )"border="0" color="0" x="2958" y="8" height="52" width="453" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.2 alignment="1" expression="If(  tiporeg ='BAL',   String( n_kgsxur_cul, '#,##0.00') ,  '' )"border="0" color="0" x="2382" y="8" height="52" width="453" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=9 alignment="1" tabsequence=32766 border="0" color="0" x="1751" y="8" height="52" width="453" format="#,##0"  name=baldes edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.2 alignment="0" expression="If(  tiporeg ='BAL', c_codigo_lot, ''  )"border="0" color="0" x="41" y="8" height="52" width="128" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.2 alignment="0" expression="If(  tiporeg ='BAL', Upper( v_nombre_lot ), ''  )"border="0" color="0" x="233" y="8" height="52" width="1317" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" If(  tiporeg ='CAJ',   baldes, 0 )"border="0" color="0" x="960" y="104" height="52" width="315" format="#,##0.00"  name=cajas  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="If(  tiporeg ='BAL', 'Kg. Empacados', String( n_pesbul_pro * baldes , '#,##0.00') )"border="0" color="0" x="2958" y="4" height="52" width="453" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="If(  tiporeg ='BAL', 'Kg. x Caja', String( n_pesbul_pro, '#,##0.00') )"border="0" color="0" x="2382" y="4" height="52" width="453" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="If(  tiporeg ='BAL', 'Cajas Empacadas', String(Baldes, '#,##0') )"border="0" color="0" x="1751" y="4" height="52" width="453" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="If(  tiporeg ='BAL', 'Nombre del Producto', ''  + c_codigo_pro + ' ' + WordCap( v_nombre_lot ) )"border="0" color="0" x="233" y="4" height="52" width="1317" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="233" y1="60" x2="3415" y2="60" visible="1~tIf ( tiporeg = 'BAL', 1, 0)" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum(If(  tiporeg ='BAL',  baldes  *  n_kgsxur_cul ,  0 ) for group 2)"border="0" color="0" x="1006" y="8" height="52" width="151" format="#,##0.00"  name=totkiloscortados visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.2 alignment="1" text="Total x Lote "border="0" color="0" x="1376" y="8" height="56" width="366"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum(If(  tiporeg ='CAJ',   cajas, 0 ) for group 2)"border="0" color="0" x="1751" y="8" height="52" width="453" format="#,##0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.2 alignment="0" text=" Rendimiento"border="0" color="0" x="2382" y="8" height="56" width="393"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression=" ( sum( n_pesbul_pro * cajas for group 2) * 100 )/totkiloscortados"border="0" color="0" x="2702" y="8" height="52" width="137" format="0 "  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.2 alignment="0" text="%"border="0" color="0" x="2848" y="8" height="56" width="50"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression=" sum( n_pesbul_pro * cajas for group 2) "border="0" color="0" x="2958" y="8" height="52" width="453" format="#,##0.00"  name=cajasxlote  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=trailer.2 x1="233" y1="0" x2="3415" y2="0" visible="1~tIf ( tiporeg = 'CAJ', 1, 0)" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="0" text="U.R = Unidades de Recolección (baldes, cajas, etc)"border="0" color="0" x="9" y="12" height="56" width="1513"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Kg. Cortados x Cultivo "border="0" color="0" x="2267" y="12" height="56" width="677"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(If(  tiporeg ='BAL',  baldes  *  n_kgsxur_cul ,  0 ) for group 1)"border="0" color="0" x="2958" y="12" height="52" width="453" format="#,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="NOTA: Este reporte toma los pallets formados en el periodo especificado, ya que hasta en ese momento tienen los lotes para compararlo contra su produccion."border="0" color="0" x="41" y="4" height="44" width="3342"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="18" y1="60" x2="3442" y2="60" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="55" y="76" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2121" y="76" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3131" y="76" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_centerwindow.srf
+global type f_centerwindow from function_object
+end type
+
+forward prototypes
+global subroutine f_centerwindow (window aw_centrar)
+end prototypes
+
+global subroutine f_centerwindow (window aw_centrar);Environment    lenv_env                                // holds environment information
+
+// Get the environment information
+If ( GetEnvironment(lenv_env) <> 1 ) then
+	MessageBox(	"Center Window", &
+					"Unable to get environment information.~nHalting ..." )
+	Halt
+End If
+
+//Centrar Ventana
+aw_centrar.y = (PixelsToUnits(lenv_env.ScreenHeight,YPixelsToUnits!) - aw_centrar.Height) / 2
+aw_centrar.x = (PixelsToUnits(lenv_env.ScreenWidth,XPixelsToUnits!) -  aw_centrar.width) / 2
+
+
+end subroutine
+

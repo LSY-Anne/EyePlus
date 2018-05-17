@@ -1,0 +1,71 @@
+﻿$PBExportHeader$f_color.srf
+global type f_color from function_object
+end type
+
+forward prototypes
+global function long f_color (string as_color)
+end prototypes
+
+global function long f_color (string as_color);/* f_color
+	-----------------
+	
+	Objetivo: Obtener el valor RGB de un color as_color.
+	Autor:  César Vilela R.
+	Fecha: 16/11/1999
+	Argumentos:	as_color		String
+	Retorna:		rgbColor		{Long}
+*/
+
+as_color = Lower(as_color)
+
+Choose Case as_color
+	Case 'black', 'negro', '0'
+		Return RGB(0, 0, 0)
+	Case 'white', 'blanco', '1'
+		Return RGB(255, 255, 255)
+	Case 'light gray', 'plata', '2'
+		Return RGB(	192, 192, 192)
+	Case 'dark gray', 'plomo', '3'
+		Return RGB(	128, 128, 128)
+	Case 'red', 'rojo', '4'
+		Return RGB(255, 0, 0)
+	Case 'dark red', 'rojo oscuro', '5'
+		Return RGB(128, 0, 0)
+	Case 'green', 'verde', '6'
+		Return RGB(0, 255, 0)
+	Case 'dark green', 'verde oscuro', '7'
+		Return RGB(0, 128, 0)
+	Case 'blue', 'azul', '8'
+		Return RGB(0, 0, 255)
+	Case 'dark blue', 'azul oscuro', '9'
+		Return RGB(0, 0, 128)
+	Case 'magenta', 'fucsia', '10'
+		Return RGB(255, 0, 255)
+	Case 'dark magenta', 'purpura', '11'
+		Return RGB(128, 0,128)
+	Case 'cyan', 'celeste', '12'
+		Return RGB(0, 255, 255)
+	Case 'dark cyan', 'celeste oscuro', '13'
+		Return RGB(0, 128, 28)
+	Case 'yellow', 'amarillo', '14'
+		Return RGB(255, 255, 0)
+	Case 'brown', 'marron', '15'
+		Return RGB(128, 128, 0)
+	Case 'wndtextback', 'wind', '16'
+		Return 1090519039
+	Case 'text', 'wndtext', 'texto', '17'
+		Return 33554432
+	Case 'button', 'buttonface', 'boton', '18'
+		Return 79416533
+	Case 'cromado', '19'
+		Return RGB(216, 216, 216)
+	Case 'cromado2', '20'
+		Return RGB(235, 235, 235)
+	Case Else
+		Return RGB(0, 0, 0)
+End Choose
+
+Return RGB(0, 0, 0)
+
+end function
+

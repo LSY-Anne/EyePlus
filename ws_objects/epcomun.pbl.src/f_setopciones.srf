@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_setopciones.srf
+global type f_setopciones from function_object
+end type
+
+forward prototypes
+global function integer f_setopciones ()
+end prototypes
+
+global function integer f_setopciones ();//=============================
+//= FUNCION: f_setopciones: Establecer los permisos Visibles por Parametros, Funcionalidades o Empresa (Licencias)
+//= AUTOR:  Ing. Aaron Mario A. Sanchez Mendoza 20091102
+//= NOTAS:  Establecer Opciones validas de los menus segun 1) Licencias por empresa, 2) Opciones por parametros o funcionalidades especificas.
+//= CAMBIOS: 20091102 - Version Inicial, Aaron Sanchez
+//=============================
+
+//==========================================================
+// 1) LICENCIAS: OPCIONES QUE SI REQUIEREN LICENCIA (POR EMPRESA PREVIA VALIDACION DE LICENCIA Y VIGENCIA)
+//==========================================================
+//= COSTOS: Captura Directa de Costos: Parametro 901 de Costos debe ser S
+//If f_getparmvaluecos('901') <> 'S' Then
+// m_principal.m_archivo.m_capturadirecta.Text = m_principal.m_archivo.m_capturadirecta.Text + ' [Sin Licencia]'
+// m_principal.m_archivo.m_capturadirecta.enabled = False
+//End If
+//
+//==========================================================
+// 2) OPCIONES QUE NO REQUIEREN LICENCIA (SOLO FUNCIONALIDADES)
+//==========================================================
+//= COSTOS: Importar Lotes de Temporadas Pasadas, Temporada Actual >01 y debe estar en la Secuencia=01
+//If gs_codtem < '02' or gs_sec<>'01' Then
+// m_principal.m_utilidades.m_importarlotes.Text = m_principal.m_utilidades.m_importarlotes.Text + ' [Tem='+gs_codtem+', Sec='+gs_sec+']'
+// m_principal.m_utilidades.m_importarlotes.enabled = False
+//End If
+
+//= EMBARQUES: Grupo Personalizado de Actividades: Parametro 178 de Nomina debe ser S
+If f_getparmvalue('108') <> 'S' Then//manejo de rastreo
+ m_principal.m_archivo.m_controlfinal.Text = m_principal.m_archivo.m_controlfinal.Text + ' [P108<>S]'
+ m_principal.m_archivo.m_controlfinal.enabled = False
+ m_principal.m_archivo.m_controlcorteyacarreo.Text = m_principal.m_archivo.m_controlcorteyacarreo.Text + ' [P108<>S]'
+ m_principal.m_archivo.m_controlcorteyacarreo.enabled = False
+End If
+
+If f_getparmvalue('106') <> 'S' or gs_tipo <> 'F' Then//manejo de DESEMBARQUE
+ m_principal.m_archivo.m_desembarcar.Text = m_principal.m_archivo.m_desembarcar.Text + ' [P106<>S or tipo=N]'
+ m_principal.m_archivo.m_desembarcar.enabled = False
+End If
+If f_getparmvalue('111') <> 'S'  Then//reporte de bultos de molina
+ m_principal.m_reporte.m_reportesdeembarquesporcultivo.Text = m_principal.m_reporte.m_reportesdeembarquesporcultivo.Text + ' [P111<>S or tipo=N]'
+ m_principal.m_reporte.m_reportesdeembarquesporcultivo.enabled = False
+End If
+
+
+Return 1
+end function
+

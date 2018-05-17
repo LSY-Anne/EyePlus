@@ -1,0 +1,125 @@
+﻿$PBExportHeader$f_utilacumulamanoobradiario.srf
+global type f_utilacumulamanoobradiario from function_object
+end type
+
+forward prototypes
+global function integer f_utilacumulamanoobradiario (decimal adc_tc)
+end prototypes
+
+global function integer f_utilacumulamanoobradiario (decimal adc_tc);/* f_UtilAcumulaManoObraDiario( ) */
+DateTime	ld_sys
+Dec{2}	ldc_numjorhoy, ldc_monjorhoy, ldc_pestot, ldc_pesxcul, ldc_porcen, ldc_bulxcul
+Long		ll_ret, k, i, j, L
+String	ls_tem, ls_cul, ls_act, ls_find, ls_origen
+uo_DataStore lds_amo, lds_cul, lds_act, lds_cultotal
+
+
+ld_sys = gd_sys
+ls_tem = gs_codtem
+
+/* Liberar tablas de acumulados del dia */	
+Update	t_acumulado_mano_obra 
+Set		d_trabajo_amo = :gd_sys,
+			n_numjorhoy_amo = 0,
+			n_monjorhoy_amo = 0,
+			n_numjorhoygral_amo = 0,
+			n_monjorhoygral_amo = 0 
+Where		c_codigo_tem = :ls_tem ;
+			
+If f_SqlError( SqlCa, 'No se pudo actualizar la tabla t_acumulado_mano_obra. (Update)' ) = -1 Then
+	Return -1
+End If
+
+
+/* DS Para actualizar mano de obra acumulada */
+Destroy lds_amo
+lds_amo = Create uo_DataStore
+lds_amo.DataObject = 'd_util_acumulado_mano_obra_update'
+lds_amo.SetTransObject( SqlCa )
+ll_ret = lds_amo.Retrieve( ls_tem )
+
+/* Resumen por Cultivo */
+Destroy lds_cul
+lds_cul = Create uo_DataStore
+lds_cul.DataObject = 'd_util_cultivo_x_fecha'
+lds_cul.SetTransObject( SqlCa )
+
+/* Actividades del dia por Cultivo */
+Destroy lds_act
+lds_act = Create uo_DataStore
+lds_act.DataObject = 'd_util_mano_obra_diario'
+lds_act.SetTransObject( SqlCa )
+
+Destroy lds_cultotal
+lds_cultotal = Create uo_DataStore
+lds_cultotal.DataObject = 'd_util_cultivo_x_fecha'
+lds_cultotal.SetTransObject( SqlCa )
+
+
+ll_ret = lds_cul.Retrieve( ls_tem )
+
+ldc_pestot = 0
+For k = 1 To lds_cul.RowCount( )
+
+	ldc_pesxcul = f_Zero( lds_cul.Object.n_pestot[ k] )
+	ldc_bulxcul = f_Zero( lds_cul.Object.n_bulxcul[ k] )
+	ldc_pestot = ldc_pestot + ldc_pesxcul
+Next
+
+ldc_pesxcul = 0
+/* Se inicia el proceso x cultivo y mercado */
+For k = 1 To lds_cul.RowCount( )
+	ls_cul = lds_cul.Object.c_codigo_cul[ k]
+	ldc_pesxcul = f_Zero( lds_cul.Object.n_pestot[ k] )
+	ldc_porcen = 0
+	If Not ldc_pestot = 0 Then ldc_porcen = ( ldc_pesxcul * 100 ) / ldc_pestot
+	
+	ll_ret = lds_act.Retrieve( ls_tem, ls_cul, ld_sys  )
+	For i = 1 To lds_act.RowCount( )
+		ls_act = lds_act.Object.c_codigo_act[ i]
+		ls_origen = lds_act.Object.c_origen[ i]
+		ldc_numjorhoy = f_Zero( lds_act.Object.n_numjor_mao[ i] )
+		ldc_monjorhoy = f_Zero( lds_act.Object.n_monjor_mao[ i] )
+		ls_find = 'c_codigo_cul = "' + ls_cul + '" And c_codigo_act = "' + ls_act + '"'
+		j = lds_amo.Find( ls_find, 1, lds_amo.RowCount( ) )
+		
+		If j = 0 Then
+			j = lds_amo.InsertRow( 0 )
+			lds_amo.Object.c_codigo_tem[ j] = gs_codtem
+			lds_amo.Object.c_codigo_cul[ j] = ls_cul
+			lds_amo.Object.d_trabajo_amo[ j] = gd_sys
+			lds_amo.Object.c_merdes_amo[ j] = 'A' // ---> El mercado es A de ambos nac. y ext.
+			lds_amo.Object.c_codigo_act[ j] = ls_act
+			lds_amo.Object.c_activo_amo[ j] = '1'
+			lds_amo.Object.c_codigo_usu[ j] = gs_usuario
+			lds_amo.Object.d_creacion_amo[ j] = Today( )
+		Else
+			lds_amo.Object.c_usumod_amo[ j] = gs_usuario
+			lds_amo.Object.d_modifi_amo[ j] = Today( )
+			lds_amo.Object.c_activo_amo[ j] = '1'
+		End If
+		If ls_origen = 'CUL' Then
+			lds_amo.Object.n_numjorhoy_amo[ j] = ldc_numjorhoy
+			lds_amo.Object.n_monjorhoy_amo[ j] = ldc_monjorhoy
+		Else
+			ldc_numjorhoy = ldc_numjorhoy * ( ldc_porcen / 100 )
+			ldc_monjorhoy = ldc_monjorhoy * ( ldc_porcen / 100 )
+			lds_amo.Object.n_numjorhoygral_amo[ j] = ldc_numjorhoy 
+			lds_amo.Object.n_monjorhoygral_amo[ j] = ldc_monjorhoy
+		End If
+		lds_amo.AcceptText()
+	Next
+Next
+
+If lds_amo.Update( ) = -1 Then
+	RollBack Using SqlCa ;
+End If
+
+Destroy lds_amo
+Destroy lds_cul
+Destroy lds_act
+Destroy lds_cultotal
+Return 1
+
+end function
+

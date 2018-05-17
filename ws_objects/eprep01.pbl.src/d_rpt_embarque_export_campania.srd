@@ -1,0 +1,90 @@
+﻿$PBExportHeader$d_rpt_embarque_export_campania.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=char(2) updatewhereclause=yes name=col1 dbname="col1" )
+ column=(type=char(30) updatewhereclause=yes name=col3 dbname="col3" )
+ column=(type=char(12) updatewhereclause=yes name=col13 dbname="col13" )
+ column=(type=char(40) updatewhereclause=yes name=col25 dbname="col25" )
+ column=(type=char(211) updatewhereclause=yes name=col65 dbname="col65" )
+ column=(type=char(240) updatewhereclause=yes name=col77 dbname="col77" )
+ column=(type=char(12) updatewhereclause=yes name=col117 dbname="col117" )
+ column=(type=char(100) updatewhereclause=yes name=col129 dbname="col129" )
+ column=(type=char(20) updatewhereclause=yes name=col169 dbname="col169" )
+ column=(type=char(50) updatewhereclause=yes name=col181 dbname="col181" )
+ column=(type=char(2) updatewhereclause=yes name=cold1 dbname="cold1" )
+ column=(type=char(3) updatewhereclause=yes name=cold3 dbname="cold3" )
+ column=(type=char(7) updatewhereclause=yes name=cold12 dbname="cold12" )
+ column=(type=char(14) updatewhereclause=yes name=cold20 dbname="cold20" )
+ column=(type=char(100) updatewhereclause=yes name=cold34 dbname="cold34" )
+ column=(type=char(4) updatewhereclause=yes name=cold94 dbname="cold94" )
+ column=(type=char(30) updatewhereclause=yes name=cold98 dbname="cold98" )
+ column=(type=char(30) updatewhereclause=yes name=cold102 dbname="cold102" )
+ column=(type=char(2) updatewhereclause=yes name=colf1 dbname="colf1" )
+ column=(type=char(4) updatewhereclause=yes name=colf3 dbname="colf3" )
+ retrieve="Select	m.c_codigo_man,
+	col1 = 'H1',
+	col3 = rtrim(ltrim(convert(char ,m.d_embarque_man,101))),
+	col13 = space(12),
+	col25 = space(40),
+	col65 = (select isnull(v_valor_par,'') from t_parametro where c_codigo_par = '069') +  ltrim(rtrim(m.c_numvia_man))  +'-' + (select isnull(v_valor_par,'') 
+																		from t_parametro 
+																		where c_codigo_par = '070'),
+	col77 = (select isnull(v_valor_par,'') from t_parametro where c_codigo_par = '069') +  ltrim(rtrim(m.c_numvia_man))  + (select isnull(v_valor_par,'') 
+																		from t_parametro 
+																		where c_codigo_par = '070') + ltrim(rtrim(m.c_codigo_man)) + ltrim(rtrim(m.v_numcaj_man)) ,
+	col117 = left((select isnull(v_valor_par,'') from t_parametro where c_codigo_par = '048')+space(12),12),
+	col129 = (select v_nombre_lit from t_linea_transporte where c_codigo_lit = m.c_codigo_lit),
+	col169 = m.v_numcaj_man ,
+	col181 = ( Select c_clavescac_lit From t_linea_transporte t Where m.c_codigo_lit = t.c_codigo_lit),
+	
+	
+
+	cold1 = 'D1',
+	cold3 = space(3),
+	/*cold12 = left(RIGHT('0000000'+p.c_codigo_pal,7) + space(12),12),*/
+   cold12 = right(rtrim(('00000'+ltrim(p.c_codigo_pal))),7),
+	cold20 = left(p.c_codigo_pro + p.c_codigo_eti+ space(14),14),
+	cold34 = (select v_nombre_pro from t_producto where c_codigo_pro = p.c_codigo_pro),
+	cold94 = Right(space(4)+rtrim(Convert(Char,Cast(round( p.n_bulxpa_pal ,0) As Integer ))),4),
+	cold98 = (select  rtrim(Convert(Char,Cast(round( n_bulxpa_pro ,0) As Integer ))) from t_producto where c_codigo_pro = p.c_codigo_pro),
+	cold102 = rtrim(ltrim(convert(char ,p.d_empaque_pal,101))),
+
+	colf1 = 'E1',
+	colf3 = Right(space(4)+rtrim(Convert(Char,Cast(round( m.n_totbul_man ,0) As Integer ))),4)
+
+from t_manifiesto m,
+     t_palet p
+where m.c_codigo_man = p.c_codigo_man
+and m.c_codigo_tem = p.c_codigo_tem
+and ((:as_par = 'F' and m.d_embarque_man between :ad_ini and :ad_fin)
+	  or (:as_par <> 'F' and m.c_codigo_man between :as_man and :as_man2))
+and m.c_codigo_tem = (select c_codigo_tem from t_temporada where c_activo_tem = '1')
+
+" arguments=(("as_par", string),("ad_ini", datetime),("ad_fin", datetime),("as_man", string),("as_man2", string))  sort="c_codigo_man A cold12 A " )
+group(level=1 header.height=0 trailer.height=0 by=("c_codigo_man" ) header.color="536870912" trailer.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="50" y="4" height="56" width="270" format="[general]"  name=c_codigo_man edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="347" y="8" height="56" width="82" format="[general]"  name=col1 edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="462" y="8" height="56" width="709" format="[general]"  name=col3 edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1175" y="8" height="56" width="297" format="[general]"  name=col13 edit.limit=12 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1477" y="8" height="56" width="937" format="[general]"  name=col25 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2423" y="8" height="56" width="297" format="[general]"  name=col65 edit.limit=12 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="2725" y="8" height="56" width="937" format="[general]"  name=col77 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="3666" y="8" height="56" width="297" format="[general]"  name=col117 edit.limit=12 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="3968" y="8" height="56" width="937" format="[general]"  name=col129 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="4910" y="8" height="56" width="297" format="[general]"  name=col169 edit.limit=12 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="5211" y="8" height="56" width="251" format="[general]"  name=col181 edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="5586" y="8" height="56" width="101" format="[general]"  name=cold1 edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="5714" y="8" height="56" width="91" format="[general]"  name=cold3 edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="5865" y="8" height="56" width="297" format="[general]"  name=cold12 edit.limit=12 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="6190" y="8" height="56" width="343" format="[general]"  name=cold20 edit.limit=14 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="6569" y="8" height="56" width="1394" format="[general]"  name=cold34 edit.limit=60 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="7986" y="8" height="56" width="114" format="[general]"  name=cold94 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="8123" y="8" height="56" width="114" format="[general]"  name=cold98 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="8279" y="8" height="56" width="709" format="[general]"  name=cold102 edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="9019" y="8" height="56" width="69" format="[general]"  name=colf1 edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="9134" y="8" height="56" width="114" format="[general]"  name=colf3 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

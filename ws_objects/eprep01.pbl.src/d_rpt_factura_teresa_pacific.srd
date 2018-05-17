@@ -1,0 +1,159 @@
+﻿$PBExportHeader$d_rpt_factura_teresa_pacific.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="Factura Comercial" print.orientation = 0 print.margin.left = 10 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=1096 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=2108 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_merdes_man dbname="t_manifiesto.c_merdes_man" values="Nacional	N/Extranjero	E/" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=c_numfac_man dbname="t_manifiesto.c_numfac_man" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=c_numvia_man dbname="t_manifiesto.c_numvia_man" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=v_chofer_man dbname="t_manifiesto.v_chofer_man" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=v_medtra_man dbname="t_manifiesto.v_medtra_man" values="Tracto Camion	Tracto Camion/Trailer	Trailer/Camioneta	Camioneta/" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_importe_man dbname="t_manifiesto.n_importe_man" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_totbul_man dbname="t_manifiesto.n_totbul_man" initial="0" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=v_lugdes_man dbname="t_manifiesto.v_lugdes_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_pal dbname="c_codigo_pal" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_pal dbname="t_palet.c_codigo_pal" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="t_palet.c_codigo_pro" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_eti dbname="t_palet.c_codigo_eti" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="t_etiqueta.v_nombre_eti" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bulxpa_pal dbname="t_palet.n_bulxpa_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pesbul_pro dbname="t_producto.n_pesbul_pro" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precmn_pal dbname="t_palet.n_precmn_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precme_pal dbname="t_palet.n_precme_pal" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="t_envase.v_nombre_env" )
+ column=(type=char(60) updatewhereclause=yes name=v_direcc_dis dbname="t_distribuidor.v_direcc_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_ciudad_dis dbname="t_distribuidor.v_ciudad_dis" )
+ column=(type=char(15) updatewhereclause=yes name=v_apapos_dis dbname="t_distribuidor.v_apapos_dis" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_impiva_man dbname="t_manifiesto.n_impiva_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numcaj_man dbname="t_manifiesto.v_numcaj_man" )
+ column=(type=char(20) updatewhereclause=yes name=placas_caja dbname="placas_caja" )
+ column=(type=char(20) updatewhereclause=yes name=placas_camion dbname="placas_camion" )
+ column=(type=char(15) updatewhereclause=yes name=c_rfc_dis dbname="t_distribuidor.c_rfc_dis" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb dbname="t_embarcador.v_nombre_emb" )
+ column=(type=char(5) updatewhereclause=yes name=t_manifiesto_c_horcre_man dbname="t_manifiesto.c_horcre_man" )
+ column=(type=char(20) updatewhereclause=yes name=licencia dbname="licencia" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_aga dbname="v_nombre_aga" )
+ column=(type=char(20) updatewhereclause=yes name=sello dbname="SELLO" )
+ column=(type=char(10) updatewhereclause=yes name=caades dbname="CAADES" )
+ column=(type=char(100) updatewhereclause=yes name=fda dbname="FDA" )
+ column=(type=char(50) updatewhereclause=yes name=scac dbname="SCAC" )
+ column=(type=char(15) updatewhereclause=yes name=caat dbname="CAAT" )
+ column=(type=char(20) updatewhereclause=yes name=visa dbname="VISA" )
+ column=(type=char(100) updatewhereclause=yes name=tamano dbname="tamano" )
+ column=(type=long updatewhereclause=yes name=totalp dbname="TOTALP" )
+ retrieve="  SELECT t_manifiesto.c_codigo_man,   
+         t_manifiesto.c_merdes_man,   
+         t_manifiesto.c_numfac_man,   
+         t_manifiesto.c_numvia_man,   
+         t_manifiesto.v_chofer_man,   
+         t_manifiesto.v_medtra_man,   
+         t_manifiesto.n_importe_man,   
+         t_manifiesto.n_totbul_man,   
+         t_manifiesto.d_embarque_man,   
+         t_manifiesto.v_lugdes_man,   
+         Space(10 ) As c_codigo_pal,   
+         t_distribuidor.v_nombre_dis,   
+         t_palet.c_codigo_pal,   
+         t_palet.c_codigo_pro,   
+         t_palet.c_codigo_eti,   
+         t_producto.v_nombre_pro,   
+         t_etiqueta.v_nombre_eti,   
+         t_palet.n_bulxpa_pal,   
+         t_producto.n_pesbul_pro,   
+         t_palet.n_precmn_pal,   
+         t_palet.n_precme_pal,   
+         t_envase.v_nombre_env,   
+         t_distribuidor.v_direcc_dis,   
+         t_distribuidor.v_ciudad_dis,   
+         t_distribuidor.v_apapos_dis,   
+         t_manifiesto.n_impiva_man,   
+         t_manifiesto.v_numcaj_man,
+		 placas_caja = v_placaj_man,
+		 placas_camion = v_numpla_man,   
+         t_distribuidor.c_rfc_dis ,
+		  t_embarcador.v_nombre_emb,
+		t_manifiesto.c_horcre_man,
+		licencia = t_manifiesto.v_licencia_man,
+		v_nombre_aga = t_agencia_aduanal.v_nombre_aga,
+		SELLO = t_manifiesto.v_certiforigen_man,
+		CAADES	=t_manifiesto.c_caades_man,
+		FDA	=	(select v_valor_par from t_parametro (nolock) where c_codigo_par = '042'),
+		SCAC = t_linea_transporte.c_claveSCAC_lit,
+		CAAT = t_linea_transporte.v_apapos_lit,
+		VISA = t_manifiesto.v_flejesagarpa_man,
+		tamano = t_tamanio.v_nombre_tam,
+		TOTALP = (select COUNT(DISTINCT(C_CODIGO_PAL)) from t_PALET where c_codigo_man = t_manifiesto.c_codigo_man and c_codigo_tem  = t_manifiesto.c_codigo_tem and t_palet.c_excedente_pal ='0')
+    FROM t_manifiesto,   
+         t_distribuidor,   
+         t_palet,   
+         t_producto,   
+         t_etiqueta,   
+         t_envase,
+		   t_embarcador,
+		   t_linea_transporte,
+			t_tamanio,
+			t_agencia_aduanal
+   WHERE ( t_distribuidor.c_codigo_dis = t_manifiesto.c_codigo_dis ) and  
+         ( t_manifiesto.c_codigo_tem = t_palet.c_codigo_tem ) and  
+         ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and  
+		 ( t_manifiesto.c_codigo_emb = t_embarcador.c_codigo_emb) and 
+		 ( t_manifiesto.c_codigo_lit = t_linea_transporte.c_codigo_lit) and
+		 ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and 
+		  (t_producto.c_codigo_tam = t_tamanio.c_codigo_tam)  and
+         ( t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti ) and  
+         ( t_envase.c_codigo_env = t_producto.c_codigo_env ) and  
+		 ( t_envase.c_codigo_env = t_palet.c_codigo_env ) and  
+		 ( t_agencia_aduanal.c_codigo_aga = t_manifiesto.c_codigo_aga ) And
+         ( ( t_manifiesto.c_codigo_tem = :as_tem ) AND  
+         ( t_manifiesto.c_codigo_man = :as_man ) )  and
+			(t_palet.c_excedente_pal='0')  
+" arguments=(("as_tem", string),("as_man", string))  sort="c_codigo_pro A c_codigo_eti A " )
+group(level=1 header.height=0 trailer.height=80 by=("c_codigo_pro" , "c_codigo_eti" ) header.color="536870912" trailer.color="536870912" )
+column(band=header id=34 alignment="0" tabsequence=32766 border="0" color="33554432" x="736" y="632" height="64" width="1371" format="[general]"  name=v_nombre_aga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="PRODUCTO"border="0" color="33554432" x="398" y="936" height="56" width="347"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="ETIQUETA"border="0" color="33554432" x="1042" y="936" height="56" width="302"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="TIPO DE CAJA"border="0" color="33554432" x="1504" y="936" height="56" width="411"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="TAMAÑO"border="0" color="33554432" x="2103" y="936" height="56" width="256"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="CAJAS"border="0" color="33554432" x="2747" y="936" height="56" width="187"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'Placas  ' +  placas_caja  + '  Num. Caja  ' +  v_numcaj_man "border="0" color="33554432" x="2272" y="620" height="72" width="1202" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=31 alignment="0" tabsequence=32766 border="0" color="0" x="736" y="520" height="56" width="1559" format="[general]"  name=v_nombre_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=29 alignment="0" tabsequence=32766 border="0" color="33554432" x="2565" y="520" height="60" width="462" format="[general]"  name=placas_camion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=32 alignment="0" tabsequence=32766 border="0" color="33554432" x="2834" y="760" height="60" width="617" format="[general]"  name=t_manifiesto_c_horcre_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=9 alignment="0" tabsequence=32766 border="0" color="0" x="736" y="760" height="56" width="439" format="dd/mm/yyyy"  name=d_embarque_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=trailer.1 id=22 alignment="0" tabsequence=32766 border="0" color="33554432" x="1504" y="8" height="56" width="535" format="[general]"  name=v_nombre_env edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=16 alignment="0" tabsequence=32766 border="0" color="33554432" x="398" y="12" height="56" width="608" format="[general]"  name=v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=17 alignment="0" tabsequence=32766 border="0" color="33554432" x="1042" y="8" height="56" width="357" format="[general]"  name=v_nombre_eti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=41 alignment="0" tabsequence=32766 border="0" color="33554432" x="2103" y="8" height="56" width="553" format="[general]"  name=tamano edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_bulxpa_pal for group 1)"border="0" color="33554432" x="2702" y="8" height="56" width="233" format="#,##0"  name=n_cantidad  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="2670" y1="0" x2="2949" y2="0" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="TOTAL CAJAS:"border="0" color="33554432" x="2272" y="12" height="56" width="384"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="1" expression="sum( n_bulxpa_pal for all )"border="0" color="33554432" x="2674" y="12" height="56" width="270" format="###,###,###"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="TOTAL PALETS:"border="0" color="33554432" x="2272" y="84" height="56" width="384"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=42 alignment="1" tabsequence=32766 border="0" color="33554432" x="2670" y="84" height="56" width="274" format="###,###,###"  name=totalp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="FDA:"border="0" color="33554432" x="421" y="492" height="56" width="137"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=37 alignment="0" tabsequence=32766 border="0" color="33554432" x="581" y="492" height="56" width="521" format="[general]"  name=fda edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="SCAC CODE:"border="0" color="33554432" x="1659" y="492" height="60" width="370"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=38 alignment="0" tabsequence=32766 border="0" color="33554432" x="2057" y="492" height="56" width="581" format="[general]"  name=scac edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="FACTURA:"border="0" color="33554432" x="421" y="568" height="56" width="251"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="699" y="572" height="56" width="475" format="[general]"  name=c_numfac_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="CAADES:"border="0" color="33554432" x="1659" y="568" height="60" width="261"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=36 alignment="0" tabsequence=32766 border="0" color="33554432" x="1952" y="568" height="60" width="558" format="[general]"  name=caades edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="CHOFER:"border="0" color="33554432" x="421" y="644" height="56" width="251"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="704" y="648" height="56" width="905" format="[general]"  name=v_chofer_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="No. DE LICENCIA:"border="0" color="33554432" x="1655" y="644" height="60" width="521"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=33 alignment="0" tabsequence=32766 border="0" color="33554432" x="2208" y="644" height="60" width="462" format="[general]"  name=licencia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="CAAT:"border="0" color="33554432" x="2706" y="492" height="60" width="169"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=39 alignment="0" tabsequence=32766 border="0" color="33554432" x="2935" y="496" height="56" width="343" format="[general]"  name=caat edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="SELLO:"border="0" color="33554432" x="2706" y="568" height="60" width="219"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=35 alignment="0" tabsequence=32766 border="0" color="33554432" x="2939" y="568" height="60" width="462" format="[general]"  name=sello edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="VISA:"border="0" color="33554432" x="2702" y="640" height="60" width="151"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=40 alignment="0" tabsequence=32766 border="0" color="33554432" x="2894" y="644" height="60" width="599" format="[general]"  name=visa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="EMBARQUE:"border="0" color="33554432" x="2642" y="372" height="64" width="375"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="3031" y="376" height="72" width="407" format="[general]"  name=c_codigo_man_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,710 @@
+﻿$PBExportHeader$m_presentacion_preliminar.srm
+forward
+global type m_presentacion_preliminar from menu
+end type
+type m_archivo from menu within m_presentacion_preliminar
+end type
+type m_imprimir from menu within m_archivo
+end type
+type m_configurarimpresora from menu within m_archivo
+end type
+type m_sep1arch from menu within m_archivo
+end type
+type m_exportar from menu within m_archivo
+end type
+type m_sep2arch from menu within m_archivo
+end type
+type m_salirdepresentación from menu within m_archivo
+end type
+type m_archivo from menu within m_presentacion_preliminar
+m_imprimir m_imprimir
+m_configurarimpresora m_configurarimpresora
+m_sep1arch m_sep1arch
+m_exportar m_exportar
+m_sep2arch m_sep2arch
+m_salirdepresentación m_salirdepresentación
+end type
+type m_pgina from menu within m_presentacion_preliminar
+end type
+type m_zoom from menu within m_pgina
+end type
+type m_zoomreporte from menu within m_pgina
+end type
+type m_verreglas from menu within m_pgina
+end type
+type m_modo from menu within m_pgina
+end type
+type m_sep1pag from menu within m_pgina
+end type
+type m_primera from menu within m_pgina
+end type
+type m_retroceder from menu within m_pgina
+end type
+type m_avanzar from menu within m_pgina
+end type
+type m_ultima from menu within m_pgina
+end type
+type m_pgina from menu within m_presentacion_preliminar
+m_zoom m_zoom
+m_zoomreporte m_zoomreporte
+m_verreglas m_verreglas
+m_modo m_modo
+m_sep1pag m_sep1pag
+m_primera m_primera
+m_retroceder m_retroceder
+m_avanzar m_avanzar
+m_ultima m_ultima
+end type
+global type m_presentacion_preliminar from menu
+m_archivo m_archivo
+m_pgina m_pgina
+end type
+end forward
+
+global type m_presentacion_preliminar from menu
+m_archivo m_archivo
+m_pgina m_pgina
+end type
+global m_presentacion_preliminar m_presentacion_preliminar
+
+on m_presentacion_preliminar.create
+m_presentacion_preliminar=this
+call super::create
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_archivo=create m_archivo
+this.m_pgina=create m_pgina
+this.Item[UpperBound(this.Item)+1]=this.m_archivo
+this.Item[UpperBound(this.Item)+1]=this.m_pgina
+end on
+
+on m_presentacion_preliminar.destroy
+call super::destroy
+destroy(this.m_archivo)
+destroy(this.m_pgina)
+end on
+
+type m_archivo from menu within m_presentacion_preliminar
+m_imprimir m_imprimir
+m_configurarimpresora m_configurarimpresora
+m_sep1arch m_sep1arch
+m_exportar m_exportar
+m_sep2arch m_sep2arch
+m_salirdepresentación m_salirdepresentación
+end type
+
+on m_archivo.create
+call super::create
+this.text = "&Archivo"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_imprimir=create m_imprimir
+this.m_configurarimpresora=create m_configurarimpresora
+this.m_sep1arch=create m_sep1arch
+this.m_exportar=create m_exportar
+this.m_sep2arch=create m_sep2arch
+this.m_salirdepresentación=create m_salirdepresentación
+this.Item[UpperBound(this.Item)+1]=this.m_imprimir
+this.Item[UpperBound(this.Item)+1]=this.m_configurarimpresora
+this.Item[UpperBound(this.Item)+1]=this.m_sep1arch
+this.Item[UpperBound(this.Item)+1]=this.m_exportar
+this.Item[UpperBound(this.Item)+1]=this.m_sep2arch
+this.Item[UpperBound(this.Item)+1]=this.m_salirdepresentación
+end on
+
+on m_archivo.destroy
+call super::destroy
+destroy(this.m_imprimir)
+destroy(this.m_configurarimpresora)
+destroy(this.m_sep1arch)
+destroy(this.m_exportar)
+destroy(this.m_sep2arch)
+destroy(this.m_salirdepresentación)
+end on
+
+type m_imprimir from menu within m_archivo
+end type
+
+on m_imprimir.create
+call super::create
+this.text = "&Imprimir"
+this.toolbaritemname = "print!"
+this.toolbaritemtext = "Imprimir"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;If IsValid(w_presentacion_preliminar_dw) Then
+	w_presentacion_preliminar_dw.wf_print()
+End If
+end event
+
+on m_imprimir.destroy
+call super::destroy
+end on
+
+type m_configurarimpresora from menu within m_archivo
+end type
+
+on m_configurarimpresora.create
+call super::create
+this.text = "&Configurar Impresora"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;DataWindow	ldw_1
+String		ls_setting
+
+If IsValid(w_presentacion_preliminar_dw) Then
+	ldw_1 = w_presentacion_preliminar_dw.dw_1
+	w_presentacion_preliminar_dw.dw_1.SetRedraw( False )
+	If f_Zero( PrintSetup( ) ) = 1 Then
+		ls_setting = ldw_1.Object.DataWindow.Printer
+		ldw_1.Modify("DataWindow.print.preview=No")
+		ldw_1.Modify("DataWindow.print.preview=YES")
+		ldw_1.SetRedraw( True )
+		w_presentacion_preliminar.SetMicroHelp( ls_setting )
+	End If
+End If
+
+end event
+
+on m_configurarimpresora.destroy
+call super::destroy
+end on
+
+type m_sep1arch from menu within m_archivo
+end type
+
+on m_sep1arch.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_sep1arch.destroy
+call super::destroy
+end on
+
+type m_exportar from menu within m_archivo
+end type
+
+on m_exportar.create
+call super::create
+this.text = "&Exportar..."
+this.toolbaritemname = "saveas!"
+this.toolbaritemtext = "Exportar"
+this.toolbaritemspace = 1
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;If IsValid(w_presentacion_preliminar_dw) Then
+	w_presentacion_preliminar_dw.wf_save_as()
+End If
+end event
+
+on m_exportar.destroy
+call super::destroy
+end on
+
+type m_sep2arch from menu within m_archivo
+end type
+
+on m_sep2arch.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_sep2arch.destroy
+call super::destroy
+end on
+
+type m_salirdepresentación from menu within m_archivo
+end type
+
+on m_salirdepresentación.create
+call super::create
+this.text = "Salir de Presentación"
+this.toolbaritemname = "exit!"
+this.toolbaritemtext = "Salir, Salir de Presentación"
+this.toolbaritemorder = 100
+this.toolbaritemspace = 1
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;Close(ParentWindow)
+end event
+
+on m_salirdepresentación.destroy
+call super::destroy
+end on
+
+type m_pgina from menu within m_presentacion_preliminar
+m_zoom m_zoom
+m_zoomreporte m_zoomreporte
+m_verreglas m_verreglas
+m_modo m_modo
+m_sep1pag m_sep1pag
+m_primera m_primera
+m_retroceder m_retroceder
+m_avanzar m_avanzar
+m_ultima m_ultima
+end type
+
+on m_pgina.create
+call super::create
+this.text = "&Página"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_zoom=create m_zoom
+this.m_zoomreporte=create m_zoomreporte
+this.m_verreglas=create m_verreglas
+this.m_modo=create m_modo
+this.m_sep1pag=create m_sep1pag
+this.m_primera=create m_primera
+this.m_retroceder=create m_retroceder
+this.m_avanzar=create m_avanzar
+this.m_ultima=create m_ultima
+this.Item[UpperBound(this.Item)+1]=this.m_zoom
+this.Item[UpperBound(this.Item)+1]=this.m_zoomreporte
+this.Item[UpperBound(this.Item)+1]=this.m_verreglas
+this.Item[UpperBound(this.Item)+1]=this.m_modo
+this.Item[UpperBound(this.Item)+1]=this.m_sep1pag
+this.Item[UpperBound(this.Item)+1]=this.m_primera
+this.Item[UpperBound(this.Item)+1]=this.m_retroceder
+this.Item[UpperBound(this.Item)+1]=this.m_avanzar
+this.Item[UpperBound(this.Item)+1]=this.m_ultima
+end on
+
+on m_pgina.destroy
+call super::destroy
+destroy(this.m_zoom)
+destroy(this.m_zoomreporte)
+destroy(this.m_verreglas)
+destroy(this.m_modo)
+destroy(this.m_sep1pag)
+destroy(this.m_primera)
+destroy(this.m_retroceder)
+destroy(this.m_avanzar)
+destroy(this.m_ultima)
+end on
+
+type m_zoom from menu within m_pgina
+end type
+
+on m_zoom.create
+call super::create
+this.text = "Zoom (Vista Previa)..."
+this.toolbaritemname = "preferences!"
+this.toolbaritemtext = "Zoom (Vista Previa)"
+this.toolbaritemspace = 1
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;If IsValid(w_presentacion_preliminar_dw) Then
+	w_presentacion_preliminar_dw.wf_zoom()
+End If
+end event
+
+on m_zoom.destroy
+call super::destroy
+end on
+
+type m_zoomreporte from menu within m_pgina
+end type
+
+event clicked;If IsValid(w_presentacion_preliminar_dw) Then
+	w_presentacion_preliminar_dw.wf_ZoomRpt()
+End If
+end event
+
+on m_zoomreporte.create
+call super::create
+this.text = "Zoom (Reporte)..."
+this.toolbaritemname = "preview!"
+this.toolbaritemtext = "Zoom (Reporte)"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_zoomreporte.destroy
+call super::destroy
+end on
+
+type m_verreglas from menu within m_pgina
+end type
+
+on m_verreglas.create
+call super::create
+this.text = "Ver Reglas"
+this.toolbaritemname = "custom032!"
+this.toolbaritemtext = "Reglas, Ver Reglas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;If IsValid(w_presentacion_preliminar_dw) Then
+	w_presentacion_preliminar_dw.wf_rulers()
+End If
+end event
+
+on m_verreglas.destroy
+call super::destroy
+end on
+
+type m_modo from menu within m_pgina
+end type
+
+on m_modo.create
+call super::create
+this.visible = false
+this.text = "Modo "
+this.enabled = false
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_modo.destroy
+call super::destroy
+end on
+
+type m_sep1pag from menu within m_pgina
+end type
+
+on m_sep1pag.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_sep1pag.destroy
+call super::destroy
+end on
+
+type m_primera from menu within m_pgina
+end type
+
+on m_primera.create
+call super::create
+this.text = "&Primera"
+this.toolbaritemname = "vcrfirst!"
+this.toolbaritemtext = "Primera"
+this.toolbaritemspace = 1
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;If IsValid(w_presentacion_preliminar_dw) Then
+	w_presentacion_preliminar_dw.wf_ScrollPage(1)
+End If
+end event
+
+on m_primera.destroy
+call super::destroy
+end on
+
+type m_retroceder from menu within m_pgina
+end type
+
+on m_retroceder.create
+call super::create
+this.text = "&Retroceder"
+this.toolbaritemname = "vcrprior!"
+this.toolbaritemtext = "Retroceder"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;If IsValid(w_presentacion_preliminar_dw) Then
+	w_presentacion_preliminar_dw.wf_ScrollPage(2)
+End If
+end event
+
+on m_retroceder.destroy
+call super::destroy
+end on
+
+type m_avanzar from menu within m_pgina
+end type
+
+on m_avanzar.create
+call super::create
+this.text = "&Avanzar"
+this.toolbaritemname = "vcrnext!"
+this.toolbaritemtext = "Avanzar"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;If IsValid(w_presentacion_preliminar_dw) Then
+	w_presentacion_preliminar_dw.wf_ScrollPage(3)
+End If
+end event
+
+on m_avanzar.destroy
+call super::destroy
+end on
+
+type m_ultima from menu within m_pgina
+end type
+
+on m_ultima.create
+call super::create
+this.text = "&Ultima"
+this.toolbaritemname = "vcrlast!"
+this.toolbaritemtext = "Ultima"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+event clicked;If IsValid(w_presentacion_preliminar_dw) Then
+	w_presentacion_preliminar_dw.wf_ScrollPage(4)
+End If
+end event
+
+on m_ultima.destroy
+call super::destroy
+end on
+

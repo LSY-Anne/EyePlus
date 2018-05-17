@@ -1,0 +1,117 @@
+﻿$PBExportHeader$d_rpt_manifiesto_chofer_beltran.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=1184 color="536870912" )
+summary(height=1636 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=v_chofer_man dbname="t_manifiesto.v_chofer_man" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=v_medtra_man dbname="t_manifiesto.v_medtra_man" values="Tracto Camion	Tracto Camion/Trailer	Trailer/Camioneta	Camioneta/" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_totbul_man dbname="t_manifiesto.n_totbul_man" initial="0" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=datetime updatewhereclause=yes name=t_manifiesto_d_creacion_man dbname="t_manifiesto.d_creacion_man" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=v_lugdes_man dbname="t_manifiesto.v_lugdes_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_numvia_man dbname="t_manifiesto.c_numvia_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_pal dbname="c_codigo_pal" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_pal dbname="t_palet.c_codigo_pal" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="t_palet.c_codigo_pro" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_eti dbname="t_palet.c_codigo_eti" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="t_etiqueta.v_nombre_eti" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bulxpa_pal dbname="t_palet.n_bulxpa_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pesbul_pro dbname="t_producto.n_pesbul_pro" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precmn_pal dbname="t_palet.n_precmn_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precme_pal dbname="t_palet.n_precme_pal" )
+ column=(type=char(20) updatewhereclause=yes name=v_numcaj_man dbname="t_manifiesto.v_numcaj_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numpla_man dbname="t_manifiesto.v_numpla_man" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb dbname="t_embarcador.v_nombre_emb" )
+ column=(type=char(100) updatewhereclause=yes name=v_direcc_emb dbname="t_embarcador.v_direcc_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_emb dbname="t_embarcador.v_ciudad_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ptoemb_emb dbname="t_embarcador.v_ptoemb_emb" )
+ column=(type=char(20) updatewhereclause=yes name=v_marca_man dbname="t_manifiesto.v_marca_man" )
+ column=(type=char(4) updatewhereclause=yes name=v_anofab_man dbname="t_manifiesto.v_anofab_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_nummed_man dbname="t_manifiesto.v_nummed_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_placaj_man dbname="t_manifiesto.v_placaj_man" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_direcc_dis dbname="t_distribuidor.v_direcc_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_ciudad_dis dbname="t_distribuidor.v_ciudad_dis" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lit dbname="t_linea_transporte.v_nombre_lit" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="t_envase.v_nombre_env" )
+ retrieve="  SELECT t_manifiesto.c_codigo_man,   
+         t_manifiesto.v_chofer_man,   
+         t_manifiesto.v_medtra_man,   
+         t_manifiesto.n_totbul_man,   
+         t_manifiesto.d_embarque_man, 
+			t_manifiesto.d_creacion_man,  
+         t_manifiesto.v_lugdes_man,
+         t_manifiesto.c_numvia_man,  
+         Space(10 ) As c_codigo_pal,   
+         t_palet.c_codigo_pal,   
+         t_palet.c_codigo_pro,   
+         t_palet.c_codigo_eti,   
+         t_producto.v_nombre_pro,   
+         t_etiqueta.v_nombre_eti,   
+         t_palet.n_bulxpa_pal,   
+         t_producto.n_pesbul_pro,   
+         t_palet.n_precmn_pal,   
+         t_palet.n_precme_pal,   
+         t_manifiesto.v_numcaj_man,   
+         t_manifiesto.v_numpla_man,   
+         t_embarcador.v_nombre_emb,   
+         t_embarcador.v_direcc_emb,   
+         t_embarcador.v_ciudad_emb,   
+         t_embarcador.v_ptoemb_emb,   
+         t_manifiesto.v_marca_man,   
+         t_manifiesto.v_anofab_man,   
+         t_manifiesto.v_nummed_man,   
+         t_manifiesto.v_placaj_man,   
+         t_distribuidor.v_nombre_dis,   
+         t_distribuidor.v_direcc_dis,   
+         t_distribuidor.v_ciudad_dis,   
+         t_linea_transporte.v_nombre_lit,
+			t_envase.v_nombre_env
+    FROM t_manifiesto,   
+         t_palet,   
+         t_producto,   
+         t_etiqueta,   
+         t_embarcador,   
+         t_distribuidor,   
+         t_linea_transporte,
+			t_envase
+   WHERE ( t_manifiesto.c_codigo_tem = t_palet.c_codigo_tem ) and  
+         ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and
+         ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and  
+         ( t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti ) and  
+         ( t_embarcador.c_codigo_emb = t_manifiesto.c_codigo_emb ) and  
+         ( t_distribuidor.c_codigo_dis = t_manifiesto.c_codigo_dis ) and  
+         ( t_linea_transporte.c_codigo_lit = t_manifiesto.c_codigo_lit ) and  
+         ( t_envase.c_codigo_env = t_producto.c_codigo_env ) and  
+         ( t_envase.c_codigo_env = t_palet.c_codigo_env ) and
+         ( ( t_manifiesto.c_codigo_tem = :as_tem ) AND  
+         ( t_manifiesto.c_codigo_man = :as_man ) )    
+" arguments=(("as_tem", string),("as_man", string))  sort="v_nombre_pro A c_codigo_pro A c_codigo_eti A " )
+group(level=1 header.height=0 trailer.height=80 by=("c_codigo_pro" , "c_codigo_eti" ) header.color="536870912" trailer.color="536870912" )
+column(band=header id=21 alignment="2" tabsequence=32766 border="0" color="33554432" x="297" y="60" height="88" width="2702" format="[general]"  name=v_nombre_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=22 alignment="2" tabsequence=32766 border="0" color="33554432" x="297" y="152" height="72" width="2702" format="[general]"  name=v_direcc_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression="v_ciudad_emb + '   R.F.C. ' + f_getparmvalue('006')"border="0" color="33554432" x="297" y="228" height="76" width="2702" format="[general]"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="P R E S E N T E:"border="0" color="33554432" x="297" y="460" height="72" width="2702"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="MUY SEÑORES MIOS:"border="0" color="33554432" x="297" y="624" height="72" width="2702"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="'El suscrito ' + f_Trim( v_chofer_man )  + '  conductor del '  +  f_Trim( v_medtra_man ) + ' marca '   +  f_Trim( v_marca_man ) + ' modelo '  + f_Trim( v_anofab_man ) + ' placas '  +  f_Trim( v_numpla_man ) + ' que arrastra la caja refrigerada No '  + f_Trim(  v_numcaj_man ) + ' con placas '  + f_Trim(  v_placaj_man ) + ' propiedad de ' +  v_nombre_lit  + '~~r~~n'  + 'HAGO CONSTAR, que he recibido e inspeccionado la carga contenida en la caja refrigerada antes mencionada, la que contiene exclusivamente:'"border="0" color="0" x="297" y="780" height="400" width="2702" format="[general]"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(n_bulxpa_pal for group 1)"border="0" color="33554432" x="375" y="4" height="64" width="233" format="#,##0"  name=n_cantidad  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.1 id=33 alignment="0" tabsequence=32766 border="0" color="33554432" x="640" y="4" height="64" width="283" format="[general]"  name=v_nombre_env edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="0" text="DE"border="0" color="33554432" x="937" y="4" height="64" width="91"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.1 id=13 alignment="0" tabsequence=32766 border="0" color="33554432" x="1042" y="4" height="64" width="837" format="[general]"  name=v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="0" text="ETIQUETA"border="0" color="33554432" x="1888" y="4" height="64" width="352"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.1 id=14 alignment="0" tabsequence=32766 border="0" color="0" x="2258" y="4" height="64" width="741" format="[general]"  name=v_nombre_eti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=summary id=30 alignment="0" tabsequence=32766 border="0" color="33554432" x="466" y="204" height="72" width="1623" format="[general]~t Upper( v_direcc_dis )"  name=v_direcc_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=summary id=31 alignment="0" tabsequence=32766 border="0" color="33554432" x="466" y="292" height="72" width="1623" format="[general]~t Upper( v_ciudad_dis )"  name=v_ciudad_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'Consiente de que se me es prohibido transportar otro tipo de mercancía diferente a la aquí señalada, por lo que los relevo de cualesquiera responsabilidad en el evento de que se encontrara otro tipo de carga en el tracto-camion o en la caja refrigerada arrastrada por este.'"border="0" color="0" x="297" y="416" height="208" width="2702" format="[general]"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'Sin otro particular me es grato reiterarle las seguridades de mi mas alta y distinguida consideración, suscribiéndome a sus ordenes para cualquier aclaración al respecto.'"border="0" color="0" x="297" y="672" height="136" width="2702" format="[general]"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'EMPAQUE: SANTA FE, NAVOLATO, SINALOA'"border="0" color="0" x="297" y="912" height="72" width="2702" format="[general]"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'A ' + Day(Date( d_embarque_man )) + ' DE ' + f_mes( Month(d_embarque_man )) + ' DE ' + Year(Date( d_embarque_man ))"border="0" color="0" x="297" y="1044" height="72" width="2702" format="[general]"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'MANIFIESTO DE EMBARQUE No. ' + c_numvia_man"border="0" color="0" x="297" y="1176" height="72" width="2702" format="[general]"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=summary id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="297" y="1564" height="72" width="2702" format="[general]"  name=v_chofer_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=summary id=29 alignment="0" tabsequence=32766 border="0" color="33554432" x="466" y="116" height="72" width="1618" format="[general]~t Upper( v_nombre_dis )"  name=v_nombre_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'Las que seran entregadas conforme ala guia y manifiesto de embarque No. '+ c_codigo_man+' a:'"border="0" color="33554432" x="297" y="24" height="72" width="2702" format="[general]"  font.face="Times New Roman" font.height="-11" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

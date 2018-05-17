@@ -1,0 +1,114 @@
+﻿$PBExportHeader$f_validaa.srf
+global type f_validaa from function_object
+end type
+
+forward prototypes
+global function integer f_validaa (string as_sis)
+end prototypes
+
+global function integer f_validaa (string as_sis);//===========================================
+// FUNCION   	: f_validaa
+// PARAMETROS	: 
+// DESCRIPCION : Validar los dias de implementación
+// NOTAS   		: Consideraciones especiales
+// CREACION  	: 20070910, Isaura
+// CAMBIOS		: 
+//===========================================
+date ld_fin,ld_hoy, ld_ent, ld_sal, ld_che, ld_reg
+datetime ld_dia, ld_entrada, ld_Salida, ld_cheque
+long ll_dias
+string ls_fecha, ls_Get
+
+select top 1 getdate()
+into :ld_dia
+from nomestado
+using sqlca;
+If f_SqlError( SqlCa, 'No se pudo obtener fecha de sistema ' ) = -1 Then
+	Return 0
+End If
+
+select max(d_documento_ent) 
+into :ld_entrada
+from inventrada
+using sqlca;
+If f_SqlError( SqlCa, 'No se pudo leer inventrada' ) = -1 Then
+	Return 0
+End If
+
+select max(d_documento_sal) 
+into :ld_salida
+from invsalida
+using sqlca;
+If f_SqlError( SqlCa, 'No se pudo leer invsalida' ) = -1 Then
+	Return 0
+End If
+
+select max(d_creacion_che) 
+into :ld_cheque
+from bancheque
+using sqlca;
+If f_SqlError( SqlCa, 'No se pudo leer invsalida' ) = -1 Then
+	Return 0
+End If
+
+ld_ent = date(ld_entrada)
+ld_sal = date(ld_salida)
+ld_che = date(ld_cheque)
+
+ld_hoy = date(ld_dia) //fecha del server
+ld_fin = date(f_StringToDate('15/01/2008'))//fecha maxima
+
+if ld_ent > ld_sal then
+	if ld_ent > ld_che then
+		if ld_ent > ld_hoy then
+			ld_hoy = ld_ent
+		end if
+	else
+		if ld_che > ld_hoy then
+			ld_hoy = ld_che
+		end if
+	end if
+else
+	if ld_sal > ld_che then
+		if ld_sal > ld_hoy then
+			ld_hoy = ld_sal
+		end if
+	else
+		if ld_che > ld_hoy then
+			ld_hoy = ld_che
+		end if
+	end if
+end if
+ls_fecha = string(ld_hoy,'dd/mm/yyyy')
+
+RegistryGet ( "HKEY_LOCAL_MACHINE\Software\Inventum\"+as_sis,"Acceso", RegString!, ls_get) //leer valor del reg
+ls_get = f_trim(ls_get)
+ld_reg = date(ls_get)
+
+if ld_hoy <> ld_reg then
+	ll_dias = DaysAfter ( ld_hoy, ld_fin )
+	if ll_dias > 0 then
+		messagebox('INVENTUM','Quedan ' + string(ll_dias) + ' dias de la versión de implementación', exclamation!)
+		Registryset ( "HKEY_LOCAL_MACHINE\Software\Inventum\"+as_sis,"Acceso", RegString!, ls_fecha )//insertar valor del reg
+		return 1
+	else
+		messagebox('INVENTUM','Necesita adquirir una nueva licencia de software,~r~n~r~n para obtener una nueva contactar con Inventum S.C',exclamation!)
+		return 0
+	end if
+else
+	return 1
+end if
+
+return 1
+
+//if ld_reg <> ld_hoy then
+//	ll_dias = DaysAfter ( ld_hoy, ld_fin )
+//	messagebox('INVENTUM','La versión del sistema de implementación le restan ' + string(ll_dias) + ' días',exclamation!)
+//	RegistrySet("HKEY_LOCAL_MACHINE\Software\inventum\acceso","Title", RegString!, ld_hoy)
+//end if
+
+
+
+
+end function
+

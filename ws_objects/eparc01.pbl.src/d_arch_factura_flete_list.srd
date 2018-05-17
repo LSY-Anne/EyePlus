@@ -1,0 +1,47 @@
+﻿$PBExportHeader$d_arch_factura_flete_list.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=60 color="536870912" )
+summary(height=72 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=c_codref_flt dbname="t_linea_transporte.c_codref_flt" )
+ column=(type=decimal(6) updatewhereclause=yes name=iva dbname="iva" )
+ column=(type=decimal(6) updatewhereclause=yes name=retencion dbname="retencion" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_totalflete_man dbname="t_linea_transporte.n_totalflete_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="t_linea_transporte.c_codigo_man" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_linea_transporte.d_embarque_man" )
+ retrieve="select fac.c_codref_flt,
+       iva =(fac.n_iva_flt * (man.n_totalflete_man/fac.n_importe_flt)) ,
+       retencion =(fac.n_retencion_flt * (man.n_totalflete_man/fac.n_importe_flt)),
+		 man.n_totalflete_man,
+       man.c_codigo_man,
+       man.d_embarque_man		 
+from t_linea_transporte lt(nolock),
+     t_facturalt fac (nolock),
+     t_manifiesto man (nolock)
+where lt.c_codigo_lit = fac.c_codigo_lit
+and   lt.c_codigo_lit = man.c_codigo_lit
+and   fac.c_codigo_flt = man.c_facturaflete_man
+and   man.c_codigo_lit = :as_lit
+and   man.c_facturaflete_man = :as_fac
+         " arguments=(("as_lit", string),("as_fac", string)) )
+text(band=header alignment="1" text="Item "border="0" color="16711680" x="9" y="4" height="52" width="247"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="1" text="Manifiesto"border="0" color="16711680" x="265" y="4" height="52" width="343"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Fecha"border="0" color="16711680" x="617" y="4" height="52" width="329"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Ref. Pago"border="0" color="16711680" x="955" y="4" height="52" width="421"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="1" text="Importe"border="0" color="16711680" x="2249" y="4" height="52" width="498"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="1" text="Iva"border="0" color="16711680" x="1385" y="4" height="52" width="430"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="1" text="Retencion"border="0" color="16711680" x="1824" y="4" height="52" width="416"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=detail alignment="1" expression=" Trim(Right( '0000' + Trim(String(GetRow())),4))"border="0" color="0" x="9" y="4" height="64" width="247" format="[general]"  name=obj_35790640  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="2" tabsequence=32766 border="0" color="0" x="955" y="4" height="64" width="421" format=""  name=c_codref_flt edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="265" y="4" height="64" width="343" format="[general]"  name=c_codigo_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="617" y="4" height="64" width="329" format="dd/mm/yyyy"  name=d_embarque_man edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2249" y="4" height="64" width="498" format="###,##0.00"  name=n_totalflete_man editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="1385" y="4" height="64" width="430" format="###,##0.00"  name=iva editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="1824" y="4" height="64" width="416" format="###,##0.00"  name=retencion editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="Totales : "border="0" color="16711680" x="955" y="4" height="64" width="421"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=summary alignment="1" expression="sum(  n_totalflete_man  for all )"border="0" color="0" x="2249" y="4" height="64" width="498" format="###,##0.00"  name=sumimpo  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(iva for all)"border="0" color="0" x="1385" y="4" height="64" width="430" format="###,##0.00"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(retencion for all)"border="0" color="0" x="1824" y="4" height="64" width="416" format="###,##0.00"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,72 @@
+﻿$PBExportHeader$d_rpt_embarcado_x_color_manifiesto_sanit.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=940 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=char(5) updatewhereclause=yes name=c_horcre_man dbname="t_manifiesto.c_horcre_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numcaj_man dbname="t_manifiesto.v_numcaj_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_numfac_man dbname="t_manifiesto.c_numfac_man" )
+ column=(type=char(25) updatewhereclause=yes name=v_marca_man dbname="v_marca_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_numvia_man dbname="t_manifiesto.c_numvia_man" )
+ column=(type=char(50) updatewhereclause=yes name=c_clavescac_lit dbname="c_clavescac_lit" )
+ column=(type=char(20) updatewhereclause=yes name=v_numpla_man dbname="t_manifiesto.v_numpla_man" )
+ column=(type=char(100) updatewhereclause=yes name=c_codigo_lit dbname="c_codigo_lit" )
+ column=(type=char(100) updatewhereclause=yes name=c_ageext_man dbname="c_ageext_man" )
+ column=(type=char(40) updatewhereclause=yes name=v_chofer_man dbname="t_manifiesto.v_chofer_man" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="v_nombre_dis" )
+ column=(type=char(15) updatewhereclause=yes name=v_telef2_lit dbname="v_telef2_lit" )
+ column=(type=long updatewhereclause=yes name=pallets dbname="pallets" )
+ retrieve="SELECT c_codigo_man, 
+	d_embarque_man,
+	c_horcre_man,
+	v_numcaj_man,
+	c_numfac_man,
+	v_marca_man = isnull(v_marca_man,'') + ' ' + isnull(v_anofab_man,''),
+	c_numvia_man,
+	c_clavescac_lit = ( Select c_clavescac_lit From t_linea_transporte t Where t_manifiesto.c_codigo_lit = t.c_codigo_lit )  ,
+	v_numpla_man,
+	c_codigo_lit = (select v_nombre_lit from t_linea_transporte t where  t_manifiesto.c_codigo_lit = t.c_codigo_lit ) , 
+	c_ageext_man = (select v_nombre_aga from t_agencia_aduanal where c_codigo_aga = t_manifiesto.c_codigo_aga),
+	v_chofer_man,
+	v_nombre_dis = (select v_nombre_dis from t_distribuidor where c_codigo_dis = t_manifiesto.c_codigo_dis),
+	v_telef2_lit = (Select isnull(v_telef2_lit,'') From t_linea_transporte t Where t_manifiesto.c_codigo_lit = t.c_codigo_lit ),
+	pallets = (select distinct count(c_codigo_pal) from t_palet where c_codigo_man = t_manifiesto.c_codigo_man)  
+FROM t_manifiesto   
+where c_codigo_man = :as_man
+and c_Codigo_tem = :as_tem
+
+" arguments=(("as_tem", string),("as_man", string)) )
+text(band=detail alignment="0" text="Manifiesto"border="0" color="0" x="23" y="104" height="56" width="311"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Fecha"border="0" color="0" x="1605" y="104" height="56" width="178"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Hora de Salida"border="0" color="0" x="27" y="184" height="56" width="361"  name=c_horcre_man_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="MID(c_horcre_man,1,2) + ':'+MID(c_horcre_man,3,4) + '  hrs' "border="0" color="0" x="485" y="184" height="52" width="183" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Caja"border="0" color="0" x="1650" y="184" height="56" width="133"  name=v_numcaj_man_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Factura Comercial"border="0" color="0" x="27" y="276" height="56" width="407"  name=c_numfac_man_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="485" y="276" height="52" width="251" format="[general]"  name=c_numfac_man edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Marca"border="0" color="0" x="1600" y="276" height="56" width="183"  name=v_marca_man_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Num. Emb."border="0" color="0" x="27" y="372" height="56" width="325"  name=c_numvia_man_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="485" y="372" height="52" width="251" format="[general]"  name=c_numvia_man edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Placas"border="0" color="0" x="1582" y="372" height="56" width="201"  name=v_numpla_man_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Línea de trasporte"border="0" color="0" x="27" y="472" height="56" width="407"  name=c_codigo_lit_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="485" y="472" height="52" width="1083" format="[general]"  name=c_codigo_lit edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="SCAC'S"border="0" color="0" x="1600" y="472" height="56" width="183"  name=c_clavescac_lit_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Chofer"border="0" color="0" x="631" y="672" height="56" width="192"  name=v_chofer_man_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="485" y="104" height="56" width="238" format="[general]"  name=c_codigo_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Distribuidor"border="0" color="0" x="23" y="20" height="56" width="347"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Agencia Aduanal"border="0" color="0" x="27" y="576" height="56" width="407"  name=c_ageext_man_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="256" y="864" height="56" width="192" format="[general]"  name=pallets edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Pallets"border="0" color="0" x="27" y="864" height="56" width="206"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Tel."border="0" color="0" x="631" y="752" height="56" width="110" visible="1~tif(v_telef2_lit='',0,1)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="485" y="20" height="56" width="1870" format="[general]"  name=v_nombre_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="855" y="672" height="52" width="1518" format="[general]"  name=v_chofer_man edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="855" y="752" height="56" width="1518" format="[general]"  name=v_telef2_lit edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="485" y="576" height="52" width="1609" format="[general]"  name=c_ageext_man edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1801" y="276" height="52" width="759" format="[general]"  name=v_marca_man edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1801" y="184" height="52" width="759" format="[general]"  name=v_numcaj_man edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1806" y="104" height="56" width="759" format="dd/mm/yyyy"  name=d_embarque_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1801" y="372" height="52" width="759" format="[general]"  name=v_numpla_man edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1801" y="472" height="52" width="754" format="[general]"  name=c_clavescac_lit edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

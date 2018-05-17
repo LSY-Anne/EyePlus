@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_getsysdate.srf
+global type f_getsysdate from function_object
+end type
+
+forward prototypes
+global function datetime f_getsysdate ()
+end prototypes
+
+global function datetime f_getsysdate ();/* Debe encontrar la fecha dd/mm/yyyy en cadena en la lista de parametros
+	f_GetSysDate( ) */
+
+String	ls_sys
+
+ls_sys = f_GetParmValue( '20' )
+
+ls_sys = Right( ls_sys, 4 ) + '/' + Mid( ls_sys, 4, 2 ) + '/' + Left( ls_sys, 2 )
+
+gd_sys = DateTime( Date( ls_sys ) )
+
+Return gd_sys
+end function
+

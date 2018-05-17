@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_contarventanas.srf
+global type f_contarventanas from function_object
+end type
+
+forward prototypes
+global function integer f_contarventanas ()
+end prototypes
+
+global function integer f_contarventanas ();Integer	li_count
+Window	lw_win
+
+
+lw_win = gw_frame.GetFirstSheet()
+Do While	IsValid( lw_win )
+	li_count = li_count + 1
+	lw_win = gw_frame.GetNextSheet( lw_win )
+Loop	
+
+If li_count > 1 Then
+	Return li_count 
+ElseIf li_count = 1 Then
+	lw_win = gw_frame.GetActiveSheet( )
+	If IsValid( lw_win ) Then
+		If Not lw_win.Title = gs_nomsis Then
+			Return li_count
+		End If
+	End If	
+End If
+
+Return 0
+end function
+

@@ -1,0 +1,65 @@
+﻿$PBExportHeader$d_mant_distribuidor_precio_list.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=64 color="79741120" )
+summary(height=0 color="536870912" )
+footer(height=4 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_pro dbname="c_codigo_pro" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_eti dbname="c_codigo_eti" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precmn_dip dbname="n_precmn_dip" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precme_dip dbname="n_precme_dip" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="c_codigo_usu" )
+ column=(type=datetime updatewhereclause=yes name=d_creacion_dip dbname="d_creacion_dip" )
+ column=(type=char(20) updatewhereclause=yes name=c_usumod_dip dbname="c_usumod_dip" )
+ column=(type=datetime updatewhereclause=yes name=d_modifi_dip dbname="d_modifi_dip" )
+ column=(type=char(1) updatewhereclause=yes name=c_activo dbname="c_activo_dip" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre dbname="v_nombre_pro" )
+ column=(type=char(12) updatewhereclause=yes name=c_codigo dbname="c_codigo" )
+ column=(type=char(6) updatewhereclause=yes name=c_codigo_proe dbname="c_codigo_proe" )
+ column=(type=char(6) updatewhereclause=yes name=c_codigo_dis dbname="c_codigo_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="v_nombre_dis" )
+ retrieve="  SELECT c_codigo_pro = dp.c_codigo_pro,   
+         c_codigo_eti = dp.c_codigo_eti,   
+         n_precmn_dip = dp.n_precmn_dip,   
+         n_precme_dip = dp.n_precme_dip,   
+         c_codigo_usu = dp.c_codigo_usu,   
+         d_creacion_dip = dp.d_creacion_dip,   
+         c_usumod_dip = dp.c_usumod_dip,   
+         d_modifi_dip = dp.d_modifi_dip,   
+         c_activo_dip = dp.c_activo_dip,   
+         v_nombre_pro = t_producto.v_nombre_pro,
+			c_codigo = dp.c_codigo_dis + dp.c_codigo_pro + dp.c_codigo_eti ,
+			c_codigo_proe = dp.c_codigo_pro + dp.c_codigo_eti,
+			c_codigo_dis = dp.c_codigo_dis,
+			v_nombre_dis = dis.v_nombre_dis  
+    FROM t_distribuidor_precio dp,   
+         t_producto,
+			t_distribuidor dis  
+   WHERE t_producto.c_codigo_pro = dp.c_codigo_pro   
+	AND dis.c_codigo_dis = dp.c_codigo_dis
+" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432~tIf( c_activo = '1', f_color( 'verde' ), f_color( 'rojo' ) )" x="9" y="4" height="52" width="206" format="[general]~tIf( c_activo = '0', 'û', 'ü' )"  name=c_activo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Wingdings" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="2" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="33554432" x="224" y="4" height="52" width="320" format="[general]"  name=c_codigo_proe edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="553" y="4" height="52" width="974" format="[general]"  name=v_nombre edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="1536" y="4" height="52" width="681" format="[general]"  name=c_codigo_eti dddw.name=d_dddw_etiqueta dddw.displaycolumn=v_nombre_eti dddw.datacolumn=c_codigo_eti dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="33554432" x="2226" y="4" height="52" width="1371" format="[general]"  name=v_nombre_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="33554432" x="3607" y="4" height="52" width="439" format="#,##0.00"  name=n_precmn_dip edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="33554432" x="4055" y="4" height="52" width="416" format="#,##0.00"  name=n_precme_dip edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="4480" y="4" height="52" width="526" format="[general]"  name=c_codigo_usu edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="5015" y="4" height="52" width="402" format="dd/mm/yyyy"  name=d_creacion_dip edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="5426" y="4" height="52" width="453" format="[general]"  name=c_usumod_dip edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="5888" y="4" height="52" width="384" format="dd/mm/yyyy"  name=d_modifi_dip edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="33554432" x="6281" y="4" height="52" width="5" format=""  name=c_codigo visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Activo"border="6" color="0" x="9" y="4" height="56" width="206"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Código"border="6" color="0" x="224" y="4" height="56" width="320"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Nombre Producto"border="6" color="33554432" x="553" y="4" height="56" width="974"  name=v_nombre_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Etiqueta"border="6" color="33554432" x="1536" y="4" height="56" width="681"  name=c_codigo_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Distribuidor"border="6" color="0" x="2226" y="4" height="56" width="1371"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Precio Mda. Nac. "border="6" color="0" x="3607" y="4" height="56" width="439"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Precio Mda. Ext. "border="6" color="0" x="4055" y="4" height="56" width="416"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Usuario Creador"border="6" color="33554432" x="4480" y="4" height="56" width="526"  name=c_codigo_usu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Fecha"border="6" color="0" x="5015" y="4" height="56" width="402"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Modificador"border="6" color="0" x="5426" y="4" height="56" width="453"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Fecha"border="6" color="0" x="5888" y="4" height="56" width="384"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

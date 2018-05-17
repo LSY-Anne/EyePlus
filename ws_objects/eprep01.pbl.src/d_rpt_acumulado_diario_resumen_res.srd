@@ -1,0 +1,118 @@
+﻿$PBExportHeader$d_rpt_acumulado_diario_resumen_res.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=c_codigo_cul dbname="t_cultivo.c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_acu dbname="t_acumulado.c_merdes_acu" )
+ column=(type=decimal(2) updatewhereclause=yes name=piso_hoy dbname="piso_hoy" )
+ column=(type=decimal(2) updatewhereclause=yes name=embarcado dbname="embarcado" )
+ column=(type=decimal(2) updatewhereclause=yes name=piso_ayer dbname="piso_ayer" )
+ column=(type=decimal(2) updatewhereclause=yes name=empacado dbname="empacado" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_baldes dbname="n_baldes" )
+ retrieve="
+Select   c.c_codigo_cul,   
+         c.v_nombre_cul,   
+         a.c_merdes_acu,   
+         Sum( IsNull( n_emptot_acu, 0) + IsNull( n_emphoy_acu, 0) + 					
+              IsNull( n_sobhoy_acu, 0) - IsNull( n_sobant_acu, 0) - 
+              IsNull( n_merhoy_acu, 0) - IsNull( n_mertot_acu, 0) - 					
+              IsNull( n_embhoy_acu, 0) - IsNull( n_embtot_acu, 0)) As piso_hoy,   
+         IsNull(Sum(a.n_embhoy_acu),0) As embarcado,   
+         IsNull(Sum(a.n_sobtot_acu),0) As piso_ayer,   
+         Sum( IsNull( n_emphoy_acu, 0) + IsNull( n_sobhoy_acu, 0) - IsNull( n_sobant_acu, 0)) As empacado,
+         n_baldes = ( Select Sum( n_baldes_prc )
+                      From   t_produccion_campo 
+                      Where  c_codigo_cul = c.c_codigo_cul
+                      And    d_trabajo_prc = :ad_corte  )  
+From     t_acumulado   a,   
+         t_cultivo     c,   
+         t_producto    p
+Where    p.c_codigo_cul = c.c_codigo_cul
+And      p.c_codigo_pro = a.c_codigo_pro  
+And		a.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+Group By    
+         c.c_codigo_cul,   
+         c.v_nombre_cul,   
+         a.c_merdes_acu 
+
+Union
+
+Select Distinct 
+         c.c_codigo_cul, 
+         c.v_nombre_cul,   
+         'E',
+         0 As piso_hoy,   
+         0 As embarcado,   
+         0 As piso_ayer,   
+         0 As empacado,
+         0 As n_baldes  
+From     t_acumulado   a,   
+         t_cultivo     c,   
+         t_producto    p
+Where    p.c_codigo_cul = c.c_codigo_cul  
+And      p.c_codigo_pro = a.c_codigo_pro
+And		a.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+And      p.c_codigo_cul  Not In 
+                           ( Select px.c_codigo_cul 
+                             From   t_acumulado ax,   
+                                    t_cultivo   cx,   
+                                    t_producto  px
+                             Where  px.c_codigo_cul = cx.c_codigo_cul  
+                             And    px.c_codigo_pro = ax.c_codigo_pro
+                             And    ax.c_merdes_acu = 'E'
+                             And    ax.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+                          )
+Union
+
+Select Distinct 
+         c.c_codigo_cul, 
+         c.v_nombre_cul,   
+         'N',
+         0 As piso_hoy,   
+         0 As embarcado,   
+         0 As piso_ayer,   
+         0 As empacado,
+         0 As n_baldes  
+From     t_acumulado   a,   
+         t_cultivo     c,   
+         t_producto    p
+Where    p.c_codigo_cul = c.c_codigo_cul  
+And      p.c_codigo_pro = a.c_codigo_pro
+And		a.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+And      p.c_codigo_cul  Not In 
+                           ( Select px.c_codigo_cul 
+                             From   t_acumulado ax,   
+                                    t_cultivo   cx,   
+                                    t_producto  px
+                             Where  px.c_codigo_cul = cx.c_codigo_cul  
+                             And    px.c_codigo_pro = ax.c_codigo_pro
+                             And    ax.c_merdes_acu = 'N' 
+                             And    ax.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+                            )" arguments=(("ad_corte", date))  sort="v_nombre_cul A c_merdes_acu A " )
+group(level=1 header.height=224 trailer.height=316 by=("v_nombre_cul" ) header.color="536870912" trailer.color="536870912" )
+text(band=header.1 alignment="0" text=" Corte por Cultivo"border="0" color="0" x="18" y="4" height="60" width="1696"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=header.1 alignment="0" expression="WordCap( v_nombre_cul )"border="0" color="0" x="27" y="72" height="52" width="622" format="[general]"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=8 alignment="0" tabsequence=32766 border="0" color="0" x="686" y="72" height="60" width="288" format="[general]"  name=n_baldes edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text="Cubetas Recolectadas"border="0" color="0" x="987" y="72" height="60" width="663"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text="Mercado"border="0" color="0" x="27" y="156" height="60" width="256"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="Empacado"border="0" color="0" x="306" y="156" height="60" width="311"  name=empacado_t  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="Embarcado"border="0" color="0" x="850" y="156" height="60" width="334"  name=embarcado_t  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="%"border="0" color="0" x="869" y="156" height="60" width="50"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="Piso Ayer"border="0" color="0" x="1166" y="156" height="60" width="283"  name=piso_ayer_t  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="Piso Hoy"border="0" color="0" x="1449" y="156" height="60" width="270"  name=piso_hoy_t  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="'     ' + WordCap( If ( c_merdes_acu = 'N', 'NACIONAL', 'EXPORTACIÓN' ) )"border="0" color="0" x="27" y="8" height="52" width="361" format="[general]"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="407" y="8" height="52" width="247" format="#,##0"  name=empacado edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="937" y="8" height="52" width="247" format="#,##0"  name=embarcado edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1202" y="8" height="52" width="247" format="#,##0"  name=piso_ayer edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1467" y="8" height="52" width="251" format="#,##0"  name=piso_hoy edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" empacado  * 100 / n_baldes "border="0" color="0" x="672" y="8" height="52" width="247" format="#,##0.00"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="398" y1="0" x2="1723" y2="0" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(embarcado for group 1)"border="0" color="0" x="937" y="4" height="52" width="247" format="#,##0"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(piso_ayer for group 1)"border="0" color="0" x="1202" y="4" height="52" width="247" format="#,##0"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(piso_hoy for group 1)"border="0" color="0" x="1467" y="4" height="52" width="251" format="#,##0"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(empacado for group 1)"border="0" color="0" x="407" y="4" height="52" width="247" format="#,##0"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum( empacado  * 100 / n_baldes  for group 1)"border="0" color="0" x="672" y="4" height="52" width="247" format="#,##0.00"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

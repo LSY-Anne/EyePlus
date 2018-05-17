@@ -1,0 +1,49 @@
+﻿$PBExportHeader$f_abrir_doc.srf
+global type f_abrir_doc from function_object
+end type
+
+forward prototypes
+global function integer f_abrir_doc (string as_fichero)
+end prototypes
+
+global function integer f_abrir_doc (string as_fichero);String      ls_fichero
+Integer     li_ret
+Boolean     lb_continuar
+OleObject   loo_Shell
+
+// Comprobamos si tiene dobles comillas en el fichero, en caso contrario, le ponemos las dobles comillas al principio y
+// al final, para los nombres largos
+ls_fichero = as_fichero
+if Pos(ls_fichero,'"') = 0 then 
+   ls_fichero = '"' + ls_fichero + '"'
+   lb_continuar = TRUE
+else
+   // validamos si la doble comilla está al principio y al final
+   if left(ls_fichero,1) = '"' and right(ls_fichero,1) = '"' then
+      lb_continuar = TRUE
+   else
+      // El fichero no es válido
+      lb_continuar = FALSE
+   end if
+End if
+// Antes validamos si el fichero existe
+
+if Not lb_continuar then Return -1
+If Not FileExists(as_fichero) then Return -1
+
+loo_Shell = Create OleObject
+
+li_Ret = loo_Shell.ConnectToNewObject('WScript.Shell')
+if li_ret < 0 then 
+   Destroy loo_Shell
+   Return -1
+End if
+
+loo_Shell.Run(ls_fichero,1,FALSE)
+
+loo_Shell.DisconnectObject()
+Destroy loo_Shell
+
+Return 1
+end function
+

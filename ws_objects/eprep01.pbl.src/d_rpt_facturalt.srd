@@ -1,0 +1,91 @@
+﻿$PBExportHeader$d_rpt_facturalt.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=336 color="553648127" )
+summary(height=0 color="536870912" )
+footer(height=80 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=c_codigo_lit dbname="t_linea_transporte.c_codigo_lit" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lit dbname="t_linea_transporte.v_nombre_lit" )
+ column=(type=char(15) updatewhereclause=yes name=lt_c_rfc_lit dbname="t_linea_transporte.c_rfc_lit" )
+ column=(type=char(100) updatewhereclause=yes name=lt_v_direcc_lit dbname="t_linea_transporte.v_direcc_lit" )
+ column=(type=char(40) updatewhereclause=yes name=lt_v_ciudad_lit dbname="t_linea_transporte.v_ciudad_lit" )
+ column=(type=char(15) updatewhereclause=yes name=lt_v_codpos_lit dbname="t_linea_transporte.v_codpos_lit" )
+ column=(type=char(15) updatewhereclause=yes name=lt_v_telef1_lit dbname="t_linea_transporte.v_telef1_lit" )
+ column=(type=char(50) updatewhereclause=yes name=lt_c_clavescac_lit dbname="t_linea_transporte.c_clavescac_lit" )
+ column=(type=char(14) updatewhereclause=yes name=c_codigo_flt dbname="t_linea_transporte.c_codigo_flt" )
+ column=(type=datetime updatewhereclause=yes name=fac_d_fecha_flt dbname="t_linea_transporte.d_fecha_flt" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_importe_flt dbname="t_linea_transporte.n_importe_flt" )
+ column=(type=char(20) updatewhereclause=yes name=fac_c_codref_flt dbname="t_linea_transporte.c_codref_flt" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_iva_flt dbname="t_linea_transporte.n_iva_flt" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_retencion_flt dbname="t_linea_transporte.n_retencion_flt" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="t_linea_transporte.c_codigo_man" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_linea_transporte.d_embarque_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_totalflete_man dbname="t_linea_transporte.n_totalflete_man" )
+ retrieve=" select lt.c_codigo_lit,
+       lt.v_nombre_lit,
+       lt.c_rfc_lit,
+       lt.v_direcc_lit,
+       lt.v_ciudad_lit,
+       lt.v_codpos_lit,
+       lt.v_telef1_lit,
+       lt.c_clavescac_lit,
+       fac.c_codigo_flt,
+       fac.d_fecha_flt,
+       fac.n_importe_flt,
+       fac.c_codref_flt,
+       fac.n_iva_flt,
+       fac.n_retencion_flt,
+       man.c_codigo_man,
+       man.d_embarque_man,
+       n_totalflete_man
+from t_linea_transporte lt(nolock),
+     t_facturalt fac (nolock),
+     t_manifiesto man (nolock)
+where lt.c_codigo_lit = fac.c_codigo_lit
+and   lt.c_codigo_lit = man.c_codigo_lit
+and   fac.c_codigo_flt = man.c_facturaflete_man
+and   lt.c_codigo_lit = :as_lit
+and   fac.c_codigo_flt = :as_fac" arguments=(("as_lit", string),("as_fac", string)) )
+group(level=1 header.height=136 trailer.height=0 by=("c_codigo_lit" , "c_codigo_flt" ) header.color="536870912" trailer.color="536870912" )
+rectangle(band=header x="0" y="260" height="76" width="3438" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="1" text="d_rpt_facturalt "border="0" color="0" x="2990" y="204" height="48" width="443"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2519" y="12" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2747" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="3008" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3177" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="3008" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3177" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="3008" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3177" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="3008" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3177" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="1051" y="28" height="76" width="1445" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="FACTURA DE FLETES"border="0" color="0" x="1458" y="128" height="44" width="635"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Total x Manifiesto"border="0" color="33554432" x="2935" y="272" height="44" width="489"  name=d_modifi_cam_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Retención x Manifiesto"border="0" color="33554432" x="2400" y="272" height="44" width="471"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="IVA x Manifiesto"border="0" color="33554432" x="2011" y="272" height="44" width="329"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text=" Fecha de Embarque "border="0" color="33554432" x="1509" y="272" height="44" width="434"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text=" Código "border="0" color="33554432" x="1129" y="272" height="44" width="320"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text=" Factura: "border="0" color="0" x="9" y="80" height="52" width="233"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text=" Linea de Transporte: "border="0" color="0" x="9" y="8" height="56" width="558"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+column(band=header.1 id=1 alignment="1" tabsequence=32766 border="0" color="0" x="581" y="8" height="52" width="91" format="[general]"  name=c_codigo_lit edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+column(band=header.1 id=2 alignment="0" tabsequence=32766 border="0" color="0" x="686" y="8" height="52" width="955" format="[general]"  name=v_nombre_lit edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+column(band=header.1 id=9 alignment="1" tabsequence=32766 border="0" color="0" x="256" y="80" height="52" width="439" format="[general]"  name=c_codigo_flt edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text=" IVA: "border="0" color="0" x="709" y="80" height="52" width="123"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+column(band=header.1 id=13 alignment="1" tabsequence=32766 border="0" color="0" x="846" y="80" height="52" width="247" format="###,###.00"  name=n_iva_flt editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text="Retención: "border="0" color="0" x="1106" y="80" height="52" width="279"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+column(band=header.1 id=14 alignment="1" tabsequence=32766 border="0" color="0" x="1399" y="80" height="52" width="311" format="###,###.00"  name=n_retencion_flt editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text=" Importe: "border="0" color="0" x="1723" y="80" height="52" width="229"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+column(band=header.1 id=11 alignment="1" tabsequence=32766 border="0" color="0" x="1966" y="80" height="52" width="434" format="###,###.00"  name=n_importe_flt editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="0" color="0" x="2935" y="4" height="52" width="489" format="###,###.00"  name=n_totalflete_man editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="( n_retencion_flt  / n_importe_flt)* n_totalflete_man "border="0" color="33554432" x="2400" y="4" height="48" width="471" format="###,###.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="(n_iva_flt / n_importe_flt)* n_totalflete_man "border="0" color="33554432" x="2011" y="4" height="48" width="329" format="###,###.00"  name=ivaman  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="2" tabsequence=32766 border="0" color="0" x="1509" y="4" height="52" width="434" format="dd/mm/yyyy"  name=d_embarque_man editmask.mask="dd/mm/yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=15 alignment="1" tabsequence=32766 border="0" color="0" x="1129" y="4" height="52" width="320" format="[general]"  name=c_codigo_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=footer x1="0" y1="4" x2="3442" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="20" height="56" width="425"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2126" y="20" height="44" width="1006"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3136" y="20" height="56" width="297" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

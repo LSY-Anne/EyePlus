@@ -1,0 +1,28 @@
+﻿$PBExportHeader$d_rpatron.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=120 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=regenlotes dbname="regenlotes" )
+ column=(type=char(6) updatewhereclause=yes name=idempleado dbname="NOMEMPLEADOS.idempleado" )
+ column=(type=char(20) updatewhereclause=yes name=regenempleado dbname="regenEmpleado" )
+ retrieve="
+select distinct r.RegistroPatronal As 'regenlotes', e.idempleado, e.registropatronal As 'regenEmpleado'
+from nomHojasMaestro m, nomregistrospatronales r, nomHojasDetalle  d, nomEmpleados e 
+where m.idLote = r.idLote
+and m.Fecha > '2003/09/30' and m.Fecha < '2003/11/01'
+and m.IdConsecutivoMaestro = d.IdConsecutivoMaestro
+And e.idEmpleado = d.idEmpleado
+And e.idtemporada = '2003'
+Order By e.idempleado, r.RegistroPatronal 
+" )
+text(band=header alignment="2" text="Regenlotes"border="0" color="0" x="9" y="8" height="52" width="480"  name=regenlotes_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nomempleados
+Idempleado"border="0" color="0" x="498" y="8" height="104" width="334"  name=nomempleados_idempleado_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Regenempleado"border="0" color="0" x="841" y="8" height="52" width="480"  name=regenempleado_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="64" width="480" format="[general]"  name=regenlotes edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="503" y="8" height="64" width="329" format="[general]"  name=idempleado edit.limit=6 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="841" y="8" height="64" width="480" format="[general]"  name=regenempleado edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

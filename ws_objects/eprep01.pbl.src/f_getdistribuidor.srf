@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_getdistribuidor.srf
+global type f_getdistribuidor from function_object
+end type
+
+forward prototypes
+global function string f_getdistribuidor (string as_cod)
+end prototypes
+
+global function string f_getdistribuidor (string as_cod);string ls_nomd
+as_cod = right('000000'+as_cod,6)
+
+SELECT v_nombre_dis
+INTO   :ls_nomd
+FROM   t_distribuidor (nolock)
+WHERE  c_codigo_dis = :as_cod
+USING  sqlca;
+If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla t_distribuidor' ) = -1 Then
+	Return '@ERROR'
+End If
+
+Return ls_nomd
+
+end function
+

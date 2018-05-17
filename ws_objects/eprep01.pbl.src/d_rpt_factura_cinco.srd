@@ -1,0 +1,293 @@
+﻿$PBExportHeader$d_rpt_factura_cinco.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no rows_per_detail = 22 )
+header(height=704 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1736 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="c_codigo_man" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_man dbname="c_merdes_man" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_aga dbname="c_codigo_aga" )
+ column=(type=char(100) updatewhereclause=yes name=agencia dbname="agencia" )
+ column=(type=char(10) updatewhereclause=yes name=c_numfac_man dbname="c_numfac_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_numvia_man dbname="c_numvia_man" )
+ column=(type=char(40) updatewhereclause=yes name=v_chofer_man dbname="v_chofer_man" )
+ column=(type=char(30) updatewhereclause=yes name=v_medtra_man dbname="v_medtra_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_importe_man dbname="n_importe_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_totbul_man dbname="n_totbul_man" )
+ column=(type=char(100) updatewhereclause=yes name=v_lugdes_man dbname="v_lugdes_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_marca_man dbname="v_marca_man" )
+ column=(type=char(4) updatewhereclause=yes name=v_anofab_man dbname="v_anofab_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numpla_man dbname="v_numpla_man" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="v_nombre_dis" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="c_codigo_pro" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_eti dbname="c_codigo_eti" )
+ column=(type=char(147) updatewhereclause=yes name=v_nombre_pro dbname="v_nombre_pro" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="v_nombre_eti" )
+ column=(type=datetime updatewhereclause=yes name=d_creacion_man dbname="d_Creacion_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bulxpa_pal dbname="n_bulxpa_pal" )
+ column=(type=decimal(4) updatewhereclause=yes name=n_importemn_pal dbname="n_importemn_pal" )
+ column=(type=decimal(4) updatewhereclause=yes name=n_importeme_pal dbname="n_importeme_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pesbul_pro dbname="n_pesbul_pro" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precmn_pal dbname="n_precmn_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precme_pal dbname="n_precme_pal" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="v_nombre_env" )
+ column=(type=char(60) updatewhereclause=yes name=v_direcc_dis dbname="v_direcc_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_ciudad_dis dbname="v_ciudad_dis" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_impiva_man dbname="n_impiva_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numcaj_man dbname="v_numcaj_man" )
+ column=(type=char(15) updatewhereclause=yes name=c_rfc_dis dbname="c_rfc_dis" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb dbname="v_nombre_emb" )
+ column=(type=char(50) updatewhereclause=yes name=c_clavescac_lit dbname="c_clavescac_lit" )
+ column=(type=char(6) updatewhereclause=yes name=c_codigo_dis dbname="c_codigo_dis" )
+ column=(type=char(15) updatewhereclause=yes name=c_termografo_man dbname="c_termografo_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_placaj_man dbname="v_placaj_man" )
+ column=(type=char(15) updatewhereclause=yes name=c_rf_emb dbname="c_rf_emb" )
+ column=(type=char(100) updatewhereclause=yes name=v_direcc_emb dbname="v_direcc_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_emb dbname="v_ciudad_emb" )
+ column=(type=char(20) updatewhereclause=yes name=v_certiforigen_man dbname="v_certiforigen_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_nummed_man dbname="v_nummed_man" )
+ column=(type=char(40) updatewhereclause=yes name=v_ptoemb_emb dbname="v_ptoemb_emb" )
+ column=(type=decimal(4) updatewhereclause=yes name=kgs dbname="kgs" )
+ retrieve="  SELECT c_codigo_man = m.c_codigo_man,   
+         c_merdes_man = m.c_merdes_man,
+         c_codigo_aga = m.c_codigo_aga,
+         agencia = (select v_nombre_aga from t_agencia_aduanal adu where adu.c_codigo_aga = m.c_codigo_aga),   
+         c_numfac_man = m.c_numfac_man,   
+         c_numvia_man = m.c_numvia_man,   
+         v_chofer_man = m.v_chofer_man,   
+         v_medtra_man = m.v_medtra_man,   
+         n_importe_man = m.n_importe_man,   
+         n_totbul_man = m.n_totbul_man,      
+         v_lugdes_man = m.v_lugdes_man,
+			v_marca_man = m.v_marca_man,
+			v_anofab_man = m.v_anofab_man,
+			v_numpla_man = m.v_numpla_man,  
+         v_nombre_dis = d.v_nombre_dis,      
+         c_codigo_pro = p.c_codigo_pro,   
+         c_codigo_eti = p.c_codigo_eti,   
+         v_nombre_pro = pro.c_codigo_pro + '  ' + pro.v_nombre_pro + ' ' + eti.v_nombre_eti ,   
+         v_nombre_eti = eti.v_nombre_eti, 
+			d_Creacion_man = m.d_Creacion_man,  
+        /* n_bulxpa_pal = p.n_bulxpa_pal,   */
+			n_bulxpa_pal = sum(p.n_bulxpa_pal),
+         n_importemn_pal = Sum( p.n_bulxpa_pal * n_precmn_pal ), 
+         n_importeme_pal = Sum( p.n_bulxpa_pal * n_precme_pal ), 
+         n_pesbul_pro = pro.n_pesbul_pro,   
+         n_precmn_pal = p.n_precmn_pal,   
+         n_precme_pal = p.n_precme_pal,   
+         v_nombre_env = env.v_nombre_env,   
+         v_direcc_dis = d.v_direcc_dis,  
+         v_ciudad_dis = d.v_ciudad_dis,     
+         n_impiva_man = m.n_impiva_man,   
+         v_numcaj_man = m.v_numcaj_man,   
+         c_rfc_dis = d.c_rfc_dis,
+			/*v_nombre_lit = tras.v_nombre_lit,*/
+			v_nombre_emb = emb.v_nombre_emb,
+			c_clavescac_lit = tras.c_clavescac_lit,
+			c_codigo_dis = m.c_codigo_dis,
+			c_termografo_man = m.c_termografo_man,
+			v_placaj_man = m.v_placaj_man,
+			c_rf_emb = emb.c_rfc_emb,
+			v_direcc_emb = emb.v_direcc_emb,
+			v_ciudad_emb = emb.v_ciudad_emb,
+			v_certiforigen_man = m.v_certiforigen_man,
+			v_nummed_man = m.v_nummed_man,
+			v_ptoemb_emb = emb.v_ptoemb_emb,
+         kgs = sum(isnull(p.n_bulxpa_pal,0.00)*isnull(pro.n_pesbul_pro,0.00))
+    FROM t_manifiesto m (nolock),   
+         t_distribuidor d (nolock),   
+         t_palet p (nolock),   
+         t_producto pro (nolock),   
+         t_etiqueta eti (nolock),    
+         t_envase env (nolock),
+			t_linea_transporte tras (nolock),
+			t_embarcador emb (nolock)
+   WHERE ( d.c_codigo_dis = m.c_codigo_dis ) and  
+         ( m.c_codigo_tem = p.c_codigo_tem ) and  
+         ( m.c_codigo_man = p.c_codigo_man ) and  
+         ( pro.c_codigo_pro = p.c_codigo_pro ) and  
+         ( eti.c_codigo_eti = p.c_codigo_eti ) and  
+         /*( env.c_codigo_env = pro.c_codigo_env ) and  */
+         ( env.c_codigo_env = p.c_codigo_env ) and
+  			( emb.c_codigo_emb = m.c_codigo_emb ) and
+			( tras.c_codigo_lit = m.c_codigo_lit ) and
+         ( ( m.c_codigo_tem = :as_tem ) AND  
+         ( m.c_codigo_man = :as_man ) )    
+
+Group By m.c_codigo_man,   
+         m.c_merdes_man,   
+         m.c_numfac_man,   
+         m.c_numvia_man,   
+         m.v_chofer_man,   
+         m.v_medtra_man,   
+         m.v_marca_man,   
+         m.v_numpla_man,   
+         m.v_numcaj_man,   
+         m.v_placaj_man,   
+         m.v_nummed_man,   
+         m.n_temper_man,   
+         m.n_importe_man,   
+         m.n_totbul_man,   
+         m.d_embarque_man,   
+         m.c_horcre_man,   
+         m.v_lugdes_man,  
+         m.c_ageext_man, 
+         m.c_codigo_aga,
+         emb.c_rfc_emb,   
+         emb.v_nombre_emb,   
+         emb.v_ciudad_emb,   m.c_codigo_lit, p.c_codigo_pro,
+         p.c_codigo_eti,
+         d.v_nombre_dis,   
+         d.v_direcc_dis,   
+         d.v_ciudad_dis,  
+         p.c_codigo_pro,   
+         p.c_codigo_eti, p.c_codigo_env, m.n_impiva_man,
+         p.n_precmn_pal, 
+         p.n_precme_pal,
+			pro.n_pesbul_pro,
+			d.c_rfc_dis,
+			d.v_codpos_dis,
+			emb.v_telef1_emb,
+			emb.v_telef2_emb,
+			emb.v_direcc_emb,
+			pro.c_codigo_pro,
+			m.v_anofab_man,
+			pro.v_nombre_pro,
+			eti.v_nombre_eti,
+			env.v_nombre_env,
+			tras.c_clavescac_lit,
+			m.c_codigo_dis,
+			m.c_termografo_man,
+			m.d_Creacion_man,
+			m.v_certiforigen_man,	
+			emb.v_ptoemb_emb
+
+" arguments=(("as_tem", string),("as_man", string)) )
+line(band=header x1="165" y1="556" x2="165" y2="556" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="82899184" )
+compute(band=header alignment="2" expression=" Left( f_Mes( Month( Date( d_creacion_man ) ) ), 3 )  "border="0" color="33554432" x="3077" y="276" height="56" width="133" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=31 alignment="0" tabsequence=32766 border="0" color="33554432" x="2555" y="504" height="60" width="462" format="[general]" row_in_detail=1  name=v_numcaj_man_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="Year( Date( d_creacion_man ) )   "border="0" color="33554432" x="3319" y="276" height="56" width="133" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="Day( Date( d_creacion_man ) )   "border="0" color="33554432" x="2857" y="276" height="56" width="133" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Caja: "border="0" color="33554432" x="2437" y="504" height="60" width="110"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=15 alignment="0" tabsequence=32766 border="0" color="33554432" x="462" y="368" height="60" width="1618" format="[general]" row_in_detail=1  name=v_nombre_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=28 alignment="0" tabsequence=32766 border="0" color="33554432" x="462" y="436" height="60" width="1618" format="[general]" row_in_detail=1  name=v_direcc_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=29 alignment="0" tabsequence=32766 border="0" color="33554432" x="462" y="504" height="60" width="1618" format="[general]" row_in_detail=1  name=v_ciudad_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="462" y="572" height="60" width="1618" format="[general]" row_in_detail=1  name=agencia_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="1797" y="640" height="60" width="1079" format="[general]" row_in_detail=1  name=v_chofer_man_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=37 alignment="0" tabsequence=32766 border="0" color="33554432" x="878" y="640" height="60" width="434" format="[general]" row_in_detail=1  name=v_placaj_man_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=12 alignment="1" tabsequence=32766 border="0" color="33554432" x="9" y="640" height="60" width="439" format="[general]" row_in_detail=1  name=v_marca_man_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=13 alignment="0" tabsequence=32766 border="0" color="33554432" x="457" y="640" height="60" width="160" format="[general]" row_in_detail=1  name=v_anofab_man_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="124" height="60" width="274" format="#,##0" row_in_detail=1  name=n_bulxpa_pal_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="132" height="56" width="1495" format="[general]" row_in_detail=1  name=v_nombre_pro_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="132" height="56" width="338" format="#,##0.00" row_in_detail=1  name=n_precmn_pal_1 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="132" height="56" width="338" format="#,##0.00" row_in_detail=1  name=n_precme_pal_1 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3013" y="132" height="56" width="119" format="[general]"  name=mon  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="132" height="56" width="320" format="#,##0.00" row_in_detail=1  name=n_importemn_pal_1 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="132" height="56" width="325" format="#,##0.00" row_in_detail=1  name=n_importeme_pal_1 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="200" height="56" width="274" format="#,##0" row_in_detail=2  name=n_bulxpa_pal_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="200" height="56" width="1495" format="[general]" row_in_detail=2  name=v_nombre_pro_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="200" height="56" width="338" format="#,##0.00" row_in_detail=2  name=n_precmn_pal_2 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="200" height="56" width="338" format="#,##0.00" row_in_detail=2  name=n_precme_pal_2 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3013" y="200" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="200" height="56" width="325" format="#,##0.00" row_in_detail=2  name=n_importemn_pal_2 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="200" height="56" width="325" format="#,##0.00" row_in_detail=2  name=n_importeme_pal_2 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="268" height="56" width="274" format="#,##0" row_in_detail=3  name=n_bulxpa_pal_3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="268" height="56" width="1495" format="[general]" row_in_detail=3  name=v_nombre_pro_3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="268" height="56" width="338" format="#,##0.00" row_in_detail=3  name=n_precmn_pal_3 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="268" height="56" width="338" format="#,##0.00" row_in_detail=3  name=n_precme_pal_3 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3003" y="268" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="268" height="56" width="325" format="#,##0.00" row_in_detail=3  name=n_importemn_pal_3 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="268" height="56" width="325" format="#,##0.00" row_in_detail=3  name=n_importeme_pal_3 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="336" height="56" width="274" format="#,##0" row_in_detail=4  name=n_bulxpa_pal_4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="336" height="56" width="1495" format="[general]" row_in_detail=4  name=v_nombre_pro_4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="336" height="56" width="338" format="#,##0.00" row_in_detail=4  name=n_precmn_pal_4 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="336" height="56" width="338" format="#,##0.00" row_in_detail=4  name=n_precme_pal_4 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3013" y="336" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="336" height="56" width="325" format="#,##0.00" row_in_detail=4  name=n_importemn_pal_4 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="336" height="56" width="325" format="#,##0.00" row_in_detail=4  name=n_importeme_pal_4 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="404" height="56" width="274" format="#,##0" row_in_detail=5  name=n_bulxpa_pal_5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="404" height="56" width="1495" format="[general]" row_in_detail=5  name=v_nombre_pro_5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="404" height="56" width="338" format="#,##0.00" row_in_detail=5  name=n_precme_pal_5 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="404" height="56" width="338" format="#,##0.00" row_in_detail=5  name=n_precmn_pal_5 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3008" y="404" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="404" height="56" width="325" format="#,##0.00" row_in_detail=5  name=n_importeme_pal_5 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="404" height="56" width="325" format="#,##0.00" row_in_detail=5  name=n_importemn_pal_5 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="472" height="56" width="274" format="#,##0" row_in_detail=6  name=n_bulxpa_pal_6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="472" height="56" width="1495" format="[general]" row_in_detail=6  name=v_nombre_pro_6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="472" height="56" width="338" format="#,##0.00" row_in_detail=6  name=n_precme_pal_6 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="472" height="56" width="338" format="#,##0.00" row_in_detail=6  name=n_precmn_pal_6 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3003" y="472" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="472" height="56" width="325" format="#,##0.00" row_in_detail=6  name=n_importeme_pal_6 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="472" height="56" width="325" format="#,##0.00" row_in_detail=6  name=n_importemn_pal_6 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="540" height="56" width="274" format="#,##0" row_in_detail=7  name=n_bulxpa_pal_7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="540" height="56" width="1495" format="[general]" row_in_detail=7  name=v_nombre_pro_7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="540" height="56" width="338" format="#,##0.00" row_in_detail=7  name=n_precme_pal_7 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="540" height="56" width="338" format="#,##0.00" row_in_detail=7  name=n_precmn_pal_7 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3003" y="540" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="540" height="56" width="325" format="#,##0.00" row_in_detail=7  name=n_importemn_pal_7 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="540" height="56" width="325" format="#,##0.00" row_in_detail=7  name=n_importeme_pal_7 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="608" height="56" width="274" format="#,##0" row_in_detail=8  name=n_bulxpa_pal_8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="608" height="56" width="1495" format="[general]" row_in_detail=8  name=v_nombre_pro_8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="608" height="56" width="338" format="#,##0.00" row_in_detail=8  name=n_precme_pal_8 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="608" height="56" width="338" format="#,##0.00" row_in_detail=8  name=n_precmn_pal_8 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3008" y="608" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="608" height="56" width="325" format="#,##0.00" row_in_detail=8  name=n_importeme_pal_8 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="608" height="56" width="325" format="#,##0.00" row_in_detail=8  name=n_importemn_pal_8 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="676" height="56" width="274" format="#,##0" row_in_detail=9  name=n_bulxpa_pal_9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="676" height="56" width="1495" format="[general]" row_in_detail=9  name=v_nombre_pro_9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="676" height="56" width="338" format="#,##0.00" row_in_detail=9  name=n_precme_pal_9 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="676" height="56" width="338" format="#,##0.00" row_in_detail=9  name=n_precmn_pal_9 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3003" y="676" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="676" height="56" width="325" format="#,##0.00" row_in_detail=9  name=n_importeme_pal_9 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="676" height="56" width="325" format="#,##0.00" row_in_detail=9  name=n_importemn_pal_9 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="744" height="56" width="274" format="#,##0" row_in_detail=10  name=n_bulxpa_pal_10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="744" height="56" width="1495" format="[general]" row_in_detail=10  name=v_nombre_pro_10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="744" height="56" width="338" format="#,##0.00" row_in_detail=10  name=n_precme_pal_10 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="744" height="56" width="338" format="#,##0.00" row_in_detail=10  name=n_precmn_pal_10 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3003" y="744" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="744" height="56" width="325" format="#,##0.00" row_in_detail=10  name=n_importeme_pal_10 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="744" height="56" width="325" format="#,##0.00" row_in_detail=10  name=n_importemn_pal_10 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="812" height="56" width="274" format="#,##0" row_in_detail=11  name=n_bulxpa_pal_11 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="812" height="56" width="1495" format="[general]" row_in_detail=11  name=v_nombre_pro_11 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="812" height="56" width="338" format="#,##0.00" row_in_detail=11  name=n_precme_pal_11 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="812" height="56" width="338" format="#,##0.00" row_in_detail=11  name=n_precmn_pal_11 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3003" y="812" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="812" height="56" width="325" format="#,##0.00" row_in_detail=11  name=n_importeme_pal_11 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="812" height="56" width="325" format="#,##0.00" row_in_detail=11  name=n_importemn_pal_11 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="880" height="56" width="274" format="#,##0" row_in_detail=12  name=n_bulxpa_pal_12 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="880" height="56" width="1495" format="[general]" row_in_detail=12  name=v_nombre_pro_12 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="880" height="56" width="338" format="#,##0.00" row_in_detail=12  name=n_precmn_pal_12 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="880" height="56" width="338" format="#,##0.00" row_in_detail=12  name=n_precme_pal_12 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3003" y="880" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="880" height="56" width="325" format="#,##0.00" row_in_detail=12  name=n_importeme_pal_12 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="880" height="56" width="325" format="#,##0.00" row_in_detail=12  name=n_importemn_pal_12 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="948" height="56" width="274" format="#,##0" row_in_detail=13  name=n_bulxpa_pal_13 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="948" height="56" width="1495" format="[general]" row_in_detail=13  name=v_nombre_pro_13 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="948" height="56" width="338" format="#,##0.00" row_in_detail=13  name=n_precmn_pal_13 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="948" height="56" width="338" format="#,##0.00" row_in_detail=13  name=n_precme_pal_13 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3008" y="948" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="948" height="56" width="325" format="#,##0.00" row_in_detail=13  name=n_importemn_pal_13 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="948" height="56" width="325" format="#,##0.00" row_in_detail=13  name=n_importeme_pal_13 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="1016" height="56" width="274" format="#,##0" row_in_detail=14  name=n_bulxpa_pal_14 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="1016" height="56" width="1495" format="[general]" row_in_detail=14  name=v_nombre_pro_14 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="1016" height="56" width="338" format="#,##0.00" row_in_detail=14  name=n_precmn_pal_14 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="1016" height="56" width="338" format="#,##0.00" row_in_detail=14  name=n_precme_pal_14 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3008" y="1016" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="1016" height="56" width="325" format="#,##0.00" row_in_detail=14  name=n_importemn_pal_14 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="1016" height="56" width="325" format="#,##0.00" row_in_detail=14  name=n_importeme_pal_14 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="33554432" x="18" y="1084" height="56" width="274" format="#,##0" row_in_detail=15  name=n_bulxpa_pal_15 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="850" y="1084" height="56" width="1495" format="[general]" row_in_detail=15  name=v_nombre_pro_15 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="1084" height="56" width="338" format="#,##0.00" row_in_detail=15  name=n_precmn_pal_15 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="2665" y="1084" height="56" width="338" format="#,##0.00" row_in_detail=15  name=n_precme_pal_15 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if(c_merdes_man = 'E', 'Dlls','')"border="0" color="33554432" x="3013" y="1084" height="56" width="119" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="1084" height="56" width="325" format="#,##0.00" row_in_detail=15  name=n_importeme_pal_15 visible="1~tIf( c_merdes_man ='E', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="33554432" x="3127" y="1084" height="56" width="325" format="#,##0.00" row_in_detail=15  name=n_importemn_pal_15 visible="1~tIf( c_merdes_man ='E', 0, 1 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="sum(n_bulxpa_pal for all)"border="0" color="33554432" x="14" y="1224" height="56" width="274" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="BULTOS; "border="0" color="33554432" x="306" y="1224" height="56" width="279"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="sum(  kgs  for all )"border="0" color="33554432" x="603" y="1224" height="56" width="279" format="#,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="KGRS; SCAC = AGHE "border="0" color="33554432" x="905" y="1224" height="56" width="485"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="WordCap( f_NumberToWord( importe ) + ' ' + If( c_merdes_man ='E',   ' Dólares  U. S.C.Y.', 'Pesos') ) "border="0" color="33554432" x="905" y="1676" height="56" width="1728" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="If( c_merdes_man ='E', sum( n_importeme_pal  for all),sum( n_importemn_pal  for all) )"border="0" color="33554432" x="3127" y="1428" height="56" width="325" format="#,##0.00"  name=importe  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="If( c_merdes_man ='E', sum( n_importeme_pal  for all),sum( n_importemn_pal  for all) )"border="0" color="33554432" x="3127" y="1532" height="56" width="325" format="#,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

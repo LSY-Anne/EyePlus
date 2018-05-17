@@ -1,0 +1,82 @@
+﻿$PBExportHeader$d_util_mano_obra_diario.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(3) updatewhereclause=yes name=c_origen dbname="c_origen" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_tem dbname="t_mano_obra.c_codigo_tem" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_cul dbname="t_mano_obra.c_codigo_cul" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_act dbname="t_mano_obra.c_codigo_act" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_trabajo_mao dbname="t_mano_obra.d_trabajo_mao" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_numjor_mao dbname="t_mano_obra.n_numjor_mao" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_monjor_mao dbname="t_mano_obra.n_monjor_mao" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_mano_obra.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion_mao dbname="t_mano_obra.d_creacion_mao" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod_mao dbname="t_mano_obra.c_usumod_mao" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi_mao dbname="t_mano_obra.d_modifi_mao" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo_mao dbname="t_mano_obra.c_activo_mao" )
+ retrieve="  SELECT 
+         'CUL' As c_origen,
+         t_mano_obra.c_codigo_tem,   
+         t_mano_obra.c_codigo_cul,   
+         t_mano_obra.c_codigo_act,   
+         t_mano_obra.d_trabajo_mao,   
+         t_mano_obra.n_numjor_mao,   
+         t_mano_obra.n_monjor_mao,   
+         t_mano_obra.c_codigo_usu,   
+         t_mano_obra.d_creacion_mao,   
+         t_mano_obra.c_usumod_mao,   
+         t_mano_obra.d_modifi_mao,   
+         t_mano_obra.c_activo_mao  
+    FROM t_mano_obra  
+   WHERE ( t_mano_obra.c_codigo_tem = :as_tem ) AND  
+         ( t_mano_obra.c_codigo_cul = :as_cul ) AND  
+         ( t_mano_obra.d_trabajo_mao = :ad_sys ) AND  
+         ( t_mano_obra.c_activo_mao = '1' ) 
+Union
+  SELECT 
+         'GRL' As c_origen,
+         t_mano_obra_general.c_codigo_tem,  
+         :as_cul As c_codigo_cul, 
+         t_mano_obra_general.c_codigo_act,   
+         t_mano_obra_general.d_trabajo_mog,   
+         t_mano_obra_general.n_numjor_mog,   
+         t_mano_obra_general.n_monjor_mog,   
+         t_mano_obra_general.c_codigo_usu,   
+         t_mano_obra_general.d_creacion_mog,   
+         t_mano_obra_general.c_usumod_mog,   
+         t_mano_obra_general.d_modifi_mog,   
+         t_mano_obra_general.c_activo_mog  
+    FROM t_mano_obra_general  
+   WHERE ( t_mano_obra_general.c_codigo_tem = :as_tem ) AND  
+         ( t_mano_obra_general.d_trabajo_mog = :ad_sys ) AND  
+         ( t_mano_obra_general.c_activo_mog = '1' )    
+   
+" arguments=(("as_tem", string),("as_cul", string),("ad_sys", datetime))  sort="c_origen A c_codigo_tem A c_codigo_cul A c_codigo_act A " )
+text(band=header alignment="2" text="C Codigo Tem"border="0" color="0" x="9" y="8" height="52" width="306"  name=c_codigo_tem_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Codigo Cul"border="0" color="0" x="466" y="8" height="52" width="279"  name=c_codigo_cul_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Codigo Act"border="0" color="0" x="754" y="8" height="52" width="283"  name=c_codigo_act_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="D Trabajo Mao"border="0" color="0" x="1047" y="8" height="52" width="503"  name=d_trabajo_mao_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Numjor Mao"border="0" color="0" x="1559" y="8" height="52" width="311"  name=n_numjor_mao_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Monjor Mao"border="0" color="0" x="1879" y="8" height="52" width="306"  name=n_monjor_mao_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Codigo Usu"border="0" color="0" x="2194" y="8" height="52" width="480"  name=c_codigo_usu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="D Creacion Mao"border="0" color="0" x="2683" y="8" height="52" width="503"  name=d_creacion_mao_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Usumod Mao"border="0" color="0" x="3195" y="8" height="52" width="480"  name=c_usumod_mao_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="D Modifi Mao"border="0" color="0" x="3685" y="8" height="52" width="503"  name=d_modifi_mao_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Activo Mao"border="0" color="0" x="4197" y="8" height="52" width="293"  name=c_activo_mao_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="C Origen"border="0" color="0" x="325" y="4" height="56" width="133"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="0" color="0" x="9" y="8" height="64" width="306" format="[general]"  name=c_codigo_tem edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="0" color="0" x="466" y="8" height="64" width="279" format="[general]"  name=c_codigo_cul edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=30 border="0" color="0" x="754" y="8" height="64" width="283" format="[general]"  name=c_codigo_act edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=40 border="0" color="0" x="1047" y="8" height="64" width="503" format="[shortdate] [time]"  name=d_trabajo_mao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=50 border="0" color="0" x="1559" y="8" height="64" width="311" format="[general]"  name=n_numjor_mao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=60 border="0" color="0" x="1879" y="8" height="64" width="306" format="[general]"  name=n_monjor_mao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=70 border="0" color="0" x="2194" y="8" height="64" width="480" format="[general]"  name=c_codigo_usu edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=80 border="0" color="0" x="2683" y="8" height="64" width="503" format="[shortdate] [time]"  name=d_creacion_mao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=90 border="0" color="0" x="3195" y="8" height="64" width="480" format="[general]"  name=c_usumod_mao edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=100 border="0" color="0" x="3685" y="8" height="64" width="503" format="[shortdate] [time]"  name=d_modifi_mao edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=110 border="0" color="0" x="4197" y="8" height="64" width="293" format="[general]"  name=c_activo_mao edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="325" y="8" height="52" width="133" format="[general]"  name=c_origen edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,16 @@
+﻿$PBExportHeader$d_arch_palet_etiqueta_2004.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=120 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=84 color="536870912" )
+detail(height=244 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes key=yes name=c_codigo_eti dbname="t_etiqueta.c_codigo_eti" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="t_etiqueta.v_nombre_eti" )
+ column=(type=char(255) updatewhereclause=yes name=v_imagen_eti dbname="t_etiqueta.v_imagen_eti" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"t_etiqueta~" ) COLUMN(NAME=~"t_etiqueta.c_codigo_eti~") COLUMN(NAME=~"t_etiqueta.v_nombre_eti~") COLUMN(NAME=~"t_etiqueta.v_imagen_eti~")WHERE(    EXP1 =~"t_etiqueta.c_activo_eti~"   OP =~"=~"    EXP2 =~"'1'~" ) ) " update="t_etiqueta" updatewhere=0 updatekeyinplace=no )
+button(band=header text="é"filename=""action="5" border="0" color="16711680" x="5" y="36" height="84" width="247" vtextalign="0" htextalign="0"  name=cb_up pointer="setup.cur"  font.face="Wingdings" font.height="-8" font.weight="400"  font.family="0" font.pitch="2" font.charset="2" background.mode="2" background.color="15780518" )
+compute(band=detail alignment="0" expression=" bitmap ( v_imagen_eti ) "border="2" color="33554432" x="5" y="8" height="176" width="238" format="[general]"  font.face="Times New Roman" font.height="-12" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="33554432" x="5" y="188" height="48" width="238" format="[general]"  name=v_nombre_eti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+button(band=footer text="ê"filename=""action="4" border="0" color="16711680" x="0" y="0" height="84" width="247" vtextalign="0" htextalign="0"  name=cb_down pointer="setup.cur"  font.face="Wingdings" font.height="-8" font.weight="400"  font.family="0" font.pitch="2" font.charset="2" background.mode="2" background.color="15780518" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

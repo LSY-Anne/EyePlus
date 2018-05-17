@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_delay.srf
+global type f_delay from function_object
+end type
+
+forward prototypes
+global subroutine f_delay (integer ai_sec)
+end prototypes
+
+global subroutine f_delay (integer ai_sec);/* f_Delay( ai_sec ) 
+	Detiene por ai_sec segundos la ejecución del programa que lo invoca
+*/
+Time	lt_time
+
+lt_time = RelativeTime( Now( ), ai_sec )
+	
+Do While Now( ) <= lt_time
+	
+Loop
+
+Return
+end subroutine
+

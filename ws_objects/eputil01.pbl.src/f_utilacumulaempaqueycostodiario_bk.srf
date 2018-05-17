@@ -1,0 +1,259 @@
+﻿$PBExportHeader$f_utilacumulaempaqueycostodiario_bk.srf
+global type f_utilacumulaempaqueycostodiario_bk from function_object
+end type
+
+forward prototypes
+global function integer f_utilacumulaempaqueycostodiario_bk (decimal adc_tc)
+end prototypes
+
+global function integer f_utilacumulaempaqueycostodiario_bk (decimal adc_tc);/* f_UtilAcumulaEmpaqueyCostoDiario( ) */
+DateTime	ld_sys
+Dec{2}	ldc_bulemp, ldc_pesbul, ldc_pestot, ldc_cosaca, ldc_cosmao, &
+			ldc_costot, ldc_coscor, ldc_impapc, ldc_pesxcul, ldc_bulxcul, &
+			ldc_pesemp, ldc_porcen, ldc_acucos, ldc_cosumn, ldc_cosume
+Dec{4}	ldc_impcos
+Integer	i, j, k
+Long		ll_aed, ll_apd, ll_ret
+String	ls_pro, ls_cul, ls_cos, ls_fnd, ls_mer, ls_fil, ls_tem
+uo_DataStore lds_cos, lds_pal, lds_aed, lds_apd, lds_cul
+
+
+ld_sys = gd_sys
+ls_tem = gs_codtem
+
+/* Liberar tablas de acumulados del dia */	
+Delete t_acumulado_producto_diario ;
+If f_SqlError( SqlCa, 'No se pudo limpiar la tabla t_acumulado_producto_diario. (Del)' ) = -1 Then
+	Return -1
+End If
+
+Delete t_acumulado_empaque_diario ;
+If f_SqlError( SqlCa, 'No se pudo limpiar la tabla t_acumulado_empaque_diario. (Del)' ) = -1 Then
+	Return -1
+End If
+
+
+
+Destroy lds_cos
+lds_cos = Create uo_DataStore
+lds_cos.DataObject = 'd_dddw_costo'
+lds_cos.SetTransObject( SqlCa )
+ll_ret = lds_cos.Retrieve( )
+lds_cos.SetSort( 'c_codigo_cos A')
+lds_cos.Sort( )
+
+/* Resumen por Cultivo */
+Destroy lds_cul
+lds_cul = Create uo_DataStore
+lds_cul.DataObject = 'd_util_cultivo_x_fecha'
+lds_cul.SetTransObject( SqlCa )
+ll_ret = lds_cul.Retrieve( ls_tem, ld_sys, ld_sys )
+
+/* Resumen por Cultivo y Mercado */
+Destroy lds_pal
+lds_pal = Create uo_DataStore
+lds_pal.DataObject = 'd_rpt_pallet_x_fechas_mercado'
+lds_pal.SetTransObject( SqlCa )
+
+
+Destroy lds_aed
+lds_aed = Create uo_DataStore
+lds_aed.DataObject = 'd_util_acumulado_empaque_diario_update'
+lds_aed.SetTransObject( SqlCa )
+ll_ret = lds_aed.Retrieve( ls_tem )
+
+Destroy lds_apd
+lds_apd = Create uo_DataStore
+lds_apd.DataObject = 'd_util_acumulado_producto_diario_update'
+lds_apd.SetTransObject( SqlCa )
+ll_ret = lds_apd.Retrieve( ls_tem )
+
+
+/* Variables Solo usadas como contadores en los "For" */
+i = 0; j = 0; k = 0
+
+For k = 1 To lds_cul.RowCount( )
+	ls_cul = lds_cul.Object.c_codigo_cul[ k]
+	ls_fil = 'c_codigo_cul = "' + ls_cul + '"'
+	//lds_pal.SetFilter( ls_fil )
+	//lds_pal.Filter( )
+	ll_ret = lds_pal.Retrieve( ls_tem, ld_sys, ld_sys, ls_cul )
+	
+	/* Bultos x Cultivo y Peso Total por Cultivo */
+	ldc_bulxcul = lds_cul.Object.n_bulxcul[ k]
+	ldc_pesxcul = lds_cul.Object.n_pestot[ k]
+	
+	/* Inicializa Variables */
+	ldc_cosaca = 0; ldc_cosmao = 0; ldc_costot = 0; ldc_coscor = 0; ldc_impcos = 0; ldc_impapc = 0
+	
+	/* Se obtiene costo de acarreo CosAca por cultivo */
+	Select	n_coston_cua
+	Into		:ldc_cosaca
+	From		t_cultivo_acarreo
+	Where		c_codigo_tem = :gs_codtem
+	And		c_codigo_cul = :ls_cul
+	And		d_trabajo_cua = :gd_sys
+	And		c_activo_cua = '1' ;
+	If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla t_cultivo_acarreo.' ) = -1 Then
+		Return -1
+	End If
+	ldc_cosaca = f_Zero( ldc_cosaca )
+	If ldc_cosaca = 0 Then
+		/* Se obtiene costo de acarreo CosAca general */
+		Select	n_coston_acg
+		Into		:ldc_cosaca
+		From		t_acarreo_general
+		Where		c_codigo_tem = :gs_codtem
+		And		d_trabajo_acg = :gd_sys
+		And		c_activo_acg = '1' ;
+		If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla t_acarreo_general.' ) = -1 Then
+			Return -1
+		End If
+	End If
+	ldc_coscor = f_Zero( ldc_coscor )
+	
+	/* Se obtiene costo de corte CosCor por cultivo (no tiene proceso genera) */
+	Select	Sum(n_manobr_prc)
+	Into		:ldc_coscor
+	From		t_produccion_campo
+	Where		c_codigo_tem = :gs_codtem
+	And		c_codigo_cul = :ls_cul
+	And		d_trabajo_prc = :gd_sys
+	And		c_activo_prc = '1' ;
+	If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla t_produccion_campo. (Sum)' ) = -1 Then
+		Return -1
+	End If
+	ldc_coscor = f_Zero( ldc_coscor )
+
+	/* Se obtiene costo de mano de obra CosMao por cultivo */
+	Select	Sum(n_monjor_mao)
+	Into		:ldc_cosmao
+	From		t_mano_obra
+	Where		c_codigo_tem = :gs_codtem
+	And		c_codigo_cul = :ls_cul
+	And		d_trabajo_mao = :gd_sys
+	And		c_activo_mao = '1' ;
+	If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla t_mano_obra.' ) = -1 Then
+		Return -1
+	End If
+	ldc_cosmao = f_Zero( ldc_cosmao )
+	If ldc_cosmao = 0 Then
+		/* Se obtiene costo de mano de obra CosMao general */
+		Select	Sum(n_monjor_mog)
+		Into		:ldc_cosmao
+		From		t_mano_obra_general
+		Where		c_codigo_tem = :gs_codtem
+		And		d_trabajo_mog = :gd_sys
+		And		c_activo_mog = '1' ;
+		If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla t_mano_obra_general.' ) = -1 Then
+			Return -1
+		End If
+	End If
+	ldc_cosmao = f_Zero( ldc_cosmao )
+	ldc_coscor = f_Zero( ldc_coscor )
+	/* Procesa cada producto */
+	For i = 1 To lds_pal.RowCount( )
+		/* Variables Key */
+		ls_pro = lds_pal.Object.c_codigo_pro[ i]
+		ls_mer = lds_pal.Object.c_merdes_pro[ i]
+		ls_fnd = 'c_codigo_pro ="' + ls_pro + '" And c_merdes_aed = "' + ls_mer + '"'
+		ll_aed = lds_aed.Find( ls_fnd, 1, lds_aed.RowCount( ) )
+		If ll_aed <= 0 Then 
+			ll_aed = lds_aed.InsertRow(0)
+			lds_aed.Object.c_codigo_tem[ ll_aed] = gs_codtem
+			lds_aed.Object.c_codigo_pro[ ll_aed] = ls_pro
+			lds_aed.Object.c_codigo_cul[ ll_aed] = ls_cul
+			lds_aed.Object.c_merdes_aed[ ll_aed] = ls_mer
+			lds_aed.Object.c_activo_aed[ ll_aed] = '1'
+			lds_aed.Object.c_codigo_usu[ ll_aed] = gs_usuario
+			lds_aed.Object.d_creacion_aed[ ll_aed] = Today( )
+		Else
+			lds_aed.Object.c_usumod_aed[ ll_aed] = gs_usuario
+			lds_aed.Object.d_modifi_aed[ ll_aed] = Today( )
+		End If
+		
+		ldc_bulemp = f_Zero( lds_pal.Object.n_bulemp[ i] )
+		ldc_pesbul = f_Zero( lds_pal.Object.n_pesbul_pro[ i] )
+		ldc_pesemp = f_Zero( lds_pal.Object.n_pesemp[ i] )
+		
+		lds_aed.Object.n_bulemp_aed[ ll_aed] = ldc_bulemp
+		lds_aed.Object.n_pesbul_aed[ ll_aed] = ldc_pesbul
+		lds_aed.Object.n_pestot_aed[ ll_aed] = ldc_pesemp
+		
+		/* Procesar Costos */
+		ldc_acucos = 0 
+		For j = 1 To lds_cos.RowCount( )
+			ls_cos = lds_cos.Object.c_codigo_cos[ j]
+			ls_fnd = 'c_codigo_pro ="' + ls_pro + '" And c_codigo_cos = "' + ls_cos + '"'
+			ll_apd = lds_apd.Find( ls_fnd, 1, lds_apd.RowCount( ) )
+			If ll_apd <= 0 Then 
+				ll_apd = lds_aed.InsertRow(0)
+				lds_apd.Object.c_codigo_tem[ ll_apd] = gs_codtem
+				lds_apd.Object.c_codigo_pro[ ll_apd] = ls_pro
+				lds_apd.Object.c_codigo_cos[ ll_apd] = ls_cos
+				lds_apd.Object.n_importe_apd[ ll_apd] = 0
+				lds_apd.Object.c_activo_apd[ ll_apd] = '1'
+				lds_apd.Object.c_codigo_usu[ ll_apd] = gs_usuario
+				lds_apd.Object.d_creacion_apd[ ll_apd] = Today( )
+			Else
+				lds_apd.Object.c_usumod_apd[ ll_apd] = gs_usuario
+				lds_apd.Object.d_modifi_apd[ ll_apd] = Today( )
+			End If
+			ldc_impcos = 0
+			/* Costo del Producto */
+			Select	n_importe_prc
+			Into		:ldc_impcos
+			From		t_producto_costo
+			Where		c_codigo_pro = :ls_pro
+			And		c_codigo_cos = :ls_cos
+			And		c_activo_prc = '1' ;
+			If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla t_producto_costo. (Select)' ) = -1 Then
+				Return -1
+			End If
+			ldc_impcos = f_Zero( ldc_impcos ) * adc_tc
+			ldc_impapc = ldc_bulemp * ldc_impcos
+			ldc_acucos = ldc_acucos + ldc_impapc
+			lds_apd.Object.n_importe_apd[ ll_apd] = lds_apd.Object.n_importe_apd[ ll_apd] + ldc_impapc 
+			lds_apd.AcceptText( )
+		Next
+		/* Operaciones sobre los acumulados por cultivo */
+		ldc_porcen = (ldc_pesemp * 100) / ldc_pesxcul
+		lds_aed.Object.n_porcen_aed[ ll_aed] = ldc_porcen
+		
+		
+		lds_aed.Object.n_coscor_aed[ ll_aed] = (ldc_coscor * ldc_porcen) / 100
+		lds_aed.Object.n_cosaca_aed[ ll_aed] = (ldc_cosaca * ldc_porcen) / 100
+		lds_aed.Object.n_cosmao_aed[ ll_aed] = (ldc_cosmao * ldc_porcen) / 100
+		ldc_acucos = ldc_acucos +	lds_aed.Object.n_coscor_aed[ ll_aed] + &
+											lds_aed.Object.n_cosaca_aed[ ll_aed] + &
+											lds_aed.Object.n_cosmao_aed[ ll_aed]
+		lds_aed.Object.n_costot_aed[ ll_aed] = ldc_acucos
+		ldc_cosumn = ldc_acucos / ldc_bulemp
+		ldc_cosume = ( ldc_acucos / ldc_bulemp ) / adc_tc
+		lds_aed.Object.n_cosumn_aed[ ll_aed] = ldc_cosumn
+		lds_aed.Object.n_cosume_aed[ ll_aed] = ldc_cosume
+		lds_aed.AcceptText()
+	Next
+
+Next
+
+lds_pal.SetFilter( ls_fil )
+lds_pal.Filter( )
+
+lds_apd.Update( )
+lds_aed.Update( )
+
+Destroy lds_cos
+Destroy lds_pal
+Destroy lds_aed
+Destroy lds_apd
+
+Return 1
+
+		ldc_pestot = f_Zero( ldc_pestot )
+		ldc_cosaca = f_Zero( ldc_cosaca )
+		ldc_cosmao = f_Zero( ldc_cosmao )
+		ldc_costot = f_Zero( ldc_costot )
+
+end function
+

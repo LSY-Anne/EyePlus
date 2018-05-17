@@ -1,0 +1,56 @@
+﻿$PBExportHeader$d_arch_generaremision.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=120 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="c_codigo_pro" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_eti dbname="c_codigo_eti" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_col dbname="c_codigo_col" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_env dbname="c_codigo_env" )
+ column=(type=decimal(2) updatewhereclause=yes name=peso dbname="peso" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bulxpa_pal dbname="n_bulxpa_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precmn_pal dbname="n_precmn_pal" )
+ retrieve="
+select c_codigo_pro = p.c_codigo_pro,
+		c_codigo_eti = p.c_codigo_eti,
+		c_codigo_col = p.c_codigo_col,
+		c_codigo_env = p.c_codigo_env,
+		peso = o.n_pesbul_pro,
+		n_bulxpa_pal = Sum( p.n_bulxpa_pal ),
+		n_precmn_pal = p.n_precmn_pal
+from t_palet p(nolock), t_manifiesto m(nolock), t_producto o (nolock)
+where p.c_codigo_man = m.c_codigo_man
+and p.c_codigo_pro = o.c_codigo_pro
+and p.c_codigo_tem = m.c_codigo_tem
+and m.c_numfac_man =:as_fac
+and m.c_merdes_man =:as_mer
+and m.c_codigo_tem = :as_tem
+Group By m.c_codigo_man,   
+		p.c_codigo_pro,
+		p.c_codigo_eti,
+		p.c_codigo_col,
+		p.c_codigo_env,
+		p.c_codigo_man,
+		p.c_codigo_tem,
+		o.c_codigo_tam,
+		o.n_pesbul_pro,
+		p.n_precmn_pal
+" arguments=(("as_tem", string),("as_mer", string),("as_fac", string)) )
+text(band=header alignment="2" text="C Codigo Pro"border="0" color="0" x="9" y="8" height="52" width="283"  name=c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Codigo Eti"border="0" color="0" x="302" y="8" height="52" width="265"  name=c_codigo_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Codigo Col"border="0" color="0" x="576" y="8" height="52" width="279"  name=c_codigo_col_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="P
+C Codigo Env"border="0" color="0" x="864" y="8" height="104" width="297"  name=p_c_codigo_env_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Peso"border="0" color="0" x="1170" y="8" height="52" width="274"  name=peso_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Bulxpa Pal"border="0" color="0" x="1454" y="8" height="52" width="279"  name=n_bulxpa_pal_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="N Precmn Pal"border="0" color="0" x="1742" y="4" height="76" width="1993"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="64" width="283" format="[general]"  name=c_codigo_pro edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="302" y="8" height="64" width="265" format="[general]"  name=c_codigo_eti edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="576" y="8" height="64" width="279" format="[general]"  name=c_codigo_col edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="869" y="8" height="64" width="293" format="[general]"  name=c_codigo_env edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1170" y="8" height="64" width="274" format="[general]"  name=peso edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1454" y="8" height="64" width="279" format="[general]"  name=n_bulxpa_pal edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1742" y="0" height="52" width="1993" format="#,##0.00"  name=n_precmn_pal edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

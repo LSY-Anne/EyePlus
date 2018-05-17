@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_getuniabrevia.srf
+global type f_getuniabrevia from function_object
+end type
+
+forward prototypes
+global function string f_getuniabrevia (string as_cod)
+end prototypes
+
+global function string f_getuniabrevia (string as_cod);/* f_GetMaterial() */
+
+String	ls_nom
+
+Select	 v_abrevia_uni
+Into		:ls_nom
+From		invunidad (Nolock)
+Where		c_codigo_uni = :as_cod
+Using		SqlCa ;
+
+If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla invunidad' ) = -1 Then
+	Return '@ERROR'
+End If
+
+ls_nom = f_Trim( ls_nom )
+
+Return ls_nom
+end function
+

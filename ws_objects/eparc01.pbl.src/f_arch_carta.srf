@@ -1,0 +1,148 @@
+﻿$PBExportHeader$f_arch_carta.srf
+global type f_arch_carta from function_object
+end type
+
+forward prototypes
+global function boolean f_arch_carta (string as_title, ref boolean ab_new, datawindow adw_cab, datawindow adw_list)
+end prototypes
+
+global function boolean f_arch_carta (string as_title, ref boolean ab_new, datawindow adw_cab, datawindow adw_list);String   ls_doc,ls_eti,ls_mat,ls_pro,ls_sec,ls_susti,ls_tipo
+long  i,li_exist,ll_count
+Dec{4}	ldc_can,ldc_ps,ldc_dll
+DateTime ld_fecha,ld_ini,ld_fin
+
+ld_fecha= DateTime(Today())
+ls_doc=f_trim(adw_cab.Object.c_codigo_car[1] )
+adw_cab.AcceptText()
+adw_list.AcceptText()
+
+If adw_list.RowCount() = 0 Then
+	MessageBox(as_title,'No hay detalle en el documento.',Exclamation!)
+	Return False
+End If
+
+ld_ini = adw_cab.Object.d_fecini_car[1]
+ld_fin = adw_cab.Object.d_fecfin_car[1]
+If ld_ini > ld_fin Then
+	MessageBox(as_title,'La fecha de inicio no puede ser mayor a la fecha de fin de la Vigencia.',Exclamation!)
+	Return False
+End If
+
+If (year(date(ld_ini)) =1900 or isnull(ld_ini)) Then
+	MessageBox(as_title,'La fecha de inicio de la vigencia no puede quedar vacia.',Exclamation!)
+	Return False
+End If
+
+If (year(date(ld_fin)) =1900 or isnull(ld_fin)) Then
+	MessageBox(as_title,'La fecha de fin de la vigencia no puede quedar vacia.',Exclamation!)
+	Return False
+End If
+
+ls_pro = f_trim(adw_cab.Object.c_codigo_pro[1])
+If ls_pro ='' Then
+	MessageBox(as_title,'Favor de seleccionar el producto.',Exclamation!)
+	Return False
+End If
+
+ls_eti = f_trim(adw_cab.Object.c_codigo_eti[1])
+If ls_eti ='' Then
+	MessageBox(as_title,'Favor de seleccionar la etiqueta.',Exclamation!)
+	Return False
+End If
+
+ls_susti = f_trim(adw_cab.Object.c_sustituye_mat[1])
+
+If ab_new Then
+	
+	Select IsNull(Max(c_codigo_car),'0')
+	Into    :ls_doc
+	From t_cartamaterial
+	Using SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo consultar la tabla pitcartamaterial.' ) < 0 Then 
+			RollBack Using SqlCa ;
+			Return False
+	End If
+	
+	ls_doc = string(Long (ls_doc)+1) 
+	ls_doc = Trim(Right( '0000000000' + Trim(ls_doc),10))
+	
+	adw_cab.Object.c_codigo_car[1] = ls_doc
+
+Else
+	ls_doc=adw_cab.Object.c_codigo_car[1] 
+	
+	Delete from t_cartamaterialdet
+	where c_codigo_car=:ls_doc
+	Using SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo eliminar en la tabla pitcartamaterialdet.' ) < 0 Then 
+			RollBack Using SqlCa ;
+			Return False
+	End If
+	
+	Delete from t_cartamaterial
+	where c_codigo_car=:ls_doc
+	Using SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo eliminar en la tabla pitcartamaterial.' ) < 0 Then 
+			RollBack Using SqlCa ;
+			Return False
+	End If
+		
+End If
+
+select isnull(count(*),0)
+Into :ll_count
+From t_cartamaterial car(nolock)
+Where car.c_codigo_car <> :ls_doc
+and car.c_codigo_pro = :ls_pro
+and car.c_codigo_eti = :ls_eti
+and (d_fecini_car between  :ld_ini and :ld_fin
+  or d_fecfin_car between  :ld_ini and :ld_fin )
+Using SqlCa;
+If f_SqlError( SqlCa, 'No se pudo leer en la tabla t_cartamaterial.' ) < 0 Then 
+	RollBack Using SqlCa ;
+	Return False
+End If
+
+If f_zero(ll_count) >= 1 Then
+	MessageBox(as_title,'El rango de vigencia de la Carta Material cae dentro de la vigencia'+'~r~n'+&
+								'de otra Carta Material del Producto ['+ls_pro+'] y Etiqueta ['+ls_eti+']',Exclamation!)
+	Return False
+End IF
+
+adw_cab.AcceptText()
+
+Insert into t_cartamaterial ( c_codigo_car, c_codigo_pro, c_codigo_eti ,c_codigo_usu, d_creacion_car, c_usumod_car, 
+			d_modifi_car, c_activo_car, d_documento_car, d_fecini_car, d_fecfin_car) 
+Values (:ls_doc,:ls_pro,:ls_eti,:gs_usuario,:ld_fecha,Null,Null,'1',:ld_fecha,:ld_ini, :ld_fin)
+Using SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar la tabla t_cartamaterial . (Insert)' ) < 0 Then 
+	RollBack Using SqlCa ;
+	Return False
+End If
+
+For I = 1 to adw_list.RowCount()
+	
+	ls_sec = f_Trim( String( i, '00' ) )
+	ls_mat =  f_trim(adw_list.Object.c_codigo_mat[ i] )
+	ldc_can = f_zero(adw_list.Object.n_cantidad_cet[ i] )
+	ldc_ps= f_zero(adw_list.Object.n_costops_cet[ i] )
+	ldc_dll = f_zero(adw_list.Object.n_costodll_cet[ i] )
+	ls_tipo = f_trim(adw_list.Object.c_tipo_car[ i] )
+	
+	Insert into t_cartamaterialdet (c_codigo_car, c_secuencia_cet, c_codigo_mat, n_cantidad_cet, c_codigo_usu,d_creacion_cet, 
+					c_usumod_cet,d_modifi_cet,c_activo_cet,c_sustituye_mat,n_costops_cet,n_costodll_cet,c_tipo_car) 
+	Values(:ls_doc,:ls_sec,:ls_mat,:ldc_can,:gs_usuario,:ld_fecha,
+					Null,Null,'1',:ls_susti,:ldc_ps,:ldc_dll,:ls_tipo)
+	Using SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo insertar en la tabla t_cartamaterialdet.' ) < 0 Then 
+			RollBack Using SqlCa ;
+			Return False
+	End If
+	
+Next
+Commit Using SQlCa;
+ab_new = False
+adw_cab.Object.c_codigo_car[1] = ls_doc
+Return True
+end function
+

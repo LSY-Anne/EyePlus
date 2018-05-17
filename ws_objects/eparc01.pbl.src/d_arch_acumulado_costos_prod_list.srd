@@ -1,0 +1,108 @@
+﻿$PBExportHeader$d_arch_acumulado_costos_prod_list.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=64 color="80269524" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(3) updatewhereclause=yes name=c_group dbname="c_group" values="Acumulado	ACU/Hoy	HOY/" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_cul dbname="t_acumulado_empaque_diario.c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="t_producto.c_codigo_pro" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_aed dbname="t_acumulado_empaque_diario.c_merdes_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bulemp_aed dbname="n_bulemp_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pestot_aed dbname="n_pestot_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosmat_aed dbname="n_cosmat_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosgas_aed dbname="n_cosgas_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_coscor_aed dbname="n_coscor_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosaca_aed dbname="n_cosaca_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosmao_aed dbname="n_cosmao_aed" )
+ column=(type=char(1) updatewhereclause=yes name=c_activo dbname="c_activo" )
+ retrieve="  SELECT c_group = 'HOY',
+         t_acumulado_empaque_diario.c_codigo_cul,   
+         t_cultivo.v_nombre_cul,
+         t_producto.c_codigo_pro,
+         t_producto.v_nombre_pro,
+         t_acumulado_empaque_diario.c_merdes_aed,   
+         Sum( t_acumulado_empaque_diario.n_bulemp_aed ) as n_bulemp_aed,  
+         Sum( t_acumulado_empaque_diario.n_pestot_aed ) as n_pestot_aed,  
+         Sum( t_acumulado_empaque_diario.n_cosmat_aed ) as n_cosmat_aed,   
+         Sum( t_acumulado_empaque_diario.n_cosgas_aed ) as n_cosgas_aed,   
+         Sum( t_acumulado_empaque_diario.n_coscor_aed ) as n_coscor_aed,   
+         Sum( t_acumulado_empaque_diario.n_cosaca_aed ) as n_cosaca_aed,   
+         Sum( t_acumulado_empaque_diario.n_cosmao_aed ) as n_cosmao_aed,
+         c_activo = '1'
+    FROM t_acumulado_empaque_diario, 
+         t_cultivo,
+         t_producto
+   WHERE  t_cultivo.c_codigo_cul = t_acumulado_empaque_diario.c_codigo_cul
+  And    t_acumulado_empaque_diario.c_codigo_pro = t_producto.c_codigo_pro
+  And    t_acumulado_empaque_diario.c_codigo_tem = :as_tem
+  And    t_acumulado_empaque_diario.c_codigo_cul = :as_cul
+  And     t_cultivo.c_activo_cul = '1'
+  And     t_producto.c_activo_pro = '1'
+  And     t_acumulado_empaque_diario.c_activo_aed = '1'
+Group by t_acumulado_empaque_diario.c_codigo_cul, t_acumulado_empaque_diario.c_merdes_aed,
+          t_cultivo.v_nombre_cul,
+          t_producto.c_codigo_pro,
+         t_producto.v_nombre_pro
+Union
+
+  Select c_group = 'ACU',
+         t_acumulado_empaque_diario.c_codigo_cul,   
+         t_cultivo.v_nombre_cul,
+         t_producto.c_codigo_pro,
+          t_producto.v_nombre_pro,
+        t_acumulado_empaque_diario.c_merdes_aed,   
+
+         n_bulemp_aed = Sum( IsNull( n_bulemp_aed, 0 ) + IsNull( n_acubulemp_aed, 0) ),  
+         n_pestot_aed = Sum( IsNull( n_pestot_aed, 0 ) + IsNull( n_acupestot_aed, 0) ),   
+         n_cosmat_aed = Sum( IsNull( n_cosmat_aed, 0 ) + IsNull( n_acucosmat_aed, 0) ),
+         n_cosgas_aed = Sum( IsNull( n_cosgas_aed, 0 ) + IsNull( n_acucosgas_aed, 0) ), 
+         n_coscor_aed = Sum( IsNull( n_coscor_aed, 0 ) + IsNull( n_acucoscor_aed, 0) ),
+         n_cosaca_aed = Sum( IsNull( n_cosaca_aed, 0 ) + IsNull( n_acucosaca_aed, 0) ),
+         n_cosmao_aed = Sum( IsNull( n_cosmao_aed, 0 ) + IsNull( n_acucosmao_aed, 0) ),
+         c_activo = '1'
+
+    FROM t_acumulado_empaque_diario, 
+         t_cultivo,
+         t_producto 
+   WHERE  t_cultivo.c_codigo_cul = t_acumulado_empaque_diario.c_codigo_cul
+  And    t_acumulado_empaque_diario.c_codigo_pro = t_producto.c_codigo_pro
+  And    t_acumulado_empaque_diario.c_codigo_tem = :as_tem
+  And    t_acumulado_empaque_diario.c_codigo_cul = :as_cul
+  And     t_cultivo.c_activo_cul = '1'
+  And     t_producto.c_activo_pro = '1'
+  And     t_acumulado_empaque_diario.c_activo_aed = '1'
+Group by t_acumulado_empaque_diario.c_codigo_cul, t_acumulado_empaque_diario.c_merdes_aed,
+          t_cultivo.v_nombre_cul,
+         t_producto.c_codigo_pro,
+         t_producto.v_nombre_pro
+" arguments=(("as_tem", string),("as_cul", string))  sort="c_codigo_pro A v_nombre_pro A c_group D " )
+group(level=1 header.height=88 trailer.height=0 by=("c_codigo_cul" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="0" text="Cod.Pro."border="6" color="33554432" x="9" y="4" height="56" width="192"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Producto"border="6" color="33554432" x="210" y="4" height="56" width="750"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Movimiento"border="6" color="33554432" x="969" y="4" height="56" width="261"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Empaque "border="6" color="33554432" x="1239" y="4" height="56" width="279"  name=n_bulemp_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Peso Total "border="6" color="33554432" x="1527" y="4" height="56" width="283"  name=n_pestot_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Materiales "border="6" color="33554432" x="1819" y="4" height="56" width="283"  name=n_cosmat_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Gastos "border="6" color="33554432" x="2112" y="4" height="56" width="279"  name=n_cosgas_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Corte "border="6" color="33554432" x="2400" y="4" height="56" width="297"  name=n_coscor_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Acarreo "border="6" color="33554432" x="2706" y="4" height="56" width="311"  name=n_cosaca_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Mano de Obra "border="6" color="33554432" x="3026" y="4" height="56" width="320"  name=n_cosmao_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=2 alignment="0" tabsequence=32766 border="0" color="8388608" x="9" y="16" height="52" width="192" format="[general]"  name=c_codigo_cul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=header.1 id=3 alignment="0" tabsequence=32766 border="0" color="8388608" x="210" y="16" height="52" width="750" format="[general]~twordcap( v_nombre_cul )"  name=v_nombre_cul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="52" width="192" format="[general]"  name=c_codigo_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="210" y="4" height="52" width="750" format="[general]~twordcap(  v_nombre_pro )"  name=v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="969" y="4" height="52" width="261" format=""  name=c_group edit.limit=0 edit.case=any edit.autoselect=yes edit.codetable=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="33554432" x="1239" y="4" height="52" width="279" format="#,##0.00"  name=n_bulemp_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="33554432" x="1527" y="4" height="52" width="283" format="#,##0.00"  name=n_pestot_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="33554432" x="1819" y="4" height="52" width="283" format="#,##0.00"  name=n_cosmat_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="33554432" x="2112" y="4" height="52" width="279" format="#,##0.00"  name=n_cosgas_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="33554432" x="2400" y="4" height="52" width="297" format="#,##0.00"  name=n_coscor_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="33554432" x="2706" y="4" height="52" width="311" format="#,##0.00"  name=n_cosaca_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="33554432" x="3026" y="4" height="52" width="320" format="#,##0.00"  name=n_cosmao_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="33554432" x="3351" y="4" height="52" width="9~t0" format=""  name=c_activo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+
+sparse(names="c_codigo_pro	v_nombre_pro")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

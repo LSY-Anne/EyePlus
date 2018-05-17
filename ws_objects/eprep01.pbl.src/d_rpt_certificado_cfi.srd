@@ -1,0 +1,266 @@
+﻿$PBExportHeader$d_rpt_certificado_cfi.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no rows_per_detail = 4 )
+header(height=4112 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=124 color="536870912" )
+detail(height=4 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="c_codigo_man" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_tem dbname="c_codigo_tem" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_emb dbname="c_codigo_emb" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_lit dbname="c_codigo_lit" )
+ column=(type=char(40) updatewhereclause=yes name=v_chofer_man dbname="v_chofer_man" )
+ column=(type=char(30) updatewhereclause=yes name=v_medtra_man dbname="v_medtra_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numpla_man dbname="v_numpla_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numcaj_man dbname="v_numcaj_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_temper_man dbname="n_temper_man" )
+ column=(type=char(1) updatewhereclause=yes name=c_temmed_man dbname="c_temmed_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_importe_man dbname="n_importe_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_gflete_man dbname="n_gflete_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_antfle_man dbname="n_antfle_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_totbul_man dbname="n_totbul_man" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="d_embarque_man" )
+ column=(type=char(5) updatewhereclause=yes name=c_horcre_man dbname="c_horcre_man" )
+ column=(type=datetime updatewhereclause=yes name=d_creacion_man dbname="d_creacion_man" )
+ column=(type=char(15) updatewhereclause=yes name=c_rfc_emb dbname="c_rfc_emb" )
+ column=(type=char(6) updatewhereclause=yes name=c_codigo_dis dbname="c_codigo_dis" )
+ column=(type=char(15) updatewhereclause=yes name=c_rfc_dis dbname="c_rfc_dis" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb dbname="v_nombre_emb" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lit dbname="v_nombre_lit" )
+ column=(type=char(15) updatewhereclause=yes name=v_apapos_lit dbname="v_apapos_lit" )
+ column=(type=char(100) updatewhereclause=yes name=v_direcc_emb dbname="v_direcc_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_emb dbname="v_ciudad_emb" )
+ column=(type=char(15) updatewhereclause=yes name=v_apapos_emb dbname="v_apapos_emb" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="v_nombre_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_direcc_dis dbname="v_direcc_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_ciudad_dis dbname="v_ciudad_dis" )
+ column=(type=char(20) updatewhereclause=yes name=v_marca_man dbname="v_marca_man" )
+ column=(type=char(4) updatewhereclause=yes name=v_anofab_man dbname="v_anofab_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_nummed_man dbname="v_nummed_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_placaj_man dbname="v_placaj_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_numvia_man dbname="c_numvia_man" )
+ column=(type=char(32) updatewhereclause=yes name=tel dbname="tel" )
+ column=(type=char(32) updatewhereclause=yes name=teldis dbname="teldis" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso dbname="peso" )
+ column=(type=char(50) updatewhereclause=yes name=v_nombre_cze dbname="v_nombre_cze" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pesbul_pro dbname="n_pesbul_pro" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="v_nombre_env" )
+ column=(type=decimal(2) updatewhereclause=yes name=bultos dbname="bultos" )
+ column=(type=char(63) updatewhereclause=yes name=des dbname="des" )
+ retrieve="  SELECT c_codigo_man = t_manifiesto.c_codigo_man,   
+         c_codigo_tem = t_manifiesto.c_codigo_tem,      
+         c_codigo_emb = t_manifiesto.c_codigo_emb,   
+         c_codigo_lit = t_manifiesto.c_codigo_lit,   
+         v_chofer_man = t_manifiesto.v_chofer_man,   
+         v_medtra_man = t_manifiesto.v_medtra_man,   
+         v_numpla_man = t_manifiesto.v_numpla_man,   
+         v_numcaj_man = t_manifiesto.v_numcaj_man,   
+         n_temper_man = t_manifiesto.n_temper_man,   
+         c_temmed_man = t_manifiesto.c_temmed_man,   
+         n_importe_man = t_manifiesto.n_importe_man,   
+         n_gflete_man = t_manifiesto.n_gflete_man,   
+         n_antfle_man = t_manifiesto.n_antfle_man,   
+         n_totbul_man = t_manifiesto.n_totbul_man,   
+         d_embarque_man = t_manifiesto.d_embarque_man,   
+         c_horcre_man = t_manifiesto.c_horcre_man,     
+         d_creacion_man = t_manifiesto.d_creacion_man,        
+         c_rfc_emb = t_embarcador.c_rfc_emb,      
+         c_codigo_dis = t_manifiesto.c_codigo_dis,   
+         c_rfc_dis = t_distribuidor.c_rfc_dis,     
+         v_nombre_emb = t_embarcador.v_nombre_emb,   
+         v_nombre_lit = t_linea_transporte.v_nombre_lit,   
+         v_apapos_lit = t_linea_transporte.v_apapos_lit,   
+         v_direcc_emb = t_embarcador.v_direcc_emb,   
+         v_ciudad_emb = t_embarcador.v_ciudad_emb,   
+         v_apapos_emb = t_embarcador.v_apapos_emb,   
+         v_nombre_dis = t_distribuidor.v_nombre_dis,   
+         v_direcc_dis = t_distribuidor.v_direcc_dis,   
+         v_ciudad_dis = t_distribuidor.v_ciudad_dis,   
+         v_marca_man = t_manifiesto.v_marca_man,   
+         v_anofab_man = t_manifiesto.v_anofab_man,   
+         v_nummed_man = t_manifiesto.v_nummed_man,   
+         v_placaj_man = t_manifiesto.v_placaj_man,      
+         c_numvia_man = t_manifiesto.c_numvia_man,    
+			tel = isnull(v_telef1_emb,'') + '  ' + isnull(v_telef2_emb,''),
+			teldis = isnull(v_telef1_dis,'') + '  ' + isnull(v_telef2_dis,''),
+			peso = n_pesbul_pro * sum(n_bulxpa_pal),
+			v_nombre_cze = cze.v_desccorta_cze,
+			n_pesbul_pro = t_producto.n_pesbul_pro,
+			v_nombre_env = env.v_nombre_env,
+			bultos = sum(n_bulxpa_pal),
+ 			des = env.v_nombre_env + ' DE ' + cast(t_producto.n_pesbul_pro as varchar) + ' KGS'
+    FROM t_manifiesto (nolock),    
+         t_embarcador (nolock),   
+         t_linea_transporte (nolock),      
+         t_distribuidor (nolock),   
+         t_palet (nolock),   
+         t_producto (nolock),   
+			t_lugarescruce cze (nolock),
+			t_envase env   
+   WHERE 
+         ( t_manifiesto.c_codigo_lit = t_linea_transporte.c_codigo_lit ) and  
+         ( t_manifiesto.c_codigo_emb = t_embarcador.c_codigo_emb ) and  
+         ( t_distribuidor.c_codigo_dis = t_manifiesto.c_codigo_dis ) and  
+         ( t_manifiesto.c_codigo_tem = t_palet.c_codigo_tem ) and  
+         ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and  
+         ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and   
+			(t_manifiesto.c_codigo_cze = cze.c_codigo_cze) and
+			(t_palet.c_codigo_env = env.c_codigo_env) and
+         ( ( t_manifiesto.c_codigo_tem = :as_tem ) AND  
+         ( t_manifiesto.c_codigo_man = :as_man ) )    
+group by
+		t_manifiesto.c_codigo_man,   
+		t_manifiesto.c_codigo_tem,      
+		t_manifiesto.c_codigo_emb,   
+		t_manifiesto.c_codigo_lit,   
+		t_manifiesto.v_chofer_man,   
+		t_manifiesto.v_medtra_man,   
+		t_manifiesto.v_numpla_man,   
+		t_manifiesto.v_numcaj_man,   
+		t_manifiesto.n_temper_man,   
+		t_manifiesto.c_temmed_man,   
+		t_manifiesto.n_importe_man,   
+		t_manifiesto.n_gflete_man,   
+		t_manifiesto.n_antfle_man,   
+		t_manifiesto.n_totbul_man,   
+		t_manifiesto.d_embarque_man,   
+		t_manifiesto.c_horcre_man,     
+		t_manifiesto.d_creacion_man,        
+		t_embarcador.c_rfc_emb,      
+		t_manifiesto.c_codigo_dis,   
+		t_distribuidor.c_rfc_dis,     
+		t_embarcador.v_nombre_emb,   
+		t_linea_transporte.v_nombre_lit,   
+		t_linea_transporte.v_apapos_lit,   
+		t_embarcador.v_direcc_emb,   
+		t_embarcador.v_ciudad_emb,   
+		t_embarcador.v_apapos_emb,   
+		t_distribuidor.v_nombre_dis,   
+		t_distribuidor.v_direcc_dis,   
+		t_distribuidor.v_ciudad_dis,   
+		t_manifiesto.v_marca_man,   
+		t_manifiesto.v_anofab_man,   
+		t_manifiesto.v_nummed_man,   
+		t_manifiesto.v_placaj_man,      
+		t_manifiesto.c_numvia_man,    
+		v_telef1_emb,
+		v_telef2_emb,
+		v_telef1_dis,
+		v_telef2_dis,
+		cze.v_desccorta_cze,
+		t_producto.n_pesbul_pro,
+		env.v_nombre_env" arguments=(("as_tem", string),("as_man", string)) )
+text(band=header alignment="1" text="SOLICITUD PARA EXPEDICION DE CERTIFICADO FITOSANITARIO"border="0" color="33554432" x="1824" y="24" height="56" width="1627"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+bitmap(band=header filename="sagarpa.bmp" x="215" y="84" height="136" width="549" border="0" )
+text(band=header alignment="1" text="INTERNACIONAL"border="0" color="33554432" x="2958" y="84" height="56" width="494"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_trim(f_getparmvalue('007')) + ', ' + f_trim(f_getparmvalue('009')) "border="0" color="0" x="1929" y="172" height="52" width="741" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="A"border="0" color="33554432" x="2711" y="172" height="52" width="37"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression=" Day( Date( d_creacion_man ) )   "border="0" color="33554432" x="2775" y="172" height="52" width="133" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="DE"border="0" color="33554432" x="2930" y="172" height="52" width="87"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression=" UPPER(Left( f_Mes( Month( Date( d_creacion_man ) ) ), 3 )  )"border="0" color="33554432" x="3040" y="172" height="52" width="133" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="DE"border="0" color="33554432" x="3195" y="172" height="52" width="87"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="Year( Date( d_creacion_man ) )   "border="0" color="33554432" x="3310" y="172" height="52" width="133" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_trim(f_getparmvalue('075'))"border="0" color="0" x="169" y="292" height="56" width="1097" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="PROFESIONAL FITOSANITARIO OFICIAL"border="0" color="0" x="169" y="352" height="56" width="960"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Folio de Solicitud"border="0" color="33554432" x="1915" y="352" height="56" width="393"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="2395" y1="404" x2="3118" y2="404" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'OFICINA DE EXPEDICION ' + f_trim(f_getparmvalue('007')) "border="0" color="0" x="169" y="412" height="52" width="1422" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="D.D.R. No."border="0" color="33554432" x="174" y="468" height="56" width="251"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'144-HERMOSILLO'"border="0" color="33554432" x="507" y="468" height="56" width="434" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Folio de CFI"border="0" color="33554432" x="1915" y="452" height="56" width="352"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="425" y1="520" x2="1147" y2="520" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="536870912" )
+line(band=header x1="2400" y1="512" x2="3122" y2="512" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="PRESENTE."border="0" color="33554432" x="174" y="528" height="56" width="352"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header x="1883" y="336" height="212" width="1344" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="'Con el presente, solicito a usted la expedición de 1 Certificado (s) Fitosanitario (s) Internacional (es), para lo cual le proporciono la siguiente información:'"border="0" color="33554432" x="187" y="692" height="128" width="3255" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="País de destino:"border="0" color="33554432" x="178" y="892" height="60" width="480"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="594" y1="944" x2="1170" y2="944" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'ESTADOS UNIDOS'"border="0" color="33554432" x="599" y="892" height="60" width="581" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Ciudad de destino:"border="0" color="33554432" x="1801" y="884" height="60" width="553"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=29 alignment="0" tabsequence=32766 border="0" color="33554432" x="2313" y="884" height="60" width="1125" format="[general]" row_in_detail=1  name=v_ciudad_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="2322" y1="932" x2="3433" y2="932" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="DATOS DEL EXPORTADOR"border="0" color="33554432" x="1303" y="1016" height="60" width="791"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header x="73" y="1084" height="308" width="3360" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Nombre:"border="0" color="33554432" x="105" y="1100" height="56" width="229"  name=c_codigo_emb_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=21 alignment="0" tabsequence=32766 border="0" color="33554432" x="581" y="1100" height="56" width="1170" format="[general]" row_in_detail=1  name=v_nombre_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="1156" x2="3424" y2="1156" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="0" text="Dirección:"border="0" color="33554432" x="105" y="1172" height="56" width="297"  name=v_medtra_man_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=24 alignment="0" tabsequence=32766 border="0" color="33554432" x="581" y="1172" height="56" width="1170" format="[general]" row_in_detail=1  name=v_direcc_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="1228" x2="3424" y2="1228" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="0" text="Teléfono y Fax:"border="0" color="33554432" x="105" y="1248" height="56" width="352"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="1304" x2="3424" y2="1304" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+column(band=header id=35 alignment="0" tabsequence=32766 border="0" color="33554432" x="585" y="1248" height="56" width="1170" format="[general]" row_in_detail=1  name=tel edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Correo Electrónico:"border="0" color="33554432" x="105" y="1320" height="56" width="434"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="DATOS DEL IMPORTADOR"border="0" color="33554432" x="1303" y="1424" height="60" width="782"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header x="64" y="1492" height="308" width="3360" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Nombre:"border="0" color="33554432" x="105" y="1508" height="56" width="229"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="1564" x2="3424" y2="1564" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+column(band=header id=27 alignment="0" tabsequence=32766 border="0" color="33554432" x="585" y="1508" height="56" width="1381" format="[general]" row_in_detail=1  name=v_nombre_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Dirección:"border="0" color="33554432" x="105" y="1580" height="56" width="297"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="1636" x2="3424" y2="1636" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+column(band=header id=28 alignment="0" tabsequence=32766 border="0" color="33554432" x="585" y="1580" height="56" width="1381" format="[general]" row_in_detail=1  name=v_direcc_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=29 alignment="0" tabsequence=32766 border="0" color="33554432" x="1998" y="1580" height="56" width="1381" format="[general]" row_in_detail=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Teléfono y Fax:"border="0" color="33554432" x="105" y="1656" height="56" width="352"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=36 alignment="0" tabsequence=32766 border="0" color="33554432" x="581" y="1656" height="56" width="1403" format="[general]" row_in_detail=1  name=teldis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="1712" x2="3424" y2="1712" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="0" text="Correo Electrónico:"border="0" color="33554432" x="105" y="1728" height="56" width="434"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="DATOS DEL PRODUCTO A EXPORTAR"border="0" color="33554432" x="1303" y="1848" height="56" width="1120"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header x="69" y="1916" height="532" width="3360" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Nombre:"border="0" color="33554432" x="105" y="1932" height="56" width="229"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="1988" x2="3424" y2="1988" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="0" text="Cantidad:"border="0" color="33554432" x="105" y="2012" height="56" width="279"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="2056" x2="3424" y2="2056" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="0" text="U.M."border="0" color="33554432" x="2309" y="2012" height="56" width="137"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Lugar de Origen:"border="0" color="33554432" x="105" y="2084" height="56" width="494"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="2140" x2="3424" y2="2140" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+compute(band=header alignment="0" expression="f_trim(f_getparmvalue('007')) + ', ' + f_trim(f_getparmvalue('009')) "border="0" color="0" x="731" y="2088" height="52" width="1568" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Número y descripción del embarque:"border="0" color="33554432" x="105" y="2164" height="56" width="1093"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="937" y1="2220" x2="3419" y2="2220" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+column(band=header id=41 alignment="0" tabsequence=32766 border="0" color="33554432" x="942" y="2164" height="56" width="206" format="#,##0" row_in_detail=1  name=bultos_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=42 alignment="0" tabsequence=32766 border="0" color="33554432" x="1179" y="2164" height="56" width="882" format="[general]" row_in_detail=1  name=des_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=41 alignment="0" tabsequence=32766 border="0" color="33554432" x="2094" y="2164" height="56" width="206" format="#,##0" row_in_detail=2  name=bultos_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=42 alignment="0" tabsequence=32766 border="0" color="33554432" x="2318" y="2164" height="56" width="882" format="[general]" row_in_detail=2  name=des_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="937" y1="2288" x2="3419" y2="2288" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+column(band=header id=41 alignment="0" tabsequence=32766 border="0" color="33554432" x="942" y="2232" height="56" width="206" format="#,##0" row_in_detail=3  name=bultos_3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=42 alignment="0" tabsequence=32766 border="0" color="33554432" x="1179" y="2232" height="56" width="882" format="[general]" row_in_detail=3  name=des_3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=41 alignment="0" tabsequence=32766 border="0" color="33554432" x="2094" y="2232" height="56" width="206" format="#,##0" row_in_detail=4  name=bultos_4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=42 alignment="0" tabsequence=32766 border="0" color="33554432" x="2318" y="2232" height="56" width="882" format="[general]" row_in_detail=4  name=des_4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Marcas distintivas:"border="0" color="33554432" x="105" y="2304" height="56" width="421"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=header dataobject="d_rpt_certificado_eti" x="562" y="2296" height="112" width="2757" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_tem"),("as_man")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="0" text="DATOS DEL PRODUCTO A EXPORTAR"border="0" color="33554432" x="1303" y="2476" height="60" width="1120"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header x="73" y="2544" height="196" width="3360" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Medio de Trasporte:"border="0" color="33554432" x="105" y="2580" height="56" width="594"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="2628" x2="3424" y2="2628" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+compute(band=header alignment="0" expression="v_medtra_man"border="0" color="33554432" x="795" y="2568" height="60" width="1115" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Punto de Entrada:"border="0" color="33554432" x="105" y="2652" height="56" width="526"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="581" y1="2696" x2="3424" y2="2696" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+column(band=header id=38 alignment="0" tabsequence=32766 border="0" color="33554432" x="782" y="2644" height="56" width="1783" format="[general]" row_in_detail=1  name=v_nombre_cze edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'DECLARACION ADICIONAL (Requisitos Fitosanitarios)   DE ACUERDO AL PLAN DE TRABAJO DE EXPORTACIÓN DE DURAZNO MEXICO - ESTADOS UNIDOS.'"border="0" color="33554432" x="87" y="2792" height="136" width="3333" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="1495" y1="2844" x2="3410" y2="2844" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="536870912" )
+line(band=header x1="87" y1="2904" x2="3419" y2="2904" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="536870912" )
+rectangle(band=header x="64" y="2968" height="472" width="3360" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Documentación Anexa"border="0" color="33554432" x="123" y="2992" height="56" width="658"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header x="119" y="3072" height="52" width="169" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="/"border="0" color="33554432" x="178" y="3064" height="68" width="32"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Comprobante de pago de derechos Forma 5 del SAT"border="0" color="33554432" x="389" y="3072" height="56" width="1536"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Documentación comprobatoria de constata el cumplimiento de requisitos fitosanitarios especificados por el país importador"border="0" color="33554432" x="389" y="3132" height="56" width="3003"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header x="119" y="3192" height="52" width="169" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Dictamen de laboratorio"border="0" color="33554432" x="389" y="3192" height="56" width="709"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header x="119" y="3252" height="52" width="169" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header x1="146" y1="3272" x2="256" y2="3272" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="0" text="Dictamen de verificación"border="0" color="33554432" x="389" y="3252" height="56" width="731"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header x="119" y="3312" height="52" width="169" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Certificado Fitosanitario de Tratamiento Cuarentenario"border="0" color="33554432" x="389" y="3312" height="56" width="1600"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header x="119" y="3372" height="52" width="169" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Otros (especificar)"border="0" color="33554432" x="389" y="3372" height="56" width="539"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=header x1="837" y1="3420" x2="3410" y2="3420" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+rectangle(band=header x="64" y="3484" height="164" width="3360" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="'Manifiesto bajo protesta de decir la verdad, que los datos contenidos en el presente documento son veridicos y se apegan a loe stablecido por el pais importador, por lo que asumo la responsabilidad emanada de la expedición del CFI.'"border="0" color="33554432" x="105" y="3504" height="120" width="3278" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="ATENTAMENTE"border="0" color="33554432" x="1637" y="3668" height="56" width="453"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression="upper(f_trim(f_getparmvalue('043')))"border="0" color="33554432" x="1253" y="3808" height="56" width="1239" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression="'NOMBRE Y FIRMA DEL SOLICITANTE'"border="0" color="33554432" x="1253" y="3868" height="56" width="1239" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="sum(peso for all) "border="0" color="33554432" x="731" y="2012" height="56" width="379" format="#,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="KGS"border="0" color="33554432" x="1125" y="2012" height="56" width="128"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="2" text="R00/074"border="0" color="33554432" x="64" y="8" height="56" width="247"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="2" text="F-SV-01"border="0" color="33554432" x="3191" y="8" height="56" width="224"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

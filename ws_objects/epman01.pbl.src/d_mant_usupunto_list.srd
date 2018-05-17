@@ -1,0 +1,42 @@
+﻿$PBExportHeader$d_mant_usupunto_list.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=68 color="79741120" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=c_codigo dbname="t_usuarioembarque.c_codigo_upu" )
+ column=(type=char(20) updatewhereclause=yes name=c_usupun_upu dbname="t_usuarioembarque.c_usupun_upu" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_pte dbname="t_usuarioembarque.c_codigo_pte" )
+ column=(type=char(20) updatewhereclause=yes name=c_codigo_usu dbname="t_usuarioembarque.c_codigo_usu" )
+ column=(type=datetime updatewhereclause=yes name=d_creacion_upu dbname="t_usuarioembarque.d_creacion_upu" )
+ column=(type=char(20) updatewhereclause=yes name=c_usumod_upu dbname="t_usuarioembarque.c_usumod_upu" )
+ column=(type=datetime updatewhereclause=yes name=d_modifi_upu dbname="t_usuarioembarque.d_modifi_upu" )
+ column=(type=char(1) updatewhereclause=yes name=c_activo dbname="t_usuarioembarque.c_activo_upu" )
+ retrieve=" SELECT  t_usuarioembarque.c_codigo_upu,
+			t_usuarioembarque.c_usupun_upu,
+			t_usuarioembarque.c_codigo_pte,
+			t_usuarioembarque.c_codigo_usu,
+			t_usuarioembarque.d_creacion_upu,
+			t_usuarioembarque.c_usumod_upu,
+			t_usuarioembarque.d_modifi_upu,
+			t_usuarioembarque.c_activo_upu
+    FROM t_usuarioembarque
+" )
+text(band=header alignment="0" text=" Activo "border="6" color="33554432" x="9" y="4" height="52" width="183"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Código"border="6" color="33554432" x="201" y="4" height="52" width="302"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Usuario"border="6" color="33554432" x="512" y="4" height="52" width="631"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Puerto Emb."border="6" color="33554432" x="1152" y="4" height="52" width="416"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Usuario"border="6" color="33554432" x="1577" y="4" height="52" width="498"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Fecha"border="6" color="33554432" x="2085" y="4" height="52" width="421"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Modificador"border="6" color="33554432" x="2514" y="4" height="52" width="494"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Fecha"border="6" color="33554432" x="3017" y="4" height="52" width="425"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="201" y="0" height="56" width="302" format="[general]"  name=c_codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="512" y="0" height="56" width="631" format="[general]"  name=c_usupun_upu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1152" y="0" height="56" width="416" format="[general]"  name=c_codigo_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1577" y="0" height="56" width="498" format="[general]"  name=c_codigo_usu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="2085" y="0" height="56" width="421" format="dd/mm/yyyy"  name=d_creacion_upu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2514" y="0" height="56" width="494" format="[general]"  name=c_usumod_upu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="3017" y="0" height="56" width="425" format="dd/mm/yyyy"  name=d_modifi_upu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="2" tabsequence=32766 border="0" color="0" x="9" y="0" height="56" width="183" format="[general]"  name=c_activo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Wingdings" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="2" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

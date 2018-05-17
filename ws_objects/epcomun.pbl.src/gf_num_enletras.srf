@@ -1,0 +1,163 @@
+﻿$PBExportHeader$gf_num_enletras.srf
+global type gf_num_enletras from function_object
+end type
+
+forward prototypes
+global function string gf_num_enletras (double ad_numero)
+end prototypes
+
+global function string gf_num_enletras (double ad_numero);//Devuelve un Número Decimal como una expresión numérica en palabras
+string ls_text
+long ll_resto
+int li_miles, li_ciento, li_decimo, li_centena, li_decena, li_unidad
+
+li_miles=0
+ll_resto=truncate(ad_numero, 0)
+ls_text='y '+string((ad_numero - ll_resto)*100,'00')+'/100'
+if ll_resto=0 then
+	ls_text='cero '+ls_text
+else
+	do while ll_resto>0
+		li_ciento=mod(ll_resto,1000)
+		if li_miles>0 then
+			if mod(li_miles, 2)=0 then
+				if li_ciento>1 then
+					ls_text='millones '+ls_text
+				else
+					ls_text='millon '+ls_text				
+				end if
+			else
+				ls_text='mil '+ls_text
+			end if
+		end if
+		li_centena=int(li_ciento/100)
+		li_decimo=mod(li_ciento,100)
+		if li_decimo>0 then
+			li_decena=int(li_decimo/10)
+			li_unidad=mod(li_decimo,10)
+			if li_unidad>0 and not (li_decena=1 and li_unidad<6) then
+				choose case li_unidad
+				case 1
+					if li_miles=0 then
+						ls_text='uno '+ls_text
+					else
+						ls_text='un '+ls_text
+					end if
+				case 2
+					ls_text='dos '+ls_text
+				case 3
+					ls_text='tres '+ls_text
+				case 4
+					ls_text='cuatro '+ls_text
+				case 5
+					ls_text='cinco '+ls_text
+				case 6
+					ls_text='seis '+ls_text
+				case 7
+					ls_text='siete '+ls_text
+				case 8
+					ls_text='ocho '+ls_text
+				case 9
+					ls_text='nueve '+ls_text
+				end choose
+			end if
+			choose case li_decena
+			case 1
+				choose case li_unidad
+				case 0
+					ls_text='diez '+ls_text
+				case 1
+					ls_text='once '+ls_text
+				case 2
+					ls_text='doce '+ls_text
+				case 3
+					ls_text='trece '+ls_text
+				case 4
+					ls_text='catorce '+ls_text
+				case 5
+					ls_text='quince '+ls_text
+				case else
+					ls_text='dieci'+ls_text
+				end choose
+			case 2
+				if li_unidad=0 then
+					ls_text='veinte '+ls_text
+				else
+					ls_text='veinti'+ls_text
+				end if
+			case 3
+				if li_unidad=0 then
+					ls_text='treinta '+ls_text
+				else
+					ls_text='treinta y'+ls_text
+				end if
+			case 4
+				if li_unidad=0 then
+					ls_text='cuarenta '+ls_text
+				else
+					ls_text='cuarenta y'+ls_text
+				end if
+			case 5
+				if li_unidad=0 then
+					ls_text='cincuenta '+ls_text
+				else
+					ls_text='cincuenta y'+ls_text
+				end if
+			case 6
+				if li_unidad=0 then
+					ls_text='sesenta '+ls_text
+				else
+					ls_text='sesenta y'+ls_text
+				end if
+			case 7
+				if li_unidad=0 then
+					ls_text='setenta'+ls_text
+				else
+					ls_text='setenta y'+ls_text
+				end if
+			case 8
+				if li_unidad=0 then
+					ls_text='ochenta'+ls_text
+				else
+					ls_text='ochenta y'+ls_text
+				end if
+			case 9
+				if li_unidad=0 then
+					ls_text='noventa '+ls_text
+				else
+					ls_text='noventa y'+ls_text
+				end if
+			end choose
+		end if
+		choose case li_centena
+		case 1
+			if li_decimo=0 then
+				ls_text='cien '+ls_text
+			else
+				ls_text='ciento '+ls_text
+			end if
+		case 2
+			ls_text='docientos '+ls_text
+		case 3
+			ls_text='trecientos '+ls_text
+		case 4
+			ls_text='cuatrocientos '+ls_text
+		case 5
+			ls_text='quinientos '+ls_text
+		case 6
+			ls_text='seicientos '+ls_text
+		case 7
+			ls_text='setecientos '+ls_text
+		case 8
+			ls_text='ochocientos '+ls_text
+		case 9
+			ls_text='novecientos '+ls_text
+		end choose
+		ll_resto=truncate(ll_resto/1000, 0)
+		li_miles=li_miles+1
+	loop
+end if
+return upper(left(ls_text,1))+mid(ls_text, 2)
+
+end function
+

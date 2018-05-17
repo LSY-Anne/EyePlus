@@ -1,0 +1,36 @@
+﻿$PBExportHeader$d_rpt_embarque_export_txt_teresa.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=shipperref dbname="ShipperRef" )
+ column=(type=char(20) updatewhereclause=yes name=trailerid dbname="TrailerID" )
+ column=(type=decimal(2) updatewhereclause=yes name=cases dbname="Cases" )
+ column=(type=long updatewhereclause=yes name=pallets dbname="Pallets" )
+ column=(type=datetime updatewhereclause=yes name=crossdate dbname="CrossDate" )
+ retrieve="Select ShipperRef = Isnull(m.c_codigo_man,''),/*MANIFIESTO*/
+		 TrailerID = Isnull(m.v_numcaj_man,''),/*NUMERO DE CAJA*/
+		 Cases = Isnull (sum(p.n_bulxpa_pal),0),/*BULTOS*/
+		 Pallets = Isnull(Count(p.c_codigo_pal),0),/*NUMERO DE PALLETS*/
+		 CrossDate = Isnull(Dateadd(dd, 1, m.d_embarque_man),'')/*FECHA DE CRUZE*/
+From   t_palet p (NOLOCK), t_manifiesto m (NOLOCK)
+Where (m.d_embarque_man >= :ad_ini
+And 	 m.d_embarque_man <= :ad_fin)
+And 	 p.c_codigo_man = m.c_codigo_man
+And 	 p.c_codigo_tem = (Select v_valor_par From t_parametro (NOLOCK) Where c_codigo_par = '001')
+AND	 P.c_excedente_pal<> '1'
+Group By m.c_codigo_man, m.v_numcaj_man, m.n_totbul_man, m.d_embarque_man
+Order by m.c_codigo_man" arguments=(("ad_ini", datetime),("ad_fin", datetime)) )
+text(band=header alignment="0" text="Trailerid"border="0" color="0" x="9" y="8" height="56" width="261"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Crossdate"border="0" color="0" x="279" y="8" height="56" width="293"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Shipperref"border="0" color="0" x="581" y="8" height="56" width="311"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cases"border="0" color="0" x="901" y="8" height="56" width="215"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Pallets"border="0" color="0" x="1125" y="8" height="56" width="178"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="52" width="261" format="[general]"  name=trailerid edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="279" y="4" height="52" width="293" format="[shortdate] [time]"  name=crossdate edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="581" y="4" height="52" width="311" format="[general]"  name=shipperref edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="901" y="4" height="52" width="215" format="[general]"  name=cases edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1125" y="4" height="52" width="178" format="[general]"  name=pallets edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

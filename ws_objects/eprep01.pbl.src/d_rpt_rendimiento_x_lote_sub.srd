@@ -1,0 +1,70 @@
+﻿$PBExportHeader$d_rpt_rendimiento_x_lote_sub.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=92 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=decimal(2) updatewhereclause=yes name=bultos dbname="Bultos" )
+ column=(type=char(100) updatewhereclause=yes name=t_cultivo_v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_lot dbname="t_palet.c_codigo_lot" )
+ column=(type=char(100) updatewhereclause=yes name=t_lote_v_nombre_lot dbname="t_lote.v_nombre_lot" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="t_palet.c_codigo_pro" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pesbul_pro dbname="t_producto.n_pesbul_pro" )
+ column=(type=char(2) updatewhereclause=yes name=t_lote_c_codigo_tem dbname="t_lote.c_codigo_tem" )
+ retrieve="  SELECT IsNull(sum(t_palet.n_bulxpa_pal),0) as Bultos,   
+         t_cultivo.v_nombre_cul,   
+         t_palet.c_codigo_lot,   
+         t_lote.v_nombre_lot,   
+         t_palet.c_codigo_pro,   
+         t_producto.v_nombre_pro,   
+         t_producto.n_pesbul_pro,   
+         t_lote.c_codigo_tem  
+    FROM t_lote,   
+         t_producto,   
+         t_palet,   
+         t_cultivo
+   WHERE ( t_cultivo.c_codigo_cul = t_producto.c_codigo_cul ) and  
+         ( t_palet.c_codigo_pro = t_producto.c_codigo_pro ) and  
+         ( t_palet.c_codigo_tem = t_lote.c_codigo_tem ) and  
+         ( t_palet.c_codigo_lot = t_lote.c_codigo_lot ) and  
+         ( t_lote.c_codigo_tem = :as_temp ) AND
+         ( t_lote.c_codigo_lot like :as_lot ) AND
+         ( t_cultivo.c_codigo_cul like :as_cul ) AND  
+         ( t_palet.d_empaque_pal BETWEEN :ad_fecini AND :ad_fecfin ) and
+          t_lote.c_activo_lot = '1' and
+          t_cultivo.c_activo_cul = '1' and
+          t_producto.c_activo_pro = '1' and
+          t_palet.c_activo_pal = '1'   
+GROUP BY 
+         t_palet.c_codigo_lot,   
+         t_lote.v_nombre_lot, 
+         t_palet.c_codigo_pro,   
+         t_producto.v_nombre_pro,   
+         t_lote.c_codigo_tem,   
+         t_lote.c_codigo_cul,   
+         t_cultivo.v_nombre_cul,   
+         t_producto.n_pesbul_pro,   
+         t_producto.n_pesuni_pro   
+
+" arguments=(("as_temp", string),("ad_fecini", datetime),("ad_fecfin", datetime),("as_lot", string),("as_cul", string),("an_kiloscortados", number)) )
+text(band=header alignment="0" text="Código"border="0" color="0" x="178" y="32" height="44" width="206"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Producto"border="0" color="0" x="421" y="32" height="44" width="261"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Bultos/Cajas Empacadas"border="0" color="0" x="1051" y="32" height="44" width="517"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Peso por Bulto/Caja"border="0" color="0" x="1783" y="32" height="44" width="421"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Kgs X Bulto/Caja Empacado"border="0" color="0" x="2263" y="32" height="44" width="585"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" % Rend.x.Lote"border="0" color="0" x="2898" y="32" height="44" width="443"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="n_pesbul_pro * bultos"border="0" color="0" x="2267" y="4" height="52" width="585" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="416" y="4" height="52" width="539" format="[general]"  name=v_nombre_pro edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="183" y="4" height="52" width="197" format="[general]"  name=c_codigo_pro edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1627" y="4" height="52" width="585" format="#,##0.00"  name=n_pesbul_pro edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="987" y="4" height="52" width="585" format="#,##0"  name=bultos edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_pesbul_pro * bultos for all)"border="0" color="0" x="2267" y="16" height="52" width="585" format="#,##0.00"  name=co_kilos_empacados  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(bultos for all)"border="0" color="0" x="987" y="16" height="52" width="585" format="#,##0"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=summary x1="2267" y1="4" x2="2853" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=summary x1="983" y1="4" x2="1568" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=summary x1="183" y1="80" x2="3424" y2="80" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="IF (an_kiloscortados > 0, (co_kilos_empacados / an_kiloscortados)*100, 0)"border="0" color="0" x="2930" y="16" height="52" width="119" format="0%"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="0" text="Totales por Lote"border="0" color="0" x="439" y="16" height="44" width="480"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

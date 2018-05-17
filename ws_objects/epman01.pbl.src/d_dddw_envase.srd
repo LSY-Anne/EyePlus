@@ -1,0 +1,12 @@
+﻿$PBExportHeader$d_dddw_envase.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=1 selected.mouse=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(25) update=yes updatewhereclause=yes name=v_nombre_env dbname="t_envase.v_nombre_env" )
+ column=(type=char(2) update=yes updatewhereclause=yes key=yes name=c_codigo_env dbname="t_envase.c_codigo_env" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"t_envase~" ) COLUMN(NAME=~"t_envase.v_nombre_env~") COLUMN(NAME=~"t_envase.c_codigo_env~")WHERE(    EXP1 =~"t_envase.c_activo_env~"   OP =~"=~"    EXP2 =~"'1'~" ) ) " update="t_envase" updatewhere=1 updatekeyinplace=no  sort="v_nombre_env A " )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="52" width="1385" format="[general]~tWordCap( v_nombre_env ) + ' (' +  c_codigo_env + ')'"  name=v_nombre_env edit.limit=25 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="WordCap( v_nombre_env )"border="0" color="33554432" x="1403" y="4" height="52" width="69"  name=co_nombre visible="1~t0"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

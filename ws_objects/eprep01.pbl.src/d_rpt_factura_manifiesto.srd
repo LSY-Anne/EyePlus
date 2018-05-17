@@ -1,0 +1,373 @@
+﻿$PBExportHeader$d_rpt_factura_manifiesto.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no rows_per_detail = 20 )
+header(height=224 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1172 color="536870912" )
+table(column=(type=char(111) updatewhereclause=yes name=nombremat dbname="nombremat" )
+ column=(type=char(10) updatewhereclause=yes name=material dbname="material" )
+ column=(type=decimal(6) updatewhereclause=yes name=cant dbname="cant" )
+ column=(type=decimal(6) updatewhereclause=yes name=costo dbname="costo" )
+ column=(type=decimal(6) updatewhereclause=yes name=subtotal dbname="subtotal" )
+ column=(type=long updatewhereclause=yes name=iva dbname="iva" )
+ column=(type=long updatewhereclause=yes name=total dbname="total" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="fecha" )
+ column=(type=char(10) updatewhereclause=yes name=factura dbname="factura" )
+ column=(type=char(10) updatewhereclause=yes name=embarque dbname="embarque" )
+ column=(type=char(20) updatewhereclause=yes name=certifi dbname="certifi" )
+ column=(type=char(20) updatewhereclause=yes name=caja dbname="caja" )
+ column=(type=char(20) updatewhereclause=yes name=camion dbname="camion" )
+ column=(type=char(60) updatewhereclause=yes name=nomcli dbname="nomcli" )
+ column=(type=char(15) updatewhereclause=yes name=rfccli dbname="rfccli" )
+ column=(type=char(60) updatewhereclause=yes name=direcli dbname="direcli" )
+ column=(type=char(60) updatewhereclause=yes name=ciucli dbname="ciucli" )
+ column=(type=char(100) updatewhereclause=yes name=empresa dbname="empresa" )
+ column=(type=char(100) updatewhereclause=yes name=direcc dbname="direcc" )
+ column=(type=char(255) updatewhereclause=yes name=ciudad dbname="ciudad" )
+ column=(type=char(1) updatewhereclause=yes name=tipo dbname="tipo" )
+ retrieve="/*select nombremat,material,cant=sum(cant),
+costo=max(costo),
+subtotal=sum(subtotal),
+iva=sum(iva),
+total=sum(total),
+fecha=max(fecha),
+factura=max(factura),
+embarque=max(embarque),
+certifi=max(certifi),
+caja=max(caja),
+camion=max(camion),
+nomcli=max(nomcli),
+rfccli=max(rfccli),
+direcli=max(direcli),
+ciucli=max(ciucli),
+empresa=max(empresa),
+direcc=max(direcc),
+ciudad=max(ciudad),
+tipo=max(tipo)
+from
+(
+  SELECT tipo=(Case When t_manifiesto.c_merdes_man='E' Then 'D' else 'P' End),
+nombremat=t_cartamaterialdet.c_codigo_mat +' - '+invproducto.v_nombre_pro,   
+         material= invunidad.v_abrevia_uni,   
+         cant=t_palet.n_bulxpa_pal*t_cartamaterialdet.n_cantidad_cet,   
+         costo=(case when t_manifiesto.c_merdes_man='E' Then IsNull(t_cartamaterialdet.n_costodll_cet,0) else IsNull(t_cartamaterialdet.n_costops_cet,0)  end),   
+         subtotal=t_palet.n_bulxpa_pal*t_cartamaterialdet.n_cantidad_cet *
+(case when t_manifiesto.c_merdes_man='E' Then IsNull(t_cartamaterialdet.n_costodll_cet,0) else IsNull(t_cartamaterialdet.n_costops_cet,0)  end),   
+         iva=0,   
+         total=0,   
+         fecha=t_manifiesto.d_embarque_man,   
+         factura=IsNull(t_manifiesto.c_numfac_man,'') ,
+embarque=t_manifiesto.c_codigo_man,
+certifi=IsNull(t_manifiesto.v_certiforigen_man,''),
+caja=IsNull(t_manifiesto.v_numcaj_man,''),
+camion=IsNull(t_manifiesto.v_nummed_man,''),
+nomcli=t_distribuidor.v_nomcom_dis,
+rfccli=t_distribuidor.c_rfc_dis,
+direcli=t_distribuidor.v_direcc_dis,
+ciucli=t_distribuidor.v_ciudad_dis,
+
+empresa=isnull((select v_valor_par from t_parametro where c_codigo_par='004'),''),
+direcc=isnull((select v_valor_par from t_parametro where c_codigo_par='005'),''),
+
+ciudad=isnull((select v_valor_par from t_parametro where c_codigo_par='007'),'')+
+(select v_valor_par from t_parametro where c_codigo_par='008')+'   '+'   RFC: '+
+isnull((select v_valor_par from t_parametro where c_codigo_par='006'),'')
+    FROM t_cartamaterial,   
+         t_cartamaterialdet,   
+         invproducto, t_manifiesto,t_palet  ,invunidad,t_distribuidor
+
+   WHERE ( t_cartamaterial.c_codigo_car = t_cartamaterialdet.c_codigo_car ) and  
+         ( t_cartamaterialdet.c_codigo_mat = invproducto.c_codigo_pro )    and
+t_manifiesto.c_codigo_tem+t_manifiesto.c_codigo_man=t_palet.c_codigo_tem+t_palet.c_codigo_man and
+t_palet.c_codigo_pro=t_cartamaterial.c_codigo_pro and
+invproducto.c_codigo_uni=invunidad.c_codigo_uni and
+t_distribuidor.c_codigo_dis=t_manifiesto.c_codigo_dis and 
+t_manifiesto.c_codigo_man=:as_man and
+t_manifiesto.c_codigo_tem=:as_tem
+) agrupar
+group by nombremat,material*/
+
+select nombremat,
+material,
+cant=sum(cant),/*sum o no sum*/
+costo= sum(subtotal)/ sum(cant)/*max(costo)*/,
+subtotal=sum(subtotal),
+iva=sum(iva),
+total=sum(total),
+fecha=max(fecha),
+factura=max(factura),
+embarque=max(embarque),
+certifi=max(certifi),
+caja=max(caja),
+camion=max(camion),
+nomcli=max(nomcli),
+rfccli=max(rfccli),
+direcli=max(direcli),
+ciucli=max(ciucli),
+empresa=max(empresa),
+direcc=max(direcc),
+ciudad=max(ciudad),
+tipo=max(tipo)
+        
+        
+        
+        
+        from
+(
+  SELECT tipo=(Case When t_manifiesto.c_merdes_man='E' Then 'D' else 'P' End),
+nombremat=t_cartamaterialdet.c_codigo_mat +' - '+invproducto.v_nombre_pro,   
+         material= invunidad.v_abrevia_uni,   
+	 cant=t_cartamaterialdet.n_cantidad_cet * case when t_cartamaterialdet.c_tipo_car = 'P' then (t_palet.n_bulxpa_pal) else 0 end,
+         costo=(case when t_manifiesto.c_merdes_man='E' Then IsNull(t_cartamaterialdet.n_costodll_cet,0) else IsNull(t_cartamaterialdet.n_costops_cet,0)  end),   
+         subtotal=t_palet.n_bulxpa_pal*t_cartamaterialdet.n_cantidad_cet *
+(case when t_manifiesto.c_merdes_man='E' Then IsNull(t_cartamaterialdet.n_costodll_cet,0) else IsNull(t_cartamaterialdet.n_costops_cet,0)  end),   
+         iva=0,   
+         total=0,   
+         fecha=t_manifiesto.d_embarque_man,   
+         factura=IsNull(t_manifiesto.c_numfac_man,'') ,
+embarque=t_manifiesto.c_codigo_man,
+certifi=IsNull(t_manifiesto.v_certiforigen_man,''),
+caja=IsNull(t_manifiesto.v_numcaj_man,''),
+camion=IsNull(t_manifiesto.v_nummed_man,''),
+nomcli=t_distribuidor.v_nomcom_dis,
+rfccli=t_distribuidor.c_rfc_dis,
+direcli=t_distribuidor.v_direcc_dis,
+ciucli=t_distribuidor.v_ciudad_dis,
+
+empresa=isnull((select v_valor_par from t_parametro 
+        
+        
+        
+        
+        where c_codigo_par='004'),''),
+direcc=isnull((select v_valor_par from t_parametro where c_codigo_par='005'),''),
+
+ciudad=isnull((select v_valor_par from t_parametro where c_codigo_par='007'),'')+
+(select v_valor_par from t_parametro where c_codigo_par='008')+'   '+'   RFC: '+
+isnull((select v_valor_par from t_parametro where c_codigo_par='006'),'')
+    FROM t_cartamaterial,   
+         t_cartamaterialdet,   
+         invproducto,
+         t_manifiesto,
+         t_palet  ,
+         invunidad,
+         t_distribuidor
+   WHERE ( t_cartamaterial.c_codigo_car = t_cartamaterialdet.c_codigo_car ) and
+         ( t_cartamaterialdet.c_codigo_mat = invproducto.c_codigo_pro )    and
+t_manifiesto.c_codigo_tem+t_manifiesto.c_codigo_man=t_palet.c_codigo_tem+t_palet.c_codigo_man and
+t_palet.c_codigo_pro=t_cartamaterial.c_codigo_pro and
+invproducto.c_codigo_uni=invunidad.c_codigo_uni and
+t_distribuidor.c_codigo_dis=t_manifiesto.c_codigo_dis and 
+t_manifiesto.c_codigo_man= :as_man and
+t_manifiesto.c_codigo_tem=:as_tem
+) agrupar
+
+        
+        
+        group by nombremat,material
+
+        
+        
+        having sum(cant) > 0
+UNION ALL
+
+select nombremat,
+material,
+cant=sum(cant),/*sum o no sum*/
+costo= sum(subtotal)/ sum(cant)/*max(costo)*/,
+subtotal=sum(subtotal),
+iva=sum(iva),
+total=sum(total),
+fecha=max(fecha),
+factura=max(factura),
+embarque=max(embarque),
+certifi=max(certifi),
+caja=max(caja),
+camion=max(camion),
+nomcli=max(nomcli),
+rfccli=max(rfccli),
+direcli=max(direcli),
+ciucli=max(ciucli),
+empresa=max(empresa),
+direcc=max(direcc),
+ciudad=max(ciudad),
+tipo=max(tipo)
+from
+(
+  SELECT tipo=(Case When t_manifiesto.c_merdes_man='E' Then 'D' else 'P' End),
+nombremat=t_cartamaterialdet.c_codigo_mat +' - '+invproducto.v_nombre_pro,   
+         material= invunidad.v_abrevia_uni,   
+	 cant=t_cartamaterialdet.n_cantidad_cet * case when t_cartamaterialdet.c_tipo_car = 'A' then (t_palet.n_bulxpa_pal/total.bultot) * (total.paltot) else 0 end,
+         costo=(case when t_manifiesto.c_merdes_man='E' Then IsNull(t_cartamaterialdet.n_costodll_cet,0) else IsNull(t_cartamaterialdet.n_costops_cet,0)  end),   
+         /*subtotal=t_palet.n_bulxpa_pal*t_cartamaterialdet.n_cantidad_cet *
+(case when t_manifiesto.c_merdes_man='E' Then IsNull(t_cartamaterialdet.n_costodll_cet,0) else IsNull(t_cartamaterialdet.n_costops_cet,0)  end),*/
+         subtotal=(t_cartamaterialdet.n_cantidad_cet * case when t_cartamaterialdet.c_tipo_car = 'A'
+                                                      then (t_palet.n_bulxpa_pal/total.bultot) * (total.paltot)
+                                                      else 0 end)*(case when t_manifiesto.c_merdes_man='E'
+                                                                    Then IsNull(t_cartamaterialdet.n_costodll_cet,0)
+                                                                    else IsNull(t_cartamaterialdet.n_costops_cet,0)
+                                                                    end),   
+         iva=0,   
+         total=0,   
+         fecha=t_manifiesto.d_embarque_man,   
+         factura=IsNull(t_manifiesto.c_numfac_man,'') ,
+embarque=t_manifiesto.c_codigo_man,
+certifi=IsNull(t_manifiesto.v_certiforigen_man,''),
+caja=IsNull(t_manifiesto.v_numcaj_man,''),
+camion=IsNull(t_manifiesto.v_nummed_man,''),
+nomcli=t_distribuidor.v_nomcom_dis,
+rfccli=t_distribuidor.c_rfc_dis,
+direcli=t_distribuidor.v_direcc_dis,
+ciucli=t_distribuidor.v_ciudad_dis,
+
+empresa=isnull((select v_valor_par from t_parametro where c_codigo_par='004'),''),
+direcc=isnull((select v_valor_par from t_parametro where c_codigo_par='005'),''),
+
+ciudad=isnull((select v_valor_par from t_parametro where c_codigo_par='007'),'')+
+(select v_valor_par from t_parametro where c_codigo_par='008')+'   '+'   RFC: '+
+isnull((select v_valor_par from t_parametro where c_codigo_par='006'),'')
+    FROM t_cartamaterial,   
+         t_cartamaterialdet,   
+         invproducto,
+         t_manifiesto,
+         t_palet  ,
+         invunidad,
+         t_distribuidor,
+         (select count(distinct c_codigo_pal) as paltot,
+                  sum(n_bulxpa_pal) as bultot
+           from t_palet
+           where c_codigo_tem = :as_tem
+           and c_codigo_man = :as_man)total
+   WHERE ( t_cartamaterial.c_codigo_car = t_cartamaterialdet.c_codigo_car ) and
+         ( t_cartamaterialdet.c_codigo_mat = invproducto.c_codigo_pro )    and
+t_manifiesto.c_codigo_tem+t_manifiesto.c_codigo_man=t_palet.c_codigo_tem+t_palet.c_codigo_man and
+t_palet.c_codigo_pro=t_cartamaterial.c_codigo_pro and
+invproducto.c_codigo_uni=invunidad.c_codigo_uni and
+t_distribuidor.c_codigo_dis=t_manifiesto.c_codigo_dis and 
+t_manifiesto.c_codigo_man=:as_man and
+t_manifiesto.c_codigo_tem=:as_tem
+) agrupar
+group by nombremat,material
+having sum(cant) > 0" arguments=(("as_tem", string),("as_man", string)) )
+column(band=header id=20 alignment="2" tabsequence=32766 border="0" color="33554432" x="960" y="140" height="64" width="1541" format="[general]" row_in_detail=1  name=ciudad_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=19 alignment="2" tabsequence=32766 border="0" color="33554432" x="960" y="72" height="64" width="1541" format="[general]" row_in_detail=1  name=direcc_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=18 alignment="2" tabsequence=32766 border="0" color="33554432" x="960" y="4" height="64" width="1541" format="[general]" row_in_detail=1  name=empresa_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2519" y="4" height="40" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="f_GetTemporada( )"border="0" color="0" x="2747" y="4" height="40" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="3008" y="4" height="40" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="page() + '/' + pageCount()"border="0" color="0" x="3177" y="4" height="40" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="3008" y="48" height="40" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3177" y="48" height="40" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+bitmap(band=header filename="logocia.bmp" x="87" y="4" height="216" width="823" border="0" )
+text(band=header alignment="1" text="d_rpt_factura_manifiesto"border="0" color="0" x="2697" y="176" height="44" width="736"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="3008" y="92" height="36" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3177" y="92" height="36" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="3008" y="132" height="40" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="f_usuario()"border="0" color="0" x="3177" y="132" height="40" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=detail x="1774" y="4" height="188" width="1678" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="553648127" )
+rectangle(band=detail x="87" y="248" height="744" width="3365" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+rectangle(band=detail x="82" y="196" height="56" width="3369" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="549" y="12" height="56" width="411" format="[general]" row_in_detail=1  name=factura_1 edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Fecha:"border="0" color="33554432" x="997" y="12" height="48" width="197"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1221" y="12" height="52" width="247" format="[shortdate] [time]" row_in_detail=1  name=fecha_1 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="549" y="72" height="52" width="320" format=" [General]" row_in_detail=1  name=embarque_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Certificado No.:"border="0" color="33554432" x="997" y="72" height="56" width="338"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="1353" y="72" height="56" width="302" format="[general]" row_in_detail=1  name=certifi_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Embarque No.:"border="0" color="33554432" x="119" y="72" height="52" width="329"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Camion No.:"border="0" color="33554432" x="119" y="128" height="52" width="311"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="549" y="128" height="52" width="416" format="[general]" row_in_detail=1  name=camion_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Caja No.:"border="0" color="33554432" x="997" y="128" height="52" width="270"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="1353" y="128" height="52" width="302" format="[general]" row_in_detail=1  name=caja_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Factura Preforma:"border="0" color="33554432" x="119" y="12" height="48" width="407"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=detail x="87" y="4" height="188" width="1627" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Cliente:"border="0" color="33554432" x="1806" y="20" height="48" width="224"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="33554432" x="2071" y="20" height="48" width="1353" format="[general]" row_in_detail=1  name=nomcli_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Dirección:"border="0" color="33554432" x="1806" y="76" height="48" width="233"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="33554432" x="2071" y="76" height="48" width="1353" format="[general]" row_in_detail=1  name=direcli_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Ciudad:"border="0" color="33554432" x="1806" y="132" height="48" width="224"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="33554432" x="2071" y="132" height="48" width="631" format="[general]" row_in_detail=1  name=ciucli_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="RFC:"border="0" color="33554432" x="2706" y="132" height="48" width="114"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=15 alignment="1" tabsequence=32766 border="0" color="33554432" x="2880" y="132" height="48" width="544" format="[general]" row_in_detail=1  name=rfccli_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Cantidad"border="0" color="33554432" x="178" y="204" height="40" width="210"  name=c_activo_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Unidad"border="0" color="33554432" x="448" y="204" height="40" width="137"  name=c_codigo_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Descripción"border="0" color="33554432" x="690" y="204" height="40" width="352"  name=v_nombre_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Precio Unitario"border="0" color="33554432" x="2423" y="204" height="40" width="288"  name=d_creacion_cam_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Importe"border="0" color="33554432" x="3045" y="204" height="40" width="224"  name=d_modifi_cam_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96~tif( cant <=0,0,96)" y="260~tif( cant <=0,0,260)" height="52~tif( cant <=0,0,52)" width="288~tif( cant <=0,0,288)" format="#,##0.00" row_in_detail=1  name=cant_1 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96~tif( cant <=0,0,96)" y="316~tif( cant <=0,0,316)" height="52~tif( cant <=0,0,52)" width="288~tif( cant <=0,0,288)" format="#,##0.00" row_in_detail=2  name=cant_2 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="372" height="52" width="288" format="#,##0.00" row_in_detail=3  name=cant_3 visible="1~tif( cant <=0,0,1)" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="428" height="52" width="288" format="#,##0.00" row_in_detail=4  name=cant_4 visible="1~tif( cant <=0,0,1)" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="484" height="52" width="288" format="#,##0.00" row_in_detail=5  name=cant_5 visible="1~tif( cant <=0,0,1)" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="540" height="52" width="288" format="#,##0.00" row_in_detail=6  name=cant_6 visible="1~tif( cant <=0,0,1)" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="596" height="52" width="288" format="#,##0.00" row_in_detail=7  name=cant_7 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="652" height="52" width="288" format="#,##0.00" row_in_detail=8  name=cant_8 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="708" height="52" width="288" format="[general]" row_in_detail=9  name=cant_9 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="764" height="52" width="288" format="[general]" row_in_detail=10  name=cant_10 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="820" height="52" width="288" format="[general]" row_in_detail=11  name=cant_11 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="876" height="52" width="288" format="[general]" row_in_detail=12  name=cant_12 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="96" y="932" height="52" width="288" format="[general]" row_in_detail=13  name=cant_13 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="260" height="52" width="110" format="[general]" row_in_detail=1  name=material_1 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="316" height="52" width="101" format="[general]" row_in_detail=2  name=material_2 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="372" height="52" width="101" format="[general]" row_in_detail=3  name=material_3 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="428" height="52" width="101" format="[general]" row_in_detail=4  name=material_4 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="484" height="52" width="101" format="[general]" row_in_detail=5  name=material_5 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="540" height="52" width="101" format="[general]" row_in_detail=6  name=material_6 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="596" height="52" width="101" format="[general]" row_in_detail=7  name=material_7 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="652" height="52" width="101" format="[general]" row_in_detail=8  name=material_8 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="708" height="52" width="101" format="[general]" row_in_detail=9  name=material_9 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="764" height="52" width="105" format="[general]" row_in_detail=10  name=material_10 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="820" height="52" width="101" format="[general]" row_in_detail=11  name=material_11 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="876" height="52" width="101" format="[general]" row_in_detail=12  name=material_12 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="932" height="52" width="101" format="[general]" row_in_detail=13  name=material_13 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="260" height="52" width="1289" format="[general]" row_in_detail=1  name=nombremat_1 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="316" height="52" width="1289" format="[general]" row_in_detail=2  name=nombremat_2 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="372" height="52" width="1289" format="[general]" row_in_detail=3  name=nombremat_3 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="428" height="52" width="1289" format="[general]" row_in_detail=4  name=nombremat_4 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="484" height="52" width="1289" format="[general]" row_in_detail=5  name=nombremat_5 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="540" height="52" width="1289" format="[general]" row_in_detail=6  name=nombremat_6 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="596" height="52" width="1289" format="[general]" row_in_detail=7  name=nombremat_7 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="652" height="52" width="1289" format="[general]" row_in_detail=8  name=nombremat_8 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="708" height="52" width="1289" format="[general]" row_in_detail=9  name=nombremat_9 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="764" height="52" width="1289" format="[general]" row_in_detail=10  name=nombremat_10 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="820" height="52" width="1289" format="[general]" row_in_detail=11  name=nombremat_11 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="876" height="52" width="1289" format="[general]" row_in_detail=12  name=nombremat_12 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="667" y="932" height="52" width="1289" format="[general]" row_in_detail=13  name=nombremat_13 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="260" height="52" width="274" format="#,##0.00" row_in_detail=1  name=costo_1 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="316" height="52" width="274" format="#,##0.00" row_in_detail=2  name=costo_2 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="372" height="52" width="274" format="#,##0.00" row_in_detail=3  name=costo_3 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="428" height="52" width="274" format="#,##0.00" row_in_detail=4  name=costo_4 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="484" height="52" width="274" format="#,##0.00" row_in_detail=5  name=costo_5 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="540" height="52" width="274" format="#,##0.00" row_in_detail=6  name=costo_6 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="596" height="52" width="274" format="#,##0.00" row_in_detail=7  name=costo_7 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="652" height="52" width="274" format="#,##0.00" row_in_detail=8  name=costo_8 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="708" height="52" width="274" format="#,##0.00" row_in_detail=9  name=costo_9 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="764" height="52" width="274" format="#,##0.00" row_in_detail=10  name=costo_10 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="820" height="52" width="270" format="#,##0.00" row_in_detail=11  name=costo_11 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="876" height="52" width="274" format="#,##0.00" row_in_detail=12  name=costo_12 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2414" y="932" height="52" width="274" format="#,##0.00" row_in_detail=13  name=costo_13 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="260" height="52" width="389" format="#,##0.00" row_in_detail=1  name=subtotal_1 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="316" height="52" width="389" format="#,##0.00" row_in_detail=2  name=subtotal_2 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="372" height="52" width="389" format="#,##0.00" row_in_detail=3  name=subtotal_3 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="428" height="52" width="389" format="#,##0.00" row_in_detail=4  name=subtotal_4 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="484" height="52" width="389" format="#,##0.00" row_in_detail=5  name=subtotal_5 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="540" height="52" width="389" format="#,##0.00" row_in_detail=6  name=subtotal_6 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="596" height="52" width="389" format="#,##0.00" row_in_detail=7  name=subtotal_7 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="652" height="52" width="389" format="#,##0.00" row_in_detail=8  name=subtotal_8 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="708" height="52" width="389" format="#,##0.00" row_in_detail=9  name=subtotal_9 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="764" height="52" width="389" format="#,##0.00" row_in_detail=10  name=subtotal_10 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="820" height="52" width="389" format="#,##0.00" row_in_detail=11  name=subtotal_11 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="876" height="52" width="389" format="#,##0.00" row_in_detail=12  name=subtotal_12 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2857" y="932" height="52" width="389" format="#,##0.00" row_in_detail=13  name=subtotal_13 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=detail x="87" y="1100" height="72" width="3365" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=detail x1="2213" y1="1100" x2="2213" y2="1172" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="2789" y1="1100" x2="2789" y2="1172" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_numbertoword2(sum( subtotal for all), tipo )"border="0" color="0" x="101" y="1108" height="56" width="2080" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Total"border="0" color="0" x="2610" y="1108" height="56" width="146"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="sum( subtotal for all)"border="0" color="0" x="2857" y="1108" height="56" width="389" format="#,##0.00"  name=total  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="421" y1="248" x2="421" y2="988" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=detail x1="617" y1="248" x2="617" y2="988" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=detail x1="2213" y1="248" x2="2213" y2="988" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=detail x1="2789" y1="248" x2="2789" y2="988" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+compute(band=detail alignment="0" expression="'~"Con Fundamento en la Regla 3.3.1. de las Reglas de Caracter General en Materia de Comercio Exterior vigentes, asi como el Boletin del SAT numero 005 de fecha 12 de Enero de 2009, se manifiesta el material de empaque retornado al amparo del mismo Pedimento de Exportacion~"'"border="0" color="33554432" x="91" y="992" height="104" width="3355" format="[general]"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

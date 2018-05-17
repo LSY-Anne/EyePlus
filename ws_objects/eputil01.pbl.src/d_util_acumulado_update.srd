@@ -1,0 +1,148 @@
+﻿$PBExportHeader$d_util_acumulado_update.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_pro dbname="c_codigo_pro" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_eti dbname="c_codigo_eti" )
+ column=(type=char(1) updatewhereclause=yes name=c_merori_pro dbname="c_merori_pro" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_pro dbname="c_merdes_pro" )
+ column=(type=decimal(2) updatewhereclause=yes name=empaque dbname="Empaque" )
+ column=(type=decimal(2) updatewhereclause=yes name=sobanterior dbname="SobAnterior" )
+ column=(type=decimal(2) updatewhereclause=yes name=sobhoy dbname="SobHoy" )
+ column=(type=decimal(2) updatewhereclause=yes name=meracu dbname="MerAcu" )
+ column=(type=decimal(2) updatewhereclause=yes name=piso dbname="Piso" )
+ retrieve="Select  f.c_codigo_pro, 
+   f.c_codigo_eti,  
+   f.c_merori_pro,
+   f.c_merdes_pro,
+   Empaque = Sum(f.empaque),
+   SobAnterior = Sum(f.SobAnt),
+   SobHoy = Sum(f.SobDia),
+   MerAcu = Sum(f.MerAcu),
+   Piso = Sum(f.empaque)+Sum(f.SobAnt)-t.n_embtot_acu-Sum(f.MerAcu)
+FROM t_acumulado t, (
+   select 
+   t.c_codigo_pro, 
+   t.c_codigo_eti,  
+   c_merori_pro = p.c_merdes_pro, 
+   c_merdes_pro = p.c_merdes_pro,
+   Empaque = Sum(t.n_bulxpa_pal),
+   SobAnt = 0,
+   SobDia = 0,
+   MerAcu = 0
+   from t_palet t, t_producto p, t_temporada a
+   where 
+     t.c_codigo_pro = p.c_codigo_pro
+   AND IsNull(c_codigo_man, '') = ''
+   AND t.c_codigo_tem = a.c_codigo_tem
+   AND t.d_empaque_pal <= DATEADD(day, -1, :ad_fec)
+   AND a.c_activo_tem = '1'
+	AND T.C_STAEMP_PAL <> '2' /*20081108*/
+   GROUP BY t.c_codigo_pro, t.c_codigo_eti,  p.c_merdes_pro
+
+   UNION ALL
+   select 
+   t.c_codigo_pro, 
+   t.c_codigo_eti,  
+   c_merori_pro = p.c_merdes_pro, 
+   c_merdes_pro = m.c_merdes_man,
+   Empaque = Sum(t.n_bulxpa_pal),
+   SobAnt = 0,
+   SobDia = 0,
+   MerAcu = 0
+   from t_palet t, t_producto p, t_manifiesto m, t_temporada a
+   where 
+     t.c_codigo_pro = p.c_codigo_pro
+   AND IsNull(t.c_codigo_man, '') <> ''
+   AND t.c_codigo_tem = a.c_codigo_tem
+   AND t.d_empaque_pal <= DATEADD(day, -1, :ad_fec)
+   AND a.c_activo_tem = '1'
+   AND m.c_codigo_tem = t.c_codigo_tem
+   AND t.c_codigo_man = m.c_codigo_man
+   GROUP BY t.c_codigo_pro, t.c_codigo_eti,  p.c_merdes_pro, m.c_merdes_man
+  
+   UNION ALL
+   select 
+   o.c_codigo_pro, 
+   o.c_codigo_eti,  
+   c_merori_pro = p.c_merdes_pro, 
+   c_merdes_pro = p.c_merdes_pro,
+   Empaque = 0,
+   SobAnt = Sum(o.n_afecto_otm),
+   SobDia = 0,
+   MerAcu = 0
+   from t_otro_movimiento o, t_producto p, t_temporada a
+   where 
+     o.c_codigo_pro = p.c_codigo_pro
+   AND o.c_codigo_tem = a.c_codigo_tem
+   AND a.c_activo_tem = '1'
+   AND o.c_activo_otm = '1'
+   AND o.d_movimi_otm = DATEADD(day, -1, :ad_fec)
+   AND c_tipmov_otm = 'S'
+   GROUP BY o.c_codigo_pro, o.c_codigo_eti,  p.c_merdes_pro
+   UNION ALL
+  
+   select 
+   o.c_codigo_pro, 
+   o.c_codigo_eti,  
+   c_merori_pro = p.c_merdes_pro, 
+   c_merdes_pro = p.c_merdes_pro,
+   Empaque = 0,
+   SobAnt = 0,
+   SobDia = Sum(o.n_afecto_otm),
+   MerAcu = 0
+   from t_otro_movimiento o, t_producto p, t_temporada a
+   where 
+     o.c_codigo_pro = p.c_codigo_pro
+   AND o.c_codigo_tem = a.c_codigo_tem
+   AND a.c_activo_tem = '1'
+   AND o.c_activo_otm = '1'
+   AND o.d_movimi_otm = :ad_fec
+   AND c_tipmov_otm = 'S'
+   GROUP BY o.c_codigo_pro, o.c_codigo_eti,  p.c_merdes_pro
+   UNION ALL
+   select 
+   o.c_codigo_pro, 
+   o.c_codigo_eti,  
+   c_merori_pro = p.c_merdes_pro, 
+   c_merdes_pro = p.c_merdes_pro,
+   Empaque = 0,
+   SobAnt = 0,
+   SobDia = 0,
+   MerAcu = Sum(o.n_afecto_otm)
+   from t_otro_movimiento o, t_producto p, t_temporada a
+   where 
+     o.c_codigo_pro = p.c_codigo_pro
+   AND o.c_codigo_tem = a.c_codigo_tem
+   AND a.c_activo_tem = '1'
+   AND o.c_activo_otm = '1'
+   AND o.d_movimi_otm <= DATEADD(day, -1, :ad_fec)
+   AND c_tipmov_otm = 'M'
+   GROUP BY o.c_codigo_pro, o.c_codigo_eti,  p.c_merdes_pro
+
+  )  F
+WHERE f.c_codigo_pro = t.c_codigo_pro
+AND f.c_codigo_eti = t.c_codigo_eti
+AND f.c_merori_pro = t.c_merori_acu
+AND f.c_merdes_pro = t.c_merdes_acu
+AND t.c_codigo_tem = :as_tem
+GROUP BY f.c_codigo_pro, f.c_codigo_eti,  f.c_merori_pro, f.c_merdes_pro, t.n_embtot_acu
+" arguments=(("ad_fec", datetime),("as_tem", string)) )
+text(band=header alignment="0" text="C Producto"border="0" color="0" x="55" y="8" height="52" width="247"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="M Origen"border="0" color="0" x="325" y="8" height="52" width="201"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="M Destino"border="0" color="0" x="549" y="8" height="52" width="233"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Empaque"border="0" color="0" x="805" y="8" height="52" width="210"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Sob Anterior"border="0" color="0" x="1038" y="8" height="52" width="265"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Sob Hoy"border="0" color="0" x="1326" y="8" height="52" width="192"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Merma Acu"border="0" color="0" x="1541" y="8" height="52" width="251"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="55" y="4" height="52" width="247" format="[general]"  name=c_codigo_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="325" y="4" height="52" width="201" format="[general]"  name=c_merori_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="549" y="4" height="52" width="233" format="[general]"  name=c_merdes_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="805" y="4" height="52" width="210" format="[general]"  name=empaque edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1038" y="4" height="52" width="265" format="[general]"  name=sobanterior edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1326" y="4" height="52" width="192" format="[general]"  name=sobhoy edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1541" y="4" height="52" width="251" format="[general]"  name=meracu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

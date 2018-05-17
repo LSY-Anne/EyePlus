@@ -1,0 +1,92 @@
+﻿$PBExportHeader$d_rpt_acumulado_empaque_x_fechas_femb.srd
+$PBExportComments$por fechas de embarque
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=360 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=88 color="536870912" )
+detail(height=0 color="536870912"  height.autosize=yes)
+table(column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_tem dbname="t_palet.c_codigo_tem" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_pro dbname="t_palet.c_codigo_pro" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_eti dbname="t_palet.c_codigo_eti" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_empaque_pal dbname="t_palet.d_empaque_pal" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_env dbname="t_palet.c_codigo_env" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="t_envase.v_nombre_env" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="t_etiqueta.v_nombre_eti" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(30) updatewhereclause=yes name=v_nombre_tem dbname="t_temporada.v_nombre_tem" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_bulxpa_pal dbname="t_palet.n_bulxpa_pal" )
+ column=(type=char(1) updatewhereclause=yes name=c_staemb_pal dbname="t_palet.c_staemb_pal" )
+ retrieve="Select   t_palet.c_codigo_tem,   
+         t_palet.c_codigo_pro,   
+         t_palet.c_codigo_eti,   
+         t_palet.d_empaque_pal,   
+         t_palet.c_codigo_env,   
+         t_envase.v_nombre_env,   
+         t_etiqueta.v_nombre_eti,   
+         t_producto.v_nombre_pro,   
+         t_temporada.v_nombre_tem,  
+         t_palet.n_bulxpa_pal,
+         c_staemb_pal
+    FROM t_palet,   
+         t_envase,   
+         t_etiqueta,   
+         t_producto,   
+         t_temporada  
+   WHERE ( t_envase.c_codigo_env = t_palet.c_codigo_env ) and  
+         ( t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti ) and  
+         ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and  
+         ( t_temporada.c_codigo_tem = t_palet.c_codigo_tem ) and  
+         ( ( t_palet.c_codigo_tem = :as_tem ) AND  
+         ( t_palet.d_empaque_pal >= :ad_ini ) AND  
+         ( t_palet.d_empaque_pal <= :ad_fin ) )" arguments=(("as_tem", string),("ad_ini", datetime),("ad_fin", datetime))  sort="c_codigo_tem A d_empaque_pal A c_codigo_pro A c_codigo_eti A " )
+group(level=1 header.height=0 trailer.height=92 by=("c_codigo_tem" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=80 trailer.height=88 by=("d_empaque_pal" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=4 trailer.height=60 by=("c_codigo_pro" , "c_codigo_eti" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2533" y="12" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2761" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="3022" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3191" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="3022" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3191" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="3022" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3191" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="3022" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3191" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_acumulado_empaque_x_fechas_femb"border="0" color="0" x="2135" y="204" height="48" width="1312"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+text(band=header.2 alignment="0" text="F. Empaque:"border="0" color="33554432" x="50" y="28" height="44" width="370"  name=d_empaque_pal_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=header.2 id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="343" y="28" height="44" width="274" format="dd/mm/yyyy"  name=d_empaque_pal edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=trailer.3 id=2 alignment="0" tabsequence=32766 border="0" color="0" x="59" y="4" height="44" width="114" format="@@-@@-"  name=c_codigo_pro edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.3 id=3 alignment="0" tabsequence=32766 border="0" color="0" x="187" y="4" height="44" width="73" format="[general]"  name=c_codigo_eti edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.3 id=8 alignment="0" tabsequence=32766 border="0" color="0" x="375" y="4" height="44" width="713" format="~tWordCap( v_nombre_pro )"  name=v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.3 id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1605" y="4" height="44" width="379" format="~tWordCap(  v_nombre_env )"  name=v_nombre_env edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.3 id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1106" y="4" height="44" width="485" format="~tWordCap(  v_nombre_eti  )"  name=v_nombre_eti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.3 alignment="1" expression="sum(n_bulxpa_pal for group 3)"border="0" color="0" x="2016" y="4" height="44" width="411" format="#,##0"  name=co_sumempa  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.3 alignment="1" expression="sum(If(  c_staemb_pal = '1', n_bulxpa_pal , 0 ) for group 3)"border="0" color="0" x="2478" y="4" height="44" width="370" format="#,##0"  name=co_sumemba  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.3 alignment="1" expression="co_sumempa - co_sumemba"border="0" color="0" x="2939" y="4" height="44" width="370" format="#,##0"  name=co_noemba  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="2007" y1="8" x2="3314" y2="8" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=trailer.2 alignment="1" expression="sum(n_bulxpa_pal for group 2)"border="0" color="0" x="2016" y="20" height="44" width="411" format="#,##0"  name=co_sumtotempa  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(If(  c_staemb_pal = '1', n_bulxpa_pal , 0 ) for group 2)"border="0" color="0" x="2478" y="20" height="44" width="370" format="#,##0"  name=co_sumtotemba  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="co_sumtotempa - co_sumtotemba"border="0" color="0" x="2939" y="20" height="44" width="370" format="#,##0"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="2007" y1="12" x2="3314" y2="12" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=trailer.1 x1="2007" y1="20" x2="3314" y2="20" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_bulxpa_pal for group 1)"border="0" color="0" x="2016" y="32" height="44" width="411" format="#,##0"  name=co_sumtotgralempa  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(If(  c_staemb_pal = '1', n_bulxpa_pal , 0 ) for group 1)"border="0" color="0" x="2478" y="32" height="44" width="370" format="#,##0"  name=co_sumtotgralemba  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="co_sumtotgralempa - co_sumtotgralemba"border="0" color="0" x="2939" y="32" height="44" width="370" format="#,##0"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="20" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2139" y="20" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3150" y="20" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="0" y1="4" x2="3461" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=header alignment="2" expression="'REPORTE DE PRODUCTOS EMPACADOS~~r~~n DEL: ' +  String( ad_ini , 'dd/mm/yyyy' ) + ' AL: ' + String( ad_fin , 'dd/mm/yyyy' )"border="0" color="33554432" x="1033" y="120" height="100" width="1403" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="1033" y="16" height="80" width="1403" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="'Fecha del Sistema: ' + String( f_GetSysDateA( ), 'dd/mm/yyyy' )"border="0" color="0" x="41" y="232" height="52" width="1061" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header x="37" y="296" height="64" width="3419" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Elemento"border="0" color="33554432" x="59" y="304" height="48" width="215"  name=elemento_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Producto"border="0" color="33554432" x="375" y="304" height="48" width="713"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Etiqueta"border="0" color="33554432" x="1106" y="304" height="48" width="485"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Envase"border="0" color="33554432" x="1605" y="304" height="48" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Bultos Empacados"border="0" color="33554432" x="2016" y="304" height="48" width="411"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Embarcados"border="0" color="0" x="2478" y="304" height="48" width="370"  name=n_precmn_pal_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="No Embarcados"border="0" color="0" x="2939" y="304" height="48" width="370"  name=n_precme_pal_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

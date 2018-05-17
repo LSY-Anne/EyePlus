@@ -1,0 +1,97 @@
+﻿$PBExportHeader$d_rpt_emb_color.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=4 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no  crosstab.dynamic = yes grid.lines=1 grid.columnmove=no selected.mouse=no )
+header[1](height=0 color="536870912" )
+header[2](height=64 color="536870912" )
+summary(height=116 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=c_merdes_man dbname="c_merdes_man" )
+ column=(type=char(20) updatewhereclause=yes name=c_codigo_eti dbname="c_codigo_eti" )
+ column=(type=char(20) updatewhereclause=yes name=v_nombre_eti dbname="v_nombre_eti" )
+ column=(type=char(20) updatewhereclause=yes name=c_codigo_tam dbname="c_codigo_tam" )
+ column=(type=char(20) updatewhereclause=yes name=v_nombre_tam dbname="v_nombre_tam" )
+ column=(type=number updatewhereclause=yes name=n_bulxpa_pal dbname="n_bulxpa_pal" )
+ retrieve="  SELECT m.c_merdes_man,   
+         p.c_codigo_eti,   
+         p.c_codigo_col,   
+         e.v_nombre_eti,   
+         t.v_nombre_tam,   
+         t.c_codigo_tam,   
+         sum(p.n_bulxpa_pal) As n_bulxpa_pal,   
+         m.c_codigo_man,   
+         m.c_numvia_man,   
+         m.v_chofer_man,   
+         m.v_marca_man,   
+         m.v_anofab_man,   
+         m.v_numpla_man,   
+         m.v_numcaj_man,   
+         m.v_placaj_man  
+    FROM t_manifiesto m,   
+         t_palet p,   
+         t_producto pro,   
+         t_etiqueta e,   
+         t_color c,   
+         t_tamanio t  
+   WHERE ( m.c_codigo_man = p.c_codigo_man ) and  
+         ( pro.c_codigo_pro = p.c_codigo_pro ) and  
+         ( e.c_codigo_eti = p.c_codigo_eti ) and  
+         ( c.c_codigo_col = p.c_codigo_col ) and  
+         ( t.c_codigo_tam = pro.c_codigo_tam ) and  
+         ( m.c_activo_man = '1' ) AND  
+         ( p.c_activo_pal = '1' ) AND  
+         ( e.c_activo_eti = '1' ) AND  
+         ( c.c_activo_col = '1' ) AND  
+         ( t.c_activo_tam = '1' ) AND  
+         ( pro.c_activo_pro = '1' ) AND
+	      (m.c_codigo_tem = :as_tem)   AND  
+         (m.c_merdes_man like :as_mer) AND
+         (m.d_embarque_man >= :ad_ini) AND  
+         (m.d_embarque_man <= :ad_fin)
+GROUP BY m.c_merdes_man,   
+         p.c_codigo_eti,   
+         p.c_codigo_col,   
+         e.v_nombre_eti,   
+         t.c_codigo_tam,     
+         t.v_nombre_tam, 
+         m.c_codigo_man,   
+         m.c_numvia_man,   
+         m.v_chofer_man,   
+         m.v_marca_man,   
+         m.v_anofab_man,   
+         m.v_numpla_man,   
+         m.v_numcaj_man,   
+         m.v_placaj_man  " arguments=(("as_tem", string),("as_mer", string),("ad_ini", datetime),("ad_fin", datetime))  sort="c_merdes_man A c_codigo_eti A v_nombre_eti A c_codigo_tam A v_nombre_tam A " )
+group(level=1 header.height=68 trailer.height=96 by=("c_merdes_man" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=88 trailer.height=96 by=("c_codigo_eti" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=0 trailer.height=0 by=("v_nombre_eti" ) header.color="536870912" trailer.color="536870912" )
+group(level=4 header.height=0 trailer.height=0 by=("c_codigo_tam" ) header.color="536870912" trailer.color="536870912" )
+text(band=header[1] alignment="0" text="Sum Of N Bulxpa Pal"border="0" color="0" x="9" y="4" height="52" width="14"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[1] alignment="0" text="C Codigo Col"border="0" color="0" x="32" y="4" height="52" width="9"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header[2] x="27" y="0" height="64" width="3351" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header[2] alignment="0" text="Descripción"border="0" color="33554432" x="389" y="4" height="52" width="750"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="0" text="Tamaño"border="0" color="33554432" x="64" y="4" height="52" width="315"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="1" text="Color  @c_codigo_col"border="0" color="0" x="1147" y="4" height="56" width="421"  name=n_bulxpa_pal_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="1" text="Gran Total "border="0" color="0" x="1577" y="4" height="56" width="466"  name=grand_sum_n_bulxpa_pal_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.1 alignment="0" expression="if( c_merdes_man = 'E', 'Exportación', 'Nacional')"border="0" color="33554432" x="64" y="8" height="56" width="315" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+compute(band=header.2 alignment="0" expression="'Etiqueta:'+ c_codigo_eti "border="0" color="33554432" x="64" y="8" height="56" width="315" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=header.2 alignment="0" expression=" v_nombre_eti "border="0" color="33554432" x="389" y="8" height="56" width="750" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="1090519039" x="9" y="4" height="64" width="14" format="[general]"  name=c_merdes_man edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="1090519039" x="32" y="4" height="64" width="9" format="[general]"  name=c_codigo_eti edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="1090519039" x="50" y="4" height="64" width="5" format="[general]"  name=v_nombre_eti edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="64" y="4" height="64" width="315" format="[general]"  name=c_codigo_tam edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="389" y="4" height="64" width="750" format="[general]"  name=v_nombre_tam edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1147" y="4" height="64" width="421" format="#,##0"  name=n_bulxpa_pal edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes crosstab.repeat=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="0" color="0" x="1577" y="4" height="64" width="466" format="#,##0"  name=grand_sum_n_bulxpa_pal  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.2 alignment="0" text="Total Por Etiqueta"border="0" color="0" x="389" y="24" height="56" width="750"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(n_bulxpa_pal for group 2)"border="0" color="0" x="1147" y="24" height="56" width="421" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(grand_sum_n_bulxpa_pal for group 2)"border="0" color="0" x="1577" y="24" height="56" width="466" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="0" text="Total Por Mercado"border="0" color="0" x="389" y="24" height="56" width="750"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_bulxpa_pal for group 1)"border="0" color="0" x="1147" y="24" height="56" width="421" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(grand_sum_n_bulxpa_pal for group 1)"border="0" color="0" x="1577" y="24" height="56" width="466" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="0" text="Gran Total"border="0" color="0" x="389" y="28" height="56" width="750"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_bulxpa_pal for all )"border="0" color="0" x="1147" y="28" height="56" width="421" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(grand_sum_n_bulxpa_pal for all )"border="0" color="0" x="1577" y="28" height="56" width="466" format="#,##0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "c_codigo_col" rows = "c_merdes_man, c_codigo_eti, v_nombre_eti, c_codigo_tam, v_nombre_tam" values = "sum(n_bulxpa_pal for crosstab)" sourcenames = "c_merdes_man, c_codigo_eti, c_codigo_col, v_nombre_eti, v_nombre_tam, c_codigo_tam, n_bulxpa_pal, c_codigo_man, c_numvia_man, v_chofer_man, v_marca_man, v_anofab_man, v_numpla_man, v_numcaj_man, v_placaj_man")
+sparse(names="c_merdes_man	c_codigo_eti	v_nombre_eti	c_codigo_tam")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

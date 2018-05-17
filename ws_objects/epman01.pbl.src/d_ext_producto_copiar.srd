@@ -1,0 +1,13 @@
+﻿$PBExportHeader$d_ext_producto_copiar.srd
+$PBExportComments$contiene el d_dddw_producto, usado en copiar costo
+release 6;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(4) updatewhereclause=no name=c_codigo_pro dbname="c_codigo_pro" )
+ column=(type=char(25) updatewhereclause=no name=v_etiqueta dbname="v_etiqueta" )
+ )
+column(band=detail id=1 alignment="0" tabsequence=10 border="5" color="33554432" x="366" y="8" height="64" width="1307" format="[general]"  name=c_codigo_pro dddw.name=d_dddw_producto dddw.displaycolumn=v_nombre_pro dddw.datacolumn=c_codigo_pro dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="18" y="12" height="52" width="329" format="[general]"  name=v_etiqueta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

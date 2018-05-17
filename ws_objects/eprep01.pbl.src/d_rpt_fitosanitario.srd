@@ -1,0 +1,88 @@
+﻿$PBExportHeader$d_rpt_fitosanitario.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=1128 color="536870912" )
+summary(height=2508 color="536870912" )
+footer(height=348 color="536870912" )
+detail(height=0 color="536870912"  height.autosize=yes)
+table(column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_tem dbname="t_manifiesto.c_codigo_tem" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=char(30) updatewhereclause=yes name=v_medtra_man dbname="t_manifiesto.v_medtra_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_placaj_man dbname="t_manifiesto.v_placaj_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_flejesagarpa_man dbname="t_manifiesto.v_flejesagarpa_man" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_direcc_dis dbname="t_distribuidor.v_direcc_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_ciudad_dis dbname="t_distribuidor.v_ciudad_dis" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb dbname="t_embarcador.v_nombre_emb" )
+ column=(type=char(100) updatewhereclause=yes name=v_direcc_emb dbname="t_embarcador.v_direcc_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_emb dbname="t_embarcador.v_ciudad_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ptoemb_emb dbname="t_embarcador.v_ptoemb_emb" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="t_envase.v_nombre_env" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_totbul_man dbname="t_manifiesto.n_totbul_man" )
+ column=(type=char(100) updatewhereclause=yes name=coordinador dbname="coordinador" )
+ column=(type=char(100) updatewhereclause=yes name=nombredelcor dbname="nombredelcor" )
+ column=(type=char(100) updatewhereclause=yes name=cedula dbname="cedula" )
+ column=(type=char(100) updatewhereclause=yes name=vigencia dbname="vigencia" )
+ retrieve="  SELECT t_manifiesto.c_codigo_man,   
+         t_manifiesto.c_codigo_tem,   
+         t_manifiesto.d_embarque_man,   
+         t_manifiesto.v_medtra_man,   
+         t_manifiesto.v_placaj_man,   
+         t_manifiesto.v_flejesagarpa_man,   
+         t_distribuidor.v_nombre_dis,   
+         t_distribuidor.v_direcc_dis,   
+         t_distribuidor.v_ciudad_dis,   
+         t_embarcador.v_nombre_emb,   
+         t_embarcador.v_direcc_emb,   
+         t_embarcador.v_ciudad_emb,   
+         t_embarcador.v_ptoemb_emb,   
+         t_envase.v_nombre_env,   
+         t_manifiesto.n_totbul_man,
+			coordinador= (SELECT t_parametro.v_nombre_par  
+								FROM t_parametro  
+								WHERE   t_parametro.c_codigo_par = '043'),
+			nombredelcor= (SELECT t_parametro.v_valor_par  
+								FROM t_parametro  
+								WHERE   t_parametro.c_codigo_par = '043'),
+			cedula= (SELECT t_parametro.v_valor_par  
+								FROM t_parametro  
+								WHERE   t_parametro.c_codigo_par = '044'),
+			vigencia= (SELECT t_parametro.v_valor_par  
+								FROM t_parametro  
+								WHERE   t_parametro.c_codigo_par = '045')
+    FROM t_manifiesto,   
+         t_distribuidor,   
+         t_embarcador,   
+         t_envase,   
+         t_palet 
+   WHERE ( t_distribuidor.c_codigo_dis = t_manifiesto.c_codigo_dis ) and  
+         ( t_embarcador.c_codigo_emb = t_manifiesto.c_codigo_emb ) and  
+         ( t_palet.c_codigo_env = t_envase.c_codigo_env ) and  
+         ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and  
+         ( ( t_manifiesto.c_codigo_tem = :as_tem ) AND  
+         ( t_manifiesto.c_codigo_man = :as_cod ) ) and
+			(t_palet.c_excedente_pal='0'   )
+" arguments=(("as_tem", string),("as_cod", string)) )
+text(band=header alignment="2" text="Estados Unidos de América"border="0" color="0" x="1111" y="436" height="80" width="1061"  font.face="MS Sans Serif" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=3 alignment="0" tabsequence=32766 border="0" color="0" x="375" y="1000" height="64" width="439" format="dd/mm/yyyy"  name=d_embarque_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1385" y="1000" height="64" width="439" format="dd/mm/yyyy" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=13 alignment="0" tabsequence=32766 border="0" color="0" x="2432" y="1004" height="64" width="704" format="[general]"  name=v_ptoemb_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=10 alignment="0" tabsequence=32766 border="0" color="0" x="215" y="120" height="64" width="1463" format="[general]"  name=v_nombre_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=11 alignment="0" tabsequence=32766 border="0" color="0" x="215" y="196" height="64" width="1463" format="[general]"  name=v_direcc_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=12 alignment="0" tabsequence=32766 border="0" color="0" x="215" y="272" height="64" width="1463" format="[general]"  name=v_ciudad_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=summary dataobject="d_rpt_fitosanitario_cultivo" x="215" y="436" height="136" width="3077" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_tem"),("as_cod")) trail_footer = yes  slideup=directlyabove )
+compute(band=summary alignment="0" expression=" v_medtra_man +'  Placas de la Caja   ' +  v_placaj_man "border="0" color="0" x="215" y="996" height="64" width="1463" format="[general]"  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1829" y="120" height="64" width="1463" format="[general]"  name=v_nombre_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1829" y="196" height="64" width="1463" format="[general]"  name=v_direcc_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1829" y="272" height="64" width="1463" format="[general]"  name=v_ciudad_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=summary dataobject="d_rpt_fitosanitario_culext" x="215" y="616" height="136" width="1527" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_tem"),("as_cod")) trail_footer = yes  slideup=directlyabove )
+column(band=summary id=13 alignment="0" tabsequence=32766 border="0" color="0" x="1870" y="680" height="64" width="1422" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression=" n_totbul_man +'   Cajas de   ' +  v_nombre_env "border="0" color="0" x="215" y="828" height="64" width="1463" format="[general]"  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=summary dataobject="d_rpt_fitosanitario_etiqueta" x="1870" y="828" height="64" width="1175" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_tem"),("as_cod")) trail_footer = yes  slideup=directlyabove )
+compute(band=summary alignment="0" expression="'The medfly host material in this shipment was grown, packed, and/or stored out side of the municipality  of Tijuana, Baja California, Mexico. Nº de Fleje SAGARPA     '+  v_flejesagarpa_man "border="0" color="0" x="215" y="2000" height="288" width="3086" format="[general]"  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=17 alignment="0" tabsequence=32766 border="0" color="0" x="210" y="100" height="64" width="1271" format="[general]"  name=nombredelcor edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=16 alignment="0" tabsequence=32766 border="0" color="0" x="210" y="192" height="64" width="1271" format="[general]"  name=coordinador edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=18 alignment="2" tabsequence=32766 border="0" color="0" x="2738" y="80" height="64" width="549" format="[general]"  name=cedula edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=19 alignment="2" tabsequence=32766 border="0" color="0" x="2743" y="224" height="64" width="544" format="[general]"  name=vigencia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

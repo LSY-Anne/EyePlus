@@ -1,0 +1,76 @@
+﻿$PBExportHeader$d_util_acumulador.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="t_palet.c_codigo_pro" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_eti dbname="t_palet.c_codigo_eti" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_pro dbname="t_palet.c_merdes_pro" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_man dbname="t_palet.c_merdes_pro" )
+ column=(type=char(1) updatewhereclause=yes name=c_staemb_pal dbname="t_palet.c_staemb_pal" )
+ column=(type=datetime updatewhereclause=yes name=d_empaque_pal dbname="t_palet.d_empaque_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bultosemp dbname="n_bultosemp" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bultosemb dbname="n_bultosemb" )
+ retrieve="Select   pal.c_codigo_pro,   
+         c_codigo_eti,   
+         c_merdes_pro,   
+         c_merdes_pro,   
+         c_staemb_pal,   
+         d_empaque_pal,   
+         n_bultosemp = Sum( n_bulxpa_pal ),
+         n_bultosemb = 0
+From     t_palet     pal,
+         t_producto  pro
+Where    pal.c_codigo_pro = pro.c_codigo_pro
+And      d_empaque_pal Between :ad_ini And :ad_fin
+And      c_staemb_pal = '0'
+Group By pal.c_codigo_pro,   
+         c_codigo_eti,   
+         c_merdes_pro,   
+         c_merdes_pro,   
+         c_staemb_pal,   
+         d_empaque_pal
+
+Union
+
+Select   pal.c_codigo_pro,   
+         c_codigo_eti,   
+         c_merdes_pro,   
+         c_merdes_man,   
+         c_staemb_pal,   
+         d_empaque_pal,   
+         n_bultosemp = Sum( n_bulxpa_pal ),
+         n_bultosemb = Sum( n_bulxpa_pal )
+From     t_palet      pal,
+         t_producto   pro,
+         t_manifiesto man
+Where    pal.c_codigo_pro = pro.c_codigo_pro
+And      pal.c_codigo_man = man.c_codigo_man
+And      d_empaque_pal Between :ad_ini And :ad_fin
+And      c_staemb_pal = '1'
+Group By pal.c_codigo_pro,   
+         c_codigo_eti,   
+         c_merdes_pro,   
+         c_merdes_man,   
+         c_staemb_pal,   
+         d_empaque_pal
+" arguments=(("ad_ini", datetime),("ad_fin", datetime)) )
+text(band=header alignment="2" text="C Codigo Pro"border="0" color="33554432" x="9" y="8" height="52" width="283"  name=c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Codigo Eti"border="0" color="33554432" x="302" y="8" height="52" width="265"  name=c_codigo_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Staemb Pal"border="0" color="33554432" x="576" y="8" height="52" width="293"  name=c_staemb_pal_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="D Empaque Pal"border="0" color="33554432" x="878" y="8" height="52" width="283"  name=d_empaque_pal_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="T Palet C Merdes Pro"border="0" color="33554432" x="1175" y="4" height="52" width="297"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="8" height="64" width="283" format="[general]"  name=c_codigo_pro edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="302" y="8" height="64" width="265" format="[general]"  name=c_codigo_eti edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="576" y="8" height="64" width="293" format="[general]"  name=c_staemb_pal edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="878" y="8" height="64" width="283" format="[shortdate] [time]"  name=d_empaque_pal edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="1175" y="4" height="52" width="297" format="[general]"  name=c_merdes_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=0 border="0" color="33554432" x="1486" y="4" height="52" width="233"  name=c_merdes_man  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="T Palet C Merdes Pro"border="0" color="33554432" x="1481" y="4" height="52" width="238"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=0 border="0" color="33554432" x="1733" y="0" height="52" width="978"  name=n_bultosemp  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="N Bultosemp"border="0" color="33554432" x="1728" y="4" height="52" width="983"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=0 border="0" color="33554432" x="2725" y="0" height="52" width="978"  name=n_bultosemb  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="N Bultosemb"border="0" color="33554432" x="2720" y="4" height="52" width="983"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,82 @@
+﻿$PBExportHeader$d_rpt_bultos_expynac.srd
+release 6;
+datawindow(units=0 timer_interval=60000 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=440 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=88 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=c_codigo_lot dbname="t_palet.c_codigo_lot" )
+ column=(type=char(1) updatewhereclause=yes name=mercado dbname="mercado" )
+ column=(type=decimal(2) updatewhereclause=yes name=totemp dbname="totemp" )
+ column=(type=decimal(2) updatewhereclause=yes name=empnac dbname="empnac" )
+ column=(type=decimal(2) updatewhereclause=yes name=empext dbname="empext" )
+ column=(type=decimal(2) updatewhereclause=yes name=embnac dbname="embnac" )
+ column=(type=decimal(2) updatewhereclause=yes name=embext dbname="embext" )
+ column=(type=decimal(2) updatewhereclause=yes name=eliminado dbname="eliminado" )
+ column=(type=char(1) updatewhereclause=yes name=reempaque dbname="reempaque" )
+ retrieve="  SELECT t_palet.c_codigo_lot,
+			mercado=(case when isnull(t_palet.c_codigo_man,'')='' then t_producto.c_merdes_pro  else left(t_palet.c_codigo_man,1) end),
+			totemp=(case when left(t_palet.c_codigo_man,1) ='N' then sum(t_palet.n_bulxpa_pal) else 0 end)+(case when left(t_palet.c_codigo_man,1) ='E' then sum(t_palet.n_bulxpa_pal) else 0 end),
+			empnac=(case when left(t_palet.c_codigo_man,1) ='N' then sum(t_palet.n_bulxpa_pal) else 0 end),
+			empext=(case when left(t_palet.c_codigo_man,1) ='E' then sum(t_palet.n_bulxpa_pal) else 0 end),
+			embnac=(case when isnull(left(t_palet.c_codigo_man,1),'')<>'' and left(t_palet.c_codigo_man,1) ='N' then sum(t_palet.n_bulxpa_pal) else 0 end),
+			embext=(case when isnull(left(t_palet.c_codigo_man,1),'')<>'' and left(t_palet.c_codigo_man,1) ='E' then sum(t_palet.n_bulxpa_pal) else 0 end),
+			eliminado=(select sum(n_bulxpa_pal) from t_paleteliminado where c_codigo_lot =t_palet.c_codigo_lot and c_motivo_pal<>'02'),
+			reempaque=''
+    FROM t_temporada,
+			t_palet,
+			t_producto
+   WHERE ( t_palet.c_codigo_pro=t_producto.c_codigo_pro)and
+			( t_temporada.c_codigo_tem= t_palet.c_codigo_tem )and
+			( t_palet.c_activo_pal='1')and
+			( t_palet.c_codigo_tem = :as_tem ) 
+group by c_codigo_lot,c_merdes_pro,c_codigo_man,t_palet.c_codigo_pro
+
+
+
+
+
+" arguments=(("as_tem", string))  sort="c_codigo_lot A mercado A " )
+group(level=1 header.height=60 trailer.height=72 by=("c_codigo_lot" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=64 trailer.height=0 by=("c_codigo_lot" , "mercado" ) header.color="536870912" trailer.color="536870912" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+compute(band=header alignment="0" expression="'Fecha del Sistema: ' + String( f_GetSysDateA( ), 'dd/mm/yyyy' )"border="0" color="0" x="37" y="264" height="52" width="1445" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header x="0" y="324" height="112" width="3607" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Lote "border="0" color="0" x="50" y="332" height="44" width="146"  name=c_codigo_pro_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="242" y1="320" x2="242" y2="432" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="919" y="12" height="76" width="1737" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="REPORTE DE BULTOS DE EXPORTACION Y NACIONAL"border="0" color="33554432" x="1143" y="124" height="44" width="1275"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2679" y="12" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2912" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="3177" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3346" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="3173" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3346" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="3173" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3346" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="3173" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3346" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_bultos_expynac"border="0" color="0" x="2944" y="204" height="48" width="658"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Invent."border="0" color="0" x="3282" y="328" height="44" width="201"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Bajas"border="0" color="0" x="2350" y="332" height="44" width="174"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Mercado "border="0" color="0" x="265" y="332" height="44" width="274"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Total Empacado"border="0" color="0" x="549" y="332" height="88" width="238"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Emb. Extranjero"border="0" color="0" x="1815" y="332" height="88" width="270"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Emb. Nacional"border="0" color="0" x="1527" y="332" height="92" width="238"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Emp. Extranjero"border="0" color="0" x="1125" y="332" height="92" width="229"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Emp. Nacional"border="0" color="0" x="818" y="332" height="88" width="233"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=1 alignment="0" tabsequence=32766 border="0" color="0" x="50" y="8" height="48" width="274" format="[general]"  name=c_codigo_lot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=2 alignment="0" tabsequence=32766 border="0" color="0" x="283" y="4" height="48" width="187" format="[general]"  name=mercado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=3 alignment="1" tabsequence=32766 border="0" color="0" x="507" y="4" height="48" width="279" format="#,##0"  name=totemp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=4 alignment="1" tabsequence=32766 border="0" color="0" x="805" y="4" height="48" width="247" format="#,##0"  name=empnac edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1106" y="4" height="48" width="247" format="#,##0"  name=empext edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1568" y="4" height="48" width="197" format="#,##0"  name=embnac edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1815" y="4" height="48" width="270" format="#,##0"  name=embext edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="23" y1="4" x2="3575" y2="4" pen.style="2" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=footer x1="0" y1="4" x2="3584" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="20" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2272" y="24" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3282" y="24" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=8 alignment="0" tabsequence=0 border="0" color="0" x="2249" y="20" height="44" width="261"  name=eliminado  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=0 border="0" color="0" x="3607" y="0" height="44" width="18"  name=reempaque  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

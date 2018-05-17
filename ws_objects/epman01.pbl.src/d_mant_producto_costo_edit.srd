@@ -1,0 +1,47 @@
+﻿$PBExportHeader$d_mant_producto_costo_edit.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=64 color="79741120" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes key=yes name=c_codigo_pro dbname="t_producto_costo.c_codigo_pro" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=c_codigo_cos dbname="t_producto_costo.c_codigo_cos" )
+ column=(type=decimal(5) update=yes updatewhereclause=yes name=n_importe_prc dbname="t_producto_costo.n_importe_prc" initial="0" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_producto_costo.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion dbname="t_producto_costo.d_creacion_prc" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod dbname="t_producto_costo.c_usumod_prc" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi dbname="t_producto_costo.d_modifi_prc" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo dbname="t_producto_costo.c_activo_prc" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cos dbname="t_costo.v_nombre_cos" )
+ column=(type=char(4) updatewhereclause=yes name=t_costo_c_codigo_cos dbname="t_costo.c_codigo_cos" )
+ retrieve="  SELECT t_producto_costo.c_codigo_pro,   
+         t_producto_costo.c_codigo_cos,   
+         t_producto_costo.n_importe_prc,   
+         t_producto_costo.c_codigo_usu,   
+         t_producto_costo.d_creacion_prc,   
+         t_producto_costo.c_usumod_prc,   
+         t_producto_costo.d_modifi_prc,   
+         t_producto_costo.c_activo_prc,   
+         t_costo.v_nombre_cos,   
+         t_costo.c_codigo_cos  
+    FROM t_producto_costo,   
+         t_costo  
+   WHERE ( t_costo.c_codigo_cos = t_producto_costo.c_codigo_cos ) and  
+         ( ( t_producto_costo.c_codigo_pro = :as_cod ) )    
+" update="t_producto_costo" updatewhere=1 updatekeyinplace=no arguments=(("as_cod", string)) )
+text(band=header alignment="0" text=" Código"border="6" color="33554432" x="9" y="4" height="56" width="178"  name=c_codigo_cos_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Costo Descripción"border="6" color="33554432" x="197" y="4" height="56" width="960"  name=v_nombre_cos_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Importe "border="6" color="33554432" x="1166" y="4" height="56" width="302"  name=n_importe_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Usuario Creador"border="6" color="33554432" x="1477" y="4" height="56" width="480"  name=c_codigo_usu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Fecha"border="6" color="33554432" x="1966" y="4" height="56" width="320"  name=d_creacion_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Modificador"border="6" color="33554432" x="2295" y="4" height="56" width="475"  name=c_usumod_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Fecha"border="6" color="33554432" x="2779" y="4" height="56" width="329"  name=d_modifi_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="52" width="178" format=" @@@@"  name=c_codigo_cos edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="197" y="4" height="52" width="960" format=" [general]"  name=v_nombre_cos edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=10 border="0" color="33554432" x="1166" y="4" height="52" width="302" format="#,##0.00000 "  name=n_importe_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="33554432" x="1477" y="4" height="52" width="480" format="[general]"  name=c_codigo_usu edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="1966" y="4" height="52" width="320" format="dd/mm/yyyy"  name=d_creacion edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="2295" y="4" height="52" width="475" format="[general]"  name=c_usumod edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="2779" y="4" height="52" width="329" format="[general]"  name=d_modifi edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

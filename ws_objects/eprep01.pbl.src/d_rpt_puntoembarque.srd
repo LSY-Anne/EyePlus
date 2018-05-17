@@ -1,0 +1,81 @@
+﻿$PBExportHeader$d_rpt_puntoembarque.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=364 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=80 color="536870912" )
+detail(height=56 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes key=yes name=c_codigo_pte dbname="t_puntoembarque.c_codigo_pte" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_emb dbname="t_puntoembarque.c_codigo_emb" )
+ column=(type=char(1) updatewhereclause=yes name=c_mercadosind_pte dbname="t_puntoembarque.c_mercadosind_pte" )
+ column=(type=decimal(0) updatewhereclause=yes name=n_numeroviaje_pte dbname="t_puntoembarque.n_numeroviaje_pte" )
+ column=(type=decimal(0) updatewhereclause=yes name=n_foliomanifiestome_pte dbname="t_puntoembarque.n_foliomanifiestome_pte" )
+ column=(type=decimal(0) updatewhereclause=yes name=n_foliofacturame_pte dbname="t_puntoembarque.n_foliofacturame_pte" )
+ column=(type=decimal(0) updatewhereclause=yes name=n_foliomanifiestomn_pte dbname="t_puntoembarque.n_foliomanifiestomn_pte" )
+ column=(type=decimal(0) updatewhereclause=yes name=n_foliofacturamn_pte dbname="t_puntoembarque.n_foliofacturamn_pte" )
+ column=(type=char(100) updatewhereclause=yes name=v_embnombre_pte dbname="t_puntoembarque.v_embnombre_pte" )
+ column=(type=char(100) updatewhereclause=yes name=v_embtelefono_pte dbname="t_puntoembarque.v_embtelefono_pte" )
+ column=(type=char(100) updatewhereclause=yes name=v_embemail_pte dbname="t_puntoembarque.v_embemail_pte" )
+ column=(type=char(1) updatewhereclause=yes name=c_tipopuntoembarque_pte dbname="t_puntoembarque.c_tipopuntoembarque_pte" values="Frontera	F/Normal	N/" )
+ column=(type=char(50) updatewhereclause=yes name=v_nombre_pte dbname="t_puntoembarque.v_nombre_pte" )
+ retrieve="  SELECT t_puntoembarque.c_codigo_pte,
+			t_puntoembarque.c_codigo_emb,
+			t_puntoembarque.c_mercadosind_pte,			
+			t_puntoembarque.n_numeroviaje_pte,
+			t_puntoembarque.n_foliomanifiestome_pte,
+			t_puntoembarque.n_foliofacturame_pte,
+			t_puntoembarque.n_foliomanifiestomn_pte,
+			t_puntoembarque.n_foliofacturamn_pte,
+			t_puntoembarque.v_embnombre_pte,
+			t_puntoembarque.v_embtelefono_pte,
+			t_puntoembarque.v_embemail_pte,
+			t_puntoembarque.c_tipopuntoembarque_pte,
+			t_puntoembarque.v_nombre_pte
+    FROM t_puntoembarque 
+   WHERE c_activo_pte= '1'    
+" update="t_puntoembarque" updatewhere=0 updatekeyinplace=no )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+compute(band=header alignment="0" expression="'Fecha del Sistema: ' + String( f_GetSysDateA( ), 'dd/mm/yyyy' )"border="0" color="0" x="14" y="232" height="52" width="1061" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header x="23" y="292" height="72" width="4302" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="55" y="24" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=footer x1="41" y1="8" x2="4320" y2="8" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="3397" y="12" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="3625" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="3886" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="4055" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="3886" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="4055" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="3886" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="4055" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="3886" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="4055" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_actividad"border="0" color="0" x="3854" y="204" height="48" width="457"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="1577" y="12" height="76" width="1349" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Listado de punto de embarque"border="0" color="33554432" x="1801" y="120" height="44" width="901"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="3831" y="4" height="44" width="485" format="[general]"  name=v_embtelefono_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="46" y="4" height="44" width="178" format="[general]"  name=c_codigo_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="33554432" x="2414" y="4" height="44" width="315" format="[general]"  name=n_foliofacturamn_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=0 border="0" color="33554432" x="247" y="4" height="44" width="421"  name=v_nombre_pte  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="33554432" x="3474" y="4" height="44" width="315" format=""  name=c_tipopuntoembarque_pte ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="33554432" x="2281" y="4" height="44" width="119" format="[general]"  name=c_mercadosind_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="33554432" x="1888" y="4" height="44" width="311" format="[general]"  name=n_foliomanifiestomn_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="33554432" x="1568" y="4" height="44" width="302" format="[general]"  name=n_foliofacturame_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="33554432" x="1248" y="4" height="44" width="297" format="[general]"  name=n_foliomanifiestome_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="946" y="4" height="44" width="283" format="[general]"  name=c_codigo_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="33554432" x="686" y="4" height="44" width="242" format="[general]"  name=n_numeroviaje_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Código"border="0" color="33554432" x="37" y="308" height="44" width="192"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Nombre Pto. Emb"border="0" color="33554432" x="247" y="308" height="44" width="416"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="No.Viaje"border="0" color="33554432" x="681" y="308" height="44" width="247"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Embarcador"border="0" color="33554432" x="946" y="308" height="44" width="283"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Folio Man ME."border="0" color="33554432" x="1248" y="308" height="44" width="297"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Folio Fac. ME."border="0" color="33554432" x="1568" y="308" height="44" width="302"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Folio Man MN."border="0" color="33554432" x="1888" y="308" height="44" width="311"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Mercado"border="0" color="33554432" x="2213" y="308" height="44" width="187"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Folio Fac. MN."border="0" color="33554432" x="2414" y="308" height="44" width="315"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Tipo"border="0" color="33554432" x="3474" y="308" height="44" width="128"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Teléfono"border="0" color="33554432" x="3826" y="308" height="44" width="256"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="3003" y="24" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="4014" y="24" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="2775" y="4" height="44" width="654" format="[general]"  name=v_embnombre_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Nombre de Embarcador"border="0" color="33554432" x="2779" y="308" height="44" width="658"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

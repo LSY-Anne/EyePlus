@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_previewxp.srf
+global type f_previewxp from function_object
+end type
+
+forward prototypes
+global function datawindow f_previewxp (string as_dataobject)
+end prototypes
+
+global function datawindow f_previewxp (string as_dataobject);DataWindow	ldw_1
+s_parm lstr_parm
+
+lstr_parm.s_cad[ 1] = 'XP'
+lstr_parm.s_cad[ 2] = as_dataobject
+OpenWithParm( w_presentacion_preliminar, lstr_parm)
+
+If IsValid( w_presentacion_preliminar_dw ) Then
+	ldw_1 = w_presentacion_preliminar_dw.dw_1
+End If
+
+Return ldw_1
+end function
+

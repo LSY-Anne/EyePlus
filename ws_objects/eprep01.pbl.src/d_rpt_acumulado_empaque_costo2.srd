@@ -1,0 +1,59 @@
+﻿$PBExportHeader$d_rpt_acumulado_empaque_costo2.srd
+$PBExportComments$Reporte Costos Acumulados CtoXCaja, CtoXKgs
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=276 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=76 color="536870912" )
+detail(height=596 color="536870912"  height.autosize=yes)
+table(column=(type=char(2) updatewhereclause=yes name=c_codigo_tem dbname="t_acumulado_empaque_diario.c_codigo_tem" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_cul dbname="t_cultivo.c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=t_cultivo_v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_aed dbname="t_acumulado_empaque_diario.c_merdes_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=bulemp dbname="BulEmp" )
+ column=(type=decimal(2) updatewhereclause=yes name=pestot dbname="PesTot" )
+ retrieve="Select   c_codigo_tem,   
+         t_cultivo.c_codigo_cul,   
+         t_cultivo.v_nombre_cul,
+         c_merdes_aed,
+         BulEmp = Sum( n_bulemp_aed ) ,
+         PesTot = Sum( n_pestot_aed )  
+From     t_acumulado_empaque_diario,
+         t_cultivo   
+Where    c_codigo_tem = :as_tem
+And      t_acumulado_empaque_diario.c_codigo_cul = t_cultivo.c_codigo_cul
+And      c_activo_aed = '1'
+And		t_cultivo.c_activo_cul = '1'
+Group By c_codigo_tem,   
+         t_cultivo.c_codigo_cul,
+         t_cultivo.v_nombre_cul,
+         c_merdes_aed
+
+" arguments=(("as_tem", string),("ad_sys", datetime),("adc_tc", number))  sort="c_merdes_aed A c_codigo_cul A " )
+group(level=1 header.height=48 trailer.height=0 by=("c_merdes_aed" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=56 trailer.height=0 by=("c_codigo_cul" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="4133" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="4302" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="4133" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="4302" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="4133" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="4302" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="4133" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="4302" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_acumulado_empaque_costo2"border="0" color="0" x="3502" y="224" height="48" width="1056"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="'Fecha del Sistema: ' + String( f_GetSysDateA( ), 'dd/mm/yyyy' )"border="0" color="0" x="14" y="220" height="52" width="1061" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+bitmap(band=header filename="logocia.bmp" x="46" y="0" height="216" width="818" border="0" )
+compute(band=header alignment="2" expression="'Temporada: ' + f_GetTemporada( )"border="0" color="0" x="1225" y="224" height="44" width="2066" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression="f_GetCia( ) "border="0" color="0" x="1225" y="12" height="76" width="2066" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression="'TIPO DE CAMBIO DEL DIA: ' + String( adc_tc)"border="0" color="33554432" x="1225" y="164" height="44" width="2066" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="REPORTE ACUMULADO DE COSTOS POR PRODUCTO"border="0" color="33554432" x="1225" y="104" height="44" width="2066"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=header.1 id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="14" y="0" height="44" width="1102" format="[general]~t'MERCADO: ' + If ( c_merdes_aed = 'N', 'NACIONAL', 'EXTRANJERO' )"  name=c_merdes_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=header.2 id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="46" y="0" height="44" width="1801" format="~t'Cultivo: ' +  c_codigo_cul + '  ' +  t_cultivo_v_nombre_cul"  name=t_cultivo_v_nombre_cul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+report(band=detail dataobject="d_rpt_costo_cul_x_dia_kgs_child" x="0" y="40" height="136" width="4576" border="0"  height.autosize=yes criteria="" nest_arguments=(("c_codigo_tem"),("c_codigo_cul"),("ad_sys"),("c_merdes_aed")) trail_footer = yes  slideup=directlyabove )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="12" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="3264" y="12" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="4274" y="12" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="0" y1="0" x2="4581" y2="0" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+report(band=detail dataobject="d_rpt_mano_obra_acumulado_child" x="0" y="416" height="136" width="4576" border="0"  height.autosize=yes criteria="" nest_arguments=(("c_codigo_tem"),("c_codigo_cul"),("c_merdes_aed")) trail_footer = yes  slideup=directlyabove )
+report(band=detail dataobject="d_rpt_costo_acu_x_dia_kgs_child" x="0" y="228" height="136" width="4576" border="0"  height.autosize=yes criteria="" nest_arguments=(("c_codigo_tem"),("c_codigo_cul"),("c_merdes_aed")) trail_footer = yes  slideup=directlyabove )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

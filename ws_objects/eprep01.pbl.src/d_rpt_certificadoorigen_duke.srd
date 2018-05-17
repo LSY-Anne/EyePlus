@@ -1,0 +1,80 @@
+﻿$PBExportHeader$d_rpt_certificadoorigen_duke.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no rows_per_detail = 7 )
+header(height=1652 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=c_codigo_pro_1 dbname="t_producto.c_codigo_pro" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb_1 dbname="t_embarcador.v_nombre_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ptoemb_emb_1 dbname="t_embarcador.v_ptoemb_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_emb_1 dbname="t_embarcador.v_ciudad_emb" )
+ column=(type=char(100) updatewhereclause=yes name=v_lugdes_man_1 dbname="t_manifiesto.v_lugdes_man" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man_5 dbname="t_manifiesto.d_embarque_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=bultos dbname="bultos" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro_6 dbname="t_producto.v_nombre_pro" )
+ column=(type=char(20) updatewhereclause=yes name=v_placaj_man_1 dbname="t_manifiesto.v_placaj_man" )
+ retrieve="Select 	pr.c_codigo_pro,
+			e.v_nombre_emb,
+			e.v_ptoemb_emb,
+			e.v_ciudad_emb,
+			m.v_lugdes_man,
+			m.d_embarque_man,
+			bultos = sum(p.n_bulxpa_pal),
+			pr.v_nombre_pro,
+			m.v_placaj_man
+From 		t_embarcador e, 
+			t_manifiesto m, 
+			t_palet p,
+			t_producto pr
+
+Where 	( e.c_codigo_emb = m.c_codigo_emb ) and 
+			( m.c_codigo_tem = p.c_codigo_tem ) and  
+        	( m.c_codigo_man = p.c_codigo_man ) and  
+        	( pr.c_codigo_pro = p.c_codigo_pro ) and  
+      	( ( m.c_codigo_tem = :as_tem ) and
+     		( m.c_codigo_man = :as_man ))
+
+Group By pr.c_codigo_pro, 
+	 		pr.v_nombre_pro,
+	 		e.v_nombre_emb,
+	 		e.v_ptoemb_emb,
+	 		e.v_ciudad_emb,
+	 		m.v_lugdes_man,
+	 		m.d_embarque_man,
+	 		p.n_bulxpa_pal,
+			m.v_placaj_man" arguments=(("as_tem", string),("as_man", string)) )
+column(band=header id=3 alignment="0" tabsequence=32766 border="0" color="0" x="526" y="440" height="64" width="1010" format="[general]" row_in_detail=1  name=v_ptoemb_emb_1 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=2 alignment="0" tabsequence=32766 border="0" color="0" x="526" y="620" height="64" width="1266" format="[general]" row_in_detail=1  name=v_nombre_emb_1 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=5 alignment="0" tabsequence=32766 border="0" color="0" x="526" y="764" height="64" width="1010" format="[general]" row_in_detail=1  name=v_lugdes_man_1 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="TOTAL:"border="0" color="0" x="667" y="1452" height="60" width="210"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=4 alignment="0" tabsequence=32766 border="0" color="0" x="357" y="1592" height="52" width="978" format="[general]" row_in_detail=1  name=v_ciudad_emb_1 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="Day( Date( d_embarque_man_5 ) ) "border="0" color="0" x="1454" y="1596" height="52" width="192" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_mes ( Month( Date( d_embarque_man_5 ) ) )"border="0" color="0" x="2043" y="1596" height="52" width="393" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="0" color="0" x="146" y="1000" height="56" width="283" format="[general]" row_in_detail=1  name=c_codigo_pro_1 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="0" color="0" x="146" y="1056" height="56" width="283" format="[general]" row_in_detail=2  name=c_codigo_pro_2 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="0" tabsequence=32766 border="0" color="0" x="453" y="1000" height="56" width="878" format="[general]" row_in_detail=1  name=v_nombre_pro_1 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1477" y="1004" height="56" width="274" format="#,##0" row_in_detail=1  name=bultos_1 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1477" y="1060" height="56" width="274" format="#,##0" row_in_detail=2  name=bultos_2 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="0" color="0" x="146" y="1112" height="56" width="283" format="[general]" row_in_detail=3  name=c_codigo_pro_3 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="0" tabsequence=32766 border="0" color="0" x="453" y="1112" height="56" width="878" format="[general]" row_in_detail=3  name=v_nombre_pro_3 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="0" color="0" x="146" y="1168" height="56" width="283" format="[general]" row_in_detail=4  name=c_codigo_pro_4 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="0" tabsequence=32766 border="0" color="0" x="453" y="1168" height="56" width="878" format="[general]" row_in_detail=4  name=v_nombre_pro_4 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1481" y="1172" height="56" width="270" format="#,##0" row_in_detail=4  name=bultos_4 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="0" color="0" x="146" y="1224" height="56" width="283" format="[general]" row_in_detail=5  name=c_codigo_pro_5 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="0" tabsequence=32766 border="0" color="0" x="453" y="1224" height="56" width="878" format="[general]" row_in_detail=5  name=v_nombre_pro_5 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1477" y="1228" height="56" width="274" format="#,##0" row_in_detail=5  name=bultos_5 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="0" color="0" x="146" y="1280" height="56" width="283" format="[general]" row_in_detail=6  name=c_codigo_pro_6 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="0" tabsequence=32766 border="0" color="0" x="453" y="1280" height="56" width="878" format="[general]" row_in_detail=6  name=v_nombre_pro_6 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1477" y="1284" height="56" width="274" format="#,##0" row_in_detail=6  name=bultos_6 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="0" color="0" x="146" y="1336" height="56" width="283" format="[general]" row_in_detail=7  name=c_codigo_pro_7 edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="0" tabsequence=32766 border="0" color="0" x="453" y="1336" height="56" width="878" format="[general]" row_in_detail=7  name=v_nombre_pro_7 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1477" y="1340" height="56" width="274" format="#,##0" row_in_detail=7  name=bultos_7 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="sum(bultos for all)"border="0" color="0" x="1504" y="1456" height="60" width="247" format="#,##0"  name=sum_bultos  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="0" tabsequence=32766 border="0" color="0" x="453" y="1056" height="56" width="878" format="[general]" row_in_detail=2  name=v_nombre_pro_2 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="Year( Date( d_embarque_man_5 ) ) "border="0" color="0" x="2734" y="1596" height="52" width="238" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="APHYM"border="0" color="0" x="526" y="700" height="56" width="224"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1477" y="1116" height="56" width="274" format="#,##0" row_in_detail=3  name=bultos_3 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="X"border="0" color="0" x="2907" y="1060" height="56" width="27"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=9 alignment="0" tabsequence=32766 border="0" color="0" x="2903" y="1124" height="56" width="169" format="[general]" row_in_detail=1  name=v_placaj_man_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

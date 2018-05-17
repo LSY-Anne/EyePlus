@@ -1,0 +1,12 @@
+﻿$PBExportHeader$d_arch_crucex.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes key=yes name=c_codigo_cze dbname="t_lugarescruce.c_codigo_cze" )
+ retrieve="select c_codigo_cze
+from t_lugarescruce (nolock)" update="t_lugarescruce" updatewhere=0 updatekeyinplace=no )
+text(band=header alignment="0" text="C Codigo Cze"border="0" color="0" x="9" y="4" height="56" width="571"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="9" y="0" height="56" width="571" format="[general]"  name=c_codigo_cze dddw.name=d_dddw_crucex dddw.displaycolumn=v_desclarga_cze dddw.datacolumn=c_codigo_cze dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

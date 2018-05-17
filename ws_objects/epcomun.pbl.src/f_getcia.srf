@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_getcia.srf
+global type f_getcia from function_object
+end type
+
+forward prototypes
+global function string f_getcia ()
+end prototypes
+
+global function string f_getcia ();String ls_nom
+
+Select v_valor_par
+Into :ls_nom
+From t_parametro
+Where c_codigo_par='004'
+Using SqlCa;
+
+
+Return ls_nom
+end function
+

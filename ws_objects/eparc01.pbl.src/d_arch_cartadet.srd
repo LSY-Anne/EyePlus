@@ -1,0 +1,54 @@
+﻿$PBExportHeader$d_arch_cartadet.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=60 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_car dbname="c_codigo_car" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_secuencia_cet dbname="c_secuencia_cet" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=c_codigo_mat dbname="c_codigo_mat" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=n_cantidad_cet dbname="n_cantidad_cet" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=c_sustituye_mat dbname="c_sustituye_mat" )
+ column=(type=char(1) updatewhereclause=yes name=c_tipo_car dbname="c_tipo_car" values="Por Bulto	P/Por Palet	A/" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="v_nombre_pro" )
+ column=(type=char(10) updatewhereclause=yes name=v_abrevia_uni dbname="v_abrevia_uni" )
+ column=(type=decimal(4) updatewhereclause=yes name=n_costops_cet dbname="n_costops_cet" )
+ column=(type=decimal(4) updatewhereclause=yes name=n_costodll_cet dbname="n_costodll_cet" )
+ retrieve="SELECT c_codigo_car= t_cartamaterialdet.c_codigo_car,   
+		c_secuencia_cet= t_cartamaterialdet.c_secuencia_cet,   
+		c_codigo_mat = t_cartamaterialdet.c_codigo_mat,   
+		n_cantidad_cet = t_cartamaterialdet.n_cantidad_cet,   
+		c_sustituye_mat = t_cartamaterialdet.c_sustituye_mat,   
+		c_tipo_car = t_cartamaterialdet.c_tipo_car,
+		v_nombre_pro = invproducto.v_nombre_pro,
+		v_abrevia_uni = invunidad.v_abrevia_uni,
+		n_costops_cet = t_cartamaterialdet.n_costops_cet,
+		n_costodll_cet = t_cartamaterialdet.n_costodll_cet
+ FROM t_cartamaterialdet (Nolock),   
+		invproducto  (Nolock),
+		invunidad (Nolock)
+WHERE ( t_cartamaterialdet.c_codigo_mat = invproducto.c_codigo_pro )  
+and invproducto.c_codigo_uni=invunidad.c_codigo_uni  
+and t_cartamaterialdet.c_codigo_car = :as_cod
+
+" arguments=(("as_cod", string)) )
+text(band=header alignment="0" text="   No."border="6" color="16711680" x="9" y="4" height="52" width="151"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text=" Material"border="6" color="16711680" x="169" y="4" height="52" width="256"  name=c_codigo_mat_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text=" Nombre del Material"border="6" color="16711680" x="434" y="4" height="52" width="654"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text=" Unidad"border="6" color="16711680" x="1097" y="4" height="52" width="183"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Tipo"border="6" color="16711680" x="1289" y="4" height="52" width="283"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="1" text=" Cantidad "border="6" color="16711680" x="1582" y="4" height="52" width="325"  name=n_cantidad_cet_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="1" text="Costo Ps "border="6" color="16711680" x="1915" y="4" height="52" width="251"  name=n_costops_cet_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="1" text="Costo Dlls "border="6" color="16711680" x="2176" y="4" height="52" width="233"  name=n_costodll_cet_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text=" Sustituto"border="6" color="16711680" x="2418" y="4" height="52" width="338"  name=c_sustituye_mat_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=detail alignment="0" expression="right( '000'+String(getrow()),3)"border="0" color="33554432" x="9" y="0" height="52" width="151" format="   [general]"  name=c_secuencia  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="169" y="0" height="52" width="256" format="[general]"  name=c_codigo_mat edit.limit=8 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="434" y="0" height="52" width="654" format="[general]"  name=v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="1097" y="0" height="52" width="183" format=" [general]"  name=v_abrevia_uni edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=4 alignment="1" tabsequence=20 border="0" color="33554432" x="1582" y="0" height="52" width="325" format="#,##0.0000 "  name=n_cantidad_cet edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=9 alignment="1" tabsequence=30 border="0" color="33554432" x="1915" y="0" height="52" width="251" format="#,##0.00 "  name=n_costops_cet edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=10 alignment="1" tabsequence=40 border="0" color="33554432" x="2176" y="0" height="52" width="233" format="#,##0.00 "  name=n_costodll_cet edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="33554432" x="2418" y="0" height="52" width="338" format="[general]"  name=c_sustituye_mat edit.limit=8 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=6 alignment="2" tabsequence=10 border="0" color="33554432" x="1289" y="0" height="52" width="283" format="[general]"  name=c_tipo_car ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,124 @@
+﻿$PBExportHeader$d_rpt_acumulado_diario_resumen_total.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=100 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=124 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=c_codigo_cul dbname="t_cultivo.c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_acu dbname="t_acumulado.c_merdes_acu" )
+ column=(type=decimal(2) updatewhereclause=yes name=piso_hoy dbname="piso_hoy" )
+ column=(type=decimal(2) updatewhereclause=yes name=embarcado dbname="embarcado" )
+ column=(type=decimal(2) updatewhereclause=yes name=emba_ant dbname="emba_ant" )
+ column=(type=decimal(2) updatewhereclause=yes name=piso_ayer dbname="piso_ayer" )
+ column=(type=decimal(2) updatewhereclause=yes name=empacado dbname="empacado" )
+ column=(type=decimal(2) updatewhereclause=yes name=empa_ant dbname="empa_ant" )
+ retrieve="
+Select   c.c_codigo_cul,   
+         c.v_nombre_cul,   
+         a.c_merdes_acu,   
+         Sum( IsNull( n_emptot_acu, 0) + IsNull( n_emphoy_acu, 0) + 					
+              IsNull( n_sobhoy_acu, 0) - IsNull( n_sobant_acu, 0) - 
+              IsNull( n_merhoy_acu, 0) - IsNull( n_mertot_acu, 0) - 					
+              IsNull( n_embhoy_acu, 0) - IsNull( n_embtot_acu, 0)) As piso_hoy,   
+         IsNull(Sum(a.n_embhoy_acu),0) As embarcado,   
+         IsNull(Sum(a.n_embtot_acu),0) As emba_ant,   
+         IsNull(Sum(a.n_sobtot_acu),0) As piso_ayer,   
+         Sum( IsNull( n_emphoy_acu, 0) + IsNull( n_sobhoy_acu, 0) - IsNull( n_sobant_acu, 0)) As empacado,
+         Sum( IsNull( n_emptot_acu, 0) -  IsNull( n_sobant_acu, 0) ) As empa_ant
+From     t_acumulado   a,   
+         t_cultivo     c,   
+         t_producto    p
+Where    p.c_codigo_cul = c.c_codigo_cul
+And      p.c_codigo_pro = a.c_codigo_pro
+And      c.v_nombre_cul Like :as_nomcul   
+And		a.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+Group By    
+         c.c_codigo_cul,   
+         c.v_nombre_cul,   
+         a.c_merdes_acu 
+
+Union
+
+Select Distinct 
+         c.c_codigo_cul, 
+         c.v_nombre_cul,   
+         'E',
+         0 As piso_hoy,   
+         0 As embarcado,   
+         0 As emba_ant,   
+         0 As piso_ayer,   
+         0 As empacado,  
+         0 As empa_ant 
+From     t_acumulado   a,   
+         t_cultivo     c,   
+         t_producto    p
+Where    p.c_codigo_cul = c.c_codigo_cul  
+And      p.c_codigo_pro = a.c_codigo_pro
+And      c.v_nombre_cul Like :as_nomcul   
+And		a.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+And      p.c_codigo_cul  Not In 
+                           ( Select px.c_codigo_cul 
+                             From   t_acumulado ax,   
+                                    t_cultivo   cx,   
+                                    t_producto  px
+                             Where  px.c_codigo_cul = cx.c_codigo_cul  
+                             And    px.c_codigo_pro = ax.c_codigo_pro
+                             And    ax.c_merdes_acu = 'E'
+                             And    ax.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+ )
+
+Union
+
+Select Distinct 
+         c.c_codigo_cul, 
+         c.v_nombre_cul,   
+         'N',
+         0 As piso_hoy,   
+         0 As embarcado,   
+         0 As emba_ant,   
+         0 As piso_ayer,   
+         0 As empacado,  
+         0 As empa_ant 
+From     t_acumulado   a,   
+         t_cultivo     c,   
+         t_producto    p
+Where    p.c_codigo_cul = c.c_codigo_cul  
+And      p.c_codigo_pro = a.c_codigo_pro
+And      c.v_nombre_cul Like :as_nomcul   
+And		a.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+And      p.c_codigo_cul  Not In 
+                           ( Select px.c_codigo_cul 
+                             From   t_acumulado ax,   
+                                    t_cultivo   cx,   
+                                    t_producto  px
+                             Where  px.c_codigo_cul = cx.c_codigo_cul  
+                             And    px.c_codigo_pro = ax.c_codigo_pro
+                             And    ax.c_merdes_acu = 'N' 
+                             And    a.c_codigo_tem = ( Select c_codigo_tem From t_temporada Where c_activo_tem = '1' )
+                            )" arguments=(("as_nomcul", string))  sort="v_nombre_cul A c_merdes_acu A " )
+group(level=1 header.height=68 trailer.height=68 by=("v_nombre_cul" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=0 trailer.height=68 by=("c_merdes_acu" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="0" text="Resumen de Empaque y Embarque por Cultivo"border="0" color="0" x="27" y="36" height="60" width="1691"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=header.1 alignment="0" expression="WordCap( v_nombre_cul )"border="0" color="0" x="27" y="12" height="52" width="800" format="[general]"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="Empacado"border="0" color="0" x="946" y="12" height="60" width="311"  name=empacado_t  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="Embarcado"border="0" color="0" x="1385" y="12" height="60" width="334"  name=embarcado_t  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="'     ' + WordCap( If ( c_merdes_acu = 'N', 'NACIONAL', 'EXPORTACIÓN' ) )"border="0" color="0" x="27" y="8" height="52" width="361" format="[general]"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Anterior"border="0" color="0" x="434" y="8" height="60" width="229"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Hoy"border="0" color="0" x="434" y="68" height="60" width="119"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1330" y="8" height="52" width="389" format="#,##0"  name=emba_ant edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1330" y="68" height="52" width="389" format="#,##0"  name=embarcado edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="869" y="8" height="52" width="389" format="#,##0"  name=empa_ant edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="869" y="68" height="52" width="389" format="#,##0"  name=empacado edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="0" expression="'     Acumulado ' "border="0" color="0" x="27" y="4" height="52" width="361" format="[general]"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="0" expression=" WordCap( If ( c_merdes_acu = 'N', 'NACIONAL', 'EXPORTACIÓN' ) )"border="0" color="0" x="434" y="4" height="52" width="398" format="[general]"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(embarcado + emba_ant for group 2)"border="0" color="0" x="1330" y="4" height="52" width="389" format="#,##0"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(empacado + empa_ant for group 2)"border="0" color="0" x="869" y="4" height="52" width="389" format="#,##0"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="23" y1="0" x2="1723" y2="0" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="23" y1="64" x2="1723" y2="64" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="0" expression="'Total ' + WordCap( v_nombre_cul )"border="0" color="0" x="27" y="4" height="52" width="795" format="[general]"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(embarcado + emba_ant for group 1)"border="0" color="0" x="1330" y="4" height="52" width="389" format="#,##0"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(empacado + empa_ant for group 1)"border="0" color="0" x="869" y="4" height="52" width="389" format="#,##0"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="23" y1="64" x2="1723" y2="64" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

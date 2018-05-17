@@ -1,0 +1,83 @@
+﻿$PBExportHeader$d_rpt_sello_adicional.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 1 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=2892 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912"  height.autosize=yes)
+table(column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="d_embarque_man" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lit dbname="v_nombre_lit" )
+ column=(type=char(40) updatewhereclause=yes name=v_chofer_man dbname="v_chofer_man" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="c_codigo_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numcaj_man dbname="v_numcaj_man" )
+ column=(type=char(6) updatewhereclause=yes name=selloorigen dbname="selloorigen" )
+ column=(type=char(6) updatewhereclause=yes name=selloadicional dbname="selloadicional" )
+ column=(type=char(20) updatewhereclause=yes name=v_flejesagarpa_man dbname="v_flejesagarpa_man" )
+ column=(type=char(5) updatewhereclause=yes name=c_horcre_man dbname="c_horcre_man" )
+ retrieve="SELECT d_embarque_man = man.d_embarque_man,
+		 v_nombre_lit = lit.v_nombre_lit  ,
+		 v_chofer_man = man.v_chofer_man,
+		 c_codigo_man = man.c_codigo_man,
+		 v_numcaj_man = man.v_numcaj_man,
+		 selloorigen = LEFT(v_certiforigen_man,6),
+       selloadicional = RIGHT(v_certiforigen_man,6), 
+		 v_flejesagarpa_man = v_flejesagarpa_man,
+		 c_horcre_man = man.c_horcre_man		 
+FROM t_manifiesto man (nolock),
+		t_linea_transporte lit (nolock)
+where man.c_codigo_lit = lit.c_codigo_lit
+and man.c_codigo_man = :as_man
+and man.c_codigo_tem = :as_tem
+
+" arguments=(("as_tem", string),("as_man", string)) )
+bitmap(band=header filename="logocia.bmp" x="105" y="24" height="252" width="622" border="0" )
+compute(band=header alignment="2" expression="'FORMATO PARA LA DOCUMENTACION DEL SELLO DE SEGURIDAD ADICIONAL'"border="0" color="0" x="768" y="48" height="80" width="3205" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="2" expression="f_trim(f_getparmvalue('004'))"border="0" color="0" x="768" y="144" height="84" width="3205" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="FECHA DE EMBARQUE:"border="0" color="0" x="119" y="372" height="64" width="699"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1394" y="368" height="56" width="608" format="dd/mm/yyyy"  name=d_embarque_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1010" y1="428" x2="4457" y2="428" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="PRODUCTO TRANSLADADO:"border="0" color="0" x="119" y="456" height="64" width="837"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1010" y1="520" x2="4457" y2="520" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+report(band=header dataobject="d_rpt_fitosanitario_cultivo_terra" x="1376" y="452" height="180" width="1979" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_tem"),("as_man")) trail_footer = yes  slideup=directlyabove )
+line(band=header x1="1010" y1="640" x2="4457" y2="640" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="COMPAÑIA TRANSPORTISTA:"border="0" color="0" x="119" y="684" height="64" width="864"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1403" y="684" height="72" width="2958" format="[general]"  name=v_nombre_lit edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1010" y1="768" x2="4457" y2="768" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="NUMERO DE CONTENEDOR:"border="0" color="0" x="119" y="784" height="64" width="855"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1399" y="780" height="64" width="896" format="[general]"  name=v_numcaj_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1010" y1="848" x2="4457" y2="848" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="CONDUCTOR:"border="0" color="0" x="119" y="884" height="64" width="411"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1010" y1="948" x2="4457" y2="948" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=header id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1970" y="884" height="64" width="1280" format="[general]"  name=v_chofer_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="NUMERO DE MANIFIESTO:"border="0" color="0" x="119" y="984" height="64" width="795"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1010" y1="1048" x2="4457" y2="1048" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=header id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1970" y="984" height="64" width="320" format="[general]"  name=c_codigo_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="NUMERO DE SELLO COLOCADO EN EL LUGAR DE ORIGEN:"border="0" color="0" x="119" y="1084" height="64" width="1774"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1975" y="1068" height="72" width="389" format="[general]"  name=selloorigen edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1911" y1="1148" x2="4457" y2="1148" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="NUMERO DE SELLO ADICIONAL UTILIZADO:"border="0" color="0" x="119" y="1184" height="64" width="1307"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1975" y="1168" height="72" width="384" format="[general]"  name=selloadicional edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1518" y1="1248" x2="4466" y2="1248" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="HORA DE SALIDA DEL PUNTO DE EMBARQUE:"border="0" color="0" x="119" y="1288" height="64" width="1385"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="mid(c_horcre_man,1,2)+':'+mid(c_horcre_man,3,2)"border="0" color="0" x="1609" y="1280" height="64" width="466" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1518" y1="1352" x2="4466" y2="1352" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="FECHA Y HORA DONDE SE ROMPIO EL SELLO:"border="0" color="0" x="119" y="1404" height="64" width="1403"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1518" y1="1468" x2="4466" y2="1468" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="LUGAR DONDE SE ROMPIO EL SELLO:"border="0" color="0" x="119" y="1500" height="64" width="1157"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1518" y1="1564" x2="4466" y2="1564" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+rectangle(band=header x="105" y="1592" height="236" width="4361" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="RAZON POR LA CUAL EL SELLO HA SIDO ROTO:"border="0" color="0" x="119" y="1608" height="64" width="1431"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1518" y1="1672" x2="4466" y2="1672" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="105" y1="1736" x2="4466" y2="1736" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+rectangle(band=header x="105" y="1852" height="208" width="4361" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="553648127" )
+line(band=header x1="105" y1="1932" x2="4466" y2="1932" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="NOMBRE Y RANGO DE LA PERSONA QUE ROMPIO EL SELLO:"border="0" color="0" x="119" y="1868" height="64" width="1847"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="HORA EN QUE TEMINO EL PROCESO:"border="0" color="0" x="119" y="2104" height="64" width="1125"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1271" y1="2168" x2="4443" y2="2168" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="AUTORIDAD O DEPENDENCIA OFICIAL QUE ROMPIO EL SELLO:"border="0" color="0" x="119" y="2232" height="64" width="1888"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1966" y1="2296" x2="4453" y2="2296" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+rectangle(band=header x="183" y="2368" height="512" width="1637" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="FIRMA/SELLO OFICIAL  DE LAS AUTORIDADES COMPETENTES"border="0" color="0" x="567" y="2640" height="232" width="805"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+rectangle(band=header x="2821" y="2368" height="512" width="1637" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="NOMBRE Y FIRMA DEL CONDUCTOR RESPONSABLE"border="0" color="0" x="3296" y="2640" height="232" width="718"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

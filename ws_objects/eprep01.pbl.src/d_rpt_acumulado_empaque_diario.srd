@@ -1,0 +1,17 @@
+﻿$PBExportHeader$d_rpt_acumulado_empaque_diario.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=5 print.documentname="" print.orientation = 1 print.margin.left = 30 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=200 color="536870912"  height.autosize=yes)
+table(column=(type=char(10) updatewhereclause=yes name=a dbname="a" )
+ unbound = "yes"arguments=(("as_tem", string),("as_mer", string)) )
+bitmap(band=header filename="logocia.bmp" x="14" y="12" height="172" width="1015" border="0" visible="1~tf_GetLogo( )" )
+compute(band=header alignment="0" expression="f_GetCia( )"border="0" color="0" x="14" y="12" height="76" width="2066" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="REPORTE ACUMULADO DE COSTOS POR PRODUCTO"border="0" color="8388608" x="1463" y="120" height="44" width="1595"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="'Temporada: ' + f_GetTemporada( )"border="0" color="0" x="3237" y="16" height="48" width="1189" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="'Fecha: ' + String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="4005" y="68" height="48" width="421" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="'Pag. ' + page() + '/' + pageCount()"border="0" color="0" x="4005" y="120" height="48" width="421" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=detail dataobject="d_rpt_acumulado_empaque_diario_child" x="5" y="20" height="120" width="2441" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_tem"),("as_mer")) trail_footer = yes  slideleft=yes  slideup=directlyabove )
+text(band=footer alignment="0" text="By SOFTCOMM"border="0" color="16777437" x="46" y="40" height="48" width="457"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

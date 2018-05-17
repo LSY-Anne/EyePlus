@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_preview.srf
+global type f_preview from function_object
+end type
+
+forward prototypes
+global function integer f_preview (datawindow adw_print)
+end prototypes
+
+global function integer f_preview (datawindow adw_print);s_parm lstr_parm
+
+lstr_parm.s_cad[ 1] = '98'
+lstr_parm.s_cad[ 2] = adw_print.DataObject
+lstr_parm.dw_dat[ 1] = adw_print
+//Appeon comment beging
+//Appeon has reduced the call mdi window(w_presentacion_preliminar), directly open the w_presentacion_preliminar_dw.
+//w_presentacion_preliminar_dw
+//Return OpenWithParm( w_presentacion_preliminar,  lstr_parm)
+Return OpenSheetWithParm(w_presentacion_preliminar_dw, lstr_parm, gw_frame, gi_poswin, Layered! )
+//Return OpenSheetWithParm(w_presentacion_preliminar, lstr_parm, gw_frame, gi_poswin, Layered! )
+//Appeon comment end
+
+end function
+

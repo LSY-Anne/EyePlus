@@ -1,0 +1,71 @@
+﻿$PBExportHeader$d_rpt_carta_promocion.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=1540 color="536870912" )
+summary(height=1176 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=char(100) updatewhereclause=yes name=v_lugdes_man dbname="t_manifiesto.v_lugdes_man" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_cul dbname="t_cultivo.c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb dbname="t_embarcador.v_nombre_emb" )
+ column=(type=char(100) updatewhereclause=yes name=v_direcc_emb dbname="t_embarcador.v_direcc_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_emb dbname="t_embarcador.v_ciudad_emb" )
+ column=(type=char(15) updatewhereclause=yes name=c_rfc_emb dbname="t_embarcador.c_rfc_emb" )
+ column=(type=char(20) updatewhereclause=yes name=v_certiforigen_man dbname="v_certiforigen_man" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_env dbname="t_envase.c_codigo_env" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="t_envase.v_nombre_env" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bulxpa_pal dbname="t_palet.n_bulxpa_pal" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso dbname="peso" )
+ retrieve="SELECT t_manifiesto.d_embarque_man,
+		 t_manifiesto.v_lugdes_man,
+		 t_cultivo.c_codigo_cul,
+		 t_cultivo.v_nombre_cul,
+		 t_embarcador.v_nombre_emb,
+		 t_embarcador.v_direcc_emb,
+		 t_embarcador.v_ciudad_emb,
+		 t_embarcador.c_rfc_emb,
+		 v_certiforigen_man = Isnull(t_manifiesto.v_certiforigen_man,''),
+		 t_envase.c_codigo_env,
+		 t_envase.v_nombre_env,
+		 t_palet.n_bulxpa_pal,
+		 peso = t_palet.n_bulxpa_pal*t_producto.n_pesbul_pro
+FROM   t_manifiesto,
+		 t_palet,
+		 t_producto,
+		 t_embarcador,
+		 t_envase,
+		 t_cultivo
+WHERE (t_manifiesto.c_codigo_tem = t_palet.c_codigo_tem ) and  
+		(t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and 
+		(t_producto.c_codigo_env   = t_envase.c_codigo_env ) and  
+		(t_producto.c_codigo_pro   = t_palet.c_codigo_pro ) and
+		(t_producto.c_codigo_cul   = t_cultivo.c_codigo_cul ) and
+		(t_embarcador.c_codigo_emb = t_manifiesto.c_codigo_emb ) and  
+	  ((t_manifiesto.c_codigo_tem = :as_tem ) and
+		(t_manifiesto.c_codigo_man = :as_man ) )" arguments=(("as_tem", string),("as_man", string))  sort="c_codigo_cul A " )
+group(level=1 header.height=0 trailer.height=84 by=("c_codigo_cul" , "c_codigo_env" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="274" y="24" height="88" width="2853" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="CARTA PROMOCION"border="0" color="0" x="274" y="128" height="76" width="2853"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="String( Day( Date( d_embarque_man ) ), '00 ' ) +' De '+f_Mes( Month( Date( d_embarque_man ) )) +' Del '+ String( Year( Date( d_embarque_man ) ), ' 0000 ' )"border="0" color="33554432" x="1495" y="296" height="72" width="1637" format="[general]"  name=fecha  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="C. JEFE DE LA SECCION ADUANERA DE SAN EMETERIO, SONORA PRESENTE"border="0" color="0" x="279" y="520" height="208" width="1294"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="'En cumplimiento del Artículo 172 del reglamento de la Ley Aduanera, y de acuerdo con lo~~r~~n~~r~~nestablecido en las  Reglas  2.10.10. de la  resolución  que  establece  reglas  de  carácter~~r~~n~~r~~ngeneral  para  el  año  2003,  relacionadas  con  el  Comercio  Exterior,  nos  permitimos~~r~~n~~r~~ninformar a usted,  que  con  esta  fecha hemos  Despachado con  destino  al  interior  del~~r~~n~~r~~npaís, los siguientes productos:'"border="0" color="0" x="279" y="844" height="648" width="2917" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="n_bulxpa_pal"border="0" color="0" x="279" y="4" height="76" width="160" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="v_nombre_env"border="0" color="0" x="443" y="4" height="76" width="393" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="'Conteniendo '+v_nombre_cul"border="0" color="0" x="841" y="4" height="76" width="1312" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="'Con un peso de'"border="0" color="0" x="2158" y="4" height="76" width="526" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="peso"border="0" color="0" x="2688" y="4" height="76" width="325" format="#,##0.00"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="'Kg.'"border="0" color="0" x="3013" y="4" height="76" width="119" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'Y se amparan con certificado de origen No._____________________________________________'"border="0" color="0" x="279" y="204" height="76" width="2853" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="v_certiforigen_man"border="0" color="0" x="1710" y="204" height="68" width="1422" format="[general]"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="2" expression="'ATENTAMENTE'"border="0" color="0" x="279" y="468" height="96" width="2853" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'Nombre del promovente:'"border="0" color="0" x="279" y="608" height="76" width="855" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="v_nombre_emb"border="0" color="0" x="1138" y="608" height="152" width="1993" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'Firma_______________________________________________________'"border="0" color="0" x="279" y="772" height="76" width="2853" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'Domicilio del promovente:'"border="0" color="0" x="279" y="928" height="76" width="855" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="v_direcc_emb+' '+v_ciudad_emb"border="0" color="0" x="1138" y="928" height="156" width="1993" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'R.F.C. del promovente:'"border="0" color="0" x="279" y="1096" height="76" width="855" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="c_rfc_emb"border="0" color="0" x="1138" y="1096" height="76" width="1993" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="'Las   mercancias    de    referencia    tienen    como    destino     la    ciudad     de: '+ v_lugdes_man"border="0" color="33554432" x="279" y="44" height="148" width="2853" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

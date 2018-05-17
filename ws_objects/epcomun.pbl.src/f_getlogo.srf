@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_getlogo.srf
+global type f_getlogo from function_object
+end type
+
+forward prototypes
+global function integer f_getlogo ()
+end prototypes
+
+global function integer f_getlogo ();/* Mostrar'a el logo de la cia. en BMP si el parametro esta en S 
+	o en caso contrario texto.
+	f_GetLogo( ) */
+
+String	ls_logo
+
+ls_logo = Left( f_GetParmValue( '22' ), 1 )
+
+If ls_logo <> 'N' Then
+	Return 1
+Else
+	gs_cia = f_GetParmValue( '4' )
+End If
+
+Return 0
+end function
+

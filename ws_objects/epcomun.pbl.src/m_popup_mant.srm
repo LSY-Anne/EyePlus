@@ -1,0 +1,68 @@
+﻿$PBExportHeader$m_popup_mant.srm
+forward
+global type m_popup_mant from m_popup
+end type
+end forward
+
+global type m_popup_mant from m_popup
+end type
+global m_popup_mant m_popup_mant
+
+on m_popup_mant.create
+m_popup_mant=this
+call super::create
+end on
+
+on m_popup_mant.destroy
+call super::destroy
+end on
+
+on m_opcion1.create
+call super::create
+this.Text="&Nuevo Registro..."
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_opcion2.create
+call super::create
+this.Text="&Modificar..."
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_opcion3.create
+call super::create
+this.Text="&Eliminar..."
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_opcion4.create
+call super::create
+this.Text="&Recuperar..."
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_opcion5.create
+call super::create
+this.Text="&Buscar..."
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_opcion6.create
+call super::create
+this.Text="-"
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_opcion7.create
+call super::create
+this.Text="Cerrar"
+this.Visible=true
+this.Enabled=true
+end on
+

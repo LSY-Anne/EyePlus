@@ -1,0 +1,52 @@
+﻿$PBExportHeader$f_acceso.srf
+global type f_acceso from function_object
+end type
+
+forward prototypes
+global function boolean f_acceso (string as_opc)
+end prototypes
+
+global function boolean f_acceso (string as_opc);Boolean	lb_acceso = True
+Long		ll_count
+String	ls_admin
+
+as_opc = Right( '0000' + f_Trim( as_opc ), 4)
+
+/* Determina si es administrator */
+Select	c_admin_usu
+Into		:ls_admin
+From		assusuario
+Where		c_codigo_usu = :gs_usuario ;
+If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla assusuario.' ) = -1 Then
+	Return False
+End If
+
+ls_admin = f_Trim(ls_admin)
+
+If ls_admin = '1' Then
+	Return True
+End If
+
+/* Determina si tiene acceso si no es administrator */
+Select	Count(*)
+Into		:ll_count
+From		assusuariosistemamenu
+Where		c_codigo_usu = :gs_usuario
+And		c_codigo_sis = :gs_codsis 
+And		c_codigo_sme = :as_opc ;
+If f_SqlError( SqlCa, 'No se pudo obtener información de la tabla assusuariosistemamenu.' ) = -1 Then
+	Return False
+End If
+
+ll_count = f_Zero(ll_count)
+
+lb_acceso = (ll_count > 0)
+
+If Not lb_acceso Then
+	MessageBox( gs_aplicacion, 'No tiene acceso a esta Opción ['+as_opc+'].', Exclamation!)
+	lb_acceso = False
+End If
+
+Return lb_acceso
+end function
+

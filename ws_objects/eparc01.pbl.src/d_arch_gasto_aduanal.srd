@@ -1,0 +1,87 @@
+﻿$PBExportHeader$d_arch_gasto_aduanal.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=656 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_man dbname="t_manifiesto.c_merdes_man" )
+ column=(type=char(10) updatewhereclause=yes name=mercado dbname="Mercado" )
+ column=(type=char(10) updatewhereclause=yes name=c_numfac_man dbname="t_manifiesto.c_numfac_man" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_emb dbname="t_manifiesto.c_codigo_emb" )
+ column=(type=char(100) updatewhereclause=yes name=embarcador dbname="Embarcador" )
+ column=(type=char(6) updatewhereclause=yes name=t_manifiesto_c_codigo_dis dbname="t_manifiesto.c_codigo_dis" )
+ column=(type=char(60) updatewhereclause=yes name=distribuidor dbname="Distribuidor" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_importe_man dbname="t_manifiesto.n_importe_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_totbul_man dbname="t_manifiesto.n_totbul_man" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_gastoaduanal_man dbname="t_manifiesto.n_gastoaduanal_man" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_aga dbname="t_manifiesto.c_codigo_aga" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_aga dbname="t_agencia_aduanal.v_nombre_aga" )
+ column=(type=char(15) updatewhereclause=yes name=c_rfc_aga dbname="t_agencia_aduanal.c_rfc_aga" )
+ column=(type=char(100) updatewhereclause=yes name=v_direcc_aga dbname="t_agencia_aduanal.v_direcc_aga" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_aga dbname="t_agencia_aduanal.v_ciudad_aga" )
+ column=(type=char(15) updatewhereclause=yes name=v_codpos_aga dbname="t_agencia_aduanal.v_codpos_aga" )
+ column=(type=char(15) updatewhereclause=yes name=v_telef1_aga dbname="t_agencia_aduanal.v_telef1_aga" )
+ retrieve="SELECT man.c_codigo_man,
+		 man.c_merdes_man,
+		 Mercado = (case man.c_merdes_man when 'N' then 'Nacional' else 'Extranjero' end),   
+       man.c_numfac_man,   
+       man.c_codigo_emb,
+       Embarcador = (select emb.v_nombre_emb from t_embarcador emb where emb.c_codigo_emb = man.c_codigo_emb),   
+       man.c_codigo_dis,
+       Distribuidor = (select dis.v_nombre_dis from t_distribuidor dis where dis.c_codigo_dis = man.c_codigo_dis),      
+       man.n_importe_man,   
+       man.n_totbul_man,   
+       man.d_embarque_man,   
+       man.n_gastoaduanal_man,
+       man.c_codigo_aga,
+       aga.v_nombre_aga,
+       aga.c_rfc_aga,
+       aga.v_direcc_aga,
+       aga.v_ciudad_aga,
+       aga.v_codpos_aga,
+       aga.v_telef1_aga
+FROM t_manifiesto man,
+     t_agencia_aduanal aga
+where man.c_codigo_aga = aga.c_codigo_aga
+and   man.c_codigo_man = :as_man
+
+" arguments=(("as_man", string)) )
+button(band=header text=" ... "filename=""action="0" border="0" color="0" x="690" y="52" height="76" width="96" vtextalign="0" htextalign="0"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15591915" )
+rectangle(band=detail x="23" y="0" height="68" width="2917" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="1090519039"  background.mode="2" background.color="15780518" )
+rectangle(band=detail x="23" y="328" height="68" width="2917" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="1090519039"  background.mode="2" background.color="15780518" )
+text(band=detail alignment="0" text="Gasto Aduanal"border="0" color="16711680" x="91" y="8" height="52" width="430"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=detail alignment="1" text="Mercado: "border="0" color="0" x="1659" y="84" height="52" width="224"  name=t_linea_transporte_v_telef1_lit_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Detalles de la Agencia Aduanal"border="0" color="16711680" x="91" y="336" height="52" width="823"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=detail alignment="1" text="Factura: "border="0" color="0" x="2263" y="84" height="52" width="192"  name=t_linea_transporte_v_codpos_lit_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Bultos: "border="0" color="0" x="2299" y="164" height="52" width="155"  name=t_linea_transporte_c_clavescac_lit_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="5" color="0" x="1929" y="80" height="60" width="279" format="[general]"  name=mercado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="5" color="0" x="2482" y="80" height="60" width="448" format="[general]"  name=c_numfac_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="CP: "border="0" color="0" x="2336" y="408" height="52" width="119"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Importe: "border="0" color="0" x="2267" y="248" height="52" width="187"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="5" color="0" x="2482" y="168" height="60" width="448" format="###,###.00"  name=n_totbul_man editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Telefono: "border="0" color="0" x="2235" y="496" height="52" width="219"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Gasto: "border="0" color="0" x="2299" y="580" height="52" width="155"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="5" color="0" x="2482" y="256" height="60" width="448" format="###,###.00"  name=n_importe_man editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=18 alignment="1" tabsequence=32766 border="5" color="0" x="2482" y="408" height="60" width="448" format="[general]"  name=v_codpos_aga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="5" color="0" x="2482" y="492" height="60" width="448" format="[general]"  name=v_telef1_aga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="1" tabsequence=20 border="5" color="0" x="2482" y="580" height="60" width="448" format="###,###.00"  name=n_gastoaduanal_man editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+button(band=detail text=" ... "filename=""action="0" border="0" color="0" x="622" y="68" height="76" width="91" vtextalign="0" htextalign="0"  name=cb_man  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15591915" )
+text(band=detail alignment="1" text="Fecha de Embarque: "border="0" color="0" x="759" y="80" height="52" width="466"  name=t_linea_transporte_v_ciudad_lit_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="2" tabsequence=32766 border="5" color="0" x="1266" y="80" height="60" width="338" format="dd/mm/yyyy"  name=d_embarque_man editmask.mask="dd/mm/yyyy" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="RFC: "border="0" color="0" x="1248" y="580" height="52" width="160"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="5" color="0" x="1440" y="580" height="60" width="773" format="[general]"  name=c_rfc_aga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Embarcador: "border="0" color="0" x="23" y="164" height="52" width="283"  name=t_linea_transporte_v_direcc_lit_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Manifiesto: "border="0" color="0" x="69" y="76" height="52" width="238"  name=t_facturalt_c_codigo_lit_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Distribuidor: "border="0" color="0" x="41" y="248" height="52" width="265"  name=t_linea_transporte_c_rfc_lit_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Agencia: "border="0" color="0" x="96" y="408" height="52" width="210"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Direccion: "border="0" color="0" x="73" y="496" height="52" width="233"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Ciudad: "border="0" color="0" x="123" y="580" height="52" width="183"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="5" color="0" x="347" y="168" height="60" width="1861" format="[general]"  name=embarcador edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="5" color="0" x="347" y="80" height="60" width="233" format="[general]"  name=c_codigo_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="5" color="0" x="347" y="256" height="60" width="1861" format="[general]"  name=distribuidor edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="5" color="0" x="347" y="408" height="60" width="1861" format="[general]"  name=v_nombre_aga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="5" color="0" x="347" y="492" height="60" width="1861" format="[general]"  name=v_direcc_aga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="5" color="0" x="347" y="580" height="60" width="859" format="[general]"  name=v_ciudad_aga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,37 @@
+﻿$PBExportHeader$d_rpt_fitosanitario_cultivo.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no rows_per_detail = 6 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=136 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=c_codigo_cul_6 dbname="t_producto.c_codigo_cul" )
+ column=(type=decimal(4) updatewhereclause=yes name=bultos dbname="bultos" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul_6 dbname="t_cultivo.v_nombre_cul" )
+ retrieve="Select 	pro.c_codigo_cul,  
+			bultos = sum(p.n_bulxpa_pal * pro.n_pesbul_pro),
+			c.v_nombre_cul
+from 	t_palet p, t_producto pro, t_cultivo c
+where	p.c_codigo_pro = pro.c_codigo_pro
+and 	pro.c_codigo_cul = c.c_codigo_cul
+and 	p.c_codigo_tem = :as_tem
+and 	p.c_codigo_man = :as_cod
+group by pro.c_codigo_cul,
+			c.v_nombre_cul" arguments=(("as_tem", string),("as_cod", string)) )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="27" y="4" height="56" width="585" format="[general]" row_in_detail=1  name=v_nombre_cul_1 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="626" y="4" height="56" width="242" format="#,##0" row_in_detail=1  name=bultos_1 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="978" y1="12" x2="978" y2="100" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="992" y="4" height="56" width="585" format="[general]" row_in_detail=2  name=v_nombre_cul_2 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="1591" y="4" height="56" width="242" format="#,##0" row_in_detail=2  name=bultos_2 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1943" y1="12" x2="1943" y2="100" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1957" y="4" height="56" width="585" format="[general]" row_in_detail=3  name=v_nombre_cul_3 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="2555" y="4" height="56" width="242" format="#,##0" row_in_detail=3  name=bultos_3 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="27" y="72" height="56" width="585" format="[general]" row_in_detail=4  name=v_nombre_cul_4 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="626" y="72" height="56" width="242" format="#,##0" row_in_detail=4  name=bultos_4 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="992" y="72" height="56" width="585" format="[general]" row_in_detail=5  name=v_nombre_cul_5 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="1591" y="72" height="56" width="242" format="#,##0" row_in_detail=5  name=bultos_5 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1957" y="72" height="56" width="585" format="[general]" row_in_detail=6  name=v_nombre_cul_6 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="2555" y="72" height="56" width="242" format="#,##0" row_in_detail=6  name=bultos_6 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Kgs."border="0" color="0" x="882" y="4" height="52" width="91" visible="1~tIf(  bultos  > 0, 1, 0 )"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Kgs."border="0" color="0" x="1847" y="4" height="52" width="91" visible="1~tIf(  bultos  > 0, 1, 0 )"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Kgs."border="0" color="0" x="2811" y="4" height="52" width="91" visible="1~tIf(  bultos  > 0, 1, 0 )"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

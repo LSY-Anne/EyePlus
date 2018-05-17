@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_getregistry.srf
+global type f_getregistry from function_object
+end type
+
+forward prototypes
+global function boolean f_getregistry (string as_key, ref string as_value)
+end prototypes
+
+global function boolean f_getregistry (string as_key, ref string as_value);/* f_GetRegistry
+	Autor		= Cesar Vilela R.
+	Objetivo = Leer un key del Registry de Windows
+	Argumentos:
+	as_key	-> Key a leer 
+	as_value -> Donde se retorna el valor
+	Retorna:
+	Boolean		-> True(Lectura Correcta)
+						False(Lectura Incorrecta)
+*/
+
+as_value = ''
+If RegistryGet ( "HKEY_CURRENT_USER\Software\Softcomm\" + gs_nomsis, &
+						  as_key, RegString!, as_value ) = -1 Then
+	Return False
+End If
+
+Return True
+end function
+

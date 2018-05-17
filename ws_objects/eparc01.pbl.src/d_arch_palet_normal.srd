@@ -1,0 +1,103 @@
+﻿$PBExportHeader$d_arch_palet_normal.srd
+$PBExportComments$Palet Estandar (de un solo producto)
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=952 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=c_codigo_tem dbname="t_palet.c_codigo_tem" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=c_codigo_pal dbname="t_palet.c_codigo_pal" )
+ column=(type=char(2) update=yes updatewhereclause=yes key=yes name=c_codsec_pal dbname="t_palet.c_codsec_pal" initial="00" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_pro dbname="t_palet.c_codigo_pro" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_eti dbname="t_palet.c_codigo_eti" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_lot dbname="t_palet.c_codigo_lot" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_empaque_pal dbname="t_palet.d_empaque_pal" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_man dbname="t_palet.c_codigo_man" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_env dbname="t_palet.c_codigo_env" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_bulxpa_pal dbname="t_palet.n_bulxpa_pal" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_palet.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion_pal dbname="t_palet.d_creacion_pal" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod_pal dbname="t_palet.c_usumod_pal" )
+ column=(type=char(6) updatewhereclause=yes name=c_elemento dbname="c_codigo" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi_pal dbname="t_palet.d_modifi_pal" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo_pal dbname="t_palet.c_activo_pal" )
+ column=(type=char(255) updatewhereclause=yes name=v_imagen_pro dbname="v_imagen_pro" )
+ column=(type=char(10) updatewhereclause=yes name=c_ultimo dbname="c_utimo" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_precmn_pal dbname="t_palet.n_precmn_pal" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_precme_pal dbname="t_palet.n_precme_pal" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_contab_pal dbname="t_palet.c_contab_pal" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_staemb_pal dbname="t_palet.c_staemb_pal" initial="0" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_col dbname="t_palet.c_codigo_col" )
+ column=(type=char(1) updatewhereclause=yes name=c_activacolor dbname="c_activacolor" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_staemp_pal dbname="t_palet.c_staemp_pal" )
+ column=(type=long updatewhereclause=yes name=ll_pal dbname="ll_pal" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_peso_pal dbname="n_peso_pal" )
+ column=(type=char(50) updatewhereclause=yes name=rastreo dbname="rastreo" )
+ column=(type=char(1) updatewhereclause=yes name=c_excedente_pal dbname="c_excedente_pal" values="Si	1/No	0/" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_tipo_pal dbname="c_tipo_pal" values="Normal	N/Reempaque	R/" )
+ retrieve="  SELECT t_palet.c_codigo_tem,   
+         t_palet.c_codigo_pal,   
+         t_palet.c_codsec_pal,   
+         t_palet.c_codigo_pro,   
+         t_palet.c_codigo_eti,   
+         t_palet.c_codigo_lot,   
+         t_palet.d_empaque_pal,   
+         t_palet.c_codigo_man,   
+         t_palet.c_codigo_env,   
+         t_palet.n_bulxpa_pal,   
+         t_palet.c_codigo_usu,   
+         t_palet.d_creacion_pal,   
+         t_palet.c_usumod_pal,   
+         t_palet.c_codigo_pro  +  t_palet.c_codigo_eti  As c_codigo,   
+         t_palet.d_modifi_pal,   
+         t_palet.c_activo_pal,   
+         Space(255) As v_imagen_pro,   
+         Space(10) As  c_utimo,   
+         t_palet.n_precmn_pal,   
+         t_palet.n_precme_pal,   
+         t_palet.c_contab_pal,   
+         t_palet.c_staemb_pal,   
+         t_palet.c_codigo_col,   
+         '0' As c_activacolor,   
+         t_palet.c_staemp_pal,
+			ll_pal = 0,
+			n_peso_pal = t_palet.n_peso_pal,
+			space(50) as rastreo,
+			c_excedente_pal=t_palet.c_excedente_pal,
+			c_tipo_pal=t_palet.c_tipo_pal
+    FROM t_palet  (nolock)
+   WHERE t_palet.c_codigo_tem  + t_palet.c_codigo_pal = :as_tempal    
+" update="t_palet" updatewhere=1 updatekeyinplace=no arguments=(("as_tempal", string)) )
+text(band=detail alignment="0" text="Fecha de Empaque:"border="0" color="33554432" x="864" y="36" height="52" width="457"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="5" color="33554432~tIf( c_staemp_pal = '0', f_Color('rojo'), f_Color('texto') )" x="1335" y="36" height="64" width="306" format="[general]"  name=d_empaque_pal editmask.autoskip=yes editmask.mask="dd/mm/yyyy" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="0" tabsequence=20 border="5" color="33554432" x="709" y="36" height="64" width="82" format="[general]"  name=c_codigo_col editmask.autoskip=yes editmask.mask="!!" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="-"border="0" color="33554432" x="672" y="36" height="52" width="23"  name=c_codigo_col_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=30 border="5" color="33554432" x="379" y="140" height="64" width="1248" format="[general]" protect="0~tIf ( Len( c_codigo_pro ) = 4 And  Len( c_elemento ) = 6, 0, 1 )"  name=c_codigo_lot dddw.name=d_dddw_lote dddw.displaycolumn=co_nombre_lot dddw.datacolumn=c_codigo_lot dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="0" expression="bitmap ( v_imagen_pro )"border="1" color="33554432" x="1714" y="36" height="384" width="439" format="[general]"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=14 alignment="0" tabsequence=10 border="5" color="33554432" x="379" y="36" height="64" width="261" format="@@-@@-@@"  name=c_elemento accelerator="e" editmask.autoskip=yes editmask.mask="XX-XX-XX" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Peso Pallet:"border="0" color="33554432" x="1074" y="252" height="52" width="261"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="1" tabsequence=40 border="5" color="33554432" x="1353" y="244" height="64" width="279" format="#,##0.00"  name=n_peso_pal editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="5" color="33554432" x="379" y="244" height="64" width="306" format="#,##0.00"  name=n_bulxpa_pal edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=30 alignment="0" tabsequence=50 border="5" color="33554432" x="379" y="340" height="64" width="375" format="[general]"  name=c_tipo_pal ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.useasborder=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="&Elemento:"border="0" color="33554432" x="32" y="36" height="52" width="297"  name=c_codsec_pal_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Lote:"border="0" color="33554432" x="32" y="148" height="52" width="146"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Bultos x Pallet:"border="0" color="33554432" x="32" y="252" height="52" width="325"  name=n_bulxpa_pal_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Tipo:"border="0" color="33554432" x="32" y="340" height="64" width="146"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=28 alignment="0" tabsequence=32766 border="0" color="33554432" x="1723" y="448" height="132" width="384" format="[general]"  name=rastreo visible="1~tif(f_getparmvalue('108')='S',1,0)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="2" expression="'*' + Trim(c_codigo_pal ) + '*'"border="0" color="33554432" x="1659" y="604" height="144" width="544" format="[general]"  name=com_c_codigo_pal  font.face="IDAutomation.com Code39" font.height="-8" font.weight="400"  font.family="0" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Cant. Pallet:"border="0" color="33554432" x="32" y="432" height="52" width="270"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=60 border="5" color="33554432" x="379" y="432" height="64" width="133" format="#,##0"  name=ll_pal editmask.spin=yes editmask.mask="#####" editmask.spinrange="1~~10" editmask.spinincr=1 editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Pallet #:"border="0" color="33554432" x="1065" y="432" height="52" width="242"  name=c_codigo_pal_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=80 border="5" color="16711680" x="1326" y="432" height="64" width="306" format="[general]"  name=c_codigo_pal edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Producto:"border="0" color="33554432" x="32" y="524" height="52" width="279"  name=c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=90 border="5" color="33554432" x="379" y="516" height="64" width="1248" format="[general]"  name=c_codigo_pro dddw.name=d_dddw_producto dddw.displaycolumn=v_nombre_pro dddw.datacolumn=c_codigo_pro dddw.percentwidth=100 dddw.lines=0 dddw.limit=4 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Etiqueta:"border="0" color="33554432" x="32" y="628" height="52" width="261"  name=c_codigo_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=100 border="5" color="33554432" x="379" y="620" height="64" width="1248" format="[general]"  name=c_codigo_eti dddw.name=d_dddw_etiqueta dddw.displaycolumn=v_nombre_eti dddw.datacolumn=c_codigo_eti dddw.percentwidth=100 dddw.lines=0 dddw.limit=2 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Envase:"border="0" color="33554432" x="32" y="732" height="52" width="242"  name=c_codigo_env_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=110 border="5" color="33554432" x="379" y="724" height="64" width="1248" format="[general]"  name=c_codigo_env dddw.name=d_dddw_envase dddw.displaycolumn=v_nombre_env dddw.datacolumn=c_codigo_env dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="18" y1="828" x2="2203" y2="828" pen.style="0" pen.width="5" pen.color="1090519039"  background.mode="2" background.color="1090519039" )
+line(band=detail x1="18" y1="832" x2="2203" y2="832" pen.style="0" pen.width="5" pen.color="276856960"  background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Ultimo Pallet:"border="0" color="33554432" x="32" y="876" height="52" width="311"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="5" color="33554432" x="393" y="876" height="64" width="306" format="[general]"  name=c_ultimo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="2" expression="If( c_staemp_pal = '0', '** Pallet disponible hasta después del cierre. **', '' )"border="0" color="255" x="745" y="876" height="52" width="1445" format="[general]"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

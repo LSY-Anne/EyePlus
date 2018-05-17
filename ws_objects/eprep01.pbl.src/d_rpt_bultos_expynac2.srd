@@ -1,0 +1,134 @@
+﻿$PBExportHeader$d_rpt_bultos_expynac2.srd
+release 6;
+datawindow(units=0 timer_interval=60000 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=440 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=88 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=c_codigo_lot dbname="c_codigo_lot" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_empacado dbname="n_empacado" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_embarcado dbname="n_embarcado" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_empnac dbname="n_empnac" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_empext dbname="n_empext" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_embnac dbname="n_embnac" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_embext dbname="n_embext" )
+ column=(type=decimal(2) updatewhereclause=yes name=reempaque dbname="reempaque" )
+ column=(type=decimal(2) updatewhereclause=yes name=bajas dbname="bajas" )
+ column=(type=decimal(2) updatewhereclause=yes name=inventario dbname="inventario" )
+ retrieve="select c_codigo_lot,
+		n_empacado=sum(n_empacado),
+		n_embarcado=sum(n_embarcado),
+		n_empnac=sum(n_empnac),
+		n_empext=sum(n_empext),
+		n_embnac=sum(n_embnac),
+		n_embext=sum(n_embext),
+		reempaque=sum(distinct(reempaque)),
+		bajas=sum(distinct(bajas)),
+		inventario=sum(n_empacado)-sum(n_embarcado)
+from	(select	
+			p.c_codigo_lot,
+			v_nombre_lot=(select v_nombre_lot 
+								from t_lote 
+								where c_codigo_lot=p.c_codigo_lot),
+			mercado=left(p.c_codigo_man,1) ,
+			IsNull (sum(p.n_bulxpa_pal), 0)   As n_empacado,
+			n_empnac=(case when left(p.c_codigo_man,1) ='N' then sum(p.n_bulxpa_pal) else 0 end),
+			n_empext=(case when left(p.c_codigo_man,1) ='E' then sum(p.n_bulxpa_pal) else 0 end),
+			IsNull(sum(p.n_bulxpa_pal), 0)  As n_embarcado,
+			n_embnac=(case when left(p.c_codigo_man,1) ='N' then sum(p.n_bulxpa_pal) else 0 end),
+			n_embext=(case when left(p.c_codigo_man,1) ='E' then sum(p.n_bulxpa_pal) else 0 end),
+			reempaque=(select sum(e.n_bulxpa_pal) 
+					from t_paleteliminado e 
+					where c_motivo_pal='02'  
+					and e.c_codigo_lot=p.c_codigo_lot
+					group by e.c_codigo_lot ),
+			bajas=(select sum(e.n_bulxpa_pal) 
+					from t_paleteliminado e 
+					where c_motivo_pal<>'02'  
+					and e.c_codigo_lot=p.c_codigo_lot
+					group by e.c_codigo_lot )
+			FROM	t_temporada t,
+					t_palet p,
+					t_producto r,
+					t_manifiesto m
+			where	t.c_codigo_tem=p.c_codigo_tem and
+			p.c_codigo_pro=r.c_codigo_pro and 
+			p.c_codigo_man=m.c_codigo_man and
+			t.c_codigo_tem=:as_tem and 
+			isnull(p.c_codigo_man,'') <> '' and
+			d_embarque_man <= :ad_fecha
+			group by p.c_codigo_lot,p.c_codigo_man
+			union all
+			select	p.c_codigo_lot,
+						v_nombre_lot=(select v_nombre_lot from t_lote where c_codigo_lot=p.c_codigo_lot),
+						mercado=r.c_merdes_pro ,
+						IsNull(sum(p.n_bulxpa_pal), 0)  As n_empacado,
+						n_empnac=(case when r.c_merdes_pro='N' then sum(p.n_bulxpa_pal) else 0 end),
+						n_empext=(case when r.c_merdes_pro ='E' then sum(p.n_bulxpa_pal) else 0 end),
+						0 As n_embarcado ,
+						n_empnac=0,
+						n_empext=0,
+						reempaque=0,
+						bajas=0
+			FROM	t_temporada t,
+				t_palet p,
+				t_producto r
+			where t.c_codigo_tem=p.c_codigo_tem and
+			p.c_codigo_pro=r.c_codigo_pro and 
+			t.c_codigo_tem=:as_tem and 
+			isnull(p.c_codigo_man,'') = '' and
+			d_empaque_pal <= :ad_fecha
+			group by p.c_codigo_lot,r.c_merdes_pro)aux1
+group by c_codigo_lot
+order by  c_codigo_lot
+
+
+
+
+
+
+
+" arguments=(("as_tem", string),("ad_fecha", datetime)) )
+group(level=1 header.height=0 trailer.height=0 by=("c_codigo_lot" ) header.color="536870912" trailer.color="536870912" )
+rectangle(band=header x="18" y="324" height="112" width="3401" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+compute(band=header alignment="0" expression="'Fecha del Sistema: ' + String( f_GetSysDateA( ), 'dd/mm/yyyy' )"border="0" color="0" x="37" y="264" height="52" width="1445" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="REPORTE DE BULTOS DE EXPORTACION Y NACIONAL"border="0" color="0" x="1143" y="124" height="44" width="1275"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+line(band=header x1="242" y1="324" x2="242" y2="436" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Lote "border="0" color="0" x="50" y="332" height="44" width="146"  name=c_codigo_pro_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Empacado Nacional"border="0" color="0" x="315" y="332" height="88" width="315"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Empacado Extranjero"border="0" color="0" x="677" y="332" height="92" width="297"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Total Empacado"border="0" color="0" x="1051" y="332" height="96" width="242"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Embarcado Nacional"border="0" color="0" x="1399" y="332" height="92" width="283"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Embarcado Extranjero"border="0" color="0" x="1719" y="332" height="96" width="297"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Total Embarcado"border="0" color="0" x="2089" y="332" height="92" width="251"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Reempaque"border="0" color="0" x="2382" y="332" height="44" width="261"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Bajas"border="0" color="0" x="2743" y="332" height="44" width="174"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Inventario"border="0" color="0" x="2953" y="332" height="44" width="297"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2491" y="12" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2725" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="2990" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3159" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="2985" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3159" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="2985" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3159" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="2985" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3159" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_bultos_expynac2"border="0" color="0" x="2720" y="204" height="48" width="695"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="50" y="8" height="48" width="160" format="[general]"  name=c_codigo_lot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="320" y="8" height="48" width="311" format="#,##0"  name=n_empnac edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="649" y="8" height="48" width="325" format="#,##0"  name=n_empext edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="1010" y="8" height="48" width="283" format="#,##0"  name=n_empacado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1344" y="8" height="48" width="325" format="#,##0"  name=n_embnac edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1682" y="8" height="48" width="334" format="#,##0"  name=n_embext edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="2039" y="8" height="48" width="302" format="#,##0"  name=n_embarcado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="2391" y="8" height="48" width="251" format="#,##0"  name=reempaque edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2661" y="8" height="48" width="256" format="#,##0"  name=bajas edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="2971" y="8" height="48" width="279" format="#,##0"  name=inventario edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="20" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=footer x1="0" y1="4" x2="3378" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2272" y="24" height="48" width="800"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3095" y="24" height="56" width="279" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="f_getcia()"border="0" color="0" x="887" y="12" height="64" width="1582"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

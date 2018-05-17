@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_globalreplace.srf
+global type f_globalreplace from function_object
+end type
+
+forward prototypes
+global function string f_globalreplace (string as_source, string as_look_for, string as_replace_with)
+end prototypes
+
+global function string f_globalreplace (string as_source, string as_look_for, string as_replace_with);//A String Occurrence Search and Replace Routine
+//The following code demonstrates a string occurrence search and replace routine.
+//This routine works generically for any string. For example, 
+//if old_str = "red" and new_str = "green", all occurrences of 
+// "red" inside of mystring will be replaced with "green".
+Integer li_start_pos, li_len_look_for
+
+li_len_look_for = Len(as_look_for)
+li_start_pos = 1
+
+//find the first occurrence of look_for ...
+li_start_pos = Pos(as_source, as_look_for, li_start_pos)
+
+//only enter the loop if you find whats in look_for
+DO WHILE li_start_pos > 0
+	//replace look_for with replace_with ...
+	as_source = Replace(as_source, li_start_pos, li_len_look_for, as_replace_with)
+	//find the next occurrence of look_for
+	li_start_pos = Pos(as_source, as_look_for, li_start_pos + Len(as_replace_with))
+LOOP
+
+Return as_source
+
+end function
+

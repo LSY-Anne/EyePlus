@@ -1,0 +1,203 @@
+﻿$PBExportHeader$d_rpt_cultivo_x_dia_child.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=300 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=56 color="536870912"  height.autosize=yes)
+table(column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_tem dbname="c_codigo_tem" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_pro dbname="c_codigo_pro" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_cul dbname="c_codigo_cul" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_merdes_aed dbname="c_merdes_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_bulemp_aed dbname="n_bulemp_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_pesbul_aed dbname="n_pesbul_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_pestot_aed dbname="n_pestot_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_porcen_aed dbname="n_porcen_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_porpro_aed dbname="n_porpro_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosmat_aed dbname="n_cosmat_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosgas_aed dbname="n_cosgas_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_coscor_aed dbname="n_coscor_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosaca_aed dbname="n_cosaca_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosmao_aed dbname="n_cosmao_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_costot_aed dbname="n_costot_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosumn_aed dbname="n_cosumn_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosume_aed dbname="n_cosume_aed" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion_aed dbname="d_creacion_aed" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod_aed dbname="c_usumod_aed" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi_aed dbname="d_modifi_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bultosemp dbname="n_bultosemp" )
+ column=(type=decimal(6) updatewhereclause=yes name=n_porcul dbname="n_porcul" )
+ column=(type=decimal(6) updatewhereclause=yes name=n_pormer dbname="n_pormer" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo_aed dbname="c_activo_aed" )
+ column=(type=char(100) updatewhereclause=yes name=t_producto_v_nombre_pro dbname="v_nombre_pro" )
+ column=(type=char(100) updatewhereclause=yes name=t_cultivo_v_nombre_cul dbname="v_nombre_cul" )
+ column=(type=char(30) updatewhereclause=yes name=t_temporada_v_nombre_tem dbname="v_nombre_tem" )
+ retrieve=" SELECT  a.c_codigo_tem,   
+         a.c_codigo_pro,   
+         a.c_codigo_cul,   
+         a.c_merdes_aed,   
+         a.n_bulemp_aed,   
+         a.n_pesbul_aed,   
+         a.n_pestot_aed,   
+         a.n_porcen_aed,   
+         a.n_porpro_aed,   
+         a.n_cosmat_aed,   
+         a.n_cosgas_aed,   
+         a.n_coscor_aed,   
+         a.n_cosaca_aed,   
+         a.n_cosmao_aed,   
+         a.n_costot_aed,   
+         a.n_cosumn_aed,   
+         a.n_cosume_aed,   
+         a.c_codigo_usu,   
+         a.d_creacion_aed,   
+         a.c_usumod_aed,   
+         a.d_modifi_aed,
+         n_bultosemp = p.n_bultosemp,
+			n_porcul		=  100*(p.n_emphoy_acu+p.n_sobhoy_acu-p.n_sobant_acu)/
+				  (SELECT Sum(ISNULL(p2.n_emphoy_acu,0) + ISNULL(p2.n_sobhoy_acu,0) - ISNULL(p2.n_sobant_acu,0))
+					FROM t_acumulado p2, t_producto pro2
+					WHERE p2.c_codigo_pro = pro2.c_codigo_pro
+					AND   pro.c_codigo_cul = pro2.c_codigo_cul),
+			n_pormer		=  100*(p.n_emphoy_acu+p.n_sobhoy_acu-p.n_sobant_acu)/
+				  (SELECT Sum(ISNULL(p2.n_emphoy_acu,0)+ISNULL(p2.n_sobhoy_acu,0)-ISNULL(p2.n_sobant_acu,0))
+					FROM t_acumulado p2
+					WHERE p2.c_merdes_acu = p.c_merdes_acu),
+         a.c_activo_aed,   
+         pro.v_nombre_pro,
+         c.v_nombre_cul,   
+         t.v_nombre_tem  
+    FROM (SELECT 
+						c_codigo_tem, c_codigo_pro, c_merdes_acu,
+						n_emphoy_acu =SUM(n_emphoy_acu),
+						n_emptot_acu =SUM(n_emptot_acu),
+						n_sobant_acu =SUM(n_sobant_acu),
+						n_sobhoy_acu =SUM(n_sobhoy_acu),
+						n_sobtot_acu =SUM(n_sobtot_acu),
+						n_reehoy_acu =SUM(n_reehoy_acu),
+						n_reetot_acu =SUM(n_reetot_acu),
+						n_merhoy_acu =SUM(n_merhoy_acu),
+						n_mertot_acu =SUM(n_mertot_acu),
+						n_acchoy_acu =SUM(n_acchoy_acu),
+						n_acctot_acu =SUM(n_acctot_acu),
+         		   n_bultosemp = SUM(n_emphoy_acu + n_sobhoy_acu - n_sobant_acu)
+					FROM t_acumulado
+					WHERE (n_emphoy_acu+n_sobhoy_acu-n_sobant_acu)> 0
+					GROUP BY c_codigo_tem, c_codigo_pro, c_merdes_acu
+					) p,
+         t_acumulado_empaque_diario a,
+         t_producto pro, t_cultivo c, t_temporada t
+WHERE p.c_codigo_pro = a.c_codigo_pro
+	AND	p.c_merdes_acu = a.c_merdes_aed
+	AND	a.c_codigo_pro = pro.c_codigo_pro
+	AND	a.c_codigo_cul = c.c_codigo_cul
+	AND	pro.c_codigo_cul = c.c_codigo_cul
+	AND	p.c_codigo_tem = t.c_codigo_tem
+	AND 	a.c_codigo_tem = t.c_codigo_tem
+	AND (p.n_emphoy_acu+p.n_sobhoy_acu-p.n_sobant_acu)> 0
+	AND	pro.c_activo_pro = '1'
+	AND	c.c_activo_cul = '1'
+	AND	t.c_activo_tem = '1'
+	AND	c.c_codigo_cul = :as_cul
+	AND	p.c_codigo_tem = :as_tem
+	AND p.c_merdes_acu = :as_mer
+	AND	a.c_merdes_aed = :as_mer" arguments=(("as_tem", string),("as_cul", string),("ad_sys", datetime),("as_mer", string))  sort="c_merdes_aed A c_codigo_pro A " )
+group(level=1 header.height=0 trailer.height=84 by=("c_codigo_cul" ) header.color="536870912" trailer.color="536870912" )
+rectangle(band=header x="0" y="88" height="212" width="4389" brush.hatch="6" brush.color="32754885" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="32754885" )
+compute(band=header alignment="0" expression="'ACUMULADO DE COSTOS DEL DIA ' + String( ad_sys, 'dd/mm/yyyy' )"border="0" color="0" x="5" y="12" height="44" width="1541" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Cod.Pro. /
+Code"border="0" color="0" x="18" y="100" height="144" width="110"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Producto /
+Commodity"border="0" color="0" x="151" y="100" height="96" width="229"  name=v_nombre_pro_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=header x1="3922" y1="88" x2="3922" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="3698" y1="88" x2="3698" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="3465" y1="88" x2="3465" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="3218" y1="88" x2="3218" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="2880" y1="88" x2="2880" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="2651" y1="88" x2="2651" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="2395" y1="88" x2="2395" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="2176" y1="88" x2="2176" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="1367" y1="88" x2="1367" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="1193" y1="88" x2="1193" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="937" y1="88" x2="937" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="137" y1="88" x2="137" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="1627" y1="88" x2="1627" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="1902" y1="88" x2="1902" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="0" x="155" y="4" height="48" width="773" format="[general]"  name=t_producto_v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="18" y="4" height="48" width="114" format="[general]"  name=c_codigo_pro edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" n_pormer"border="0" color="0" x="1966" y="4" height="48" width="160" format="0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="969" y1="4" x2="4389" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( n_pormer for group 1) "border="0" color="32768" x="1966" y="16" height="64" width="160" format="0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(  n_porcul for group 1) "border="0" color="32768" x="1723" y="16" height="64" width="128" format="0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="4187" y1="88" x2="4187" y2="300" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Bultos 
+Empacados 
+/ Boxes
+Packed"border="0" color="0" x="946" y="100" height="192" width="238"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="0" x="946" y="4" height="48" width="238" format="#,##0"  name=n_bultosemp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_bultosemp for group 1)"border="0" color="32768" x="946" y="16" height="64" width="238" format="#,##0"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Kgs. x
+Bulto
+/ Kgs
+Per Box"border="0" color="0" x="1202" y="100" height="192" width="155"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1202" y="4" height="48" width="155" format="#,##0.00"  name=n_pesbul_aed edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Kgs. 
+Empacados 
+/ Kgs
+Packed"border="0" color="0" x="1376" y="100" height="192" width="242"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression=" n_bultosemp * n_pesbul_aed "border="0" color="0" x="1376" y="4" height="48" width="242" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum( n_bultosemp * n_pesbul_aed for group 1)"border="0" color="32768" x="1376" y="16" height="64" width="242" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" n_porcul"border="0" color="0" x="1723" y="4" height="48" width="128" format="0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="% Cultivo  / Percentage"border="0" color="0" x="1637" y="100" height="96" width="256"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="%"border="0" color="0" x="1861" y="4" height="48" width="32"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="1" text="%"border="0" color="0" x="1861" y="16" height="64" width="32"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="% Mercado / Percentage"border="0" color="0" x="1911" y="100" height="96" width="256"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="%"border="0" color="0" x="2135" y="4" height="48" width="32"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="1" text="%"border="0" color="0" x="2135" y="16" height="64" width="32"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="CostoMateriales
+/ Materials"border="0" color="0" x="2185" y="100" height="144" width="201"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="2185" y="4" height="48" width="201" format="#,##0.00"  name=n_cosmat_aed edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosmat_aed for group 1)"border="0" color="32768" x="2185" y="16" height="64" width="201" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="GastosOperativos /
+Freight /
+Customs"border="0" color="0" x="2405" y="100" height="192" width="238"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="2405" y="4" height="48" width="238" format="#,##0.00"  name=n_cosgas_aed edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosgas_aed for group 1)"border="0" color="32768" x="2405" y="16" height="64" width="238" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Costo
+Del Corte /
+Harvesting
+Labor"border="0" color="0" x="2661" y="100" height="192" width="210"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="2661" y="4" height="48" width="210" format="#,##0.00"  name=n_coscor_aed edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_coscor_aed for group 1)"border="0" color="32768" x="2661" y="16" height="64" width="210" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Costo De 
+Acarreo / Freight
+Field to Packing
+Shed"border="0" color="0" x="2889" y="100" height="192" width="320"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="2889" y="4" height="48" width="320" format="#,##0.00"  name=n_cosaca_aed edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosaca_aed for group 1)"border="0" color="32768" x="2889" y="16" height="64" width="320" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Costo Mano
+De Obra
+/ Packing
+Labor"border="0" color="0" x="3227" y="100" height="192" width="229"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="3227" y="4" height="48" width="229" format="#,##0.00"  name=n_cosmao_aed edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosmao_aed for group 1)"border="0" color="32768" x="3227" y="16" height="64" width="229" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Costo Uni.
+Nacional
+/ Unit Cost
+(Pesos)"border="0" color="0" x="3474" y="100" height="192" width="215"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=16 alignment="1" tabsequence=32766 border="0" color="0" x="3474" y="4" height="48" width="215" format="#,##0.00"  name=n_cosumn_aed edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Costo Uni.
+Extranjero
+/ Unit
+Cost (Dlls)"border="0" color="0" x="3707" y="100" height="192" width="206"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="0" color="0" x="3707" y="4" height="48" width="206" format="#,##0.00"  name=n_cosume_aed edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Total Del Dia
+/ Total"border="0" color="0" x="3931" y="100" height="96" width="247"  name=grand_sum_n_importe_apd_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=15 alignment="1" tabsequence=32766 border="0" color="0" x="3931" y="4" height="48" width="247" format="#,##0.00"  name=n_costot_aed edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_costot_aed for group 1)"border="0" color="32768" x="3931" y="16" height="64" width="247" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Rendim.
+Lbs."border="0" color="0" x="4201" y="100" height="96" width="174"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="( n_bultosemp * n_pesbul_aed ) * 2.20462"border="0" color="0" x="4201" y="4" height="48" width="174" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum( n_bultosemp * n_pesbul_aed for group 1) * 2.20462"border="0" color="32768" x="4201" y="16" height="64" width="174" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

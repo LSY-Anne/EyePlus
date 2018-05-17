@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_getregionaldate.srf
+global type f_getregionaldate from function_object
+end type
+
+forward prototypes
+global function string f_getregionaldate ()
+end prototypes
+
+global function string f_getregionaldate ();/* f_GetRegionalDate
+	Autor		= Cesar Vilela R./Guillermo Rojas
+	Objecivo = Captura el formato de Fecha de Configuración Reginal
+	Argumentos:
+	as_format	-> Formato que se espera obtener
+	
+	Retorna:
+	String		-> (Formato de configuración regional)
+						
+*/
+
+String	ls_sshortdate
+
+/* Verificando el formato de fecha */
+If RegistryGet ( "HKEY_CURRENT_USER\Control Panel\International", &
+					  "sShortDate", RegString!, ls_sshortdate ) = -1 Then
+	MessageBox ( gs_aplicacion, "El Sistema No Pudo Determinar el " + &
+						"Formato de Fecha~r~nde su Configuración Regional.~r~n", Exclamation! ) 
+	ls_sshortdate = "ERR"
+End If
+
+Return ls_sshortdate
+end function
+

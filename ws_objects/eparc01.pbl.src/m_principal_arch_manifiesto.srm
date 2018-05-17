@@ -1,0 +1,246 @@
+﻿$PBExportHeader$m_principal_arch_manifiesto.srm
+forward
+global type m_principal_arch_manifiesto from m_principal
+end type
+end forward
+
+global type m_principal_arch_manifiesto from m_principal
+end type
+global m_principal_arch_manifiesto m_principal_arch_manifiesto
+
+on m_principal_arch_manifiesto.create
+m_principal_arch_manifiesto=this
+call super::create
+end on
+
+on m_principal_arch_manifiesto.destroy
+call super::destroy
+end on
+
+on m_pallet.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_manifiesto.create
+call super::create
+this.ToolBarItemName=""
+this.Visible=false
+end on
+
+on m_otrosmovimientos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_tipodecambio.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_archacumulados.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_acumuladosdecostos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_archivosep0.create
+call super::create
+this.Visible=true
+end on
+
+on m_nuevo.create
+call super::create
+this.ToolBarItemName="ScriptNo!"
+this.ToolBarItemText="Nuevo"
+this.Visible=true
+end on
+
+on m_abrir.create
+call super::create
+this.ToolBarItemName="Custom050!"
+this.ToolBarItemText="Abrir"
+this.Visible=true
+end on
+
+on m_cerrar.create
+call super::create
+this.ToolBarItemName="Exit!"
+this.ToolBarItemText="Cerrar"
+this.Visible=true
+this.ToolBarItemOrder=100
+this.ToolBarItemSpace=1
+end on
+
+on m_guardar.create
+call super::create
+this.ToolBarItemName="Save!"
+this.ToolBarItemText="Guardar"
+this.Visible=true
+end on
+
+on m_imprimir.create
+call super::create
+this.ToolBarItemName="Print!"
+this.Visible=true
+end on
+
+on m_salir1.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_producto.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_preciospro.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_etiqueta.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_envase.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_cultivo.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_lote.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_opcionsheet.create
+call super::create
+this.Text="Ma&nifiesto"
+this.Visible=true
+end on
+
+on m_opcionsheet1.create
+call super::create
+this.Text="&Pallets Disponibles~tCtrl+D"
+this.ToolBarItemName="DataWindow5!"
+this.ToolBarItemText="P.Disponibles, Pallets Disponibles"
+this.Visible=true
+this.Enabled=true
+this.ToolBarItemOrder=31
+this.ToolBarItemSpace=1
+this.Shortcut=324
+end on
+
+event m_opcionsheet1::clicked;w_arch_manifiesto.wf_Disponibles( )
+end event
+
+on m_opcionsheet2.create
+call super::create
+this.Text="&Factura"
+this.ToolBarItemName="Function!"
+this.ToolBarItemText="Factura, Imprimir Factura"
+this.Visible=true
+this.Enabled=true
+this.ToolBarItemOrder=32
+end on
+
+event m_opcionsheet2::clicked;w_arch_manifiesto.wf_PrintFact( )
+end event
+
+on m_opcionsheet3.create
+call super::create
+this.Text="-"
+this.Visible=true
+end on
+
+event m_opcionsheet4::clicked;w_arch_manifiesto.wf_ActualizaDDDW( 'c_codigo_aga' )
+end event
+
+on m_opcionsheet4.create
+call super::create
+this.Text="Agregar Agencia Aduanal..."
+this.ToolBarItemName="CreateLibrary5!"
+this.ToolBarItemText="Aduana, Agregar Agencia Aduanal"
+this.Visible=true
+this.Enabled=true
+this.ToolBarItemOrder=33
+this.ToolBarItemSpace=1
+end on
+
+event m_opcionsheet5::clicked;w_arch_manifiesto.wf_ActualizaDDDW( 'c_codigo_dis' )
+end event
+
+on m_opcionsheet5.create
+call super::create
+this.Text="Agregar Distribuidor..."
+this.ToolBarItemName="Export!"
+this.ToolBarItemText="Distribuidor, Agregar Distribuidor"
+this.Visible=true
+this.Enabled=true
+this.ToolBarItemOrder=34
+end on
+
+event m_opcionsheet6::clicked;w_arch_manifiesto.wf_ActualizaDDDW( 'c_codigo_lit' )
+end event
+
+on m_opcionsheet6.create
+call super::create
+this.Text="Agregar Linea de Trasporte..."
+this.ToolBarItemName="CreateLibrary!"
+this.ToolBarItemText="Trasporte, Agregar Linea de Trasporte"
+this.Visible=true
+this.Enabled=true
+this.ToolBarItemOrder=35
+end on
+
+on m_cierrededia.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_repairdatabase.create
+call super::create
+this.ToolBarItemText=""
+end on
+
+on m_cambiarcontrasenia.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_importardatos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_copiarcostosdeproductos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_opciones.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_bloquearsistema.create
+call super::create
+this.ToolBarItemVisible=false
+end on
+
+on m_contenidodeayuda.create
+call super::create
+this.ToolBarItemName=""
+end on
+

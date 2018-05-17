@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_getprinter.srf
+global type f_getprinter from function_object
+end type
+
+forward prototypes
+global function string f_getprinter (string as_set, string as_print)
+end prototypes
+
+global function string f_getprinter (string as_set, string as_print);String ls_printer
+String ls_os
+Environment le_env
+ls_printer = ''; ls_os=''
+
+IF GetEnvironment(le_env) = - 1 Then Return ''
+
+CHOOSE CASE le_env.OSType 
+	CASE Windows! 
+		ls_os = "Win_95_98" 
+		// Obtener la Impresora Default 
+		If - 1 = RegistryGet("HKEY_LOCAL_MACHINE\Config\0001\System\CurrentControlSet\Control\Print\Printers", "default", ls_printer) Then
+			ls_printer = ''
+		End If	
+	CASE WindowsNT! 
+		ls_os = "Win_Nt" 
+		If - 1 = RegistryGet("HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows","Device", ls_printer) Then
+			ls_printer = ''
+		End If	
+END CHOOSE
+
+//ESTABLECER IMPRESORA POR DEFECTO.. 
+If as_set = 'S' Then
+	CHOOSE CASE le_env.OSType 
+		CASE Windows! 
+			ls_os = "Win_95_98" 
+			// Obtener la Impresora Default 
+			If - 1 = RegistrySet("HKEY_LOCAL_MACHINE\Config\0001\System\CurrentControlSet\Control\Print\Printers", "default", as_print) Then
+				ls_printer = ''
+			End If	
+		CASE WindowsNT! 
+			ls_os = "Win_Nt" 
+			If - 1 = RegistrySet("HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows","Device", as_print) Then
+				ls_printer = ''
+			End If	
+	END CHOOSE
+End If
+
+//Para NT: Asignar la Impresora Default 
+//RegistrySet("HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows","Device",printer_default ) 
+// Para todos los windows... 
+
+
+Return ls_printer
+end function
+

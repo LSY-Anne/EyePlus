@@ -1,0 +1,29 @@
+﻿$PBExportHeader$d_rpt_certificado_caja.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no rows_per_detail = 4 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="v_nombre_env" )
+ column=(type=decimal(2) updatewhereclause=yes name=bultos dbname="bultos" )
+ column=(type=decimal(2) updatewhereclause=yes name=peso dbname="peso" )
+ retrieve="Select  v_nombre_env = isnull(e.v_nombre_env,''),
+		  bultos = sum(n_bulxpa_pal),
+		  peso =  isnull(pro.n_pesbul_pro,0)
+from  t_palet p (nolock), 
+		t_envase e (nolock), 
+		t_producto pro (nolock)
+where p.c_codigo_pro = pro.c_codigo_pro
+and pro.c_codigo_env = e.c_codigo_env
+and p.c_codigo_env = e.c_codigo_env
+and p.c_codigo_tem = :as_tem
+and p.c_codigo_man = :as_man
+group by v_nombre_env,p.c_codigo_pro,pro.n_pesbul_pro" arguments=(("as_tem", string),("as_man", string)) )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="4" height="64" width="224" format="#,##0" row_in_detail=1  name=bultos_1 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="247" y="4" height="64" width="590" format="[general]" row_in_detail=1  name=v_nombre_env_1 edit.limit=25 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="0" y1="60" x2="2597" y2="60" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="850" y="4" height="64" width="274" format="[general]" row_in_detail=1  name=peso_1 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="1289" y="4" height="64" width="274" format="#,##0" row_in_detail=2  name=bultos_2 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1582" y="4" height="64" width="594" format="[general]" row_in_detail=2  name=v_nombre_env_2 edit.limit=25 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="2190" y="4" height="64" width="274" format="[general]" row_in_detail=2  name=peso_2 edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

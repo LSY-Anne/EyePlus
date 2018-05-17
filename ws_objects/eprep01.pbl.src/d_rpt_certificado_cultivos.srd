@@ -1,0 +1,44 @@
+﻿$PBExportHeader$d_rpt_certificado_cultivos.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no rows_per_detail = 6 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=128 color="536870912" )
+table(column=(type=char(100) updatewhereclause=yes name=t_cultivo_v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ retrieve="  SELECT t_cultivo.v_nombre_cul			
+    FROM t_cultivo,   
+         t_manifiesto,   
+         t_palet,   
+         t_distribuidor,   
+         t_embarcador,   
+         t_producto  
+   WHERE ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and  
+         ( t_manifiesto.c_codigo_tem = t_palet.c_codigo_tem ) and  
+         ( t_distribuidor.c_codigo_dis = t_manifiesto.c_codigo_dis ) and  
+         ( t_embarcador.c_codigo_emb = t_manifiesto.c_codigo_emb ) and  
+         ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and  
+         ( t_producto.c_codigo_cul = t_cultivo.c_codigo_cul ) and  
+         ( ( t_manifiesto.c_codigo_tem = :as_tem ) and 
+			( t_manifiesto.c_codigo_man = :as_cod ))   
+GROUP BY t_cultivo.v_nombre_cul,   
+			t_manifiesto.c_merdes_man,   
+         t_manifiesto.v_medtra_man,   
+         t_manifiesto.v_marca_man,   
+         t_manifiesto.v_anofab_man,   
+         t_manifiesto.v_numpla_man,   
+         t_manifiesto.v_lugdes_man,   
+         t_manifiesto.n_totbul_man,   
+         t_manifiesto.d_embarque_man,   
+         t_distribuidor.v_nombre_dis,   
+         t_embarcador.v_nombre_emb,   
+         t_embarcador.v_ptoemb_emb  
+" arguments=(("as_tem", string),("as_cod", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1006" y="68" height="56" width="471" format="[general]" row_in_detail=6  name=t_cultivo_v_nombre_cul_6 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1006" y="4" height="56" width="471" format="[general]" row_in_detail=3  name=t_cultivo_v_nombre_cul_3 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="4" height="56" width="471" format="[general]" row_in_detail=1  name=t_cultivo_v_nombre_cul_1 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="503" y="4" height="56" width="471" format="[general]" row_in_detail=2  name=t_cultivo_v_nombre_cul_2 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="68" height="56" width="471" format="[general]" row_in_detail=4  name=t_cultivo_v_nombre_cul_4 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="485" y1="16" x2="485" y2="108" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="503" y="68" height="56" width="471" format="[general]" row_in_detail=5  name=t_cultivo_v_nombre_cul_5 edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="987" y1="16" x2="987" y2="108" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

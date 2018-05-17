@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_getsysdatea.srf
+global type f_getsysdatea from function_object
+end type
+
+forward prototypes
+global function datetime f_getsysdatea ()
+end prototypes
+
+global function datetime f_getsysdatea ();/* Retorna la fecha del sistema 
+	f_GetSysDateA( ) */
+
+
+Return gd_sys
+end function
+

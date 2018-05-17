@@ -1,0 +1,32 @@
+﻿$PBExportHeader$d_rpt_manifiesto_malichita3.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=476 color="536870912" )
+summary(height=144 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(retrieve="/*  SELECT v_nombre_pro = p.c_codigo_pro,
+			v_nombre_eti = e.v_nombre_eti,
+			v_nombre_tam = t.v_nombre_tam
+			
+    FROM t_manifiesto m (nolock),    
+         t_distribuidor d (nolock),   
+         t_palet p (nolock),   
+         t_producto h (nolock),   
+         t_etiqueta e (nolock),
+			t_tamanio t  (nolock)
+   WHERE ( t_manifiesto.c_ageext_man *= t_agencia_aduanal_b.c_codigo_aga) and  
+         ( t_manifiesto.c_codigo_aga = t_agencia_aduanal_a.c_codigo_aga ) and  
+         ( t_manifiesto.c_codigo_lit = t_linea_transporte.c_codigo_lit ) and  
+         ( t_manifiesto.c_codigo_emb = t_embarcador.c_codigo_emb ) and  
+         ( t_distribuidor.c_codigo_dis = t_manifiesto.c_codigo_dis ) and  
+         ( t_manifiesto.c_codigo_tem = t_palet.c_codigo_tem ) and  
+         ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and  
+         ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and  
+         ( t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti ) and 
+			( t.c_codigo_tam = t_producto.c_codigo_tam) and 
+         ( ( t_manifiesto.c_codigo_tem = :as_tem ) AND  
+         ( t_manifiesto.c_codigo_man = :as_man ) )  
+GROUP BY p.c_codigo_pro, p.c_codigo_eti, p.c_codigo_tam*/
+" arguments=(("as_tem", string),("as_man", string)) )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

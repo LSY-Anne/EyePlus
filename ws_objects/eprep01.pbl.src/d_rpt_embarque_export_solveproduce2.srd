@@ -1,0 +1,124 @@
+﻿$PBExportHeader$d_rpt_embarque_export_solveproduce2.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=64 color="536870912" )
+summary(height=64 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(6) updatewhereclause=yes name=col1 dbname="Col1" )
+ column=(type=char(3) updatewhereclause=yes name=col2 dbname="col2" )
+ column=(type=char(6) updatewhereclause=yes name=col3 dbname="col3" )
+ column=(type=char(100) updatewhereclause=yes name=col4 dbname="col4" )
+ column=(type=datetime updatewhereclause=yes name=col5 dbname="col5" )
+ column=(type=char(7) updatewhereclause=yes name=col6 dbname="col6" )
+ column=(type=char(20) updatewhereclause=yes name=col7 dbname="col7" )
+ column=(type=char(255) updatewhereclause=yes name=col8 dbname="col8" )
+ column=(type=char(12) updatewhereclause=yes name=col9 dbname="col9" )
+ column=(type=char(1) updatewhereclause=yes name=col10 dbname="col10" )
+ column=(type=char(13) updatewhereclause=yes name=col11 dbname="col11" )
+ column=(type=char(6) updatewhereclause=yes name=col12 dbname="col12" )
+ column=(type=char(1) updatewhereclause=yes name=col13 dbname="col13" )
+ column=(type=decimal(2) updatewhereclause=yes name=col14 dbname="col14" )
+ column=(type=char(1) updatewhereclause=yes name=col15 dbname="col15" )
+ column=(type=decimal(2) updatewhereclause=yes name=col16 dbname="col16" )
+ column=(type=char(1) updatewhereclause=yes name=col17 dbname="col17" )
+ column=(type=char(1) updatewhereclause=yes name=col18 dbname="col18" )
+ column=(type=char(255) updatewhereclause=yes name=col19 dbname="col19" )
+ retrieve="Select /*Manifest*/Col1 = left(isnull(m.c_codigo_man,''),6),
+    /*Grower Code*/col2 = left((Select isnull(t_parametro.v_valor_par,'') From t_parametro(nolock) Where t_parametro.c_codigo_par='091'),3),
+/*Grower Manifest*/col3 = left(isnull(m.c_codigo_man,''),6),
+       /*Contract*/col4 = (Select isnull(t_parametro.v_valor_par,'') From t_parametro(nolock) Where t_parametro.c_codigo_par='094'),
+      /*Ship date*/col5 = m.d_embarque_man,
+      /*Ship time*/col6 = Case When isnull(m.c_horcre_man,'')= '' Then '' Else substring(isnull(m.c_horcre_man,''),1,2)+':'+substring(isnull(m.c_horcre_man,''),3,4)End,
+       /*Truck ID*/col7 = left(isnull(m.v_numcaj_man,''),20),
+         /*Driver*/col8 = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(
+				  Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(
+										left(isnull(m.v_chofer_man,''),25) 
+				  , '@', '')	, '%', '')	, '!', '')	, '¡', '')	, '$', '')	, '.', '')	, '&', '')
+				  , ',', '')	, '?', '')  , '¿', '')  , 'ñ', 'n') , 'á', 'a') , 'é', 'e') , 'í', 'i')
+				  , 'ó', 'o'), 'ú', 'u'),'*',''),
+    /*Trailer Lic*/col9 = left(isnull(m.v_licencia_man,''),12),
+ /*For future use*/col10 = '',
+        /*Tag No.*/col11 =left((Select isnull(t_parametro.v_valor_par,'') From t_parametro(nolock) Where t_parametro.c_codigo_par='091'),3) + left(isnull(p.c_codigo_pal,''),10),
+        /*Product*/col12 = isnull(p.c_codigo_pro,'')+isnull(p.c_codigo_eti,''),
+    /*Ranch-Field*/col13 = '',
+       /*Quantity*/col14 = isnull(sum(p.n_bulxpa_pal),0),
+ /*For future use*/col15 = '',
+ /*Units x Pallet*/col16 = isnull(o.n_bulxpa_pro,0),
+    /*Reference 1*/col17 = '',
+    /*Reference 2*/col18 = '',
+   /*Product Desc*/col19 = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(
+					Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(
+														isnull(left(o.v_nombre_pro+e.v_nombre_eti,80),'')
+					, '@', '')	, '%', '')	, '!', '')	, '¡', '')	, '$', '')	, '.', '')	, '&', '')
+					, ',', '')	, '?', '')  , '¿', '')  , 'ñ', 'n') , 'á', 'a') , 'é', 'e') , 'í', 'i')
+					, 'ó', 'o'), 'ú', 'u'),'*','')
+
+from   t_palet p(nolock),
+       t_manifiesto m(nolock),
+       t_producto o(nolock),
+       t_etiqueta e(nolock),
+       t_lote l(nolock)
+Where  (m.d_embarque_man >=:ad_ini  And m.d_embarque_man <=:ad_fin)
+And    p.c_codigo_man=m.c_codigo_man
+and    p.c_codigo_tem=m.c_codigo_tem
+And    p.c_codigo_pro=o.c_codigo_pro
+And    e.c_codigo_eti=p.c_codigo_eti
+And    l.c_codigo_lot=p.c_codigo_lot
+And    l.c_codigo_tem=p.c_codigo_tem 
+And    p.c_codigo_tem=(select v_valor_par from t_parametro(nolock) where c_codigo_par='001')
+and	 p.c_excedente_pal<>'1'
+Group By m.c_codigo_man,
+         m.d_embarque_man,
+         m.c_horcre_man,
+         m.v_numcaj_man,
+         m.v_chofer_man,
+         m.v_licencia_man,
+         p.c_codigo_pal,
+         p.c_codigo_pro,
+         p.c_codigo_eti,
+         o.n_bulxpa_pro,
+         o.v_nombre_pro,
+         o.id_size,
+         e.v_nombre_eti
+" arguments=(("ad_ini", datetime),("ad_fin", datetime)) )
+text(band=header alignment="0" text="manifiesto"border="0" color="0" x="9" y="8" height="52" width="247"  name=col1_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="compañia"border="0" color="0" x="265" y="8" height="52" width="238"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="manifiesto"border="0" color="0" x="512" y="8" height="52" width="229"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="contrato"border="0" color="0" x="750" y="8" height="52" width="197"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="fecha"border="0" color="0" x="955" y="8" height="52" width="329"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="hora"border="0" color="0" x="1294" y="8" height="52" width="219"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="truckid"border="0" color="0" x="1522" y="8" height="52" width="201"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Col8"border="0" color="0" x="1733" y="8" height="52" width="512"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="licencia"border="0" color="0" x="2254" y="8" height="52" width="178"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Col10"border="0" color="0" x="2441" y="8" height="52" width="178"  name=col10_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="TAGno"border="0" color="0" x="2629" y="8" height="52" width="229"  name=col11_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="product id"border="0" color="0" x="2866" y="8" height="52" width="238"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Col13"border="0" color="0" x="3113" y="8" height="52" width="160"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Col14"border="0" color="0" x="3282" y="8" height="52" width="160"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Col15"border="0" color="0" x="3451" y="8" height="52" width="160"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="#pallet"border="0" color="0" x="3621" y="8" height="52" width="174"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Referencia 1"border="0" color="0" x="3803" y="8" height="52" width="283"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Referencia 2"border="0" color="0" x="4096" y="8" height="52" width="306"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="descripcion producto"border="0" color="0" x="4411" y="8" height="52" width="1129"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="64" width="247" format="[general]"  name=col1 edit.limit=9 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="265" y="8" height="64" width="238" format="[general]"  name=col2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="512" y="8" height="64" width="229" format="[general]"  name=col3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="750" y="8" height="64" width="197" format="[general]"  name=col4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="955" y="8" height="64" width="329" format="yyyymmdd"  name=col5 editmask.mask="yyyymmdd" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1294" y="8" height="64" width="219" format=""  name=col6 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1522" y="8" height="64" width="201" format="[general]"  name=col7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1733" y="8" height="64" width="512" format="[general]"  name=col8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="2254" y="8" height="64" width="178" format="[general]"  name=col9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="2441" y="8" height="64" width="178" format="[general]"  name=col10 edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="2629" y="8" height="64" width="229" format="[general]"  name=col11 edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="2866" y="8" height="64" width="238" format="[general]"  name=col12 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="3113" y="8" height="64" width="160" format="[general]"  name=col13 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="3282" y="8" height="64" width="160" format="[general]"  name=col14 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="3451" y="8" height="64" width="160" format="[general]"  name=col15 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="3621" y="8" height="64" width="174" format="[general]"  name=col16 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="3803" y="8" height="64" width="283" format="[general]"  name=col17 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="4096" y="8" height="64" width="306" format="[general]"  name=col18 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="4411" y="8" height="64" width="1129" format="[general]"  name=col19 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="sum(col14 for all)"border="0" color="0" x="3282" y="4" height="52" width="160" format="[general]"  name=total  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

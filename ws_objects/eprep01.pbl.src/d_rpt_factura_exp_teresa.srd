@@ -1,0 +1,80 @@
+﻿$PBExportHeader$d_rpt_factura_exp_teresa.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="Factura Comercial" print.orientation = 0 print.margin.left = 10 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=776 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=2876 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_man dbname="c_codigo_man" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_merdes_man dbname="c_merdes_man" values="Nacional	N/Extranjero	E/" )
+ column=(type=char(1) updatewhereclause=yes name=moneda dbname="moneda" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_importe_man dbname="n_importe_man" initial="0" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="v_nombre_dis" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="v_nombre_pro" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="v_nombre_eti" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bulxpa_pal dbname="n_bulxpa_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precmn_pal dbname="n_precmn_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precme_pal dbname="n_precme_pal" )
+ column=(type=char(60) updatewhereclause=yes name=v_direcc_dis dbname="v_direcc_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_ciudad_dis dbname="v_ciudad_dis" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_impiva_man dbname="n_impiva_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numcaj_man dbname="v_numcaj_man" )
+ column=(type=char(15) updatewhereclause=yes name=c_rfc_dis dbname="c_rfc_dis" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="d_embarque_man" )
+ column=(type=char(50) updatewhereclause=yes name=scac dbname="SCAC" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cantidad dbname="n_cantidad" )
+ retrieve="SELECT c_codigo_man = m.c_codigo_man,
+		 c_merdes_man = m.c_merdes_man,
+		 moneda= (case when m.c_merdes_man = 'N' then'P' else 'D' end),
+		 n_importe_man = m.n_importe_man,
+		 v_nombre_dis = d.v_nombre_dis,
+		 v_nombre_pro = pro.v_nombre_pro,
+		 v_nombre_eti = eti.v_nombre_eti,
+		 n_bulxpa_pal = p.n_bulxpa_pal,
+		 n_precmn_pal = p.n_precmn_pal,
+		 n_precme_pal = p.n_precme_pal,
+		 v_direcc_dis = d.v_direcc_dis,
+		 v_ciudad_dis = d.v_ciudad_dis,
+		 n_impiva_man = m.n_impiva_man,
+		 v_numcaj_man = m.v_numcaj_man,
+		 c_rfc_dis = d.c_rfc_dis,
+		 d_embarque_man = m.d_embarque_man,
+		 SCAC = tras.c_claveSCAC_lit,
+		 n_cantidad = n_bulxpa_pal
+FROM t_manifiesto m (nolock), t_distribuidor d (nolock), t_palet p (nolock), t_producto pro (nolock), 
+		 t_etiqueta eti (nolock), t_envase env (nolock), t_linea_transporte tras (nolock), t_embarcador emb (nolock)
+WHERE (d.c_codigo_dis = m.c_codigo_dis) and
+		(m.c_codigo_tem = p.c_codigo_tem) and  
+		(m.c_codigo_man = p.c_codigo_man) and
+		(pro.c_codigo_pro = p.c_codigo_pro) and
+		(eti.c_codigo_eti = p.c_codigo_eti) and
+		(env.c_codigo_env = p.c_codigo_env) and
+		(emb.c_codigo_emb = m.c_codigo_emb) and
+		(tras.c_codigo_lit = m.c_codigo_lit) and
+		((m.c_codigo_tem = :as_tem) and
+		(m.c_codigo_man = :as_man))and
+			(p.c_excedente_pal='0') 
+" arguments=(("as_tem", string),("as_man", string))  sort="v_nombre_pro A " )
+group(level=1 header.height=64 trailer.height=0 by=("v_nombre_pro" ) header.color="536870912" trailer.color="536870912" )
+column(band=header id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="695" y="384" height="60" width="1577" format="[general]"  name=v_nombre_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=11 alignment="0" tabsequence=32766 border="0" color="33554432" x="695" y="500" height="60" width="1623" format="~t v_direcc_dis + ' '  + v_apapos_dis"  name=v_direcc_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=12 alignment="0" tabsequence=32766 border="0" color="33554432" x="690" y="616" height="60" width="1088" format="[general]"  name=v_ciudad_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=15 alignment="0" tabsequence=32766 border="0" color="33554432" x="1938" y="616" height="60" width="827" format="[general]"  name=c_rfc_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="Year( Date( d_embarque_man ) )  "border="0" color="33554432" x="3323" y="568" height="56" width="133" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="Day( Date( d_embarque_man ) )"border="0" color="33554432" x="2825" y="568" height="56" width="133" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression=" Left( f_Mes( Month( Date( d_embarque_man ) ) ), 3 ) "border="0" color="33554432" x="3072" y="568" height="56" width="133" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header.1 alignment="1" expression="sum( n_cantidad for group 1)"border="0" color="33554432" x="160" y="8" height="52" width="233" format="#,##0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header.1 alignment="0" expression=" Trim( v_nombre_pro ) + '/' +Trim( v_nombre_eti ) "border="0" color="33554432" x="581" y="8" height="52" width="1253" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.1 alignment="1" expression="If (c_merdes_man = 'N', n_precmn_pal, n_precme_pal )"border="0" color="33554432" x="2537" y="8" height="52" width="302" format="#,##0.00"  name=n_precio  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.1 alignment="1" expression="If (c_merdes_man = 'N', n_precmn_pal, n_precme_pal) * sum(n_cantidad for group 1)"border="0" color="33554432" x="3099" y="8" height="52" width="302" format="#,##0.00"  name=importe  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="1" expression="sum(importe for all distinct  v_nombre_pro )+ n_impiva_man"border="0" color="33554432" x="3109" y="544" height="56" width="361" format="###,##0.00"  name=tot  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="WordCap( f_NumberToWord3( tot, moneda ))"border="0" color="33554432" x="370" y="700" height="96" width="2464" format="[general]"  name=importe_letra  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=13 alignment="1" tabsequence=32766 border="0" color="33554432" x="3109" y="416" height="56" width="361" format="#,##0.00"  name=n_impiva_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="1" expression="sum(importe for all distinct  v_nombre_pro )"border="0" color="33554432" x="3109" y="280" height="56" width="361" format="###,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="1" text="Manifiesto:"border="0" color="0" x="123" y="16" height="80" width="407"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=footer id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="549" y="16" height="80" width="338" format="[general]"  name=c_codigo_man_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="No. Caja:"border="0" color="33554432" x="901" y="16" height="80" width="334"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=footer id=14 alignment="0" tabsequence=32766 border="0" color="33554432" x="1253" y="16" height="80" width="517" format="[general]"  name=v_numcaj_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="0" text="SCAC:"border="0" color="33554432" x="1787" y="16" height="80" width="274"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=footer id=17 alignment="0" tabsequence=32766 border="0" color="33554432" x="2071" y="16" height="80" width="562" format="[general]"  name=scac edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

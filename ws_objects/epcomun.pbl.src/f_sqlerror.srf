@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_sqlerror.srf
+global type f_sqlerror from function_object
+end type
+
+forward prototypes
+global function integer f_sqlerror (transaction atran_sql, string as_usertext)
+end prototypes
+
+global function integer f_sqlerror (transaction atran_sql, string as_usertext);s_parm	lstr_parm
+
+
+
+If f_Trim( SqlCa.SqlErrText ) = '' Or SqlCa.SqlCode >= 0 Then Return 1
+lstr_parm.s_cad[1] = atran_sql.DataBase
+lstr_parm.s_cad[2] = as_usertext
+lstr_parm.s_cad[3] = String( atran_sql.SqlDBCode )
+lstr_parm.s_cad[4] = atran_sql.SqlErrText
+
+RollBack Using atran_sql ;
+OpenWithParm( w_sqlerror, lstr_parm )
+
+Return -1
+
+end function
+

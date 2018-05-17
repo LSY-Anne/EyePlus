@@ -1,0 +1,65 @@
+﻿$PBExportHeader$d_rpt_certificadoorigen_ema.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=3348 color="536870912"  height.autosize=yes)
+table(column=(type=char(1) updatewhereclause=yes name=c_merdes_man dbname="t_manifiesto.c_merdes_man" )
+ column=(type=char(30) updatewhereclause=yes name=v_medtra_man dbname="t_manifiesto.v_medtra_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_marca_man dbname="t_manifiesto.v_marca_man" )
+ column=(type=char(4) updatewhereclause=yes name=v_anofab_man dbname="t_manifiesto.v_anofab_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_numpla_man dbname="t_manifiesto.v_numpla_man" )
+ column=(type=char(100) updatewhereclause=yes name=v_lugdes_man dbname="t_manifiesto.v_lugdes_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_totbul_man dbname="t_manifiesto.n_totbul_man" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_direcc_dis dbname="t_distribuidor.v_direcc_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_ciudad_dis dbname="t_distribuidor.v_ciudad_dis" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb dbname="t_embarcador.v_nombre_emb" )
+ column=(type=char(100) updatewhereclause=yes name=v_direcc_emb dbname="t_embarcador.v_direcc_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_emb dbname="t_embarcador.v_ciudad_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ptoemb_emb dbname="t_embarcador.v_ptoemb_emb" )
+ retrieve="  SELECT t_manifiesto.c_merdes_man,
+         t_manifiesto.v_medtra_man,
+         t_manifiesto.v_marca_man,
+         t_manifiesto.v_anofab_man,
+         t_manifiesto.v_numpla_man,
+         t_manifiesto.v_lugdes_man,
+         t_manifiesto.n_totbul_man,
+         t_manifiesto.d_embarque_man,
+         t_distribuidor.v_nombre_dis,
+         t_distribuidor.v_direcc_dis,
+         t_distribuidor.v_ciudad_dis,
+         t_embarcador.v_nombre_emb,
+         t_embarcador.v_direcc_emb,
+         t_embarcador.v_ciudad_emb,
+         t_embarcador.v_ptoemb_emb
+         
+    FROM t_cultivo, t_manifiesto, t_palet, t_distribuidor, t_embarcador, t_producto
+   WHERE ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and
+         ( t_manifiesto.c_codigo_tem = t_palet.c_codigo_tem ) and
+         ( t_distribuidor.c_codigo_dis = t_manifiesto.c_codigo_dis ) and
+         ( t_embarcador.c_codigo_emb = t_manifiesto.c_codigo_emb ) and
+         ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and
+         ( t_producto.c_codigo_cul = t_cultivo.c_codigo_cul ) and
+         ( (t_manifiesto.c_codigo_tem = :as_tem ) and
+         ( t_manifiesto.c_codigo_man = :as_cod ))
+GROUP BY t_manifiesto.c_merdes_man, t_manifiesto.v_medtra_man, t_manifiesto.v_marca_man, t_manifiesto.v_anofab_man,
+			t_manifiesto.v_numpla_man, t_manifiesto.v_lugdes_man, t_manifiesto.n_totbul_man, t_manifiesto.d_embarque_man, t_distribuidor.v_nombre_dis,
+			t_embarcador.v_nombre_emb, t_embarcador.v_ptoemb_emb, t_embarcador.v_direcc_emb, t_embarcador.v_ciudad_emb, t_distribuidor.v_direcc_dis,
+         t_distribuidor.v_ciudad_dis" arguments=(("as_tem", string),("as_cod", string),("as_cul", string)) )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="997" y="1428" height="76" width="1934" format="[general]"  name=v_ptoemb_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="997" y="1520" height="76" width="1934" format="[general]"  name=v_lugdes_man edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="n_totbul_man + '  Kilos'"border="0" color="0" x="997" y="1800" height="76" width="1047" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="'Humano'"border="0" color="0" x="2418" y="1800" height="76" width="507" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="'Inspeccion Ocular'"border="0" color="0" x="997" y="1996" height="76" width="1934" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="997" y="2288" height="76" width="1934" format="[general]"  name=v_nombre_emb edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="997" y="2380" height="76" width="1934" format="[general]"  name=v_direcc_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="992" y="2472" height="76" width="1938" format="[general]"  name=v_ciudad_emb edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="997" y="2656" height="76" width="1934" format="[general]"  name=v_nombre_dis edit.limit=60 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="997" y="2748" height="76" width="1934" format="[general]"  name=v_direcc_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="997" y="2840" height="76" width="1934" format="[general]"  name=v_ciudad_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="997" y="3012" height="76" width="1934" format="[general]"  name=v_medtra_man edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="v_numpla_man + ',  ' + v_marca_man +',  '+ v_anofab_man"border="0" color="0" x="997" y="3108" height="76" width="1934" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="as_cul"border="0" color="0" x="997" y="1716" height="76" width="1934" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

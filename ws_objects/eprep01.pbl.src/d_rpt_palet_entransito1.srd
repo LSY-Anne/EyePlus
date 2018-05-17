@@ -1,0 +1,161 @@
+﻿$PBExportHeader$d_rpt_palet_entransito1.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=376 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(8) updatewhereclause=yes name=eleccion dbname="eleccion" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_tem dbname="c_codigo_tem" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_pal dbname="c_codigo_pal" )
+ column=(type=char(1) updatewhereclause=yes name=c_excedente_pal dbname="c_excedente_pal" values="Palet Normal	0/Palet Excedente	1/" )
+ column=(type=char(2) updatewhereclause=yes name=c_codsec_pal dbname="c_codsec_pal" )
+ column=(type=char(105) updatewhereclause=yes name=producto dbname="producto" )
+ column=(type=char(43) updatewhereclause=yes name=etiqueta dbname="etiqueta" )
+ column=(type=char(28) updatewhereclause=yes name=envase dbname="envase" )
+ column=(type=datetime updatewhereclause=yes name=d_empaque_pal dbname="d_empaque_pal" )
+ column=(type=char(8) updatewhereclause=yes name=c_hora_pal dbname="c_hora_pal" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="c_codigo_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bulxpa_pal dbname="n_bulxpa_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precmn_pal dbname="n_precmn_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_precme_pal dbname="n_precme_pal" )
+ column=(type=char(8) updatewhereclause=yes name=c_hora_pal_1 dbname="c_hora_pal" )
+ column=(type=char(1) updatewhereclause=yes name=c_activo_pal dbname="c_activo_pal" )
+ column=(type=datetime updatewhereclause=yes name=d_creacion_pal dbname="d_creacion_pal" )
+ column=(type=char(20) updatewhereclause=yes name=c_codigo_usu dbname="c_codigo_usu" )
+ column=(type=char(100) updatewhereclause=yes name=cruze dbname="cruze" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="d_embarque_man" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_lot dbname="c_codigo_lot" )
+ column=(type=char(20) updatewhereclause=yes name=v_numcaj_man dbname="v_numcaj_man" )
+ retrieve="SELECT eleccion = 'Transito',
+		t_palet.c_codigo_tem,   
+		t_palet.c_codigo_pal, 
+		t_palet.c_excedente_pal,  
+		t_palet.c_codsec_pal,   
+		producto =  t_palet.c_codigo_pro  + ' ' +  t_producto.v_nombre_pro, 
+		etiqueta =  t_palet.c_codigo_eti + ' ' +  t_etiqueta.v_nombre_eti, 
+		envase =    t_palet.c_codigo_env + ' ' +          t_envase.v_nombre_env,   
+		t_palet.d_empaque_pal,
+		t_palet.c_hora_pal,   
+		t_palet.c_codigo_man,   
+		t_palet.n_bulxpa_pal,   
+		t_palet.n_precmn_pal,   
+		t_palet.n_precme_pal, 
+		t_palet.c_hora_pal,  
+		t_palet.c_activo_pal,
+		t_palet.d_creacion_pal,   
+		t_palet.c_codigo_usu,
+		cruze = isnull(	t_lugarescruce.v_desclarga_cze,''),
+	   t_manifiesto.d_embarque_man,
+		t_palet.c_codigo_lot,
+		t_manifiesto.v_numcaj_man
+FROM t_palet (nolock),   
+         t_envase (nolock),   
+         t_etiqueta (nolock),   
+         t_producto (nolock),   
+         t_temporada (nolock),
+		 t_manifiesto (nolock) left join  t_lugarescruce (nolock)  ON ( t_manifiesto.c_codigo_cze = isnull(t_lugarescruce.c_codigo_cze,''))
+   WHERE ( t_envase.c_codigo_env = t_palet.c_codigo_env ) and  
+         ( t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti ) and  
+         ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and  
+         ( t_temporada.c_codigo_tem = t_palet.c_codigo_tem ) and
+		 ( t_palet.c_codigo_tem  = t_manifiesto.c_codigo_tem) and
+		 ( t_palet.c_codigo_man = t_manifiesto.c_codigo_man) and
+        ( ( t_palet.c_codigo_tem = :as_tem ) ) and
+		 ( isnull(t_palet.c_origen_man,'')  = '') and
+		 ( isnull(t_manifiesto.c_codigo_cze,'') like :as_cruze) and
+		 ( t_palet.c_excedente_pal = :as_exc) and
+		 (t_manifiesto.d_embarque_man > = :ad_ini) and
+		 (t_manifiesto.d_embarque_man < =  :ad_fin) and 
+		'E' = :as_marca
+
+UNION ALL
+
+SELECT eleccion = 'Transito',
+		t_palet.c_codigo_tem,   
+		t_palet.c_codigo_pal, 
+		t_palet.c_excedente_pal,  
+		t_palet.c_codsec_pal,   
+		producto =  t_palet.c_codigo_pro  + ' ' +  t_producto.v_nombre_pro, 
+		etiqueta =  t_palet.c_codigo_eti + ' ' +  t_etiqueta.v_nombre_eti, 
+		envase =    t_palet.c_codigo_env + ' ' +          t_envase.v_nombre_env,   
+		t_palet.d_empaque_pal,
+		t_palet.c_hora_pal,   
+		t_palet.c_codigo_man,   
+		t_palet.n_bulxpa_pal,   
+		t_palet.n_precmn_pal,   
+		t_palet.n_precme_pal, 
+		t_palet.c_hora_pal,  
+		t_palet.c_activo_pal,
+		t_palet.d_creacion_pal,   
+		t_palet.c_codigo_usu,
+		cruze =  isnull(	t_lugarescruce.v_desclarga_cze,''),
+	   t_manifiesto.d_embarque_man,
+		t_palet.c_codigo_lot,
+		t_manifiesto.v_numcaj_man
+FROM t_palet (nolock),   
+         t_envase (nolock),   
+         t_etiqueta (nolock),   
+         t_producto (nolock),   
+         t_temporada (nolock),
+		 t_manifiesto (nolock) left join  t_lugarescruce (nolock)  ON ( t_manifiesto.c_codigo_cze = isnull(t_lugarescruce.c_codigo_cze,''))
+   WHERE ( t_envase.c_codigo_env = t_palet.c_codigo_env ) and  
+         ( t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti ) and  
+         ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and  
+         ( t_temporada.c_codigo_tem = t_palet.c_codigo_tem ) and
+		 ( t_palet.c_codigo_tem  = t_manifiesto.c_codigo_tem) and
+		 ( t_palet.c_codigo_man = t_manifiesto.c_codigo_man) and
+        ( ( t_palet.c_codigo_tem = :as_tem ) ) and
+		 ( isnull(t_palet.c_origen_man,'')  = '') and
+		 ( isnull(t_manifiesto.c_codigo_cze,'') like :as_cruze) and
+		 (t_manifiesto.d_embarque_man > = :ad_ini) and
+		 (t_manifiesto.d_embarque_man < = :ad_fin) and 
+		 'T' = :as_marca" arguments=(("as_tem", string),("as_cruze", string),("as_exc", string),("as_marca", string),("ad_ini", datetime),("ad_fin", datetime))  sort="c_codigo_man A c_excedente_pal A d_empaque_pal A " )
+group(level=1 header.height=76 trailer.height=0 by=("c_codigo_man" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=60 trailer.height=0 by=("c_excedente_pal" ) header.color="536870912" trailer.color="536870912" )
+rectangle(band=header x="37" y="296" height="68" width="3383" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="2930" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3099" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="2930" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3099" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="2930" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3099" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="2930" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3099" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_palet_entransito1"border="0" color="0" x="2651" y="204" height="48" width="704"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="1198" y="20" height="72" width="1403" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="PALET EN TRANSITO"border="0" color="0" x="1595" y="120" height="48" width="622"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="1563" y="172" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="1801" y="172" height="44" width="443" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Producto"border="0" color="33554432" x="544" y="304" height="48" width="613"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora"border="0" color="0" x="2811" y="304" height="48" width="96"  name=c_activo_pal_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Lugar de cruze"border="0" color="0" x="3063" y="308" height="48" width="320"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Pallet"border="0" color="33554432" x="174" y="304" height="48" width="137"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Fecha"border="0" color="0" x="325" y="304" height="48" width="183"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header.1 x1="37" y1="12" x2="3424" y2="12" pen.style="2" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text="Manifiesto:"border="0" color="0" x="37" y="20" height="52" width="329"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=11 alignment="0" tabsequence=32766 border="0" color="0" x="398" y="20" height="52" width="251" format="[general]"  name=c_codigo_man edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text="Fecha de Embarque:"border="0" color="0" x="750" y="20" height="52" width="530"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=4 alignment="0" tabsequence=32766 border="0" color="0" x="37" y="4" height="52" width="448" format="[general]"  name=c_excedente_pal ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="539" y="4" height="52" width="631" format="[general]"  name=producto edit.limit=105 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="2843" y="4" height="52" width="206" format="[general]"  name=c_hora_pal edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="3063" y="4" height="52" width="347" format="[general]"  name=cruze edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="119" y="4" height="52" width="192" format="[general]"  name=c_codigo_pal edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="334" y="4" height="52" width="192" format="dd/mm/yyyy"  name=d_empaque_pal edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="2578" y="4" height="52" width="233" format="[general]"  name=n_precme_pal edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Precio M.E."border="0" color="0" x="2578" y="304" height="48" width="233"  name=n_precme_pal_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="2322" y="4" height="52" width="242" format="[general]"  name=n_precmn_pal edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Precio M.N."border="0" color="0" x="2322" y="304" height="48" width="224"  name=n_precmn_pal_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=22 alignment="0" tabsequence=0 border="0" color="0" x="2176" y="20" height="52" width="288"  name=v_numcaj_man  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=20 alignment="0" tabsequence=32766 border="0" color="0" x="1294" y="20" height="52" width="320" format="dd/mm/yyyy"  name=d_embarque_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text="Num. Caja:"border="0" color="0" x="1838" y="20" height="52" width="325"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Etiqueta"border="0" color="33554432" x="1189" y="304" height="48" width="329"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1184" y="4" height="52" width="434" format="[general]"  name=etiqueta edit.limit=43 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1637" y="4" height="52" width="311" format="[general]"  name=envase edit.limit=28 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Envase"border="0" color="33554432" x="1623" y="304" height="48" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="1966" y="4" height="52" width="206" format="[general]"  name=n_bulxpa_pal edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Bultos"border="0" color="33554432" x="2039" y="304" height="48" width="133"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Lote"border="0" color="0" x="2199" y="308" height="48" width="87"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="Left ( c_codigo_lot ,2)"border="0" color="0" x="2199" y="4" height="52" width="96"  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

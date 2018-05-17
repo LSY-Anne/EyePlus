@@ -1,0 +1,55 @@
+﻿$PBExportHeader$d_arch_carta_abrir.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=60 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=datetime updatewhereclause=yes name=d_documento_car dbname="t_cartamaterial.d_documento_car" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="t_cartamaterial.c_codigo_pro" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_eti dbname="t_cartamaterial.c_codigo_eti" )
+ column=(type=char(20) updatewhereclause=yes name=c_codigo_usu dbname="t_cartamaterial.c_codigo_usu" )
+ column=(type=datetime updatewhereclause=yes name=d_creacion_car dbname="t_cartamaterial.d_creacion_car" )
+ column=(type=char(20) updatewhereclause=yes name=c_usumod_car dbname="t_cartamaterial.c_usumod_car" )
+ column=(type=datetime updatewhereclause=yes name=d_modifi_car dbname="t_cartamaterial.d_modifi_car" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="t_etiqueta.v_nombre_eti" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo dbname="t_cartamaterial.c_codigo_car" )
+ column=(type=char(1) updatewhereclause=yes name=c_activo dbname="t_cartamaterial.c_activo_car" )
+ retrieve="  SELECT t_cartamaterial.d_documento_car,   
+         t_cartamaterial.c_codigo_pro,   
+         t_cartamaterial.c_codigo_eti,   
+         t_cartamaterial.c_codigo_usu,   
+         t_cartamaterial.d_creacion_car,   
+         t_cartamaterial.c_usumod_car,   
+         t_cartamaterial.d_modifi_car,     
+         t_etiqueta.v_nombre_eti,   
+         t_producto.v_nombre_pro,   
+         t_cartamaterial.c_codigo_car  ,
+			 t_cartamaterial.c_activo_car
+    FROM t_cartamaterial,   
+         t_producto,   
+         t_etiqueta  
+   WHERE ( t_cartamaterial.c_codigo_pro = t_producto.c_codigo_pro ) and  
+         ( t_cartamaterial.c_codigo_eti = t_etiqueta.c_codigo_eti )  and
+  ((t_cartamaterial.d_documento_car >= :ad_ini and 
+ t_cartamaterial.d_documento_car <=	:ad_fin) or 
+t_cartamaterial.c_codigo_pro like :as_text )
+" arguments=(("ad_ini", datetime),("ad_fin", datetime),("as_text", string)) )
+text(band=header alignment="0" text=" Producto"border="6" color="33554432" x="9" y="4" height="52" width="320"  name=t_cartamaterial_c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+text(band=header alignment="0" text=" Nombre del Producto"border="6" color="33554432" x="338" y="4" height="52" width="791"  name=v_nombre_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+text(band=header alignment="0" text=" Etiqueta"border="6" color="33554432" x="1138" y="4" height="52" width="229"  name=t_cartamaterial_c_codigo_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+text(band=header alignment="0" text=" Nombre de Etiqueta"border="6" color="33554432" x="1376" y="4" height="52" width="786"  name=v_nombre_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+text(band=header alignment="0" text=" Usuario"border="6" color="33554432" x="2171" y="4" height="52" width="421"  name=t_cartamaterial_c_codigo_usu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+text(band=header alignment="0" text=" Fecha"border="6" color="33554432" x="2601" y="4" height="52" width="338"  name=t_cartamaterial_d_creacion_car_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+text(band=header alignment="0" text=" Modifico"border="6" color="33554432" x="2949" y="4" height="52" width="421"  name=t_cartamaterial_c_usumod_car_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+text(band=header alignment="0" text=" F. Modificación"border="6" color="33554432" x="3378" y="4" height="52" width="357"  name=d_modifi_car_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="0" height="56" width="320" format="[general]"  name=c_codigo_pro edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="338" y="0" height="56" width="791" format="[general]"  name=v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1138" y="0" height="56" width="229" format="[general]"  name=c_codigo_eti edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1376" y="0" height="56" width="786" format="[general]"  name=v_nombre_eti edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="2171" y="0" height="56" width="421" format="[general]"  name=c_codigo_usu edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="2601" y="0" height="56" width="338" format="[shortdate] [time]"  name=d_creacion_car edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2949" y="0" height="56" width="421" format="[general]"  name=c_usumod_car edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="3378" y="0" height="56" width="357" format="[shortdate] [time]"  name=d_modifi_car edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

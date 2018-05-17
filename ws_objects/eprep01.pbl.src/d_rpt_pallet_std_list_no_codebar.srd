@@ -1,0 +1,20 @@
+﻿$PBExportHeader$d_rpt_pallet_std_list_no_codebar.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=144 color="536870912"  height.autosize=yes)
+table(column=(type=char(10) updatewhereclause=yes name=c_codigo_pal dbname="t_palet.c_codigo_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=totalbultos dbname="TotalBultos" )
+ retrieve="  SELECT t_palet.c_codigo_pal  , 
+         Sum( t_palet.n_bulxpa_pal ) As TotalBultos
+    FROM t_palet
+   WHERE 
+         ( t_palet.c_codigo_tem = :as_tem ) AND  
+         ( Convert( Numeric, t_palet.c_codigo_pal ) >= Convert( Numeric, :as_ini ) ) AND  
+         ( Convert( Numeric, t_palet.c_codigo_pal ) <= Convert( Numeric, :as_fin ) ) AND  
+         ( t_palet.c_activo_pal = '1' ) 
+
+Group By t_palet.c_codigo_pal" arguments=(("as_tem", string),("as_ini", string),("as_fin", string),("as_cia", string),("as_dir", string))  sort="Double (c_codigo_pal) A " )
+report(band=detail dataobject="d_rpt_pallet_std_no_codebar" x="5" y="4" height="136" width="3534" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_tem"),("c_codigo_pal"),("as_cia"),("as_dir"),("totalbultos")) trail_footer = yes  slideup=directlyabove )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,61 @@
+﻿$PBExportHeader$f_respaldabd.srf
+global type f_respaldabd from function_object
+end type
+
+forward prototypes
+global function long f_respaldabd (string as_parm, boolean ab_msg)
+end prototypes
+
+global function long f_respaldabd (string as_parm, boolean ab_msg);
+String	ls_bd, ls_path, ls_name, ls_tipo, ls_sql, ls_msg, ls_title, ls_server
+Long		ll_ret
+SetPointer(hourglass!)
+
+ls_bd 	= SQLCa.Database
+ls_server= SQLCa.ServerName
+
+ls_tipo = 'BACKUP'
+ls_path = f_Trim( f_Getparmvalue(as_parm) )
+
+If ls_path = '' Then
+	ls_path	= 'c:\'
+End If	
+
+ls_name = ls_bd + '_' + string(today(),'yyyymmdd') + '_' + string(now(),'hh-mm-ss') + '.bak'
+SQLCA.AutoCommit=TRUE 
+
+If ls_tipo='BACKUP' Then
+	ls_sql="BACKUP DATABASE " + ls_bd + " TO DISK = '" + ls_path + ls_name + "' WITH FORMAT" 	
+Else
+
+End If
+
+EXECUTE IMMEDIATE :ls_sql USING SQLCA;
+
+If sqlca.sqlcode=0 then
+	ls_title = 'Proceso Terminado'
+	If ls_tipo='BACKUP' Then
+		ls_msg='El backup de la base de datos se generó satisfactoriamente. ~n~nUbicación ~t: ['+ls_server+'] ' + ls_path + ' ~nNombre del archivo ~t: ' + ls_name 
+	Else 
+		ls_msg='La restauración de la base de datos se realizó sin ningún problema.'
+	End If
+	ll_ret = 1
+Else
+	ls_title = 'Proceso Interrumpido. (Error Nº : ' + string(sqlca.sqldbcode) + ')'
+	If ls_tipo='BACKUP' Then
+		ls_msg='Se produjo un error al crear el backup de la base de datos. ' 
+	Else 
+		ls_msg='Se produjo un error al restaurar la base de datos.. ~n~nEn la Ubicación ~t: ['+ls_server+'] ' + ls_path + ' ~nNombre del archivo ~t: ' + ls_name 
+	End If
+	ll_ret = -1
+	ls_msg = ls_msg + sqlca.sqlerrtext
+End If
+SQLCA.AutoCommit=FALSE
+If ab_msg Then
+	MessageBox(ls_title, ls_msg, Exclamation!)
+End If	
+
+
+Return ll_ret
+end function
+

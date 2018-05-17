@@ -1,0 +1,139 @@
+﻿$PBExportHeader$d_rpt_emb_cul_conmol.srd
+release 6;
+datawindow(units=0 timer_interval=60000 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=432 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=84 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=t_manifiesto_c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=datetime updatewhereclause=yes name=t_manifiesto_d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=char(20) updatewhereclause=yes name=t_manifiesto_v_numcaj_man dbname="t_manifiesto.v_numcaj_man" )
+ column=(type=char(10) updatewhereclause=yes name=t_manifiesto_c_numfac_man dbname="t_manifiesto.c_numfac_man" )
+ column=(type=char(2) updatewhereclause=yes name=t_cultivo_c_codigo_cul dbname="t_cultivo.c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=t_cultivo_v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=char(2) updatewhereclause=yes name=t_producto_c_codigo_env dbname="t_producto.c_codigo_env" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="t_envase.v_nombre_env" )
+ column=(type=char(6) updatewhereclause=yes name=c_codigo_dis dbname="t_manifiesto.c_codigo_dis" )
+ column=(type=decimal(2) updatewhereclause=yes name=t_palet_n_bulxpa_pal dbname="t_palet.n_bulxpa_pal" )
+ column=(type=char(4) updatewhereclause=yes name=t_producto_c_codigo_tam dbname="t_producto.c_codigo_tam" )
+ column=(type=decimal(2) updatewhereclause=yes name=t3 dbname="T3" )
+ column=(type=decimal(2) updatewhereclause=yes name=t4 dbname="T4" )
+ column=(type=decimal(2) updatewhereclause=yes name=t5 dbname="T5" )
+ column=(type=decimal(2) updatewhereclause=yes name=t6 dbname="T6" )
+ column=(type=decimal(2) updatewhereclause=yes name=t8 dbname="T8" )
+ retrieve="  SELECT m.c_codigo_man,
+			m.d_embarque_man,   
+         m.v_numcaj_man,   
+         m.c_numfac_man,   
+         c.c_codigo_cul,   
+         c.v_nombre_cul,   
+         p.c_codigo_env,
+			e.v_nombre_env,  
+			m.c_codigo_dis,
+			l.n_bulxpa_pal,
+			p.c_codigo_tam,
+			T3=(SELECT ISNULL(sum(isnull(n_bulxpa_pal,0)) ,0)
+				FROM T_PALET t
+				WHERE p.c_codigo_tam='0014'  and
+						( t.c_codigo_man = l.c_codigo_man ) and
+						( t.c_codigo_man = m.c_codigo_man ) and
+						(t.c_codigo_pro = p.c_codigo_pro )),
+			T4=(SELECT ISNULL(sum(isnull(n_bulxpa_pal,0)) ,0)
+				FROM T_PALET t
+				WHERE p.c_codigo_tam='0015'  and
+						( t.c_codigo_man = l.c_codigo_man ) and
+						( t.c_codigo_man = m.c_codigo_man ) and
+						(t.c_codigo_pro = p.c_codigo_pro )),
+			T5=(SELECT ISNULL(sum(isnull(n_bulxpa_pal,0)) ,0)
+				FROM T_PALET t
+				WHERE p.c_codigo_tam='0016'  and
+						( t.c_codigo_man = l.c_codigo_man ) and
+						( t.c_codigo_man = m.c_codigo_man ) and
+						(t.c_codigo_pro = p.c_codigo_pro )),
+			T6=(SELECT ISNULL(sum(isnull(n_bulxpa_pal,0)) ,0)
+				FROM T_PALET t
+				WHERE p.c_codigo_tam='0017'  and
+						( t.c_codigo_man = l.c_codigo_man ) and
+						( t.c_codigo_man = m.c_codigo_man ) and
+						(t.c_codigo_pro = p.c_codigo_pro )),
+			T8=(SELECT ISNULL(sum(isnull(n_bulxpa_pal,0)) ,0)
+				FROM T_PALET t
+				WHERE p.c_codigo_tam='0018'  and
+						( t.c_codigo_man = l.c_codigo_man ) and
+						( t.c_codigo_man = m.c_codigo_man ) and
+						(t.c_codigo_pro = p.c_codigo_pro ))
+    FROM t_manifiesto m,   
+         t_palet l,  
+         t_cultivo c,   
+         t_producto p,
+			t_envase e 
+   WHERE ( m.c_codigo_man = l.c_codigo_man ) and  
+         ( p.c_codigo_pro = l.c_codigo_pro ) and  
+         ( p.c_codigo_cul = c.c_codigo_cul ) and  
+			 (e.c_codigo_env = p.c_codigo_env ) and  
+			 (e.c_codigo_env = l.c_codigo_env ) and 
+       	(l.c_codigo_tem = m.c_codigo_tem) and  
+         ( ( m.c_codigo_tem = :as_tem ) AND  
+         ( m.d_embarque_man >= :ad_ini ) AND  
+         ( m.d_embarque_man <= :ad_fin ) AND 
+          ( c.c_codigo_cul >= :as_cul1 ) AND  
+         (c.c_codigo_cul <= :as_cul2 ) AND 
+          ( m.c_codigo_dis >= :as_dis1 ) AND  
+         (m.c_codigo_dis <= :as_dis2 ) AND 
+         ( m.c_activo_man = '1' ) AND  
+         ( c.c_activo_cul = '1' ) AND  
+         ( l.c_activo_pal = '1' ) AND  
+         ( p.c_activo_pro = '1' ) )   
+ 
+" arguments=(("as_tem", string),("ad_ini", datetime),("ad_fin", datetime),("as_cul1", string),("as_cul2", string),("as_dis1", string),("as_dis2", string))  sort="c_codigo_dis A t_cultivo_c_codigo_cul A t_producto_c_codigo_env A t_manifiesto_d_embarque_man A t_manifiesto_c_codigo_man A " )
+group(level=1 header.height=0 trailer.height=0 by=("c_codigo_dis" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=56 trailer.height=4 by=("t_producto_c_codigo_env" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=0 trailer.height=0 by=("t_manifiesto_c_codigo_man" ) header.color="536870912" trailer.color="536870912" )
+rectangle(band=header x="5" y="300" height="132" width="3433" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Cliente"border="0" color="0" x="27" y="372" height="48" width="206"  name=t_cultivo_v_nombre_cul_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="1088" y="16" height="76" width="1426" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2523" y="12" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2752" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="3013" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3182" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="3013" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3182" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="REPORTE CONCENTRADO POR BULTO"border="0" color="33554432" x="1221" y="120" height="44" width="1166"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="3013" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3182" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="'Del '  + String( ad_ini, 'dd/mm/yyyy' ) + ' Al ' + String( ad_fin, 'dd/mm/yyyy' ) "border="0" color="33554432" x="1088" y="172" height="44" width="1426" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="3013" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3182" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_emb_cul_conmol"border="0" color="0" x="2994" y="204" height="48" width="443"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="'Del  Cultivo: '  + as_cul1 + ' Al Cultivo: ' + as_cul2 + ' Del  Cliente: '  + as_dis1 + ' Al Cliente: ' + as_dis2"border="0" color="0" x="14" y="240" height="52" width="2994" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Variedad"border="0" color="0" x="978" y="372" height="48" width="261"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Envase"border="0" color="0" x="1403" y="372" height="48" width="224"  name=t_producto_c_codigo_env_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="# 3"border="0" color="0" x="2368" y="372" height="48" width="91"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Calibre"border="0" color="0" x="2606" y="316" height="48" width="210"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="# 4"border="0" color="0" x="2514" y="372" height="48" width="91"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="# 5"border="0" color="0" x="2665" y="372" height="48" width="91"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="# 6"border="0" color="0" x="2816" y="372" height="48" width="91"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="# 8"border="0" color="0" x="2971" y="372" height="48" width="91"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Totalbultos"border="0" color="0" x="1957" y="372" height="48" width="229"  name=totalbultos_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=9 alignment="0" tabsequence=32766 border="0" color="0" x="37" y="4" height="48" width="215" format="[general]"  name=c_codigo_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=6 alignment="0" tabsequence=32766 border="0" color="0" x="978" y="4" height="48" width="407" format="[general]"  name=t_cultivo_v_nombre_cul edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1399" y="4" height="48" width="517" format="[general]"  name=v_nombre_env edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.2 alignment="1" expression="sum(t8  for group 3 distinct t8)"border="0" color="0" x="3346" y="8" height="48" width="27" format="[general]"  name=tot8 visible="1~t0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(t3  for group 3 distinct t3)"border="0" color="0" x="3163" y="8" height="48" width="27" format="[general]"  name=tot3 visible="1~t0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(t4  for group 3 distinct t4)"border="0" color="0" x="3186" y="8" height="48" width="27" format="[general]"  name=tot4 visible="1~t0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(tot8 for group 2 distinct  t_manifiesto_c_codigo_man )"border="0" color="0" x="2935" y="4" height="48" width="133" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(t5  for group 3 distinct t5)"border="0" color="0" x="3227" y="8" height="48" width="27" format="[general]"  name=tot5 visible="1~t0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(t6  for group 3 distinct t6)"border="0" color="0" x="3269" y="8" height="48" width="27" format="[general]"  name=tot6 visible="1~t0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(tot3 for group 2 distinct  t_manifiesto_c_codigo_man )"border="0" color="0" x="2331" y="4" height="48" width="133" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(tot4  for group 2 distinct  t_manifiesto_c_codigo_man  )"border="0" color="0" x="2482" y="4" height="48" width="133" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(tot5  for group 2 distinct  t_manifiesto_c_codigo_man )"border="0" color="0" x="2633" y="4" height="48" width="133" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(tot6  for group 2 distinct  t_manifiesto_c_codigo_man )"border="0" color="0" x="2789" y="4" height="48" width="133" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum( t_palet_n_bulxpa_pal  for group 2)"border="0" color="0" x="1929" y="4" height="48" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="0" expression="f_getdistribuidor( c_codigo_dis )"border="0" color="0" x="265" y="4" height="48" width="704" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=footer x1="5" y1="4" x2="3433" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="16" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2121" y="16" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3131" y="16" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+
+sparse(names="t_cultivo_v_nombre_cul")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

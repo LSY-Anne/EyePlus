@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_setparmvalue.srf
+global type f_setparmvalue from function_object
+end type
+
+forward prototypes
+global function boolean f_setparmvalue (string as_par, string as_val)
+end prototypes
+
+global function boolean f_setparmvalue (string as_par, string as_val);
+as_par = Right( '000' + as_par, 3 )
+as_val = f_Trim( as_val )
+
+Update	t_parametro
+Set		v_valor_par = :as_val
+Where		c_codigo_par = :as_par ;
+
+If f_SqlError( SqlCa, 'No se puede obtener informacion de la tabla t_parametro.' ) = -1 Then
+	Return False
+End If
+
+
+Return True
+end function
+

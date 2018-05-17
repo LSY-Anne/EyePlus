@@ -1,0 +1,54 @@
+﻿$PBExportHeader$d_mant_producto_precio_list.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=64 color="79741120" )
+summary(height=0 color="536870912" )
+footer(height=4 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_pro dbname="t_producto_precio.c_codigo_pro" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_eti dbname="t_producto_precio.c_codigo_eti" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_precmn_prp dbname="t_producto_precio.n_precmn_prp" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_precme_prp dbname="t_producto_precio.n_precme_prp" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_producto_precio.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion_prp dbname="t_producto_precio.d_creacion_prp" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod_prp dbname="t_producto_precio.c_usumod_prp" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi_prp dbname="t_producto_precio.d_modifi_prp" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo dbname="t_producto_precio.c_activo_prp" )
+ column=(type=char(6) updatewhereclause=yes name=c_codigo dbname="c_codigo" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre dbname="t_producto.v_nombre_pro" )
+ retrieve="  SELECT t_producto_precio.c_codigo_pro,   
+         t_producto_precio.c_codigo_eti,   
+         t_producto_precio.n_precmn_prp,   
+         t_producto_precio.n_precme_prp,   
+         t_producto_precio.c_codigo_usu,   
+         t_producto_precio.d_creacion_prp,   
+         t_producto_precio.c_usumod_prp,   
+         t_producto_precio.d_modifi_prp,   
+         t_producto_precio.c_activo_prp,   
+         ( t_producto_precio.c_codigo_pro + t_producto_precio.c_codigo_eti ) As c_codigo,   
+         t_producto.v_nombre_pro  
+    FROM t_producto_precio,   
+         t_producto  
+   WHERE ( t_producto.c_codigo_pro = t_producto_precio.c_codigo_pro )    
+" )
+text(band=header alignment="0" text=" Activo"border="6" color="33554432" x="9" y="4" height="56" width="169"  name=c_activo_prp_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Código"border="6" color="33554432" x="187" y="4" height="56" width="274"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Nombre Producto"border="6" color="33554432" x="471" y="4" height="56" width="974"  name=v_nombre_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Etiqueta"border="6" color="33554432" x="1454" y="4" height="56" width="681"  name=c_codigo_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Precio Mda. Nac. "border="6" color="33554432" x="2144" y="4" height="56" width="416"  name=n_precmn_prp_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Precio Mda. Ext. "border="6" color="33554432" x="2569" y="4" height="56" width="421"  name=n_precme_prp_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Usuario Creador"border="6" color="33554432" x="2999" y="4" height="56" width="526"  name=c_codigo_usu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Fecha"border="6" color="33554432" x="3534" y="4" height="56" width="242"  name=d_creacion_prp_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Modificador"border="6" color="33554432" x="3785" y="4" height="56" width="526"  name=c_usumod_prp_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Fecha"border="6" color="33554432" x="4320" y="4" height="56" width="261"  name=d_modifi_prp_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="1454" y="4" height="52" width="681" format="[general]"  name=c_codigo_eti dddw.name=d_dddw_etiqueta dddw.displaycolumn=v_nombre_eti dddw.datacolumn=c_codigo_eti dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="33554432" x="2144" y="4" height="52" width="416" format="#,##0.00"  name=n_precmn_prp edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="33554432" x="2569" y="4" height="52" width="421" format="#,##0.00"  name=n_precme_prp edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="2999" y="4" height="52" width="526" format="[general]"  name=c_codigo_usu edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="3534" y="4" height="52" width="242" format="dd/mm/yyyy"  name=d_creacion_prp edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="3785" y="4" height="52" width="526" format="[general]"  name=c_usumod_prp edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="4320" y="4" height="52" width="261" format="dd/mm/yyyy"  name=d_modifi_prp edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="2" tabsequence=32766 border="0" color="33554432~tIf( c_activo = '1', f_color( 'verde' ), f_color( 'rojo' ) )" x="9" y="4" height="52" width="169" format="[general]"  name=c_activo edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Wingdings" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="2" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="187" y="4" height="52" width="274" format="@@-@@-@@"  name=c_codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="33554432" x="471" y="4" height="52" width="974" format="[general]"  name=v_nombre edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

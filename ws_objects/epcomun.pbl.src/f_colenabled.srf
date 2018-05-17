@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_colenabled.srf
+global type f_colenabled from function_object
+end type
+
+forward prototypes
+global subroutine f_colenabled (datawindow adw_mod, string as_col, boolean ab_enabled)
+end prototypes
+
+global subroutine f_colenabled (datawindow adw_mod, string as_col, boolean ab_enabled);/* Autor: Cesar Vilela 30/05/2002
+	f_ColEnabled( adw_mod, as_col, ab_enabled )  */
+
+String	ls_color, ls_protect
+
+If ab_enabled Then
+	ls_protect = '0'
+	ls_color = String( f_Color('16') )
+Else
+	ls_protect = '1'
+	ls_color = String( f_Color('18') )
+End If	
+	
+adw_mod.Modify( as_col + '.Protect = "' + ls_protect + '"' )
+adw_mod.Modify( as_col + '.BackGround.Color = "' + ls_color + '"' )
+
+
+end subroutine
+

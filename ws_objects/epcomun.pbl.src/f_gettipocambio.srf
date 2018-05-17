@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_gettipocambio.srf
+global type f_gettipocambio from function_object
+end type
+
+forward prototypes
+global function decimal f_gettipocambio (datetime ad_trabajo)
+end prototypes
+
+global function decimal f_gettipocambio (datetime ad_trabajo);/* Obtiene el factor del tipo de cambio de una fecha ad_trabajo */
+
+Dec{4}	ldc_factor
+String	ls_cod
+
+ls_cod = String ( ad_trabajo, 'yymmdd' )
+
+Select  n_factor_tic
+Into  :ldc_factor
+From  t_tipo_cambio
+Where  d_trabajo_tic = :ad_trabajo;
+
+If f_SqlError( SqlCa, 'No se puede obtener información de la tabla t_tipo_cambio.' ) = -1 Then
+	Return -1
+End If
+
+If SqlCa.SqlCode = 100 Then
+	Return -100
+End If
+
+ldc_factor = f_Zero( ldc_factor )
+
+Return ldc_factor
+end function
+

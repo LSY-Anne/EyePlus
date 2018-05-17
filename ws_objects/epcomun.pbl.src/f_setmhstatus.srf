@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_setmhstatus.srf
+global type f_setmhstatus from function_object
+end type
+
+forward prototypes
+global function integer f_setmhstatus (integer ai_block, string as_text)
+end prototypes
+
+global function integer f_setmhstatus (integer ai_block, string as_text);If Not IsValid(w_child_status_bar) Then
+	Return -1
+End If
+
+Choose Case ai_block
+	Case 1
+		w_child_status_bar.uo_block2.uf_SetText( as_text )
+	Case 2
+		w_child_status_bar.uo_block1.uf_SetText( as_text )
+	Case 3
+		w_child_status_bar.uo_block3.uf_SetText( as_text )
+	Case 4
+		w_child_status_bar.uo_block4.uf_SetText( as_text )
+End Choose
+
+Return 1
+end function
+

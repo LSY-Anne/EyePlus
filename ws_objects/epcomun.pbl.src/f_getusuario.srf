@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_getusuario.srf
+global type f_getusuario from function_object
+end type
+
+forward prototypes
+global function string f_getusuario (string as_usu)
+end prototypes
+
+global function string f_getusuario (string as_usu);String	ls_usuario
+
+//as_par = Right( '000' + as_par, 3 )
+
+Select 	v_nombre_usu
+Into		:ls_usuario
+From		assusuario (nolock)
+Where		c_codigo_usu = :as_usu ;
+
+If f_SqlError( SqlCa, 'No se puede obtener informacion de la tabla assusuario.' ) = -1 Then
+	Return ''
+End If
+
+ls_usuario = f_Trim( ls_usuario )
+
+Return ls_usuario
+end function
+

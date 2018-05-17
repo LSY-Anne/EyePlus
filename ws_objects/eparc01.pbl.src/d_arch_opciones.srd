@@ -1,0 +1,15 @@
+﻿$PBExportHeader$d_arch_opciones.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33554431 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=168 color="553648127" )
+table(column=(type=char(1) updatewhereclause=no name=c_codigo_opc dbname="c_codigo_opc" )
+ column=(type=char(40) updatewhereclause=no name=v_nombre_opc dbname="v_nombre_opc" )
+ )
+data("1", "Palet Normal", "2", "Palet Mixto", "3", "Embarque", ) 
+text(band=header alignment="0" text="Softcomm"border="0" color="32238571" x="27" y="16" height="92" width="407"  font.face="Times New Roman" font.height="-14" font.weight="700"  font.family="1" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Softcomm"border="0" color="16777437" x="23" y="12" height="92" width="407"  font.face="Times New Roman" font.height="-14" font.weight="700"  font.family="1" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="8388608~tIf ( GetRow( ) = CurrentRow( ), f_Color( 'blanco'), f_color( 'azul oscuro' ) )" x="14" y="56" height="64" width="1280" format="      [general]"  name=v_nombre_opc edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~tIf ( GetRow( ) = CurrentRow( ), f_Color( 'cromado2'), f_color( 'wndtextback' ) )" )
+bitmap(band=detail filename="C:\Plata\EyePlus\Ind.bmp" x="14" y="64" height="44" width="27" border="0" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

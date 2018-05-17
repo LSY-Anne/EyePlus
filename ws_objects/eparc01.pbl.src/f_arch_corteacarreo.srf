@@ -1,0 +1,97 @@
+﻿$PBExportHeader$f_arch_corteacarreo.srf
+global type f_arch_corteacarreo from function_object
+end type
+
+forward prototypes
+global function boolean f_arch_corteacarreo (string as_title, ref boolean ab_new, datawindow adw_cab, datawindow adw_list)
+end prototypes
+
+global function boolean f_arch_corteacarreo (string as_title, ref boolean ab_new, datawindow adw_cab, datawindow adw_list);String   ls_doc,ls_lot,ls_enc,ls_cul,ls_tin,ls_tab,ls_hcor,ls_hsal,ls_hrec,ls_sta,ls_may,ls_ope,ls_rec
+dec{2} ldc_peso
+DateTime ld_hoy,ld_cor,ld_remp,ld_pemp
+dec ldc_num
+
+adw_cab.AcceptText()
+adw_list.AcceptText()
+/*Validacion de campos*/
+ld_hoy= DateTime(Today())
+ls_doc=f_trim(adw_cab.Object.c_codigo_cot[1] )
+If ls_doc ='' Then
+	MessageBox(as_title,'Favor de ingresar el codigo de rastreo.',Exclamation!)
+	Return False
+End If
+ls_doc=Trim(Right( '0000000000' + Trim(ls_doc),10))
+ls_lot = f_trim(adw_cab.Object.c_codigo_lot[1])
+If ls_lot ='' Then
+	MessageBox(as_title,'Favor de seleccionar el lote.',Exclamation!)
+	Return False
+End If
+ldc_num = f_zero(adw_cab.Object.n_cajascorte_cot[1])
+If ldc_num =0 Then
+	MessageBox(as_title,'Favor de ingresar el numero de cajas.',Exclamation!)
+	Return False
+End If
+/*campos*/
+ls_cul = f_trim(adw_cab.Object.c_codigo_cul[1])
+ls_tin = f_trim(adw_cab.Object.v_tinacarro_cot[1])
+ls_tab = f_trim(adw_cab.Object.v_tabla_cot[1])
+ldc_peso = f_zero(adw_cab.Object.n_peso_cot[1])
+ld_cor=adw_cab.object.d_fechacorte_cot[1]
+ls_hcor=f_trim(adw_cab.Object.c_horacorte_cot[1])
+ls_hsal = f_trim(adw_cab.Object.c_horasalcampo_cot[1])
+ld_remp=adw_cab.object.d_recempaque_cot[1]
+ls_hrec=f_trim(adw_cab.Object.c_horarecep_cot[1])
+ld_pemp=adw_cab.object.d_procempaque_cot[1]
+ls_sta=f_trim(adw_cab.Object.c_status_cot[1])
+ls_may=f_trim(adw_cab.Object.v_nommayo_cot[1])
+ls_ope=f_trim(adw_cab.Object.v_nomoper_cot[1])
+ls_rec=f_trim(adw_cab.Object.v_nomrecep_cot[1])
+
+/*Revisa si el codigo existe*/
+If ab_new Then
+	Select 	c_codigo_cot
+	Into    	:ls_enc
+	From 		t_corteyacarreo(nolock)
+	where 	c_codigo_cot=:ls_doc
+	Using 	SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo consultar la tabla t_corteyacarreo 1.' ) < 0 Then 
+			RollBack Using SqlCa ;
+			Return False
+	End If
+	If ls_enc <> '' Then
+		MessageBox(as_title,'El codigo de rastreo ya ha sido ingresado.',Exclamation!)
+		Return False
+	End If
+
+Else
+	Delete from t_corteyacarreo
+	where c_codigo_cot=:ls_doc
+	Using SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo eliminar en la tabla t_corteyacarreo.' ) < 0 Then 
+			RollBack Using SqlCa ;
+			Return False
+	End If
+		
+End If
+
+adw_cab.AcceptText()
+
+Insert into t_corteyacarreo (c_codigo_cot,c_codigo_lot,c_codigo_cul,v_tinacarro_cot,v_tabla_cot,
+n_cajascorte_cot,n_peso_cot,d_fechacorte_cot,c_horacorte_cot,c_horasalcampo_cot,d_recempaque_cot,
+c_horarecep_cot,d_procempaque_cot,c_status_cot,v_nommayo_cot,v_nomoper_cot,v_nomrecep_cot,
+c_codigo_usu,d_creacion_cot,c_activo_cot) 
+Values (:ls_doc,:ls_lot,:ls_cul,:ls_tin,:ls_tab,
+:ldc_num,:ldc_peso,:ld_cor,:ls_hcor,:ls_hsal,:ld_remp,
+:ls_hrec,:ld_pemp,'P',:ls_may,:ls_ope,:ls_rec,
+:gs_usuario,:ld_hoy,'1')
+Using SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar la tabla t_corteyacarreo . (Insert)' ) < 0 Then 
+	RollBack Using SqlCa ;
+	Return False
+End If
+
+Commit Using SQlCa;
+ab_new = False
+Return True
+end function
+

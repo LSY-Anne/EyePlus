@@ -1,0 +1,39 @@
+﻿$PBExportHeader$d_arch_chiquita_res.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(12) updatewhereclause=yes name=grade dbname="Grade" )
+ column=(type=char(10) updatewhereclause=yes name=cize dbname="Cize" )
+ column=(type=char(40) updatewhereclause=yes name=embarcador dbname="embarcador" )
+ column=(type=decimal(2) updatewhereclause=yes name=totsob dbname="totsob" )
+ column=(type=decimal(2) updatewhereclause=yes name=tot dbname="tot" )
+ column=(type=char(12) updatewhereclause=yes name=grade dbname="Grade" )
+ retrieve="SELECT    Grade = t_producto.id_product,
+   		Cize = t_producto.id_size,
+			embarcador= (Select e.v_nombre_eti From t_etiqueta e Where e.c_codigo_eti = t_palet.c_codigo_eti),
+ 			totsob = (Select sum(t.n_bulxpa_pal) From t_palet t Where t.c_codigo_man = t_palet.c_codigo_man and t.c_excedente_pal<> 1),
+			tot= sum(t_palet.n_bulxpa_pal),
+			Grade = t_producto.id_product
+FROM   t_manifiesto, t_linea_transporte, t_palet, t_producto, t_cultivo, t_lote, t_distribuidor
+WHERE (t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and
+  (t_manifiesto.c_codigo_dis = t_distribuidor.c_codigo_dis) and
+  (t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and
+  (t_linea_transporte.c_codigo_lit = t_manifiesto.c_codigo_lit ) and
+  (t_producto.c_codigo_cul = t_cultivo.c_codigo_cul ) and
+  (t_lote.c_codigo_lot = t_palet.c_codigo_lot ) and
+    ((t_palet.c_codigo_tem = :as_tem ) and
+   (t_manifiesto.c_codigo_tem = :as_tem ) and
+   (t_palet.c_codigo_man = :as_man ))and
+t_palet.c_excedente_pal<> '1'
+group by t_palet.c_codigo_man, t_producto.id_product,t_palet.c_codigo_eti,t_manifiesto.c_codigo_emb,t_producto.id_size,t_palet.n_bulxpa_pal
+
+" arguments=(("as_tem", string),("as_man", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="23" y="12" height="68" width="334" format="[general]"  name=grade edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="512" y="12" height="68" width="320" format="[general]"  name=cize edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1074" y="12" height="68" width="795" format="[general]"  name=embarcador edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1938" y="12" height="68" width="347" format="[general]"  name=totsob edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2322" y="12" height="68" width="274" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="2638" y="12" height="68" width="987" format="[general]"  name=tot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

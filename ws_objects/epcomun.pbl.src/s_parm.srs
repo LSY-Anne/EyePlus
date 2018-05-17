@@ -1,0 +1,11 @@
+﻿$PBExportHeader$s_parm.srs
+$PBExportComments$Parametros de envio contiene: s_codigo y dw_data.
+global type s_parm from structure
+	string		s_cad[]
+	blob{59836280}		blb_data[]
+	decimal {4}	n_num[]
+	datetime		d_fecha[]
+	datawindow		dw_dat[]
+	window		w_win[]
+end type
+

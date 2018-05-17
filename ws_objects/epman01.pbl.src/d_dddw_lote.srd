@@ -1,0 +1,26 @@
+﻿$PBExportHeader$d_dddw_lote.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=1 selected.mouse=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(100) update=yes updatewhereclause=yes name=v_nombre_lot dbname="v_nombre_lot" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_lot dbname="c_codigo_lot" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_tem dbname="c_codigo_tem" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_cul dbname="c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_eta dbname="v_nombre_eta" )
+ retrieve="  SELECT t_lote.v_nombre_lot,   
+         t_lote.c_codigo_lot,   
+         t_lote.c_codigo_tem,   
+         t_lote.c_codigo_cul,   
+         t_etapa.v_nombre_eta  
+    FROM t_lote(nolock),   
+         t_etapa(nolock),   
+         t_temporada(nolock)  
+   WHERE ( t_etapa.c_codigo_eta = t_lote.c_codigo_eta ) and  
+         ( t_lote.c_codigo_tem = t_temporada.c_codigo_tem ) and  
+         ( ( t_lote.c_activo_lot = '1' ) AND  
+         ( t_temporada.c_activo_tem = '1' ) )    
+" )
+compute(band=detail alignment="0" expression="WordCap( v_nombre_lot ) +  ' (' +  c_codigo_lot +') ->' +  v_nombre_eta"border="0" color="0" x="9" y="4" height="52" width="1719" format="[general]"  name=co_nombre_lot  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

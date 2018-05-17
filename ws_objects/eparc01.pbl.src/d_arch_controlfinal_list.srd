@@ -1,0 +1,57 @@
+﻿$PBExportHeader$d_arch_controlfinal_list.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=68 color="79741120" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=c_codigo_cot dbname="c_codigo_cot" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_lot dbname="c_codigo_lot" )
+ column=(type=datetime updatewhereclause=yes name=d_recempaque_cot dbname="d_recempaque_cot" )
+ column=(type=char(8) updatewhereclause=yes name=c_horarecep_cot dbname="c_horarecep_cot" )
+ column=(type=datetime updatewhereclause=yes name=d_procempaque_cot dbname="d_procempaque_cot" )
+ column=(type=char(8) updatewhereclause=yes name=c_horaproc_cot dbname="c_horaproc_cot" )
+ column=(type=char(1) updatewhereclause=yes name=c_status_cot dbname="c_status_cot" values="Pendiente	P/Procesando	O/Terminado	T/" )
+ column=(type=datetime updatewhereclause=yes name=d_fin_cot dbname="d_fin_cot" )
+ column=(type=char(8) updatewhereclause=yes name=c_horafin_cot dbname="c_horafin_cot" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_cul dbname="c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="v_nombre_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lot dbname="v_nombre_lot" )
+ retrieve="SELECT c_codigo_cot,
+		t_corteyacarreo.c_codigo_lot,
+		d_recempaque_cot,
+		c_horarecep_cot,
+		d_procempaque_cot,
+		c_horaproc_cot,
+		c_status_cot,
+		d_fin_cot,
+		c_horafin_cot,
+		t_corteyacarreo.c_codigo_cul,
+		v_nombre_cul,
+		v_nombre_lot
+ FROM t_corteyacarreo(nolock),t_cultivo(nolock),t_lote(nolock)
+WHERE  t_corteyacarreo.c_codigo_cul=t_cultivo.c_codigo_cul
+and t_lote.c_codigo_lot=t_corteyacarreo.c_codigo_lot
+and c_status_cot<>  'T'
+and t_corteyacarreo.c_codigo_cul=:as_cul
+
+" arguments=(("as_cul", string)) )
+text(band=header alignment="0" text="Llegada"border="6" color="16711680" x="9" y="4" height="52" width="201"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Lote"border="6" color="16711680" x="219" y="4" height="52" width="197"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Nombre"border="6" color="16711680" x="425" y="4" height="52" width="667"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Rastreo"border="6" color="16711680" x="1102" y="4" height="52" width="311"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Fecha Proceso"border="6" color="16711680" x="1422" y="4" height="52" width="357"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Hora Proceso"border="6" color="16711680" x="1787" y="4" height="52" width="384"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Estado"border="6" color="16711680" x="2181" y="4" height="52" width="366"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Fecha Fin "border="6" color="16711680" x="2555" y="4" height="52" width="311"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Hora Fin"border="6" color="16711680" x="2875" y="4" height="52" width="315"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=detail alignment="2" expression="Trim(Right( '00' + Trim(String(GetRow())),2))"border="0" color="33554432" x="9" y="0" height="56" width="201" format="[general]"  name=obj_19983275  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="219" y="0" height="52" width="197" format="[general]"  name=c_codigo_lot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1102" y="0" height="52" width="311" format="[general]"  name=c_codigo_cot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=10 border="0" color="0" x="1422" y="0" height="52" width="357" format="dd/mm/yyyy"  name=d_procempaque_cot editmask.mask="dd/mm/yyyy" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=20 border="0" color="0" x="1787" y="0" height="52" width="384" format="[general]"  name=c_horaproc_cot edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=30 border="0" color="0" x="2181" y="0" height="52" width="366" format="[general]"  name=c_status_cot ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.useasborder=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=40 border="0" color="0" x="2555" y="0" height="56" width="311" format="dd/mm/yyyy"  name=d_fin_cot editmask.mask="dd/mm/yyyy" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=50 border="0" color="0" x="2875" y="0" height="56" width="315" format="[general]"  name=c_horafin_cot edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="425" y="0" height="52" width="667" format="[general]"  name=v_nombre_lot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

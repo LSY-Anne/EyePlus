@@ -1,0 +1,125 @@
+﻿$PBExportHeader$d_arch_acumulado_edit.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1200 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=c_codigo_tem dbname="t_acumulado.c_codigo_tem" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=c_codigo_pro dbname="t_acumulado.c_codigo_pro" )
+ column=(type=char(2) update=yes updatewhereclause=yes key=yes name=c_codigo_eti dbname="t_acumulado.c_codigo_eti" )
+ column=(type=char(1) update=yes updatewhereclause=yes key=yes name=c_merori_acu dbname="t_acumulado.c_merori_acu" values="Nacional	N/Extranjero	E/" )
+ column=(type=char(1) update=yes updatewhereclause=yes key=yes name=c_merdes_acu dbname="t_acumulado.c_merdes_acu" values="Extranjero	E/Nacional	N/" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_emphoy_acu dbname="t_acumulado.n_emphoy_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_emptot_acu dbname="t_acumulado.n_emptot_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_embhoy_acu dbname="t_acumulado.n_embhoy_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_embtot_acu dbname="t_acumulado.n_embtot_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_sobant_acu dbname="t_acumulado.n_sobant_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_sobhoy_acu dbname="t_acumulado.n_sobhoy_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_sobtot_acu dbname="t_acumulado.n_sobtot_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_reehoy_acu dbname="t_acumulado.n_reehoy_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_reetot_acu dbname="t_acumulado.n_reetot_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_merhoy_acu dbname="t_acumulado.n_merhoy_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_mertot_acu dbname="t_acumulado.n_mertot_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_acchoy_acu dbname="t_acumulado.n_acchoy_acu" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_acctot_acu dbname="t_acumulado.n_acctot_acu" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_acumulado.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion dbname="t_acumulado.d_creacion_acu" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod dbname="t_acumulado.c_usumod_acu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi dbname="t_acumulado.d_modifi_acu" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo dbname="t_acumulado.c_activo_acu" )
+ column=(type=char(6) updatewhereclause=yes name=c_elemento dbname="c_elemento" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_empacado dbname="n_empacado" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_empacadohoy dbname="n_empacadohoy" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_reempaque dbname="n_reempaque" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_embarcado dbname="n_embarcado" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_mermas dbname="n_mermas" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_accidentes dbname="n_accidentes" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_existenciapiso dbname="n_existenciapiso" )
+ retrieve="  SELECT c_codigo_tem,   
+         c_codigo_pro,   
+         c_codigo_eti,   
+         c_merori_acu,   
+         c_merdes_acu,   
+         n_emphoy_acu,   
+         n_emptot_acu,   
+         n_embhoy_acu,   
+         n_embtot_acu,   
+         n_sobant_acu,   
+         n_sobhoy_acu,   
+         n_sobtot_acu,   
+         n_reehoy_acu,   
+         n_reetot_acu,   
+         n_merhoy_acu,   
+         n_mertot_acu,   
+         n_acchoy_acu,   
+         n_acctot_acu,   
+         c_codigo_usu,   
+         d_creacion_acu,   
+         c_usumod_acu,   
+         d_modifi_acu,   
+         c_activo_acu,   
+          c_codigo_pro + c_codigo_eti  As c_elemento,
+
+         IsNull( n_emphoy_acu, 0) +  IsNull( n_emptot_acu, 0) +  IsNull( n_sobhoy_acu, 0) -  IsNull( n_sobant_acu, 0) As n_empacado,
+         IsNull( n_emphoy_acu, 0) +  IsNull( n_sobhoy_acu, 0) -  IsNull( n_sobant_acu, 0) As n_empacadohoy,
+         IsNull( n_reehoy_acu, 0) +  IsNull( n_reetot_acu, 0) As n_reempaque, 
+         IsNull( n_embhoy_acu, 0) +  IsNull( n_embtot_acu, 0) As n_embarcado, 
+         IsNull( n_merhoy_acu, 0) +  IsNull( n_mertot_acu, 0) As n_mermas, 
+         IsNull( n_acchoy_acu, 0) +  IsNull( n_acctot_acu, 0) As n_accidentes,
+         IsNull( n_emptot_acu, 0) +  IsNull( n_emphoy_acu, 0) +  
+                  IsNull( n_sobhoy_acu, 0) -  IsNull( n_sobant_acu, 0) -  
+                  IsNull( n_embhoy_acu, 0) -  IsNull( n_embtot_acu, 0) As n_existenciapiso
+    FROM t_acumulado   
+Where c_codigo_tem +   
+         c_codigo_pro +   
+         c_codigo_eti +  
+         c_merori_acu +  
+         c_merdes_acu = :as_cod  
+" update="t_acumulado" updatewhere=1 updatekeyinplace=no arguments=(("as_cod", string)) )
+text(band=detail alignment="0" text="Producto:"border="0" color="33554432" x="795" y="48" height="52" width="261"  name=c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="33554432" x="1083" y="48" height="64" width="951" format="[general]"  name=c_codigo_pro dddw.name=d_dddw_producto dddw.displaycolumn=v_nombre_pro dddw.datacolumn=c_codigo_pro dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Destino Final:"border="0" color="33554432" x="1074" y="272" height="52" width="411"  name=c_merdes_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Destino Inicial:"border="0" color="33554432" x="50" y="272" height="52" width="389"  name=c_merori_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Elemento:"border="0" color="33554432" x="50" y="48" height="52" width="389"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Etiqueta:"border="0" color="33554432" x="50" y="160" height="52" width="261"  name=c_codigo_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=40 border="5" color="33554432" x="1536" y="264" height="64" width="494" format="[general]"  name=c_merdes_acu ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.useasborder=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="5" color="33554432" x="2491" y="96" height="64" width="494" format="#,##0.00"  name=n_emptot_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="5" color="33554432" x="2491" y="184" height="64" width="494" format="#,##0.00"  name=n_embtot_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=16 alignment="1" tabsequence=32766 border="5" color="128" x="2491" y="272" height="64" width="494" format="#,##0.00"  name=n_mertot_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=18 alignment="1" tabsequence=32766 border="5" color="128" x="2491" y="360" height="64" width="494" format="#,##0.00"  name=n_acctot_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="5" color="33554432" x="2491" y="448" height="64" width="494" format="#,##0.00"  name=n_emphoy_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="5" color="33554432" x="2491" y="536" height="64" width="494" format="#,##0.00"  name=n_reetot_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="5" color="33554432" x="457" y="48" height="64" width="261" format="[general]"  name=c_elemento editmask.autoskip=yes editmask.mask="##-##-##" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="33554432" x="457" y="156" height="64" width="951" format="[general]"  name=c_codigo_eti dddw.name=d_dddw_etiqueta dddw.displaycolumn=v_nombre_eti dddw.datacolumn=c_codigo_eti dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Accidentes Hoy:"border="0" color="33554432" x="1074" y="1028" height="52" width="411"  name=n_acctot_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Accidentes Tot:"border="0" color="33554432" x="1074" y="920" height="52" width="448"  name=n_acchoy_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Reempaque Tot:"border="0" color="33554432" x="50" y="920" height="52" width="389"  name=n_reetot_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Sobrantes Ant.:"border="0" color="33554432" x="50" y="812" height="52" width="389"  name=n_sobant_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Mermas Hoy:"border="0" color="33554432" x="1074" y="812" height="52" width="411"  name=n_merhoy_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Sobrantes Hoy:"border="0" color="33554432" x="50" y="704" height="52" width="389"  name=n_sobhoy_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Mermas Total:"border="0" color="33554432" x="1074" y="704" height="52" width="411"  name=n_mertot_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Empacado Hoy:"border="0" color="33554432" x="50" y="596" height="52" width="389"  name=n_emphoy_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Embarques Hoy:"border="0" color="33554432" x="1074" y="596" height="52" width="411"  name=n_embhoy_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Empacado Total:"border="0" color="33554432" x="50" y="488" height="52" width="389"  name=n_emptot_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Total Embarques:"border="0" color="33554432" x="1074" y="488" height="52" width="411"  name=n_embtot_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=30 border="5" color="33554432" x="457" y="264" height="64" width="494" format="[general]"  name=c_merori_acu ddlb.limit=0 ddlb.sorted=yes ddlb.allowedit=no ddlb.case=any ddlb.useasborder=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Existencias Ant:"border="0" color="33554432" x="50" y="380" height="52" width="475"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Reempaque Hoy:"border="0" color="33554432" x="50" y="1028" height="52" width="389"  name=n_reehoy_acu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Existencia Piso:"border="0" color="33554432" x="50" y="1136" height="52" width="389"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=50 border="5" color="33554432" x="457" y="372" height="64" width="494" format="#,##0.00"  name=n_sobtot_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=25 alignment="1" tabsequence=60 border="5" color="33554432" x="457" y="480" height="64" width="494" format="#,##0.00"  name=n_empacado edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=26 alignment="1" tabsequence=80 border="5" color="33554432" x="457" y="588" height="64" width="494" format="#,##0.00"  name=n_empacadohoy edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=11 alignment="1" tabsequence=100 border="5" color="33554432" x="457" y="696" height="64" width="494" format="#,##0.00"  name=n_sobhoy_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=10 alignment="1" tabsequence=120 border="5" color="33554432" x="457" y="804" height="64" width="494" format="#,##0.00"  name=n_sobant_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=27 alignment="1" tabsequence=140 border="5" color="33554432" x="457" y="912" height="64" width="494" format="#,##0.00"  name=n_reempaque edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=13 alignment="1" tabsequence=160 border="5" color="33554432" x="457" y="1020" height="64" width="494" format="#,##0.00"  name=n_reehoy_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=31 alignment="1" tabsequence=32766 border="5" color="33554432" x="457" y="1128" height="64" width="494" format="[general]"  name=n_existenciapiso edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=28 alignment="1" tabsequence=70 border="5" color="33554432" x="1536" y="480" height="64" width="494" format="#,##0.00"  name=n_embarcado edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=8 alignment="1" tabsequence=90 border="5" color="33554432" x="1536" y="588" height="64" width="494" format="#,##0.00"  name=n_embhoy_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=29 alignment="1" tabsequence=110 border="5" color="128" x="1536" y="696" height="64" width="494" format="#,##0.00"  name=n_mermas edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=15 alignment="1" tabsequence=130 border="5" color="128" x="1536" y="804" height="64" width="494" format="#,##0.00"  name=n_merhoy_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=30 alignment="1" tabsequence=150 border="5" color="128" x="1536" y="912" height="64" width="494" format="#,##0.00"  name=n_accidentes edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=17 alignment="1" tabsequence=170 border="5" color="128" x="1536" y="1020" height="64" width="494" format="#,##0.00"  name=n_acchoy_acu edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=22 alignment="0" tabsequence=0 border="0" color="0" x="2482" y="636" height="76" width="384"  name=d_modifi visible="1~t0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=21 alignment="0" tabsequence=0 border="0" color="0" x="2473" y="724" height="76" width="393"  name=c_usumod visible="1~t0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

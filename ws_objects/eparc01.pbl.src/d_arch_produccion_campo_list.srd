@@ -1,0 +1,89 @@
+﻿$PBExportHeader$d_arch_produccion_campo_list.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=68 color="79741120" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=c_codigo dbname="t_produccion_campo.c_codigo_prc" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_tem dbname="t_produccion_campo.c_codigo_tem" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_lot dbname="t_produccion_campo.c_codigo_lot" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_cul dbname="t_produccion_campo.c_codigo_cul" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_trabajo_prc dbname="t_produccion_campo.d_trabajo_prc" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_1erpla_prc dbname="t_produccion_campo.d_1erpla_prc" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_1ercor_prc dbname="t_produccion_campo.d_1ercor_prc" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=n_hectar_prc dbname="t_produccion_campo.n_hectar_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_surcos_prc dbname="t_produccion_campo.n_surcos_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_trabaj_prc dbname="t_produccion_campo.n_trabaj_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_baldes_prc dbname="t_produccion_campo.n_baldes_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_manobr_prc dbname="t_produccion_campo.n_manobr_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosxba_prc dbname="t_produccion_campo.n_cosxba_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_balxtr_prc dbname="t_produccion_campo.n_balxtr_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_promed_prc dbname="t_produccion_campo.n_promed_prc" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_produccion_campo.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion_prc dbname="t_produccion_campo.d_creacion_prc" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod_prc dbname="t_produccion_campo.c_usumod_prc" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi_prc dbname="t_produccion_campo.d_modifi_prc" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo dbname="t_produccion_campo.c_activo_prc" )
+ retrieve="  SELECT t_produccion_campo.c_codigo_prc,   
+         t_produccion_campo.c_codigo_tem,   
+         t_produccion_campo.c_codigo_lot,   
+         t_produccion_campo.c_codigo_cul,   
+         t_produccion_campo.d_trabajo_prc,   
+         t_produccion_campo.d_1erpla_prc,   
+         t_produccion_campo.d_1ercor_prc,   
+         t_produccion_campo.n_hectar_prc,   
+         t_produccion_campo.n_surcos_prc,   
+         t_produccion_campo.n_trabaj_prc,   
+         t_produccion_campo.n_baldes_prc,   
+         t_produccion_campo.n_manobr_prc,   
+         t_produccion_campo.n_cosxba_prc,   
+         t_produccion_campo.n_balxtr_prc,   
+         t_produccion_campo.n_promed_prc,   
+         t_produccion_campo.c_codigo_usu,   
+         t_produccion_campo.d_creacion_prc,   
+         t_produccion_campo.c_usumod_prc,   
+         t_produccion_campo.d_modifi_prc,   
+         t_produccion_campo.c_activo_prc  
+    FROM t_produccion_campo  
+   WHERE ( t_produccion_campo.c_codigo_tem = :as_tem ) AND  
+         ( t_produccion_campo.d_trabajo_prc >= :ad_ini ) AND  
+         ( t_produccion_campo.d_trabajo_prc <= :ad_fin )    
+" update="t_produccion_campo" updatewhere=1 updatekeyinplace=no arguments=(("as_tem", string),("ad_ini", datetime),("ad_fin", datetime)) )
+text(band=header alignment="2" text="Activo"border="6" color="33554432" x="9" y="4" height="56" width="160"  name=c_activo_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Lote"border="6" color="33554432" x="178" y="4" height="56" width="869"  name=c_codigo_lot_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Cultivo"border="6" color="33554432" x="1056" y="4" height="56" width="567"  name=c_codigo_cul_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Fec. Trabajo"border="6" color="33554432" x="1632" y="4" height="56" width="293"  name=d_trabajo_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" 1er Planteo"border="6" color="33554432" x="1934" y="4" height="56" width="274"  name=d_1erpla_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" 1er. Corte"border="6" color="33554432" x="2217" y="4" height="56" width="274"  name=d_1ercor_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Nº Hectáreas "border="6" color="33554432" x="2501" y="4" height="56" width="302"  name=n_hectar_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Nº Surcos "border="6" color="33554432" x="2811" y="4" height="56" width="283"  name=n_surcos_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Nº Trabajs. "border="6" color="33554432" x="3104" y="4" height="56" width="270"  name=n_trabaj_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Nº Baldes "border="6" color="33554432" x="3383" y="4" height="56" width="279"  name=n_baldes_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Mano Obra "border="6" color="33554432" x="3671" y="4" height="56" width="297"  name=n_manobr_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Cost. x Balde "border="6" color="33554432" x="3977" y="4" height="56" width="293"  name=n_cosxba_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Bal. x Trab. "border="6" color="33554432" x="4279" y="4" height="56" width="270"  name=n_balxtr_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Prom. x Ha. "border="6" color="33554432" x="4558" y="4" height="56" width="297"  name=n_promed_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Usuario Creador"border="6" color="33554432" x="4864" y="4" height="56" width="480"  name=c_codigo_usu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Fecha"border="6" color="33554432" x="5353" y="4" height="56" width="325"  name=d_creacion_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Modificador"border="6" color="33554432" x="5687" y="4" height="56" width="480"  name=c_usumod_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Fecha"border="6" color="33554432" x="6176" y="4" height="56" width="270"  name=d_modifi_prc_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="178" y="4" height="52" width="869" format="[general]"  name=c_codigo_lot dddw.name=d_dddw_lote dddw.displaycolumn=v_nombre_lot dddw.datacolumn=c_codigo_lot dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="1056" y="4" height="52" width="567" format="[general]"  name=c_codigo_cul dddw.name=d_dddw_cultivo dddw.displaycolumn=v_nombre_cul dddw.datacolumn=c_codigo_cul dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="1632" y="4" height="52" width="293" format=" dd/mm/yyyy"  name=d_trabajo_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="1934" y="4" height="52" width="274" format="[general]"  name=d_1erpla_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="2217" y="4" height="52" width="274" format="[general]"  name=d_1ercor_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="33554432" x="2501" y="4" height="52" width="302" format="#,##0.00"  name=n_hectar_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="33554432" x="2811" y="4" height="52" width="283" format="#,##0.00"  name=n_surcos_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="33554432" x="3104" y="4" height="52" width="270" format="#,##0.00"  name=n_trabaj_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="33554432" x="3383" y="4" height="52" width="279" format="#,##0.00"  name=n_baldes_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="33554432" x="3671" y="4" height="52" width="297" format="#,##0.00"  name=n_manobr_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="33554432" x="3977" y="4" height="52" width="293" format="#,##0.00"  name=n_cosxba_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="33554432" x="4279" y="4" height="52" width="270" format="#,##0.00"  name=n_balxtr_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=15 alignment="1" tabsequence=32766 border="0" color="33554432" x="4558" y="4" height="52" width="297" format="#,##0.00"  name=n_promed_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="33554432" x="4864" y="4" height="52" width="480" format="[general]"  name=c_codigo_usu edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="33554432" x="5353" y="4" height="52" width="325" format=" dd/mm/yyyy"  name=d_creacion_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="5687" y="4" height="52" width="480" format="[general]"  name=c_usumod_prc edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="33554432" x="6176" y="4" height="52" width="270" format=" dd/mm/yyyy"  name=d_modifi_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=20 alignment="2" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="52" width="160" format="[general]"  name=c_activo edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Wingdings" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="2" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

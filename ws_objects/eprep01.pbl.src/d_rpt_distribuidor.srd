@@ -1,0 +1,81 @@
+﻿$PBExportHeader$d_rpt_distribuidor.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=380 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=80 color="536870912" )
+detail(height=124 color="536870912" )
+table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=c_codigo_dis dbname="t_distribuidor.c_codigo_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_nomcom_dis dbname="t_distribuidor.v_nomcom_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=c_rfc_dis dbname="t_distribuidor.c_rfc_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_direcc_dis dbname="t_distribuidor.v_direcc_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_ciudad_dis dbname="t_distribuidor.v_ciudad_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=v_apapos_dis dbname="t_distribuidor.v_apapos_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=v_codpos_dis dbname="t_distribuidor.v_codpos_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=v_telef1_dis dbname="t_distribuidor.v_telef1_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=v_telef2_dis dbname="t_distribuidor.v_telef2_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_ptoemb_dis dbname="t_distribuidor.v_ptoemb_dis" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_distribuidor.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion_dis dbname="t_distribuidor.d_creacion_dis" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod_dis dbname="t_distribuidor.c_usumod_dis" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi_dis dbname="t_distribuidor.d_modifi_dis" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo_dis dbname="t_distribuidor.c_activo_dis" )
+ retrieve="  SELECT t_distribuidor.c_codigo_dis,   
+         t_distribuidor.v_nombre_dis,   
+         t_distribuidor.v_nomcom_dis,   
+         t_distribuidor.c_rfc_dis,   
+         t_distribuidor.v_direcc_dis,   
+         t_distribuidor.v_ciudad_dis,   
+         t_distribuidor.v_apapos_dis,   
+         t_distribuidor.v_codpos_dis,   
+         t_distribuidor.v_telef1_dis,   
+         t_distribuidor.v_telef2_dis,   
+         t_distribuidor.v_ptoemb_dis,   
+         t_distribuidor.c_codigo_usu,   
+         t_distribuidor.d_creacion_dis,   
+         t_distribuidor.c_usumod_dis,   
+         t_distribuidor.d_modifi_dis,   
+         t_distribuidor.c_activo_dis  
+    FROM t_distribuidor  
+   WHERE t_distribuidor.c_activo_dis = '1'    
+" update="t_distribuidor" updatewhere=1 updatekeyinplace=no )
+text(band=header alignment="1" text="d_rpt_distribuidor"border="0" color="0" x="2990" y="204" height="48" width="448"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2523" y="12" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2752" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="3013" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3182" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="3013" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3182" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="3013" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3182" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="3013" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3182" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+bitmap(band=header filename="logocia.bmp" x="9" y="8" height="236" width="754" border="0" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="37" y="4" height="44" width="165" format="[general]"  name=c_codigo_dis edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="1655" y="4" height="44" width="1147" format="[general]"  name=v_direcc_dis edit.limit=60 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="0" x="1655" y="60" height="44" width="1147" format="[general]"  name=v_ciudad_dis edit.limit=60 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="0" x="2816" y="4" height="44" width="334" format="[general]"  name=v_apapos_dis edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=90 border="0" color="0" x="2816" y="60" height="44" width="334" format="[general]"  name=v_telef1_dis edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=80 border="0" color="0" x="3159" y="4" height="44" width="288" format="[general]"  name=v_codpos_dis edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=100 border="0" color="0" x="3159" y="60" height="44" width="288" format="[general]"  name=v_telef2_dis edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=110 border="0" color="0" x="142" y="60" height="44" width="1147" format="[general]"  name=v_ptoemb_dis edit.limit=60 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="219" y="4" height="44" width="983" format="[general]"  name=v_nombre_dis edit.limit=60 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1216" y="4" height="44" width="421" format="[general]"  name=c_rfc_dis edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="5" y1="4" x2="3465" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="16" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2130" y="16" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3141" y="16" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header x="9" y="268" height="112" width="3438" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="0" text="Nombre de Distribuidor/"border="0" color="0" x="23" y="280" height="44" width="709"  name=v_nombre_aga_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="R.F.C./"border="0" color="0" x="1202" y="280" height="44" width="421"  name=c_rfc_aga_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Direccion/"border="0" color="0" x="1641" y="280" height="44" width="553"  name=v_direcc_aga_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Apa. Postal/"border="0" color="0" x="2802" y="280" height="44" width="334"  name=v_apapos_aga_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Cod. Postal/"border="0" color="0" x="3145" y="280" height="44" width="288"  name=v_codpos_aga_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Punto De Embarque"border="0" color="0" x="23" y="328" height="44" width="1038"  name=v_ptoemb_aga_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Ciudad"border="0" color="0" x="1641" y="328" height="44" width="462"  name=v_ciudad_aga_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Telefono 1"border="0" color="0" x="2802" y="328" height="44" width="334"  name=v_telef1_aga_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Telefono 2"border="0" color="0" x="3145" y="328" height="44" width="288"  name=v_telef2_aga_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="864" y="24" height="76" width="1609" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="REPORTE DE DISTRIBUIDORES"border="0" color="33554432" x="864" y="116" height="44" width="1609"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

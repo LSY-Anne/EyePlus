@@ -1,0 +1,155 @@
+﻿$PBExportHeader$d_rpt_acumulado_gral_x_periodo2.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=416 color="536870912" )
+summary(height=80 color="536870912" )
+footer(height=100 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="t_palet.c_codigo_pro" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_eti dbname="t_palet.c_codigo_eti" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="t_etiqueta.v_nombre_eti" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=decimal(2) updatewhereclause=yes name=bulnac dbname="bulnac" )
+ column=(type=decimal(2) updatewhereclause=yes name=bulexp dbname="bulexp" )
+ column=(type=decimal(2) updatewhereclause=yes name=totemp dbname="totemp" )
+ retrieve=" SELECT
+      pal.c_codigo_pro, 
+      pal.c_codigo_eti, 
+      pro.v_nombre_pro,
+      eti.v_nombre_eti,
+      cul.v_nombre_cul,
+      IsNull ( sum ( CASE man.c_merdes_man
+                 When  'N' then pal.n_bulxpa_pal End ), 0) as bulnac,
+      IsNull ( sum ( CASE man.c_merdes_man
+           When  'E' then pal.n_bulxpa_pal End ), 0 ) as bulexp,
+      totemp = ( SELECT
+                IsNull ( sum ( t_palet.n_bulxpa_pal ), 0 ) as totemp
+       
+           
+        FROM
+               t_palet,
+               t_manifiesto
+
+           
+        WHERE
+	      ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man )AND
+      t_manifiesto.d_embarque_man between :ad_fecini AND :ad_fecfin AND
+              pal.c_codigo_pro = t_palet.c_codigo_pro AND 
+	      pal.c_codigo_eti = t_palet.c_codigo_eti  AND
+         pal.c_codigo_tem = :as_temp )
+     
+FROM
+      t_palet pal, 
+      t_producto pro,  
+      t_etiqueta eti,
+      t_cultivo cul,
+      t_manifiesto man
+WHERE
+     ( man.c_codigo_man = pal.c_codigo_man )AND
+      man.d_embarque_man
+      between :ad_fecini AND :ad_fecfin  AND
+      pal.c_codigo_pro = pro.c_codigo_pro AND
+      pal.c_codigo_eti = eti.c_codigo_eti AND
+      pro.c_codigo_cul = cul.c_codigo_cul AND
+         pal.c_codigo_tem = :as_temp 
+
+        GROUP BY
+      pal.c_codigo_tem,cul.v_nombre_cul,pal.c_codigo_pro, pro.v_nombre_pro, pal.c_codigo_eti, eti.v_nombre_eti
+
+
+UNION
+
+
+SELECT
+      pal.c_codigo_pro, 
+      pal.c_codigo_eti, 
+      pro.v_nombre_pro,
+      eti.v_nombre_eti,
+      cul.v_nombre_cul,
+      0,
+      0,
+      sum ( pal.n_bulxpa_pal )as totemp
+       
+FROM
+      t_palet pal,
+      t_producto pro, 
+      t_cultivo cul,
+      t_etiqueta eti
+
+WHERE
+      pal.d_empaque_pal
+      between :ad_fecini AND :ad_fecfin AND
+       
+      pal.c_codigo_pro  NOT IN (Select t_palet.c_codigo_pro FROM t_palet WHERE t_palet.d_empaque_pal
+      between :ad_fecini AND :ad_fecfin AND
+      pal.c_codigo_eti = t_palet.c_codigo_eti ) AND
+      
+      pal.c_codigo_pro = pro.c_codigo_pro AND
+      pal.c_codigo_eti = eti.c_codigo_eti  AND
+      pro.c_codigo_cul = cul.c_codigo_cul AND
+         pal.c_codigo_tem = :as_temp 
+
+GROUP BY
+      pal.c_codigo_tem, cul.v_nombre_cul,pal.c_codigo_pro, pro.v_nombre_pro, pal.c_codigo_eti, eti.v_nombre_eti
+
+
+" arguments=(("as_temp", string),("ad_fecini", datetime),("ad_fecfin", datetime)) )
+group(level=1 header.height=52 trailer.height=88 by=("v_nombre_cul" ) header.color="536870912" trailer.color="536870912" )
+rectangle(band=header x="23" y="352" height="64" width="3433" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2537" y="12" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2766" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="3026" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3195" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="3026" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3195" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="3026" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3195" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="3026" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3195" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="d_rpt_acumulado_gral_x_periodo2"border="0" color="0" x="2802" y="204" height="48" width="649"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+column(band=header.1 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="23" y="0" height="52" width="617" format="[general]"  name=v_nombre_cul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="165" y="12" height="52" width="69" format="[general]"  name=c_codigo_eti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="23" y="12" height="52" width="123" format="[general]"  name=c_codigo_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="859" y="12" height="52" width="352" format="[general]"  name=v_nombre_eti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1230" y="12" height="52" width="544" format="#,##0"  name=totemp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1797" y="12" height="52" width="535" format="#,##0"  name=bulnac edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="2354" y="12" height="52" width="530" format="#,##0"  name=bulexp edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" totemp - bulnac - bulexp "border="0" color="0" x="2907" y="12" height="52" width="544" format="#,##0"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="256" y="12" height="52" width="581" format="[general]"  name=v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="1221" y1="4" x2="3442" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(totemp for group 1)"border="0" color="0" x="1234" y="20" height="52" width="544" format="#,##0"  font.face="MS Sans Serif" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(bulnac for group 1)"border="0" color="0" x="1797" y="20" height="52" width="535" format="#,##0"  font.face="MS Sans Serif" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(bulexp for group 1)"border="0" color="0" x="2354" y="20" height="52" width="530" format="#,##0"  font.face="MS Sans Serif" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum( totemp - bulnac - bulexp  for group 1)"border="0" color="0" x="2907" y="20" height="52" width="544" format="#,##0"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="1" text="Total por cultivo"border="0" color="0" x="41" y="16" height="52" width="430"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(totemp for all)"border="0" color="0" x="1234" y="20" height="52" width="544" format="#,##0"  font.face="MS Sans Serif" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(bulnac for all)"border="0" color="0" x="1797" y="20" height="52" width="535" format="#,##0"  font.face="MS Sans Serif" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(bulexp for all)"border="0" color="0" x="2354" y="20" height="52" width="530" format="#,##0"  font.face="MS Sans Serif" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum( totemp - bulnac - bulexp  for all)"border="0" color="0" x="2907" y="20" height="52" width="544" format="#,##0"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=summary x1="1221" y1="4" x2="3442" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="Totales"border="0" color="0" x="41" y="12" height="52" width="201"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="0" y1="4" x2="3442" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="20" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2130" y="20" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3141" y="20" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="1093" y="16" height="76" width="1344" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="REPORTE ACUMULADO DE EMPAQUE Y EMBARQUE"border="0" color="8388608" x="1093" y="124" height="44" width="1344"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="POR MERCADO Y POR PERIODO -PALETS COMPLETOS-"border="0" color="8388608" x="1093" y="176" height="44" width="1344"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'Desde:  ' + Date(ad_fecini)  + '  Hasta:  ' +  Date(ad_fecfin)"border="0" color="0" x="1221" y="236" height="52" width="1010" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'Fecha del Sistema: ' + String( f_GetSysDateA( ), 'dd/mm/yyyy' )"border="0" color="0" x="27" y="292" height="52" width="1061" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="PRODUCTO"border="0" color="0" x="41" y="360" height="48" width="347"  name=t_producto_c_codigo_pro_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="1216" y1="292" x2="1216" y2="412" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+rectangle(band=header x="1216" y="292" height="64" width="2240" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="TOTAL"border="0" color="0" x="1413" y="304" height="44" width="192"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="EXISTENCIA EN"border="0" color="0" x="2944" y="304" height="44" width="466"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="1774" y1="292" x2="1774" y2="412" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="E M B A R Q U E "border="0" color="0" x="2098" y="304" height="44" width="503"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="EMPACADO"border="0" color="0" x="1335" y="360" height="48" width="343"  name=empnac_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="NACIONAL"border="0" color="0" x="1915" y="360" height="48" width="306"  name=embext_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="2336" y1="352" x2="2336" y2="412" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="EXPORTACION"border="0" color="0" x="2391" y="360" height="48" width="439"  name=empext_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="2880" y1="296" x2="2880" y2="416" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="PISO *"border="0" color="0" x="3072" y="364" height="48" width="192"  name=embnac_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

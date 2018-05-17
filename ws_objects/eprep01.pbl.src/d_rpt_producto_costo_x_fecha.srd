@@ -1,0 +1,111 @@
+﻿$PBExportHeader$d_rpt_producto_costo_x_fecha.srd
+$PBExportComments$Reporte de productos x fechas
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=360 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=116 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=c_codigo_tem dbname="t_palet.c_codigo_tem" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="t_palet.c_codigo_pro" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_eti dbname="t_palet.c_codigo_eti" )
+ column=(type=datetime updatewhereclause=yes name=d_empaque_pal dbname="d_empaque_pal" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="t_etiqueta.v_nombre_eti" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(30) updatewhereclause=yes name=t_temporada_v_nombre_tem dbname="t_temporada.v_nombre_tem" )
+ column=(type=decimal(2) updatewhereclause=yes name=empacado dbname="Empacado" )
+ column=(type=decimal(2) updatewhereclause=yes name=embarcado dbname="Embarcado" )
+ column=(type=decimal(2) updatewhereclause=yes name=materiales dbname="Materiales" )
+ column=(type=decimal(2) updatewhereclause=yes name=gastosadmin dbname="GastosAdmin" )
+ retrieve="Select   t_palet.c_codigo_tem,   
+         t_palet.c_codigo_pro,   
+         t_palet.c_codigo_eti,   
+         d_empaque_pal = t_palet.d_empaque_pal,   
+         t_etiqueta.v_nombre_eti,   
+         t_producto.v_nombre_pro,   
+         t_temporada.v_nombre_tem,  
+         Empacado = t_palet.n_bulxpa_pal,
+         Embarcado = 0,
+         Materiales = ( Select Sum( n_importe_apc ) From t_acumulado_producto_costo apc, t_costo cos
+                        Where  t_palet.c_codigo_pro = apc.c_codigo_pro And apc.c_codigo_cos = cos.c_codigo_cos
+                        And    d_costo_apc = d_empaque_pal
+                        And    c_tipo_cos = 'M' ),
+         GastosAdmin = ( Select Sum( n_importe_apc ) From t_acumulado_producto_costo apc, t_costo cos
+                        Where  t_palet.c_codigo_pro = apc.c_codigo_pro And apc.c_codigo_cos = cos.c_codigo_cos
+                        And    d_costo_apc = d_empaque_pal
+                        And    c_tipo_cos = 'G' )
+From     t_palet,   
+         t_etiqueta,   
+         t_producto,   
+         t_temporada  
+Where    t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti 
+And      t_producto.c_codigo_pro = t_palet.c_codigo_pro
+And      t_temporada.c_codigo_tem = t_palet.c_codigo_tem 
+And      t_palet.c_codigo_tem = :as_tem
+And      t_palet.d_empaque_pal >= :ad_ini  
+And      t_palet.d_empaque_pal <= :ad_fin 
+
+Union All
+
+Select   t_palet.c_codigo_tem,   
+         t_palet.c_codigo_pro,   
+         t_palet.c_codigo_eti,   
+         d_empaque_pal = t_manifiesto.d_embarque_man,   
+         t_etiqueta.v_nombre_eti,   
+         t_producto.v_nombre_pro,   
+         t_temporada.v_nombre_tem,  
+         Empacado = 0,
+         Embarcado = t_palet.n_bulxpa_pal,
+         Materiales = 0,
+         GastosAdmin = 0
+From     t_palet,   
+         t_manifiesto,   
+         t_etiqueta,   
+         t_producto,   
+         t_temporada  
+Where    t_palet.c_codigo_man = t_manifiesto.c_codigo_man
+And      t_etiqueta.c_codigo_eti = t_palet.c_codigo_eti 
+And      t_producto.c_codigo_pro = t_palet.c_codigo_pro
+And      t_temporada.c_codigo_tem = t_palet.c_codigo_tem 
+And      t_palet.c_codigo_tem = :as_tem
+And      t_palet.d_empaque_pal >= :ad_ini  
+And      t_palet.d_empaque_pal <= :ad_fin 
+" arguments=(("as_tem", string),("ad_ini", datetime),("ad_fin", datetime))  sort="c_codigo_tem A d_empaque_pal A c_codigo_pro A c_codigo_eti A " )
+group(level=1 header.height=0 trailer.height=0 by=("c_codigo_tem" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=60 trailer.height=60 by=("d_empaque_pal" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=0 trailer.height=56 by=("c_codigo_pro" ) header.color="536870912" trailer.color="536870912" )
+group(level=4 header.height=0 trailer.height=0 by=("c_codigo_eti" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2528" y="12" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2757" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="3017" y="12" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3186" y="12" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="3017" y="60" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3186" y="60" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="3017" y="108" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3186" y="108" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="3017" y="156" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3186" y="156" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_producto_costo_x_fecha"border="0" color="0" x="2811" y="204" height="48" width="631"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+column(band=header.2 id=4 alignment="0" tabsequence=32766 border="0" color="8388608" x="78" y="4" height="48" width="343" format="dd/mm/yyyy"  name=d_empaque_pal edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=trailer.4 alignment="1" expression="sum(empacado for group 4)"border="0" color="0" x="1275" y="4" height="48" width="539" format="#,##0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.3 alignment="1" expression="sum(empacado for group 3)"border="0" color="0" x="1275" y="4" height="48" width="539" format="#,##0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.3 alignment="1" expression="sum(embarcado for group 3)"border="0" color="0" x="1819" y="4" height="48" width="539" format="#,##0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.3 id=10 alignment="1" tabsequence=32766 border="0" color="0" x="2363" y="4" height="48" width="539" format="[general]"  name=materiales edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.3 id=11 alignment="1" tabsequence=32766 border="0" color="0" x="2907" y="4" height="48" width="539" format="[general]"  name=gastosadmin edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.3 id=2 alignment="0" tabsequence=32766 border="0" color="0" x="73" y="4" height="48" width="114" format="[general]"  name=c_codigo_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.3 id=6 alignment="0" tabsequence=32766 border="0" color="0" x="206" y="4" height="48" width="1051" format="[general]"  name=v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="0" y1="4" x2="3451" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="20" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2130" y="20" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3141" y="20" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'Fecha del Sistema: ' + String( f_GetSysDateA( ), 'dd/mm/yyyy' )"border="0" color="0" x="41" y="232" height="52" width="1061" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header x="37" y="292" height="64" width="3419" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Producto"border="0" color="33554432" x="50" y="300" height="48" width="713"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Empacado"border="0" color="33554432" x="1504" y="300" height="48" width="311"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Embarcado"border="0" color="33554432" x="2025" y="300" height="48" width="334"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Materiales"border="0" color="0" x="2363" y="300" height="48" width="539"  name=n_precmn_pal_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Gastos Operativos"border="0" color="0" x="2907" y="300" height="48" width="539"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="923" y="20" height="76" width="1600" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression="'REPORTE DE COSTOS DE PRODUCTOS POR FECHAS~~r~~n DEL: ' +  String( ad_ini , 'dd/mm/yyyy' ) + ' AL: ' + String( ad_fin , 'dd/mm/yyyy' )"border="0" color="33554432" x="923" y="120" height="100" width="1600" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

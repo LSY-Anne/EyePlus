@@ -1,0 +1,91 @@
+﻿$PBExportHeader$d_mant_producto_edit.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1080 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes key=yes name=c_codigo_pro dbname="t_producto.c_codigo_pro" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=v_nomext_pro dbname="t_producto.v_nomext_pro" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_merdes_pro dbname="t_producto.c_merdes_pro" values="Extranjero	E/Nacional	N/" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_cul dbname="t_producto.c_codigo_cul" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_env dbname="t_producto.c_codigo_env" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_tam dbname="t_producto.c_codigo_tam" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_pesuni_pro dbname="t_producto.n_pesuni_pro" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_pesbul_pro dbname="t_producto.n_pesbul_pro" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_bulxpa_pro dbname="t_producto.n_bulxpa_pro" initial="0" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=v_imagen_pro dbname="t_producto.v_imagen_pro" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_producto.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion dbname="t_producto.d_creacion_pro" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod dbname="t_producto.c_usumod_pro" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi dbname="t_producto.d_modifi_pro" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo dbname="t_producto.c_activo_pro" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=id_commodity dbname="id_commodity" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=id_style dbname="id_style" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=id_size dbname="id_size" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=id_product dbname="id_product" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_porkilo_pro dbname="c_porkilo_pro" values="Si	S/No	N/" )
+ retrieve="  SELECT t_producto.c_codigo_pro,   
+         t_producto.v_nombre_pro,   
+         t_producto.v_nomext_pro,   
+         t_producto.c_merdes_pro,   
+         t_producto.c_codigo_cul,   
+         t_producto.c_codigo_env,   
+         t_producto.c_codigo_tam,   
+         t_producto.n_pesuni_pro,   
+         t_producto.n_pesbul_pro,   
+         t_producto.n_bulxpa_pro,   
+         t_producto.v_imagen_pro,   
+         t_producto.c_codigo_usu,   
+         t_producto.d_creacion_pro,   
+         t_producto.c_usumod_pro,   
+         t_producto.d_modifi_pro,   
+         t_producto.c_activo_pro,
+			id_commodity = t_producto.id_commodity ,   
+			id_style = t_producto.id_style ,       
+			id_size = t_producto.id_size,   
+			id_product = t_producto.id_product,
+			c_porkilo_pro = t_producto.c_porkilo_pro 
+    FROM t_producto  (nolock)
+   WHERE  t_producto.c_codigo_pro = :as_cod    
+" update="t_producto" updatewhere=1 updatekeyinplace=no arguments=(("as_cod", string)) )
+text(band=detail alignment="0" text="Código:"border="0" color="33554432" x="1143" y="40" height="52" width="224"  name=c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Cultivo:"border="0" color="33554432" x="46" y="40" height="52" width="224"  name=c_codigo_cul_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=10 border="5" color="33554432" x="466" y="40" height="64" width="635" format="[general]"  name=c_codigo_cul dddw.name=d_dddw_cultivo dddw.displaycolumn=v_nombre_cul dddw.datacolumn=c_codigo_cul dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Id Product:"border="0" color="33554432" x="46" y="144" height="52" width="315"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=30 border="5" color="33554432" x="466" y="144" height="64" width="421" format="[general]"  name=id_product edit.limit=12 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text=" Id Commodity:"border="0" color="33554432" x="46" y="248" height="52" width="338"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=50 border="5" color="33554432" x="466" y="248" height="64" width="320" format="[general]"  name=id_commodity edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Id Size:"border="0" color="33554432" x="1362" y="248" height="52" width="178"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Nombre/Descrip.:"border="0" color="33554432" x="46" y="348" height="52" width="398"  name=v_nombre_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=80 border="5" color="33554432" x="466" y="348" height="64" width="1403" format="[general]"  name=v_nombre_pro edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Nom Extranjero:"border="0" color="33554432" x="46" y="452" height="52" width="366"  name=v_nomext_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=90 border="5" color="33554432" x="466" y="452" height="64" width="1403" format="[general]"  name=v_nomext_pro edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Envase:"border="0" color="33554432" x="46" y="556" height="52" width="242"  name=c_codigo_env_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=100 border="5" color="33554432" x="466" y="556" height="64" width="635" format="[general]"  name=c_codigo_env dddw.name=d_dddw_envase dddw.displaycolumn=v_nombre_env dddw.datacolumn=c_codigo_env dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Mercado Destino:"border="0" color="33554432" x="1143" y="556" height="52" width="398"  name=c_merdes_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=110 border="5" color="33554432" x="1568" y="556" height="64" width="302" format="[general]"  name=c_merdes_pro ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.vscrollbar=yes ddlb.useasborder=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="0" expression="bitmap ( v_imagen_pro )"border="1" color="33554432" x="1957" y="240" height="384" width="439" format="[general]"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Tamaño:"border="0" color="33554432" x="46" y="660" height="52" width="256"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=120 border="5" color="33554432" x="466" y="660" height="64" width="635" format="[general]"  name=c_codigo_tam dddw.name=d_dddw_tamanio dddw.displaycolumn=v_nombre_tam dddw.datacolumn=c_codigo_tam dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+line(band=detail x1="46" y1="772" x2="2395" y2="772" pen.style="0" pen.width="5" pen.color="276856960"  background.mode="2" background.color="1090519039" )
+line(band=detail x1="46" y1="776" x2="2395" y2="776" pen.style="0" pen.width="5" pen.color="1090519039"  background.mode="2" background.color="1090519039" )
+text(band=detail alignment="2" text="Peso Promedio (Kilogramos) y Cantidad"border="0" color="33554432" x="69" y="752" height="52" width="887"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=detail alignment="0" text="Unitario:"border="0" color="33554432" x="46" y="828" height="52" width="251"  name=n_pesuni_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=130 border="5" color="33554432" x="466" y="828" height="64" width="302" format="#,##0.00"  name=n_pesuni_pro edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Por Bulto:"border="0" color="33554432" x="805" y="828" height="52" width="293"  name=n_pesbul_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=140 border="5" color="33554432" x="1243" y="828" height="64" width="302" format="#,##0.00"  name=n_pesbul_pro edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Bultos por Pallet:"border="0" color="33554432" x="1586" y="832" height="52" width="416"  name=n_bulxpa_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=160 border="5" color="33554432" x="2080" y="832" height="64" width="302" format="#,##0.00"  name=n_bulxpa_pro edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+line(band=detail x1="46" y1="936" x2="2395" y2="936" pen.style="0" pen.width="5" pen.color="276856960"  background.mode="2" background.color="1090519039" )
+line(band=detail x1="46" y1="940" x2="2395" y2="940" pen.style="0" pen.width="5" pen.color="1090519039"  background.mode="2" background.color="1090519039" )
+text(band=detail alignment="2" text="Imagen"border="0" color="33554432" x="69" y="916" height="52" width="219"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=detail alignment="0" text="Nombre Archivo:"border="0" color="33554432" x="46" y="992" height="52" width="393"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=150 border="5" color="33554432" x="466" y="992" height="64" width="1531" format="[general]"  name=v_imagen_pro edit.limit=0 edit.case=lower edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=19 alignment="0" tabsequence=70 border="5" color="33554432" x="1559" y="248" height="64" width="311" format="[general]"  name=id_size edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=18 alignment="0" tabsequence=60 border="5" color="33554432" x="1010" y="248" height="64" width="311" format="[general]"  name=id_style edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Id Style:"border="0" color="33554432" x="814" y="248" height="52" width="174"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=20 border="5" color="33554432" x="1568" y="40" height="64" width="302" format=""  name=c_codigo_pro editmask.autoskip=yes editmask.mask="##-##" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=21 alignment="0" tabsequence=40 border="5" color="33554432" x="1568" y="144" height="64" width="270" format=""  name=c_porkilo_pro ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.useasborder=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Por Kilo:"border="0" color="33554432" x="1143" y="144" height="52" width="251"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

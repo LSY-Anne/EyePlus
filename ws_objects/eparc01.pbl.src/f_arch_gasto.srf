@@ -1,0 +1,75 @@
+﻿$PBExportHeader$f_arch_gasto.srf
+global type f_arch_gasto from function_object
+end type
+
+forward prototypes
+global function boolean f_arch_gasto (string as_title, boolean ab_new, datawindow adw_cab)
+end prototypes
+
+global function boolean f_arch_gasto (string as_title, boolean ab_new, datawindow adw_cab);String ls_man
+DateTime  ld_null
+dec{2} ldc_imp, ldc_gas
+setnull(ld_null)
+adw_cab.AcceptText()
+
+ls_man = f_trim(adw_cab.Object.c_codigo_man[1])
+
+If ls_man ='' Then
+	MessageBox(as_title,'Favor de seleccionar el codigo del manifiesto.',Exclamation!)
+	Return False
+End If
+
+select n_gastoaduanal_man
+into :ldc_gas
+from t_manifiesto (nolock)
+where c_codigo_man = :ls_man
+using sqlca;
+
+If f_SqlError( SqlCa, 'No se pudo obtener informacion de la tabla t_manifiesto ' ) < 0 Then 
+		Return False
+End If
+
+If ldc_imp > 0 Then
+	MessageBox(as_title,'el manifiesto: '+ls_man+', ya tiene guardado un importe de gasto aduanal por: $'+string(ldc_gas),Exclamation!)
+	Return False
+End If
+
+ldc_imp = f_zero(adw_cab.Object.n_gastoaduanal_man[1])
+
+If ldc_imp <= 0 Then
+	MessageBox(as_title,'Favor de capturar el gasto aduanal.',Exclamation!)
+	Return False
+End If
+
+update t_manifiesto
+set n_gastoaduanal_man = :ldc_imp
+where c_codigo_man = :ls_man
+Using SqlCa;
+
+If f_SqlError( SqlCa, 'No se pudo actualizar la tabla t_manifiesto ' ) < 0 Then 
+	RollBack Using SqlCa ;
+	Return False
+End If
+
+Commit Using SQlCa;
+ab_new = False
+
+adw_cab.object.c_codigo_man[1] = ''
+adw_cab.object.d_embarque_man[1] = ld_null
+adw_cab.object.mercado[1] = ''
+adw_cab.object.c_numfac_man[1] = ''
+adw_cab.object.embarcador[1] = ''
+adw_cab.object.n_totbul_man[1] = 0
+adw_cab.object.distribuidor[1] = ''
+adw_cab.object.n_importe_man[1] = 0
+adw_cab.object.v_nombre_aga[1] = ''
+adw_cab.object.v_codpos_aga[1] = ''
+adw_cab.object.v_direcc_aga[1] = ''
+adw_cab.object.v_telef1_aga[1] = ''
+adw_cab.object.v_ciudad_aga[1] = ''
+adw_cab.object.c_rfc_aga[1] = ''
+adw_cab.object.n_gastoaduanal_man[1] = 0
+
+Return True
+end function
+

@@ -1,0 +1,109 @@
+﻿$PBExportHeader$d_arch_dds_pallet_gpe.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=cpal dbname="cpal" )
+ column=(type=char(24) updatewhereclause=yes name=vpro dbname="vpro" )
+ column=(type=char(15) updatewhereclause=yes name=veti dbname="veti" )
+ column=(type=char(20) updatewhereclause=yes name=venv dbname="venv" )
+ column=(type=char(4) updatewhereclause=yes name=cpro dbname="cpro" )
+ column=(type=char(2) updatewhereclause=yes name=ceti dbname="ceti" )
+ column=(type=char(2) updatewhereclause=yes name=cenv dbname="cenv" )
+ column=(type=char(24) updatewhereclause=yes name=vlote dbname="vlote" )
+ column=(type=decimal(2) updatewhereclause=yes name=npeso dbname="npeso" )
+ column=(type=char(4) updatewhereclause=yes name=clote dbname="clote" )
+ column=(type=char(1) updatewhereclause=yes name=ctipo dbname="ctipo" )
+ column=(type=char(30) updatewhereclause=yes name=peso dbname="peso" )
+ column=(type=char(10) updatewhereclause=yes name=cbultos dbname="cbultos" )
+ column=(type=char(20) updatewhereclause=yes name=cia dbname="cia" )
+ column=(type=char(2) updatewhereclause=yes name=cedo dbname="cedo" )
+ column=(type=char(10) updatewhereclause=yes name=tpeso dbname="tpeso" )
+ column=(type=char(10) updatewhereclause=yes name=vfecha dbname="vfecha" )
+ column=(type=char(2) updatewhereclause=yes name=jul dbname="jul" )
+ column=(type=char(10) updatewhereclause=yes name=totpeso dbname="totpeso" )
+ column=(type=char(100) updatewhereclause=yes name=totbulto dbname="totbulto" )
+ retrieve="  SELECT cpal =  p.c_codigo_pal,   
+			vpro = substring(t.v_nombre_pro,1,24),
+			veti = substring(e.v_nombre_eti,1,15),
+			venv = substring(v.v_nombre_env,1,20),
+			cpro = p.c_codigo_pro,
+			ceti = p.c_codigo_eti,
+			cenv = p.c_codigo_env,
+			vlote = substring(l.v_nombre_lot,1,24),
+			npeso = p.n_peso_pal,
+			clote = p.c_codigo_lot,
+			ctipo = p.c_staemp_pal,
+			peso  = Cast(p.n_peso_pal as varchar),
+			cbultos = cast(rtrim(Convert(Char,Cast(round( p.n_bulxpa_pal ,0) As Integer ))) as varchar(10)),
+			cia = substring(ltrim(rtrim((select v_Valor_par from t_parametro (nolock) where c_codigo_par = '004'))),1,20),
+			cedo = case p.c_staemp_pal 
+						when '1' then ''
+						when '0' then ''
+						when '2' then '**'
+					 end,
+			tpeso = Cast(sum(n_peso_pal) as varchar(10)),
+			vfecha = cast(datediff(day, CAST(YEAR(getdate()) AS CHAR(4))+'0101',getdate())+1 as varchar(10)),
+			jul = substring(rtrim(ltrim(convert(char ,getdate(),101))),9,2),
+			totpeso = cast((select sum(n_peso_pal) from t_palet (nolock) where c_codigo_pal = p.c_codigo_pal and c_codigo_Tem = p.c_codigo_tem) as varchar(10)),
+			totbulto = cast((select sum(n_bulxpa_pal) from t_palet (nolock) where c_codigo_pal = p.c_codigo_pal and c_codigo_Tem = p.c_codigo_tem) as varchar(100))
+    FROM t_palet p (NOLOCK),   
+         t_producto t (NOLOCK),   
+         t_etiqueta e (NOLOCK),   
+         t_envase  v (NOLOCK),
+			t_lote l (nolock)
+   WHERE ( t.c_codigo_pro = p.c_codigo_pro ) and  
+         ( e.c_codigo_eti = p.c_codigo_eti ) and  
+         ( v.c_codigo_env = p.c_codigo_env ) and  
+			( p.c_codigo_lot = l.c_codigo_lot) and
+         ( ( p.c_codigo_tem = :as_tem ) AND
+			  ( l.c_codigo_tem = :as_tem ) AND
+         ( p.c_codigo_pal between :as_cod and :as_cod2 ))
+group by p.c_codigo_pal,t.v_nombre_pro,e.v_nombre_eti,v.v_nombre_env,
+			p.c_codigo_pro,p.c_codigo_eti,p.c_codigo_env,l.v_nombre_lot,t.n_pesbul_pro,
+			p.c_codigo_lot,p.c_staemp_pal,p.n_bulxpa_pal , p.c_codigo_tem,p.n_peso_pal
+order by p.c_codigo_pal
+" arguments=(("as_tem", string),("as_cod", string),("as_cod2", string)) )
+text(band=header alignment="0" text="Cpal"border="0" color="0" x="9" y="4" height="76" width="233"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Vpro"border="0" color="0" x="251" y="4" height="76" width="224"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Veti"border="0" color="0" x="485" y="4" height="76" width="187"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Venv"border="0" color="0" x="681" y="4" height="76" width="215"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cpro"border="0" color="0" x="905" y="4" height="76" width="279"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Ceti"border="0" color="0" x="1193" y="4" height="76" width="183"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cenv"border="0" color="0" x="1385" y="4" height="76" width="233"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Vlote"border="0" color="0" x="1627" y="4" height="76" width="224"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Npeso"border="0" color="0" x="1861" y="4" height="76" width="251"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Clote"border="0" color="0" x="2121" y="4" height="76" width="357"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cedo"border="0" color="0" x="2487" y="4" height="76" width="206"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cbultos"border="0" color="0" x="2702" y="4" height="76" width="265"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Vfecha"border="0" color="0" x="2976" y="4" height="76" width="293"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Ctipo"border="0" color="0" x="3278" y="4" height="76" width="238"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cia"border="0" color="0" x="3525" y="4" height="76" width="338"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Tpeso"border="0" color="0" x="3872" y="4" height="76" width="453"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Jul"border="0" color="0" x="4334" y="4" height="76" width="238"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Totpeso"border="0" color="0" x="4581" y="4" height="76" width="311"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Totbulto"border="0" color="0" x="4901" y="4" height="76" width="293"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Peso"border="0" color="0" x="5202" y="4" height="76" width="238"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="0" height="76" width="233" format="[general]"  name=cpal edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="251" y="0" height="76" width="224" format="[general]"  name=vpro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="485" y="0" height="76" width="187" format="[general]"  name=veti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="681" y="0" height="76" width="215" format="[general]"  name=venv edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="905" y="0" height="76" width="279" format="[general]"  name=cpro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1193" y="0" height="76" width="183" format="[general]"  name=ceti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1385" y="0" height="76" width="233" format="[general]"  name=cenv edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1627" y="0" height="76" width="224" format="[general]"  name=vlote edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1861" y="0" height="76" width="251" format="#,##0.00"  name=npeso edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="2121" y="0" height="76" width="357" format="[general]"  name=clote edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="2487" y="0" height="76" width="206" format="[general]"  name=cedo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="2702" y="0" height="76" width="265" format="[general]"  name=cbultos edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="2976" y="0" height="76" width="293" format="[general]"  name=vfecha edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="3278" y="0" height="76" width="238" format="[general]"  name=ctipo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="3525" y="0" height="76" width="338" format="[general]"  name=cia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="3872" y="0" height="76" width="453" format="#,##0.00"  name=tpeso edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="4334" y="0" height="76" width="238" format="[general]"  name=jul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="4581" y="0" height="76" width="311" format="[general]"  name=totpeso edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="4901" y="0" height="76" width="293" format="[general]"  name=totbulto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="5202" y="0" height="76" width="238" format="[general]"  name=peso edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

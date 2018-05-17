@@ -1,0 +1,15 @@
+﻿$PBExportHeader$d_util_opcion_asignada.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=68 color="80269524" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=c_codigo_sme dbname="assusuariosistemamenu.c_codigo_sme" )
+ column=(type=char(50) updatewhereclause=yes name=v_nombre_sme dbname="asssistemamenu.v_nombre_sme" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"assusuariosistemamenu~" )  TABLE(NAME=~"asssistemamenu~" ) COLUMN(NAME=~"assusuariosistemamenu.c_codigo_sme~") COLUMN(NAME=~"asssistemamenu.v_nombre_sme~")    JOIN (LEFT=~"asssistemamenu.c_codigo_sis~"    OP =~"=~"RIGHT=~"assusuariosistemamenu.c_codigo_sis~" )    JOIN (LEFT=~"asssistemamenu.c_codigo_sme~"    OP =~"=~"RIGHT=~"assusuariosistemamenu.c_codigo_sme~" )WHERE(    EXP1 =~"assusuariosistemamenu.c_codigo_usu~"   OP =~"=~"    EXP2 =~":as_usr~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"assusuariosistemamenu.c_activo_usm~"   OP =~"=~"    EXP2 =~"'1'~" ) ) ARG(NAME = ~"as_usr~" TYPE = string) " arguments=(("as_usr", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="52" width="247" format=" [general]"  name=c_codigo_sme edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=0 border="0" color="33554432" x="270" y="4" height="52" width="1285" format="~tWordCap( v_nombre_sme )"  name=v_nombre_sme edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Código"border="6" color="33554432" x="9" y="4" height="56" width="247"  name=c_codigo_sme_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Opción de Menú Asignada"border="6" color="33554432" x="265" y="4" height="56" width="1289"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

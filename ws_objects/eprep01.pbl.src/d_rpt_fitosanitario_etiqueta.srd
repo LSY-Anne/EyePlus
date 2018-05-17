@@ -1,0 +1,17 @@
+﻿$PBExportHeader$d_rpt_fitosanitario_etiqueta.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no rows_per_detail = 2 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(41) updatewhereclause=yes name=e_v_nombre_eti dbname="v_nombre_eti" )
+ retrieve="Select  v_nombre_eti = e.v_nombre_eti + ','
+from t_palet p (nolock), t_etiqueta e (nolock)
+where p.c_codigo_eti = e.c_codigo_eti
+and p.c_codigo_tem = :as_tem
+and p.c_codigo_man = :as_cod
+group by 
+e.v_nombre_eti" arguments=(("as_tem", string),("as_cod", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="4" height="64" width="626" format="[general]" row_in_detail=1  name=v_nombre_eti_1 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="649" y="4" height="64" width="626" format="[general]" row_in_detail=2  name=v_nombre_eti_2 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

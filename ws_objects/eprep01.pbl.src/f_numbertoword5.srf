@@ -1,0 +1,181 @@
+﻿$PBExportHeader$f_numbertoword5.srf
+global type f_numbertoword5 from function_object
+end type
+
+forward prototypes
+global function string f_numbertoword5 (double ad_numero, string mon)
+end prototypes
+
+global function string f_numbertoword5 (double ad_numero, string mon);//Devuelve un Número Decimal como una expresión numérica en palabras
+Int li_miles, li_ciento, li_decimo, li_centena, li_decena, li_unidad,li_millo
+String ls_text,ls_mon,ls_monf
+Long ll_resto
+
+If f_trim(mon) ='N' then
+	ls_mon='  Pesos  '
+	ls_monf='  M.N'
+Else
+	ls_mon=' Dólares  '
+	ls_monf= '  US'
+End IF	
+If ad_numero >= 1000000 Then
+	li_millo = mod(ad_numero,1000000)
+	If li_millo= 0 Then
+		If f_trim(mon) ='N' then
+			ls_mon=' de Pesos  '
+		Else
+			ls_mon=' de Dólares  '
+		End IF	
+	End IF
+End IF
+li_miles=0
+ll_resto=truncate(ad_numero, 0)
+ls_text=ls_mon+string((ad_numero - ll_resto)*100,'00')+'/100'+ls_monf+' )'
+If ll_resto=0 then
+	ls_text='cero '+ls_text
+Else
+	Do While ll_resto>0
+		li_ciento=mod(ll_resto,1000)
+		If li_miles>0 And li_ciento <> 0 then
+			If mod(li_miles, 2)=0 then
+				If li_ciento>1 then
+					ls_text='millones '+ls_text
+				Else
+					ls_text='millon '+ls_text				
+				End If
+			Else
+				ls_text='mil '+ls_text
+			End If
+		End If
+		li_centena=int(li_ciento/100)
+		li_decimo=mod(li_ciento,100)
+		If li_decimo>0 then
+			li_decena=int(li_decimo/10)
+			li_unidad=mod(li_decimo,10)
+			If li_unidad>0 and not (li_decena=1 and li_unidad<6) then
+				choose Case li_unidad
+				Case 1
+					If li_miles=0 then
+						ls_text='uno '+ls_text
+					Else
+						ls_text='un '+ls_text
+					End If
+				Case 2
+					ls_text='dos '+ls_text
+				Case 3
+					ls_text='tres '+ls_text
+				Case 4
+					ls_text='cuatro '+ls_text
+				Case 5
+					ls_text='cinco '+ls_text
+				Case 6
+					ls_text='seis '+ls_text
+				Case 7
+					ls_text='siete '+ls_text
+				Case 8
+					ls_text='ocho '+ls_text
+				Case 9
+					ls_text='nueve '+ls_text
+				end choose
+			End If
+			choose Case li_decena
+			Case 1
+				choose Case li_unidad
+				Case 0
+					ls_text='diez '+ls_text
+				Case 1
+					ls_text='once '+ls_text
+				Case 2
+					ls_text='doce '+ls_text
+				Case 3
+					ls_text='trece '+ls_text
+				Case 4
+					ls_text='catorce '+ls_text
+				Case 5
+					ls_text='quince '+ls_text
+				Case Else
+					ls_text='dieci'+ls_text
+				end choose
+			Case 2
+				If li_unidad=0 then
+					ls_text='veinte '+ls_text
+				Else
+					ls_text='veinti'+ls_text
+				End If
+			Case 3
+				If li_unidad=0 then
+					ls_text='treinta '+ls_text
+				Else
+					ls_text='treinta y '+ls_text
+				End If
+			Case 4
+				If li_unidad=0 then
+					ls_text='cuarenta '+ls_text
+				Else
+					ls_text='cuarenta y '+ls_text
+				End If
+			Case 5
+				If li_unidad=0 then
+					ls_text='cincuenta '+ls_text
+				Else
+					ls_text='cincuenta y '+ls_text
+				End If
+			Case 6
+				If li_unidad=0 then
+					ls_text='sesenta '+ls_text
+				Else
+					ls_text='sesenta y '+ls_text
+				End If
+			Case 7
+				If li_unidad=0 then
+					ls_text='setenta'+ls_text
+				Else
+					ls_text='setenta y '+ls_text
+				End If
+			Case 8
+				If li_unidad=0 then
+					ls_text='ochenta'+ls_text
+				Else
+					ls_text='ochenta y '+ls_text
+				End If
+			Case 9
+				If li_unidad=0 then
+					ls_text='noventa '+ls_text
+				Else
+					ls_text='noventa y '+ls_text
+				End If
+			end choose
+		End If
+		choose Case li_centena
+		Case 1
+			If li_decimo=0 then
+				ls_text='cien '+ls_text
+			Else
+				ls_text='ciento '+ls_text
+			End If
+		Case 2
+			ls_text='doscientos '+ls_text
+		Case 3
+			ls_text='trescientos '+ls_text
+		Case 4
+			ls_text='cuatrocientos '+ls_text
+		Case 5
+			ls_text='quinientos '+ls_text
+		Case 6
+			ls_text='seiscientos '+ls_text
+		Case 7
+			ls_text='setecientos '+ls_text
+		Case 8
+			ls_text='ochocientos '+ls_text
+		Case 9
+			ls_text='novecientos '+ls_text
+		end choose
+		ll_resto=truncate(ll_resto/1000, 0)
+		li_miles=li_miles+1
+	loop
+End If
+ls_text='SON: ( ' + upper(left(ls_text,1))+ mid(ls_text, 2)
+return  ls_text
+
+end function
+

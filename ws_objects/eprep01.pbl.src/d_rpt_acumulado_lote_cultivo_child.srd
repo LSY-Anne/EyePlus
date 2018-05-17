@@ -1,0 +1,206 @@
+﻿$PBExportHeader$d_rpt_acumulado_lote_cultivo_child.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=2 )
+header(height=92 color="553648127" )
+summary(height=112 color="536870912" )
+footer(height=92 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_lot dbname="t_produccion_campo.c_codigo_lot" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_cul dbname="t_produccion_campo.c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lot dbname="t_lote.v_nombre_lot" )
+ column=(type=decimal(4) updatewhereclause=yes name=n_superf_lot dbname="t_lote.n_superf_lot" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_1erpla_prc dbname="t_produccion_campo.d_1erpla_prc" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_1ercor_prc dbname="t_produccion_campo.d_1ercor_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_trabaj_prc dbname="t_produccion_campo.n_trabaj_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_surcos_prc dbname="t_produccion_campo.n_surcos_prc" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=n_hectar_prc dbname="t_produccion_campo.n_hectar_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_baldes_prc dbname="t_produccion_campo.n_baldes_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_promed_prc dbname="t_produccion_campo.n_promed_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_manobr_prc dbname="t_produccion_campo.n_manobr_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_balxtr_prc dbname="t_produccion_campo.n_balxtr_prc" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosxba_prc dbname="t_produccion_campo.n_cosxba_prc" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_trabaj_acu dbname="n_trabaj_acu" )
+ column=(type=decimal(4) updatewhereclause=yes name=n_hectar_acu dbname="n_hectar_acu" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_baldes_acu dbname="n_baldes_acu" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_manobr_acu dbname="n_manobr_acu" )
+ retrieve="  SELECT 
+         t_cultivo.v_nombre_cul,   
+         prc.c_codigo_lot,   
+         prc.c_codigo_cul,   
+         t_lote.v_nombre_lot,
+         t_lote.n_superf_lot,
+         prc.d_1erpla_prc,   
+         prc.d_1ercor_prc,   
+         prc.n_trabaj_prc,   
+         prc.n_surcos_prc,   
+         prc.n_hectar_prc,   
+         prc.n_baldes_prc,   
+         prc.n_promed_prc, 
+         prc.n_manobr_prc,   
+         prc.n_balxtr_prc,   
+         prc.n_cosxba_prc,   
+         n_trabaj_acu = ( Select Sum( acu.n_trabaj_prc ) 
+                          From   t_produccion_campo acu
+                          Where  acu.c_codigo_cul = prc.c_codigo_cul
+                          And    acu.c_codigo_tem = prc.c_codigo_tem 
+                          And    acu.c_codigo_lot = prc.c_codigo_lot 
+                          And    acu.c_codigo_tem = :as_tem 
+                          And    acu.c_activo_prc = '1' ),
+         n_hectar_acu = ( Select Sum( acu.n_hectar_prc ) 
+                          From   t_produccion_campo acu
+                          Where  acu.c_codigo_cul = prc.c_codigo_cul
+                          And    acu.c_codigo_tem = prc.c_codigo_tem 
+                          And    acu.c_codigo_lot = prc.c_codigo_lot 
+                          And    acu.c_codigo_tem = :as_tem 
+                          And    acu.c_activo_prc = '1' ),
+         n_baldes_acu = ( Select Sum( acu.n_baldes_prc ) 
+                          From   t_produccion_campo acu
+                          Where  acu.c_codigo_cul = prc.c_codigo_cul
+                          And    acu.c_codigo_tem = prc.c_codigo_tem 
+                          And    acu.c_codigo_lot = prc.c_codigo_lot 
+                          And    acu.c_codigo_tem = :as_tem 
+                          And    acu.c_activo_prc = '1' ),
+         n_manobr_acu = ( Select Sum( acu.n_manobr_prc ) 
+                          From   t_produccion_campo acu
+                          Where  acu.c_codigo_cul = prc.c_codigo_cul
+                          And    acu.c_codigo_tem = prc.c_codigo_tem 
+                          And    acu.c_codigo_lot = prc.c_codigo_lot 
+                          And    acu.c_codigo_tem = :as_tem 
+                          And    acu.c_activo_prc = '1' )
+    FROM t_produccion_campo prc,   
+         t_cultivo,   
+         t_lote  
+   WHERE ( t_cultivo.c_codigo_cul = prc.c_codigo_cul ) and  
+         ( t_lote.c_codigo_cul = t_cultivo.c_codigo_cul ) and  
+         ( t_lote.c_codigo_tem = prc.c_codigo_tem ) and  
+         ( t_lote.c_codigo_lot = prc.c_codigo_lot ) and  
+         ( ( prc.c_codigo_tem = :as_tem ) AND  
+         ( prc.c_activo_prc = '1' ) ) 
+         and  prc.d_trabajo_prc = :ad_trabajo
+union  
+
+  SELECT 
+         t_cultivo.v_nombre_cul,   
+         prc.c_codigo_lot,   
+         prc.c_codigo_cul,   
+         t_lote.v_nombre_lot,
+         t_lote.n_superf_lot,
+         prc.d_1erpla_prc,   
+         prc.d_1ercor_prc,   
+         0,   
+         0,   
+         0,   
+         0,   
+         0, 
+         0,   
+         0,   
+         0,   
+         n_trabaj_acu = Sum( n_trabaj_prc ),
+         n_hectar_acu = Sum( n_hectar_prc ),
+         n_baldes_acu = Sum( n_baldes_prc ),
+         n_manobr_acu = Sum( n_manobr_prc )
+    FROM t_produccion_campo prc,   
+         t_cultivo,   
+         t_lote  
+   WHERE ( t_cultivo.c_codigo_cul = prc.c_codigo_cul ) and  
+         ( t_lote.c_codigo_cul = t_cultivo.c_codigo_cul ) and  
+         ( t_lote.c_codigo_tem = prc.c_codigo_tem ) and  
+         ( t_lote.c_codigo_lot = prc.c_codigo_lot ) and  
+         ( ( prc.c_codigo_tem = :as_tem ) AND  
+         ( prc.c_activo_prc = '1' ) ) 
+      and prc.c_codigo_tem+ prc.c_codigo_lot+ prc.c_codigo_cul Not In 
+                        ( Select aux.c_codigo_tem+aux.c_codigo_lot+aux.c_codigo_cul 
+                          From   t_produccion_campo aux  
+                          where  aux.c_codigo_tem = :as_tem 
+                          And    aux.c_activo_prc = '1' 
+                          And    aux.d_trabajo_prc = :ad_trabajo )
+
+Group By t_cultivo.v_nombre_cul,   
+         prc.c_codigo_lot,   
+         prc.c_codigo_cul,   
+         t_lote.v_nombre_lot,
+         t_lote.n_superf_lot,
+         prc.d_1erpla_prc,   
+         prc.d_1ercor_prc  " arguments=(("as_tem", string),("ad_trabajo", datetime))  sort="c_codigo_cul A c_codigo_lot A " )
+group(level=1 header.height=0 trailer.height=112 by=("c_codigo_cul" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="0" text="Cod.Lote"border="0" color="0" x="9" y="0" height="80" width="110"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="0" text="Descripción del Lote"border="0" color="0" x="215" y="0" height="80" width="727"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="SuperficieHectareas"border="0" color="0" x="951" y="0" height="80" width="174"  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Fecha1er Planteo"border="0" color="0" x="1134" y="0" height="80" width="206"  name=d_1erpla_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Fecha1er. Corte"border="0" color="0" x="1349" y="0" height="80" width="201"  name=d_1ercor_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Nº Trabajs.de Hoy"border="0" color="0" x="1559" y="0" height="80" width="192"  name=n_trabaj_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Cantidadde Surcos "border="0" color="0" x="1760" y="0" height="80" width="187"  name=n_surcos_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="HectáreasCortadas Hor"border="0" color="0" x="1957" y="0" height="80" width="183"  name=n_hectar_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Nº U.R."border="0" color="0" x="2149" y="0" height="80" width="201"  name=n_baldes_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="PromedioU.R. x Ha. "border="0" color="0" x="2359" y="0" height="80" width="206"  name=n_promed_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="CostoMano Obra "border="0" color="0" x="2574" y="0" height="80" width="215"  name=n_manobr_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="PromedioU.R.xTrab."border="0" color="0" x="2798" y="0" height="80" width="174"  name=n_balxtr_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Costo x U.R."border="0" color="0" x="2981" y="0" height="80" width="142"  name=n_cosxba_prc_t  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="AcumuladoNum.Trabaj."border="0" color="0" x="3131" y="0" height="80" width="247"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Total Hectar.Cortadas"border="0" color="0" x="3387" y="0" height="80" width="224"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="AcumuladoU.R."border="0" color="0" x="3621" y="0" height="80" width="224"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Pro.U.Rx Hectar."border="0" color="0" x="3854" y="0" height="80" width="151"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Costo Acu.Mano Obra"border="0" color="0" x="4014" y="0" height="80" width="233"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Prom.U.R.Trabajador"border="0" color="0" x="4256" y="0" height="80" width="187"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="1" text="Costox U.R."border="0" color="0" x="4453" y="0" height="80" width="137"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+text(band=header alignment="0" text="Cod.Cul"border="0" color="0" x="128" y="0" height="80" width="78"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32754885" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="48" width="110" format="[general]"  name=c_codigo_lot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="215" y="4" height="48" width="727" format="[general]"  name=v_nombre_lot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="951" y="4" height="48" width="174" format="#,##0.00"  name=n_superf_lot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1134" y="4" height="48" width="206" format="[general]"  name=d_1erpla_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1349" y="4" height="48" width="201" format="[general]"  name=d_1ercor_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1559" y="4" height="48" width="192" format="#,##0.00"  name=n_trabaj_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="1760" y="4" height="48" width="187" format="#,##0.00"  name=n_surcos_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="1957" y="4" height="48" width="183" format="#,##0.00"  name=n_hectar_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="2149" y="4" height="48" width="201" format="#,##0.00"  name=n_baldes_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="2359" y="4" height="48" width="206" format="#,##0.00"  name=n_promed_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="2574" y="4" height="48" width="215" format="#,##0.00"  name=n_manobr_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="2798" y="4" height="48" width="174" format="#,##0.00"  name=n_balxtr_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=15 alignment="1" tabsequence=32766 border="0" color="0" x="2981" y="4" height="48" width="142" format="#,##0.00"  name=n_cosxba_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=16 alignment="1" tabsequence=32766 border="0" color="0" x="3131" y="4" height="48" width="247" format="#,##0.00"  name=n_trabaj_acu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="0" color="0" x="3387" y="4" height="48" width="224" format="#,##0.00"  name=n_hectar_acu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=18 alignment="1" tabsequence=32766 border="0" color="0" x="3621" y="4" height="48" width="224" format="#,##0.00"  name=n_baldes_acu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression=" n_baldes_acu  /  n_superf_lot "border="0" color="0" x="3854" y="4" height="48" width="151" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=19 alignment="1" tabsequence=32766 border="0" color="0" x="4014" y="4" height="48" width="233" format="#,##0.00"  name=n_manobr_acu edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression=" n_baldes_acu / n_trabaj_acu "border="0" color="0" x="4256" y="4" height="48" width="187" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression=" n_manobr_acu  /  n_baldes_acu "border="0" color="0" x="4453" y="4" height="48" width="137" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="128" y="4" height="48" width="78" format="[general]"  name=c_codigo_cul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="'CULTIVO: ' +  c_codigo_cul + '  ' + v_nombre_cul "border="0" color="32768" x="215" y="20" height="40" width="727" format="[general]"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_trabaj_prc for group 1)"border="0" color="32768" x="1559" y="20" height="40" width="192" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_surcos_prc for group 1)"border="0" color="32768" x="1760" y="20" height="40" width="187" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_hectar_prc for group 1)"border="0" color="32768" x="1957" y="20" height="40" width="183" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_baldes_prc for group 1)"border="0" color="32768" x="2149" y="20" height="40" width="201" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_promed_prc for group 1)"border="0" color="32768" x="2359" y="20" height="40" width="206" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_manobr_prc for group 1)"border="0" color="32768" x="2574" y="20" height="40" width="215" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_balxtr_prc for group 1)"border="0" color="32768" x="2798" y="20" height="40" width="174" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosxba_prc for group 1)"border="0" color="32768" x="2981" y="20" height="40" width="142" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_trabaj_acu for group 1)"border="0" color="32768" x="3131" y="20" height="40" width="247" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_hectar_acu for group 1)"border="0" color="32768" x="3387" y="20" height="40" width="224" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(n_baldes_acu for group 1)"border="0" color="32768" x="3621" y="20" height="40" width="224" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum( n_baldes_acu  /  n_superf_lot  for group 1)"border="0" color="32768" x="3854" y="20" height="40" width="151" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(n_manobr_acu for group 1)"border="0" color="32768" x="4014" y="20" height="40" width="233" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum( n_baldes_acu / n_trabaj_acu  for group 1)"border="0" color="32768" x="4256" y="20" height="40" width="187" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( n_manobr_acu  /  n_baldes_acu  for group 1)"border="0" color="32768" x="4453" y="20" height="40" width="137" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=trailer.1 x1="197" y1="8" x2="4599" y2="8" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=summary alignment="0" expression="'TOTAL GENERAL:'"border="0" color="8388608" x="215" y="24" height="40" width="727" format="[general]"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_trabaj_prc for all)"border="0" color="8388608" x="1559" y="24" height="40" width="192" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_surcos_prc for all)"border="0" color="8388608" x="1760" y="24" height="40" width="187" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_hectar_prc for all)"border="0" color="8388608" x="1957" y="24" height="40" width="183" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_baldes_prc for all)"border="0" color="8388608" x="2149" y="24" height="40" width="201" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_promed_prc for all)"border="0" color="8388608" x="2359" y="24" height="40" width="206" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_manobr_prc for all)"border="0" color="8388608" x="2574" y="24" height="40" width="215" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_balxtr_prc for all)"border="0" color="8388608" x="2798" y="24" height="40" width="174" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_cosxba_prc for all)"border="0" color="8388608" x="2981" y="24" height="40" width="142" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_trabaj_acu for all)"border="0" color="8388608" x="3131" y="24" height="40" width="247" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_hectar_acu for all)"border="0" color="8388608" x="3387" y="24" height="40" width="224" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(n_baldes_acu for all)"border="0" color="8388608" x="3621" y="24" height="40" width="224" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum( n_baldes_acu  /  n_superf_lot  for all )"border="0" color="8388608" x="3854" y="24" height="40" width="151" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(n_manobr_acu for all)"border="0" color="8388608" x="4014" y="24" height="40" width="233" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum( n_baldes_acu / n_trabaj_acu  for all )"border="0" color="8388608" x="4256" y="24" height="40" width="187" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum( n_manobr_acu  /  n_baldes_acu  for group 1)"border="0" color="8388608" x="4453" y="24" height="40" width="137" format="#,##0.00"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=summary x1="192" y1="4" x2="4599" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=summary x1="192" y1="12" x2="4599" y2="12" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="U.R. Unidades de Recolección"border="0" color="0" x="215" y="28" height="40" width="727"  font.face="Arial" font.height="-6" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=footer x1="206" y1="8" x2="937" y2="8" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

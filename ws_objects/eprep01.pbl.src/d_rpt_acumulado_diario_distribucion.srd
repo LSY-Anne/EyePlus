@@ -1,0 +1,46 @@
+﻿$PBExportHeader$d_rpt_acumulado_diario_distribucion.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=4 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no  crosstab.dynamic = yes grid.lines=1 grid.columnmove=no selected.mouse=no )
+header[1](height=12 color="536870912" )
+header[2](height=68 color="15780518" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=v_nombre_cul dbname="v_nombre_cul" )
+ column=(type=char(20) updatewhereclause=yes name=c_merdes_acu dbname="c_merdes_acu" )
+ column=(type=number updatewhereclause=yes name=n_cantidad dbname="n_cantidad" )
+ retrieve="Select	d.v_nombre_cul,
+			d.c_merdes_acu ,   
+			d.v_nombre_tam,
+			n_cantidad = ( Sum(n_cantidad) * 100/
+								(	Select sum( x.n_cantidad ) 
+									From	v_acumulado_diario x 
+									Where	d.v_nombre_cul = x.v_nombre_cul 
+									And	d.c_merdes_acu = x.c_merdes_acu
+									And	x.num_fila = '4') )
+From		v_acumulado_diario d,
+         v_acumulado_diario_x_mostrar m
+Where    m.c_merdes_acu = d.c_merdes_acu  
+And		m.v_nombre_cul = d.v_nombre_cul
+And		m.v_nombre_eti = d.v_nombre_eti
+And		d.num_fila = '4'
+And		m.v_nombre_cul Like :as_nomcul
+Group By d.v_nombre_cul,
+			d.c_merdes_acu,   
+			d.v_nombre_tam
+Order By d.v_nombre_cul,
+			d.c_merdes_acu,   
+			d.v_nombre_tam" arguments=(("as_nomcul", string))  sort="v_nombre_cul A c_merdes_acu A " )
+group(level=1 header.height=60 trailer.height=4 by=("v_nombre_cul" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header.1 alignment="0" expression="WordCap( v_nombre_cul )"border="0" color="0" x="27" y="4" height="52" width="517" format="[general]"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="16777215" x="9" y="4" height="64" width="9" format="[general]"  name=v_nombre_cul edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="'     ' + WordCap( If ( c_merdes_acu = 'N', 'NACIONAL', 'EXPORTACIÓN' ) )"border="0" color="0" x="27" y="4" height="52" width="517" format="[general]"  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="16777215" x="553" y="4" height="52" width="5" format="[general]"  name=c_merdes_acu edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="567" y="4" height="52" width="224" format="#,##0"  name=n_cantidad edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes crosstab.repeat=yes  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="0" color="0" x="800" y="4" height="52" width="197" format="#,##0"  name=grand_sum_n_cantidad  font.face="Arial Narrow" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="0" text="Distribución de Tamaño"border="0" color="0" x="27" y="4" height="60" width="517"  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header[2] alignment="1" text="@v_nombre_tam"border="0" color="0" x="567" y="4" height="60" width="224"  name=n_cantidad_t  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header[2] alignment="1" text="Total "border="0" color="0" x="800" y="4" height="60" width="197"  name=grand_sum_n_cantidad_t  font.face="Arial Narrow" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "v_nombre_tam" rows = "v_nombre_cul, c_merdes_acu" values = "sum(n_cantidad for crosstab)" sourcenames = "v_nombre_cul, c_merdes_acu, v_nombre_tam, n_cantidad")
+sparse(names="v_nombre_cul")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

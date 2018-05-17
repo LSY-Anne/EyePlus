@@ -1,0 +1,340 @@
+﻿$PBExportHeader$m_popup.srm
+forward
+global type m_popup from menu
+end type
+type m_opcion from menu within m_popup
+end type
+type m_opcion1 from menu within m_opcion
+end type
+type m_opcion2 from menu within m_opcion
+end type
+type m_opcion3 from menu within m_opcion
+end type
+type m_opcion4 from menu within m_opcion
+end type
+type m_opcion5 from menu within m_opcion
+end type
+type m_opcion6 from menu within m_opcion
+end type
+type m_opcion7 from menu within m_opcion
+end type
+type m_opcion8 from menu within m_opcion
+end type
+type m_opcion9 from menu within m_opcion
+end type
+type m_opcion10 from menu within m_opcion
+end type
+type m_opcion11 from menu within m_opcion
+end type
+type m_opcion12 from menu within m_opcion
+end type
+type m_opcion13 from menu within m_opcion
+end type
+type m_opcion14 from menu within m_opcion
+end type
+type m_opcion15 from menu within m_opcion
+end type
+type m_opcion16 from menu within m_opcion
+end type
+type m_opcion from menu within m_popup
+m_opcion1 m_opcion1
+m_opcion2 m_opcion2
+m_opcion3 m_opcion3
+m_opcion4 m_opcion4
+m_opcion5 m_opcion5
+m_opcion6 m_opcion6
+m_opcion7 m_opcion7
+m_opcion8 m_opcion8
+m_opcion9 m_opcion9
+m_opcion10 m_opcion10
+m_opcion11 m_opcion11
+m_opcion12 m_opcion12
+m_opcion13 m_opcion13
+m_opcion14 m_opcion14
+m_opcion15 m_opcion15
+m_opcion16 m_opcion16
+end type
+end forward
+
+global type m_popup from menu
+m_opcion m_opcion
+end type
+global m_popup m_popup
+
+on m_popup.create
+m_popup=this
+this.m_opcion=create m_opcion
+this.Item[]={this.m_opcion}
+end on
+
+on m_popup.destroy
+destroy(this.m_opcion)
+end on
+
+type m_opcion from menu within m_popup
+m_opcion1 m_opcion1
+m_opcion2 m_opcion2
+m_opcion3 m_opcion3
+m_opcion4 m_opcion4
+m_opcion5 m_opcion5
+m_opcion6 m_opcion6
+m_opcion7 m_opcion7
+m_opcion8 m_opcion8
+m_opcion9 m_opcion9
+m_opcion10 m_opcion10
+m_opcion11 m_opcion11
+m_opcion12 m_opcion12
+m_opcion13 m_opcion13
+m_opcion14 m_opcion14
+m_opcion15 m_opcion15
+m_opcion16 m_opcion16
+end type
+
+on m_opcion.create
+this.Text="opcion"
+this.m_opcion1=create m_opcion1
+this.m_opcion2=create m_opcion2
+this.m_opcion3=create m_opcion3
+this.m_opcion4=create m_opcion4
+this.m_opcion5=create m_opcion5
+this.m_opcion6=create m_opcion6
+this.m_opcion7=create m_opcion7
+this.m_opcion8=create m_opcion8
+this.m_opcion9=create m_opcion9
+this.m_opcion10=create m_opcion10
+this.m_opcion11=create m_opcion11
+this.m_opcion12=create m_opcion12
+this.m_opcion13=create m_opcion13
+this.m_opcion14=create m_opcion14
+this.m_opcion15=create m_opcion15
+this.m_opcion16=create m_opcion16
+this.Item[]={this.m_opcion1, &
+this.m_opcion2, &
+this.m_opcion3, &
+this.m_opcion4, &
+this.m_opcion5, &
+this.m_opcion6, &
+this.m_opcion7, &
+this.m_opcion8, &
+this.m_opcion9, &
+this.m_opcion10, &
+this.m_opcion11, &
+this.m_opcion12, &
+this.m_opcion13, &
+this.m_opcion14, &
+this.m_opcion15, &
+this.m_opcion16}
+end on
+
+on m_opcion.destroy
+destroy(this.m_opcion1)
+destroy(this.m_opcion2)
+destroy(this.m_opcion3)
+destroy(this.m_opcion4)
+destroy(this.m_opcion5)
+destroy(this.m_opcion6)
+destroy(this.m_opcion7)
+destroy(this.m_opcion8)
+destroy(this.m_opcion9)
+destroy(this.m_opcion10)
+destroy(this.m_opcion11)
+destroy(this.m_opcion12)
+destroy(this.m_opcion13)
+destroy(this.m_opcion14)
+destroy(this.m_opcion15)
+destroy(this.m_opcion16)
+end on
+
+type m_opcion1 from menu within m_opcion
+end type
+
+on m_opcion1.create
+this.Text="opcion1"
+this.Visible=false
+this.Enabled=false
+end on
+
+event clicked;gi_popopc = 1
+Return 
+end event
+
+type m_opcion2 from menu within m_opcion
+end type
+
+on m_opcion2.create
+this.Text="opcion2"
+this.Visible=false
+this.Enabled=false
+end on
+
+event clicked;gi_popopc = 2
+end event
+
+type m_opcion3 from menu within m_opcion
+end type
+
+on m_opcion3.create
+this.Text="opcion3"
+this.Visible=false
+this.Enabled=false
+end on
+
+event clicked;gi_popopc = 3
+end event
+
+type m_opcion4 from menu within m_opcion
+end type
+
+on m_opcion4.create
+this.Text="opcion4"
+this.Visible=false
+this.Enabled=false
+end on
+
+event clicked;gi_popopc = 4
+end event
+
+type m_opcion5 from menu within m_opcion
+end type
+
+on m_opcion5.create
+this.Text="opcion5"
+this.Visible=false
+this.Enabled=false
+end on
+
+event clicked;gi_popopc = 5
+end event
+
+type m_opcion6 from menu within m_opcion
+end type
+
+on m_opcion6.create
+this.Text="opcion6"
+this.Visible=false
+this.Enabled=false
+end on
+
+event clicked;gi_popopc = 6
+end event
+
+type m_opcion7 from menu within m_opcion
+end type
+
+on m_opcion7.create
+this.Text="opcion7"
+this.Visible=false
+this.Enabled=false
+end on
+
+event clicked;gi_popopc = 7
+end event
+
+type m_opcion8 from menu within m_opcion
+end type
+
+on m_opcion8.create
+this.Text="opcion8"
+this.Visible=false
+this.Enabled=false
+end on
+
+event clicked;gi_popopc = 8
+end event
+
+type m_opcion9 from menu within m_opcion
+end type
+
+event clicked;gi_popopc = 9
+end event
+
+on m_opcion9.create
+this.Text="opcion9"
+this.Visible=false
+this.Enabled=false
+end on
+
+type m_opcion10 from menu within m_opcion
+end type
+
+event clicked;gi_popopc = 10
+end event
+
+on m_opcion10.create
+this.Text="opcion10"
+this.Visible=false
+this.Enabled=false
+end on
+
+type m_opcion11 from menu within m_opcion
+end type
+
+event clicked;gi_popopc = 11
+end event
+
+on m_opcion11.create
+this.Text="opcion11"
+this.Visible=false
+this.Enabled=false
+end on
+
+type m_opcion12 from menu within m_opcion
+end type
+
+event clicked;gi_popopc = 12
+end event
+
+on m_opcion12.create
+this.Text="opcion12"
+this.Visible=false
+this.Enabled=false
+end on
+
+type m_opcion13 from menu within m_opcion
+end type
+
+event clicked;gi_popopc = 13
+end event
+
+on m_opcion13.create
+this.Text="opcion13"
+this.Visible=false
+this.Enabled=false
+end on
+
+type m_opcion14 from menu within m_opcion
+end type
+
+event clicked;gi_popopc = 14
+end event
+
+on m_opcion14.create
+this.Text="opcion14"
+this.Visible=false
+this.Enabled=false
+end on
+
+type m_opcion15 from menu within m_opcion
+end type
+
+event clicked;gi_popopc = 15
+end event
+
+on m_opcion15.create
+this.Text="opcion15"
+this.Visible=false
+this.Enabled=false
+end on
+
+type m_opcion16 from menu within m_opcion
+end type
+
+event clicked;gi_popopc = 16
+end event
+
+on m_opcion16.create
+this.Text="opcion16"
+this.Visible=false
+this.Enabled=false
+end on
+

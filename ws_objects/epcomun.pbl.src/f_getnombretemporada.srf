@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_getnombretemporada.srf
+global type f_getnombretemporada from function_object
+end type
+
+forward prototypes
+global subroutine f_getnombretemporada ()
+end prototypes
+
+global subroutine f_getnombretemporada ();/* f_GetNombreTemporada */
+
+
+If gs_codtem = '' Then
+	gs_temporada = '[No Definido]'
+Else
+	Select	v_nombre_tem
+	Into		:gs_temporada
+	From		t_temporada
+	Where		c_codigo_tem = :gs_codtem ;
+	If f_SqlError( SqlCa, 'No se puede obtener informacion de la tabla t_temporada.' ) = -1 Then
+		gs_codtem = ''
+		gs_temporada = ''
+		Return 
+	End If
+	gs_temporada = f_Trim( gs_temporada )
+
+	If gs_temporada = '' Then
+		gs_temporada = '[No Existe]'
+		MessageBox( 'f_GetNombreTemporada', 'La temporada definida como default no existe en la tabla t_temporada.', Exclamation! )
+	End If
+End If
+
+end subroutine
+

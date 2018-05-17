@@ -1,0 +1,22 @@
+﻿$PBExportHeader$d_mant_busca_distribuidor.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=64 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=c_codigo dbname="t_distribuidor.c_codigo_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo_dis dbname="t_distribuidor.c_activo_dis" )
+ retrieve="SELECT c_codigo_dis,   
+			v_nombre_dis,
+			c_activo_dis 
+FROM t_distribuidor (nolock)
+where  c_activo_dis = '1'
+and  ( isnull(c_codigo_dis,'') like :as_cod
+	 or isnull(v_nombre_dis,'') like :as_cod)" update="t_distribuidor" updatewhere=1 updatekeyinplace=no arguments=(("as_cod", string)) )
+text(band=header alignment="0" text=" Distribuidor"border="6" color="0" x="352" y="8" height="52" width="1394"  name=v_nombre_dis_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="82899184" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="352" y="4" height="56" width="1394" format="[general]"  name=v_nombre_dis edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Código "border="6" color="0" x="9" y="8" height="52" width="334"  name=c_codigo_dis_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="82899184" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="56" width="334" format="[general]"  name=c_codigo edit.limit=6 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

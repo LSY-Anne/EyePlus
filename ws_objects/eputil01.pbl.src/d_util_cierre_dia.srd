@@ -1,0 +1,15 @@
+﻿$PBExportHeader$d_util_cierre_dia.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=1 grid.columnmove=no selected.mouse=no )
+header(height=52 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(100) updatewhereclause=no name=v_accion dbname="v_accion" )
+ column=(type=char(1) updatewhereclause=no name=c_procesado dbname="c_procesado" values="	1/	0" )
+ )
+data("Validar Empaque del Dia",null "Actualizar acumulados de costos",null "Registro diario de empaque y embarque",null "Actualizar mano de obra de empaque",null "Actualizar Fecha del sistema",null "Actualizar acumulados de existencias",null ) 
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="105" y="8" height="64" width="1111" format="[general]"  name=v_accion edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400~tIf ( GetRow( ) = CurrentRow() ,  700, 400 )"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="1225" y="8" height="64" width="96" format="[general]"  name=c_procesado checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.scale=yes checkbox.threed=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="''"border="0" color="33554432" x="9" y="8" height="52" width="87" format="[general]"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

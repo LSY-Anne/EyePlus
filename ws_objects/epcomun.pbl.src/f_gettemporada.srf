@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_gettemporada.srf
+global type f_gettemporada from function_object
+end type
+
+forward prototypes
+global function string f_gettemporada ()
+end prototypes
+
+global function string f_gettemporada ();Return gs_temporada
+end function
+

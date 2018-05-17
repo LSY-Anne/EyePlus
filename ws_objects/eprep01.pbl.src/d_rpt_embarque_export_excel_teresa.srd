@@ -1,0 +1,85 @@
+﻿$PBExportHeader$d_rpt_embarque_export_excel_teresa.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=importer dbname="Importer" )
+ column=(type=char(14) updatewhereclause=yes name=shipper dbname="Shipper" )
+ column=(type=char(11) updatewhereclause=yes name=shipperreg_ dbname="ShipperReg#" )
+ column=(type=char(50) updatewhereclause=yes name=scac dbname="SCAC" )
+ column=(type=char(20) updatewhereclause=yes name=trailerid dbname="TrailerID" )
+ column=(type=char(30) updatewhereclause=yes name=crossdate dbname="CrossDate" )
+ column=(type=char(6) updatewhereclause=yes name=crosstime dbname="CrossTime" )
+ column=(type=char(255) updatewhereclause=yes name=shipperref dbname="ShipperRef" )
+ column=(type=char(14) updatewhereclause=yes name=grower dbname="Grower" )
+ column=(type=char(11) updatewhereclause=yes name=prodreg_ dbname="ProdReg#" )
+ column=(type=char(1) updatewhereclause=yes name=producertype dbname="ProducerType" )
+ column=(type=char(111) updatewhereclause=yes name=product dbname="Product" )
+ column=(type=decimal(2) updatewhereclause=yes name=cases dbname="Cases" )
+ column=(type=char(1) updatewhereclause=yes name=wtpercs dbname="WTpercs" )
+ column=(type=char(1) updatewhereclause=yes name=ownertype dbname="OwnerType" )
+ retrieve="Select Importer = '70',/*FIJO*/
+		 Shipper = 'MXSANTER175NAV',/*FIJO*/
+		 ShipperReg# = '19912320016',/*FIJO*/
+		 SCAC = Isnull(tras.c_claveSCAC_lit,''),/*CODIGO SCAC*/
+		 TrailerID = Isnull(m.v_numcaj_man,''),/*NUMERO DE CAJA*/
+		 CrossDate = Convert(Varchar, Dateadd(dd, 1, m.d_embarque_man), 101),/*FECHA DE CRUZE*/
+		 CrossTime = Left(m.c_horcre_man,2) +':'+ Right(m.c_horcre_man,3),/*HORA DE CRUZE*/ 
+		 ShipperRef = Replace(Replace(Isnull(m.c_codigo_man,''),'E',''),'N',''),/*MANIFIESTO*/
+		 Grower = 'MXSANTER175NAV',/*FIJO*/
+		 ProdReg# = '19912320016',/*FIJO*/
+		 ProducerType = 'G',/*FIJO*/
+		 Product = Isnull(o.v_nomext_pro,'')+' '+Isnull(o.id_size,''),/*PRODUCTO*/
+		 Cases = Isnull(Sum(p.n_bulxpa_pal),0),/*BULTOS*/
+		 WTpercs = '',/*FIJO*/
+		 OwnerType = 'I'/*FIJO*/
+From   t_palet p (NOLOCK), t_manifiesto m (NOLOCK), t_distribuidor d (NOLOCK), t_producto o (NOLOCK),
+		 t_etiqueta e (NOLOCK), t_lote l (NOLOCK), t_linea_transporte tras (NOLOCK)
+Where (m.d_embarque_man >= :ad_ini
+And 	 m.d_embarque_man <= :ad_fin)
+and 	 d.c_codigo_dis = m.c_codigo_dis
+And 	 p.c_codigo_man = m.c_codigo_man
+And 	 p.c_codigo_tem = m.c_codigo_tem
+And 	 p.c_codigo_pro = o.c_codigo_pro
+And 	 e.c_codigo_eti = p.c_codigo_eti
+And 	 l.c_codigo_lot = p.c_codigo_lot
+And 	 l.c_codigo_tem = p.c_codigo_tem
+And    tras.c_codigo_lit = m.c_codigo_lit
+And 	 p.c_codigo_tem = (select v_valor_par from t_parametro where c_codigo_par = '001')
+AND	 P.c_excedente_pal<> '1'
+Group By o.c_codigo_pro, o.v_nomext_pro, tras.c_claveSCAC_lit, m.v_numcaj_man, m.d_embarque_man, m.c_horcre_man, m.n_totbul_man, m.c_codigo_man, o.id_size
+Order by m.c_codigo_man
+" arguments=(("ad_ini", datetime),("ad_fin", datetime)) )
+text(band=header alignment="0" text="Importer"border="0" color="0" x="9" y="8" height="56" width="215"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Shipper"border="0" color="0" x="233" y="8" height="56" width="251"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Shipperreg "border="0" color="0" x="494" y="8" height="56" width="343"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Scac"border="0" color="0" x="846" y="8" height="56" width="174"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Trailerid"border="0" color="0" x="1029" y="8" height="56" width="261"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Crossdate"border="0" color="0" x="1298" y="8" height="56" width="288"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Crosstime"border="0" color="0" x="1595" y="8" height="56" width="315"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Shipperref"border="0" color="0" x="1920" y="8" height="56" width="311"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Grower"border="0" color="0" x="2240" y="8" height="56" width="251"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Prodreg "border="0" color="0" x="2501" y="8" height="56" width="233"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Producertype"border="0" color="0" x="2743" y="8" height="56" width="389"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Product"border="0" color="0" x="3141" y="8" height="56" width="224"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Wtpercs"border="0" color="0" x="3598" y="8" height="56" width="251"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Ownertype"border="0" color="0" x="3858" y="8" height="56" width="338"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cases"border="0" color="0" x="3374" y="8" height="56" width="215"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="52" width="215" format="[general]"  name=importer edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="233" y="4" height="52" width="251" format="[general]"  name=shipper edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="494" y="4" height="52" width="343" format="[general]"  name=shipperreg_ edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="846" y="4" height="52" width="174" format="[general]"  name=scac edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1029" y="4" height="52" width="261" format="[general]"  name=trailerid edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1298" y="4" height="52" width="288" format="mm/dd/yyyy"  name=crossdate edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1595" y="4" height="52" width="315" format="h:mm AM/PM"  name=crosstime edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1920" y="4" height="52" width="311" format="[general]"  name=shipperref edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="2240" y="4" height="52" width="251" format="[general]"  name=grower edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="2501" y="4" height="52" width="233" format="[general]"  name=prodreg_ edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="2743" y="4" height="52" width="389" format="[general]"  name=producertype edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="3141" y="4" height="52" width="224" format="[general]"  name=product edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="3598" y="4" height="52" width="251" format="[general]"  name=wtpercs edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="3858" y="4" height="52" width="338" format="[general]"  name=ownertype edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="3374" y="4" height="52" width="215" format="[general]"  name=cases edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

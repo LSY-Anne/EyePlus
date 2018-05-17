@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_getjulian.srf
+global type f_getjulian from function_object
+end type
+
+forward prototypes
+global function integer f_getjulian (datetime ad_test)
+end prototypes
+
+global function integer f_getjulian (datetime ad_test);/* f_GetJulian( ad_test ) */
+
+Integer	li_julian, li_daysm, li_anio, li_days[12] = {31,28,31,30,31,30,31,31,30,31,30,31}
+Integer	i, li_xday, li_xmonth, li_xyear
+
+// dias por mes 
+li_xday = Day( Date( ad_test ) )
+li_xmonth = Month( Date( ad_test ) )
+li_xyear = Year( Date( ad_test ) )
+
+// Check for a leap year.
+//	Year divisible by 4, but not by 100, unless it is also divisible by 400
+If ( (Mod(li_xyear, 4) = 0 And Mod(li_xyear, 100) <> 0) Or (Mod(li_xyear, 400) = 0) ) Then
+	li_daysm = 29
+	li_days[ 2] = li_daysm 
+End If
+
+
+For i = 1 To li_xmonth - 1
+	li_julian = li_julian + li_Days[ i] 
+Next
+
+li_julian = li_julian + li_xday 
+
+Return li_julian
+end function
+

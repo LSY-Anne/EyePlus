@@ -1,0 +1,73 @@
+﻿$PBExportHeader$f_conecta_new.srf
+global type f_conecta_new from function_object
+end type
+
+forward prototypes
+global function integer f_conecta_new (ref transaction as_tr, string as_tipo, string as_seccion, string as_server, string as_bd, string as_usuario, string as_pass, string as_msg)
+end prototypes
+
+global function integer f_conecta_new (ref transaction as_tr, string as_tipo, string as_seccion, string as_server, string as_bd, string as_usuario, string as_pass, string as_msg);//================================================
+// Funcion		: f_conecta_new(as_tr, as_tipo, as_seccion, as_server, as_bd, as_susuario, as_pass, as_msg)
+// Parametros	: as_tr = Objeto Transaccion
+//					: as_tipo = Tipo de Conexion
+//						0 - INI de aplicacion (aqui se debe indicar la seccion del INI donde se tomaran los datos ('database', 'msdatabase',etc.)
+//						1 - OLE DB/SQLOLEDB, 	2 - SQL Nativo/SNCCLI
+//						3 - SQL Nativo/SNCCLI10,	4 - ODBC/MySQL
+// Ejemplo con INI: f_conecta_new(SqlCa, '0', 'Database', '', '', '', '', 'S')
+// Ejemplo Directo: f_conecta_new(ms_tr, '3', '', 'Servidor', 'MyBase', 'sa', 'password', 'S')
+//================================================
+String ls_server, ls_bd, ls_usuario, ls_pass, ls_dbms, ls_parm, ls_provider
+
+Destroy as_tr
+as_tr = CREATE Transaction
+
+ls_server = f_Trim(as_server)
+ls_bd = f_Trim(as_bd)
+ls_usuario = f_Trim(as_usuario)
+ls_pass = f_Trim(as_pass)
+
+If as_tipo ='0' OR ls_server = '' Then
+	ls_dbms		= ProfileString (gs_ini, as_seccion, "dbms", "")
+	ls_server		= ProfileString (gs_ini, as_seccion, "servername", "")
+	ls_bd			= ProfileString (gs_ini, as_seccion, "database", "")
+	ls_usuario	= ProfileString (gs_ini, as_seccion, "logid", "")
+	ls_pass		= ProfileString (gs_ini, as_seccion, "LogPassWord", "")
+	ls_parm		= ProfileString (gs_ini, as_seccion, "dbparm", "")
+End If	
+
+If as_tipo ='1' OR Upper(ls_dbms)='OLE DB' Then				//SQL2000, SQL2005
+	ls_provider = 'SQLOLEDB'
+	ls_parm = "PROVIDER='" + ls_provider + "', DATASOURCE='" + ls_server + "', PROVIDERSTRING='database=" + ls_bd + "', CommitOnDisconnect = 'No', TrimSpaces=1"
+ElseIf as_tipo ='2' OR Upper(ls_dbms)='SNC09'  Then		//SQL2000, SQL2005
+	ls_dbms = "SNC SQL Native Client(OLE DB)"
+	ls_provider = 'SNCCLI'
+	ls_parm = "Database='" + ls_bd + "', CommitOnDisconnect = 'No', TrimSpaces=1"
+ElseIf as_tipo ='3' OR Upper(ls_dbms)='SNC10'  Then		//SQL2008
+	ls_provider = 'SNCCLI10'
+	ls_parm = "Database='" + ls_bd + "', CommitOnDisconnect = 'No', TrimSpaces=1"
+ElseIf as_tipo ='4' OR Upper(ls_dbms)='ODBC'  Then			//MySQL
+	ls_provider = 'ODBC'
+	ls_parm = "Database='" + ls_bd + "', CommitOnDisconnect = 'No', TrimSpaces=1" //??????????????????????
+End If	
+
+//as_tr.DBMS  ='MSS' // ls_dbms
+as_tr.DBMS  =ls_dbms
+as_tr.servername	= ls_server
+as_tr.logid		= ls_usuario
+as_tr.logpass	= ls_pass
+as_tr.DBParm = ls_parm
+//as_tr.LOCK = 'RC'
+as_tr.AutoCommit = False
+
+//Connect using as_tr;
+//If as_tr.sqlcode <> 0 Then
+//	If as_msg='S' Then
+//		MessageBox ( gs_aplicacion, 'No se pudo conectar a la BD: [' + ls_bd + ']~n' + as_tr.sqlerrtext, StopSign!)
+//	End If	
+//	RETURN 0
+//End If
+
+Return 1
+
+end function
+

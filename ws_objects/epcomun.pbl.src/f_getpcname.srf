@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_getpcname.srf
+global type f_getpcname from function_object
+end type
+
+forward prototypes
+global function string f_getpcname ()
+end prototypes
+
+global function string f_getpcname ();String ls_compname
+long   ll_size
+
+ll_size = 20
+ls_compname = Space(ll_size)
+//GetComputerNameA(ls_compname, ll_size)
+GetComputerNameW(ls_compname, ll_size)
+
+Return ls_compname
+end function
+

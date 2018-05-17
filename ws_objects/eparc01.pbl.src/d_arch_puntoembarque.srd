@@ -1,0 +1,18 @@
+﻿$PBExportHeader$d_arch_puntoembarque.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=c_codigo_pte dbname="t_usuarioembarque.c_codigo_pte" )
+ column=(type=char(50) updatewhereclause=yes name=v_nombre_pte dbname="t_usuarioembarque.v_nombre_pte" )
+ retrieve="  SELECT  t_usuarioembarque.c_codigo_pte,
+			v_nombre_pte
+from t_usuarioembarque,t_puntoembarque
+where  t_usuarioembarque.c_codigo_pte=t_puntoembarque.c_codigo_pte
+and c_activo_upu='1'
+and c_usupun_upu like :as_cod" arguments=(("as_cod", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="0" height="56" width="681" format="[general]"  name=c_codigo_pte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=0 border="0" color="0" x="704" y="0" height="52" width="1143"  name=v_nombre_pte  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="T Usuarioembarque V Nombre Pte"border="0" color="0" x="699" y="4" height="76" width="1147"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_getparmvalue.srf
+global type f_getparmvalue from function_object
+end type
+
+forward prototypes
+global function string f_getparmvalue (string as_par)
+end prototypes
+
+global function string f_getparmvalue (string as_par);String	ls_val
+
+as_par = Right( '000' + as_par, 3 )
+
+Select 	v_valor_par
+Into		:ls_val
+From		t_parametro (nolock)
+Where		c_codigo_par = :as_par ;
+
+If f_SqlError( SqlCa, 'No se puede obtener informacion de la tabla t_parametro.' ) = -1 Then
+	Return ''
+End If
+
+ls_val = f_Trim( ls_val )
+
+Return ls_val
+end function
+

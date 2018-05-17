@@ -1,0 +1,442 @@
+﻿$PBExportHeader$f_rptfachtml.srf
+global type f_rptfachtml from function_object
+end type
+
+forward prototypes
+global subroutine f_rpt_fac_html (string as_man)
+global subroutine f_rptfachtml (string as_man)
+end prototypes
+
+global subroutine f_rpt_fac_html (string as_man);/*f_Rpt*/
+
+String			ls_nomdis, ls_dirdis, ls_locdis, ls_ageadu, ls_nomcon
+uo_DataStore	lds_rpt
+
+lds_rpt = Create DataStore
+lds_rpt.DataObject = 'd_rpt_factura_epsa'
+lds_rpt.SetTransObject( SqlCa )
+lds_rpt.Retrieve( gs_codtem, as_man )
+
+ls_nomdis = lds_rpt.Object.t_distribuidor_v_nombre_dis[ 1]
+ls_dirdis = lds_rpt.Object.t_distribuidor_v_direcc_dis[ 1]
+ls_locdis = lds_rpt.Object.t_distribuidor_v_ciudad_dis[ 1]
+ls_ageadu = lds_rpt.Object.agencianac[ 1]
+ls_nomcon = lds_rpt.Object.t_manifiesto_v_chofer_man[ 1]
+/*
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="es-mx">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>AGRICOLA EPSA S</title>
+</head>
+
+<body>
+
+<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-width: 0" bordercolor="#111111" id="AutoNumber1" width="736" height="159">
+  <tr>
+    <td width="281" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top: 1px solid #111111; border-bottom-style: solid; border-bottom-width: 1" height="56" rowspan="4" colspan="2">&nbsp;</td>
+    <td width="299" colspan="3" height="17" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top: 1px solid #111111; border-bottom-style: none; border-bottom-width: medium" align="center">
+    <font face="Arial Narrow" style="font-size: 11pt"><b>AGRICOLA EPSA S.A. DE 
+    C.V.</b></font></td>
+    <td width="67" height="18" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top: 1px solid #111111; border-bottom-style: none; border-bottom-width: medium" align="center">
+    </td>
+    <td width="11" height="56" rowspan="4" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top: 1px solid #111111; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+    <td width="132" style="border-left-style: solid; border-left-width: 1; border-right-color: #111111; border-right-width: 1; border-top-color: #111111; border-top-width: 1" height="26" rowspan="2">
+    <p align="center"><font face="Arial Narrow" style="font-size: 8pt"><b>
+     FACTURA COMERCIAL PARA EXPORTACION</b></font></td>
+  </tr>
+  <tr>
+    <td width="366" colspan="4" height="10" style="border-style: none; border-width: medium" align="center">
+    <font face="Arial Narrow" style="font-size: 8pt">Km. 10 carretera a navolato 
+    col. aguaruto</font></td>
+  </tr>
+  <tr>
+    <td width="366" colspan="4" height="9" style="border-style: none; border-width: medium" align="center">
+    <font face="Arial Narrow" style="font-size: 8pt">Culicacan, sinaloa, mexico</font></td>
+    <td width="132" style="border-left-style: solid; border-left-width: 1; border-right-color: #111111; border-right-width: 1" height="30" rowspan="2">
+    <p align="center">
+     <font face="Arial Narrow" style="font-size: 12pt; font-weight: 700">NUM_FAC</font></td>
+  </tr>
+  <tr>
+    <td width="366" height="19" colspan="4" style="border-style: none; border-width: medium" align="center">
+    <font face="Arial Narrow" style="font-size: 8pt"><b>RFC:v_rfc_de_epsa</b></font></td>
+  </tr>
+  <tr>
+    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">
+    <font face="Arial Narrow" style="font-size: 8pt">DISTRIBUIDO POR:</font></td>
+    <td width="442" colspan="2" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium" height="18">
+    <font face="Arial Narrow" style="font-size: 8pt">DISTRIBUIDOR v_nombre_dis</font></td>
+    <td width="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium" height="18">
+    </td>
+    <td width="85" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium" height="18" colspan="3">
+    <font face="Arial Narrow" style="font-size: 8pt">FECHA:</font></td>
+    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium" height="18">
+    <font face="Arial Narrow" style="font-size: 8pt">d_documento_man</font></td>
+  </tr>
+  <tr>
+    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="19">
+    <font face="Arial Narrow" style="font-size: 8pt">DOMICILIO:</font></td>
+    <td width="442" colspan="2" height="19" style="border-style: none; border-width: medium">
+    <font face="Arial Narrow" style="font-size: 8pt">v_direcc_dis</font></td>
+    <td width="20" height="19" style="border-style: none; border-width: medium">&nbsp;</td>
+    <td width="85" height="19" style="border-style: none; border-width: medium" colspan="3">
+    <font face="Arial Narrow" style="font-size: 8pt">TELEFONO:</font></td>
+    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="19">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="21">
+    <font face="Arial Narrow" style="font-size: 8pt">LOCALIDAD:</font></td>
+    <td width="442" colspan="2" height="21" style="border-style: none; border-width: medium">
+    <font face="Arial Narrow" style="font-size: 8pt">v_localidad_dis</font></td>
+    <td width="20" height="21" style="border-style: none; border-width: medium">&nbsp;</td>
+    <td width="85" height="21" style="border-style: none; border-width: medium" colspan="3">
+    <font face="Arial Narrow" style="font-size: 8pt">MANIFIESTO:</font></td>
+    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="21">
+    <font face="Arial Narrow" style="font-size: 8pt">c_codigo_man</font></td>
+  </tr>
+  <tr>
+    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="19">
+    <font face="Arial Narrow" style="font-size: 8pt">AGENCIA ADUANAL:</font></td>
+    <td width="232" height="19" style="border-style: none; border-width: medium">
+    <font face="Arial Narrow" style="font-size: 8pt">v_agencia_dis</font></td>
+    <td width="210" style="border-style: none; border-width: medium" height="18">
+    </td>
+    <td width="20" style="border-style: none; border-width: medium" height="18">
+    </td>
+    <td width="85" height="19" style="border-style: none; border-width: medium" colspan="3">
+    <font face="Arial Narrow" style="font-size: 8pt">VIAJE:</font></td>
+    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="19">
+    <font face="Arial Narrow" style="font-size: 8pt">c_numvia_man</font></td>
+  </tr>
+  <tr>
+    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">
+    <font face="Arial Narrow" style="font-size: 8pt">CONDUCTOR:</font></td>
+    <td width="232" style="border-style: none; border-width: medium" height="18">
+    <font face="Arial Narrow" style="font-size: 8pt">v_chofer_man</font></td>
+    <td width="233" colspan="2" style="border-style: none; border-width: medium" height="18">
+    <font face="Arial Narrow" style="font-size: 8pt">CAMION</font></td>
+    <td width="85" style="border-style: none; border-width: medium" height="18" colspan="3">
+    <font face="Arial Narrow" style="font-size: 8pt">PLACAS:</font></td>
+    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">
+    <font face="Arial Narrow" style="font-size: 8pt">c_placa_man</font></td>
+  </tr>
+  <tr>
+    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">
+    </td>
+    <td width="232" style="border-style: none; border-width: medium" height="18">
+    </td>
+    <td width="233" colspan="2" style="border-style: none; border-width: medium" height="18">
+    </td>
+    <td width="85" style="border-style: none; border-width: medium" height="18" colspan="3">
+    </td>
+    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">
+    </td>
+  </tr>
+</table>
+<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-left-width: 0; border-right-width: 0; border-bottom-width: 0" bordercolor="#111111" id="AutoNumber1" width="736">
+  <tr>
+    <td width="66" align="center" style="border-left-color: #111111; border-left-width: 1">
+    <font face="Arial Narrow" style="font-size: 8pt">CANT.</font></td>
+    <td width="56" align="center">
+    <font face="Arial Narrow" style="font-size: 8pt">UNIDAD</font></td>
+    <td width="526" align="center" colspan="2" style="border-right-style: solid; border-right-width: 1; border-bottom-style: solid; border-bottom-width: 1">
+    <font face="Arial Narrow" style="font-size: 8pt">DESCRIPCION</font></td>
+    <td width="77" align="center" style="border-left-style: solid; border-left-width: 1">
+    <font face="Arial Narrow" style="font-size: 8pt">P. UNITARIO</font></td>
+    <td width="82" align="center" style="border-right-color: #111111; border-right-width: 1">
+    <font face="Arial Narrow" style="font-size: 8pt">TOTAL</font></td>
+  </tr>
+  <tr>
+    <td width="66" style="border-left-color: #111111; border-left-width: 1; border-bottom-style: none; border-bottom-width: medium">
+    <font face="Arial Narrow" style="font-size: 8pt">n_cantidad_</font></td>
+    <td width="56" style="border-bottom-style: none; border-bottom-width: medium">
+    <font face="Arial Narrow" style="font-size: 8pt">c_codigo_pro + c_codigo_uni</font></td>
+    <td width="526" colspan="2" style="border-left-style: solid; border-left-width: 1; border-bottom-style: none; border-bottom-width: medium">
+    <font face="Arial Narrow" style="font-size: 8pt">v_nombre_pro + 
+    v_nombre_eti+v_nombre_env</font></td>
+    <td width="77" style="border-left-style: solid; border-left-width: 1; border-bottom-style: none; border-bottom-width: medium">
+    <p align="right"><font face="Arial Narrow" style="font-size: 8pt">n_cant</font></td>
+    <td width="82" style="border-right-color: #111111; border-right-width: 1; border-bottom-style: none; border-bottom-width: medium">
+    <p align="right"><font face="Arial Narrow" style="font-size: 8pt">n_subtotal</font></td>
+  </tr>
+  <tr>
+    <td width="66" style="border-left: medium none #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+    <td width="174" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1" colspan="2">&nbsp;</td>
+    <td width="408" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1">&nbsp;</td>
+    <td width="77" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1">&nbsp;</td>
+    <td width="82" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="67" style="border-left: medium none #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+    <td width="662" colspan="4" style="border-left-style: solid; border-left-width: 1; border-right-style: none; border-right-width: medium; border-bottom-style: none; border-bottom-width: medium">
+    <font face="Arial Narrow" style="font-size: 8pt">MPORTE CON LETRA</font></td>
+    <td width="82" style="border-left-style: none; border-left-width: medium; border-right-style: solid; border-right-width: 1; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="66" style="border-left: medium none #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+    <td width="661" colspan="4" style="border-left-style: solid; border-left-width: 1; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium">
+    <font face="Arial Narrow" style="font-size: 7pt; font-weight: 700">
+    LS_IMPORTE_CON_LETRA</font></td>
+    <td width="82" style="border-left-style: none; border-left-width: medium; border-right-style: solid; border-right-width: 1; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="66" style="border-style: none; border-width: medium">&nbsp;</td>
+    <td width="174" colspan="2" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+    <td width="408" style="border-left-style: none; border-left-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>
+    <td width="77" style="border-left-style: solid; border-left-width: 1; border-top-style: solid; border-top-width: 1; border-bottom-color: #111111; border-bottom-width: 1">
+    <font face="Arial Narrow" style="font-size: 8pt">TOTAL</font></td>
+    <td width="82" style="border-right-color: #111111; border-right-width: 1; border-bottom-color: #111111; border-bottom-width: 1">
+    <p align="right"><font face="Arial Narrow" style="font-size: 8pt">n_total</font></td>
+  </tr>
+</table>
+
+</body>
+
+</html>
+*/
+end subroutine
+
+global subroutine f_rptfachtml (string as_man);/* f_RptFacHTML( as_man ) */
+
+Integer			i
+String			ls_nomdis, ls_dirdis, ls_locdis, ls_ageadu, ls_chofer, ls_13, ls_html, ls_nomcia, ls_dircia, ls_ciudad, ls_rfccia, &
+					ls_numfac, ls_fecdoc, ls_numvia, ls_numpla, ls_camion, ls_implet, ls_import, ls_can, ls_uni, ls_des, ls_pre, ls_sub, &
+					ls_merdes
+uo_DataStore	lds_rpt
+
+
+Destroy lds_rpt
+lds_rpt = Create uo_DataStore
+lds_rpt.DataObject = 'd_rpt_factura_epsa'
+lds_rpt.SetTransObject( SqlCa )
+lds_rpt.Retrieve( gs_codtem, as_man )
+
+If lds_rpt.RowCount( ) <= 0 Then Return
+
+ls_nomcia = f_GetParmValue( '4' )
+ls_dircia = f_GetParmValue( '5' )
+ls_ciudad = f_GetParmValue( '7' ) + ', ' + f_GetParmValue( '9' ) + ', ' + f_GetParmValue( '37' )
+ls_rfccia = f_GetParmValue( '6' )
+
+ls_merdes = lds_rpt.Object.c_merdes_man[ 1]
+ls_nomdis = lds_rpt.Object.t_distribuidor_v_nombre_dis[ 1]
+ls_dirdis = lds_rpt.Object.t_distribuidor_v_direcc_dis[ 1]
+ls_locdis = lds_rpt.Object.t_distribuidor_v_ciudad_dis[ 1]
+ls_ageadu = lds_rpt.Object.agencianac[ 1]
+ls_chofer = lds_rpt.Object.t_manifiesto_v_chofer_man[ 1]
+
+ls_numfac = lds_rpt.Object.t_manifiesto_c_numfac_man[ 1]
+
+ls_fecdoc = String( lds_rpt.Object.t_manifiesto_d_embarque_man[ 1], 'dd/mm/yyyy' )
+ls_numvia = lds_rpt.Object.t_manifiesto_c_numvia_man[ 1]
+ls_numpla = lds_rpt.Object.t_manifiesto_v_numpla_man[ 1]
+ls_camion = f_Trim( lds_rpt.Object.t_manifiesto_v_marca_man[ 1] ) + ' ' + f_Trim( lds_rpt.Object.t_manifiesto_v_numcaj_man[ 1] )
+
+ls_implet = f_Trim( lds_rpt.Object.importe_letra[ 1] )
+ls_import = f_Trim( String( lds_rpt.Object.t_manifiesto_n_importe_man[ 1], '###,###.00' ) )
+
+
+ls_13 = Char(13)
+
+ls_html = ' <html>' + ls_13
+ls_html = ls_html + '<head>' + ls_13
+ls_html = ls_html + '<title>' + ls_nomcia + '</title>' + ls_13
+ls_html = ls_html + '</head>' + ls_13
+ls_html = ls_html + '<body>' + ls_13
+ls_html = ls_html + '<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-width: 0" bordercolor="#111111" id="AutoNumber1" width="736" height="159">' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="210" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top: 1px solid #111111; border-bottom-style: solid; border-bottom-width: 1" height="56" rowspan="4" colspan="2">&nbsp;'
+ls_html = ls_html + '    <img border="0" src="LOGOCIA.jpg" width="200" height="43"></td>' + ls_13
+ls_html = ls_html + '    <td width="346" colspan="3" height="17" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top: 1px solid #111111; border-bottom-style: none; border-bottom-width: medium" >' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 11pt"><b>'+ ls_nomcia + ls_13
+ls_html = ls_html + '    </b></font></td>' + ls_13
+ls_html = ls_html + '    <td width="67" height="18" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top: 1px solid #111111; border-bottom-style: none; border-bottom-width: medium" >' + ls_13
+ls_html = ls_html + '    </td>' + ls_13
+ls_html = ls_html + '    <td width="11" height="56" rowspan="4" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top: 1px solid #111111; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>' + ls_13
+ls_html = ls_html + '    <td width="132" style="border-left-style: solid; border-left-width: 1; border-right-color: #111111; border-right-width: 1; border-top-color: #111111; border-top-width: 1" height="26" rowspan="2">' + ls_13
+ls_html = ls_html + '    <p align="center"><font face="Arial Narrow" style="font-size: 8pt"><b>' 
+If ls_merdes = 'E' Then
+	ls_html = ls_html + '     FACTURA COMERCIAL PARA EXPORTACION</b></font></td>' + ls_13
+Else
+	ls_html = ls_html + '     FACTURA COMERCIAL PARA MDO.NACIONAL</b></font></td>' + ls_13
+End If
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="413" colspan="4" height="10" style="border-style: none; border-width: medium" >' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">' + ls_dircia  
+ls_html = ls_html + '    </font></td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="413" colspan="4" height="9" style="border-style: none; border-width: medium" >' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">' + ls_ciudad + '</font></td>' + ls_13
+ls_html = ls_html + '    <td width="132" style="border-left-style: solid; border-left-width: 1; border-right-color: #111111; border-right-width: 1" height="30" rowspan="2">' + ls_13
+ls_html = ls_html + '    <p align="center">' + ls_13
+ls_html = ls_html + '     <font face="Arial Narrow" style="font-size: 12pt; font-weight: 700">' + ls_numfac + '</font></td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="366" height="19" colspan="4" style="border-style: none; border-width: medium" >' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt"><b>RFC: ' + ls_rfccia +'</b></font></td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="104" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">DISTRIBUIDO POR:</font></td>' + ls_13
+ls_html = ls_html + '    <td width="442" colspan="2" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">'+ls_nomdis+'</font></td>' + ls_13
+ls_html = ls_html + '    <td width="20" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    </td>' + ls_13
+ls_html = ls_html + '    <td width="85" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium" height="18" colspan="3">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">FECHA:</font></td>' + ls_13
+ls_html = ls_html + '    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">' + ls_fecdoc + '</font></td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="19">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">DOMICILIO:</font></td>' + ls_13
+ls_html = ls_html + '    <td width="442" colspan="2" height="19" style="border-style: none; border-width: medium">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">'+ ls_dirdis +'</font></td>' + ls_13
+ls_html = ls_html + '    <td width="20" height="19" style="border-style: none; border-width: medium">&nbsp;</td>' + ls_13
+ls_html = ls_html + '    <td width="85" height="19" style="border-style: none; border-width: medium" colspan="3">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">TELEFONO:</font></td>' + ls_13
+ls_html = ls_html + '    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="19">&nbsp;</td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="21">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">LOCALIDAD:</font></td>' + ls_13
+ls_html = ls_html + '    <td width="442" colspan="2" height="21" style="border-style: none; border-width: medium">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">'+ ls_locdis +'</font></td>' + ls_13
+ls_html = ls_html + '    <td width="20" height="21" style="border-style: none; border-width: medium">&nbsp;</td>' + ls_13
+ls_html = ls_html + '    <td width="85" height="21" style="border-style: none; border-width: medium" colspan="3">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">MANIFIESTO:</font></td>' + ls_13
+ls_html = ls_html + '    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="21">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">' + as_man + '</font></td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="104" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="19">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">AGENCIA ADUANAL:</font></td>' + ls_13
+ls_html = ls_html + '    <td width="232" height="19" style="border-style: none; border-width: medium">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">'+ ls_ageadu + '</font></td>' + ls_13
+ls_html = ls_html + '    <td width="210" style="border-style: none; border-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    </td>' + ls_13
+ls_html = ls_html + '    <td width="20" style="border-style: none; border-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    </td>' + ls_13
+ls_html = ls_html + '    <td width="85" height="19" style="border-style: none; border-width: medium" colspan="3">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">VIAJE:</font></td>' + ls_13
+ls_html = ls_html + '    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="19">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">' + ls_numvia + '</font></td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">CONDUCTOR:</font></td>' + ls_13
+ls_html = ls_html + '    <td width="232" style="border-style: none; border-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">'+ ls_chofer +'</font></td>' + ls_13
+ls_html = ls_html + '    <td width="233" colspan="2" style="border-style: none; border-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">CAMION: ' + ls_camion +'</font></td>' + ls_13
+ls_html = ls_html + '    <td width="85" style="border-style: none; border-width: medium" height="18" colspan="3">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">PLACAS: </font></td>' + ls_13
+ls_html = ls_html + '    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">' + ls_numpla +'</font></td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="48" style="border-left: 1px solid #111111; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    </td>' + ls_13
+ls_html = ls_html + '    <td width="232" style="border-style: none; border-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    </td>' + ls_13
+ls_html = ls_html + '    <td width="233" colspan="2" style="border-style: none; border-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    </td>' + ls_13
+ls_html = ls_html + '    <td width="85" style="border-style: none; border-width: medium" height="18" colspan="3">' + ls_13
+ls_html = ls_html + '    </td>' + ls_13
+ls_html = ls_html + '    <td width="132" style="border-left-style: none; border-left-width: medium; border-right: 1px solid #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium" height="18">' + ls_13
+ls_html = ls_html + '    </td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '</table>' + ls_13
+ls_html = ls_html + '<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-left-width: 0; border-right-width: 0; border-bottom-width: 0" bordercolor="#111111" id="AutoNumber1" width="736">' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="66" align="center" style="border-left-color: #111111; border-left-width: 1">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">CANT.</font></td>' + ls_13
+ls_html = ls_html + '    <td width="56" align="center">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">UNIDAD</font></td>' + ls_13
+ls_html = ls_html + '    <td width="526" align="center" colspan="2" style="border-right-style: solid; border-right-width: 1; border-bottom-style: solid; border-bottom-width: 1">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">DESCRIPCION</font></td>' + ls_13
+ls_html = ls_html + '    <td width="77" align="center" style="border-left-style: solid; border-left-width: 1">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">P. UNITARIO</font></td>' + ls_13
+ls_html = ls_html + '    <td width="82" align="center" style="border-right-color: #111111; border-right-width: 1">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">TOTAL</font></td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+
+For i = 1 To 12//lds_rpt.RowCount( )
+	If i <= lds_rpt.RowCount( ) Then
+		ls_can = f_Trim( String( lds_rpt.Object.n_bulxpa_pal[ i], '###,###' ) )
+		ls_uni = f_Trim( lds_rpt.Object.t_palet_c_codigo_pro[ i] ) + ' ' + &
+					f_Trim( lds_rpt.Object.t_palet_c_codigo_eti[ i] )
+		ls_des = f_Trim( lds_rpt.Object.v_nombre_pro[ i] ) + ' ' + &
+					f_Trim( lds_rpt.Object.v_nombre_eti[ i] ) + ' ' + &
+					f_Trim( lds_rpt.Object.v_nombre_env[ i] )
+		If ls_merdes = 'E' Then
+			ls_pre = f_Trim( String( lds_rpt.Object.n_precme_pal[ i], '###,###.00' ) )
+			ls_sub = f_Trim( String( lds_rpt.Object.n_importeme_pal[ i], '###,###.00' ) )
+		Else
+			ls_pre = f_Trim( String( lds_rpt.Object.n_precmn_pal[ i], '###,###.00' ) )
+			ls_sub = f_Trim( String( lds_rpt.Object.n_importemn_pal[ i], '###,###.00' ) )
+		End If
+	Else
+		ls_can = '.' ; ls_uni = '.' ; ls_des = '.' ; ls_pre = '.' ; ls_sub = '.'
+	End If
+	
+	ls_html = ls_html + '    <td width="66" style="border-left-color: #111111; border-left-width: 1; border-bottom-style: solid; border-bottom-width: 1">' + ls_13
+	ls_html = ls_html + '    <p align="right"><font face="Arial Narrow" style="font-size: 8pt">' + ls_can +'</font></td>' + ls_13
+	ls_html = ls_html + '    <td width="56" style="border-bottom-style: none; border-bottom-width: medium">' + ls_13
+	ls_html = ls_html + '    <p align="center"><font face="Arial Narrow" style="font-size: 8pt">' + ls_uni + '</font></td>' + ls_13
+	ls_html = ls_html + '    <td width="526" colspan="2" style="border-left-style: solid; border-left-width: 1; border-bottom-style: none; border-bottom-width: medium">' + ls_13
+	ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">' + ls_des + '</font></td>' + ls_13
+	ls_html = ls_html + '    <td width="77" style="border-left-style: solid; border-left-width: 1; border-bottom-style: none; border-bottom-width: medium">' + ls_13
+	ls_html = ls_html + '    <p align="right"><font face="Arial Narrow" style="font-size: 8pt">' + ls_pre +'</font></td>' + ls_13
+	ls_html = ls_html + '    <td width="82" style="border-right-color: #111111; border-right-width: 1; border-bottom-style: none; border-bottom-width: medium">' + ls_13
+	ls_html = ls_html + '    <p align="right"><font face="Arial Narrow" style="font-size: 8pt">' + ls_sub +'</font></td>' + ls_13
+	ls_html = ls_html + '  </tr>' + ls_13
+	ls_html = ls_html + '  <tr>' + ls_13
+Next
+
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="67" style="border-left: medium none #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>' + ls_13
+ls_html = ls_html + '    <td width="662" colspan="4" style="border-left-style: solid; border-left-width: 1; border-right-style: none; border-right-width: medium; border-bottom-style: none; border-bottom-width: medium">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 8pt">IMPORTE CON LETRA</font></td>' + ls_13
+ls_html = ls_html + '    <td width="82" style="border-left-style: none; border-left-width: medium; border-right-style: solid; border-right-width: 1; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="66" style="border-left: medium none #111111; border-top-style: none; border-top-width: medium; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>' + ls_13
+ls_html = ls_html + '    <td width="661" colspan="4" style="border-left-style: solid; border-left-width: 1; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium">' + ls_13
+ls_html = ls_html + '    <font face="Arial Narrow" style="font-size: 7pt; font-weight: 700">' + ls_implet + '</font></td>' + ls_13
+ls_html = ls_html + '    <td width="82" style="border-left-style: none; border-left-width: medium; border-right-style: solid; border-right-width: 1; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1">&nbsp;</td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '  <tr>' + ls_13
+ls_html = ls_html + '    <td width="66" style="border-style: none; border-width: medium">&nbsp;</td>' + ls_13
+ls_html = ls_html + '    <td width="174" colspan="2" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>' + ls_13
+ls_html = ls_html + '    <td width="408" style="border-left-style: none; border-left-width: medium; border-top-style: solid; border-top-width: 1; border-bottom-style: none; border-bottom-width: medium">&nbsp;</td>' + ls_13
+ls_html = ls_html + '    <td width="77" style="border-left-style: solid; border-left-width: 1; border-top-style: solid; border-top-width: 1; border-bottom-color: #111111; border-bottom-width: 1">' + ls_13
+ls_html = ls_html + '    <p align="center"><B><font face="Arial Narrow" style="font-size: 8pt">TOTAL</font></B></td>' + ls_13
+ls_html = ls_html + '    <td width="82" style="border-right-color: #111111; border-right-width: 1; border-bottom-color: #111111; border-bottom-width: 1">' + ls_13
+ls_html = ls_html + '    <p align="right"><font face="Arial Narrow" style="font-size: 8pt">' + ls_import + '</font></td>' + ls_13
+ls_html = ls_html + '  </tr>' + ls_13
+ls_html = ls_html + '</table>' + ls_13
+ls_html = ls_html + '</body>' + ls_13
+ls_html = ls_html + '</html>' 
+
+
+Destroy lds_rpt
+
+integer li_FileNum
+
+li_FileNum = FileOpen("factura.html", StreamMode!, Write!, LockWrite!, Replace!)
+
+FileWrite(li_FileNum, ls_html)
+FileClose(li_FileNum)
+
+MessageBox( 'HTML', 'Documento de factura generado en formato HTML.' )
+
+end subroutine
+

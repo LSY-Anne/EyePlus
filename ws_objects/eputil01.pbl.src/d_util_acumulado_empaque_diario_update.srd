@@ -1,0 +1,104 @@
+﻿$PBExportHeader$d_util_acumulado_empaque_diario_update.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=c_codigo_tem dbname="t_acumulado_empaque_diario.c_codigo_tem" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=c_codigo_pro dbname="t_acumulado_empaque_diario.c_codigo_pro" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_cul dbname="t_acumulado_empaque_diario.c_codigo_cul" )
+ column=(type=char(1) update=yes updatewhereclause=yes key=yes name=c_merdes_aed dbname="t_acumulado_empaque_diario.c_merdes_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_bulemp_aed dbname="t_acumulado_empaque_diario.n_bulemp_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_pesbul_aed dbname="t_acumulado_empaque_diario.n_pesbul_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_pestot_aed dbname="t_acumulado_empaque_diario.n_pestot_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_coscor_aed dbname="t_acumulado_empaque_diario.n_coscor_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosaca_aed dbname="t_acumulado_empaque_diario.n_cosaca_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosmao_aed dbname="t_acumulado_empaque_diario.n_cosmao_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_costot_aed dbname="t_acumulado_empaque_diario.n_costot_aed" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_acumulado_empaque_diario.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion_aed dbname="t_acumulado_empaque_diario.d_creacion_aed" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod_aed dbname="t_acumulado_empaque_diario.c_usumod_aed" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi_aed dbname="t_acumulado_empaque_diario.d_modifi_aed" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo_aed dbname="t_acumulado_empaque_diario.c_activo_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_porcen_aed dbname="t_acumulado_empaque_diario.n_porcen_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosumn_aed dbname="t_acumulado_empaque_diario.n_cosumn_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosume_aed dbname="t_acumulado_empaque_diario.n_cosume_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_porpro_aed dbname="t_acumulado_empaque_diario.n_porpro_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosmat_aed dbname="t_acumulado_empaque_diario.n_cosmat_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_cosgas_aed dbname="t_acumulado_empaque_diario.n_cosgas_aed" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_costotme_aed dbname="t_acumulado_empaque_diario.n_costotme_aed" )
+ retrieve="  SELECT t_acumulado_empaque_diario.c_codigo_tem,   
+         t_acumulado_empaque_diario.c_codigo_pro,   
+         t_acumulado_empaque_diario.c_codigo_cul,   
+         t_acumulado_empaque_diario.c_merdes_aed,   
+         t_acumulado_empaque_diario.n_bulemp_aed,   
+         t_acumulado_empaque_diario.n_pesbul_aed,   
+         t_acumulado_empaque_diario.n_pestot_aed,   
+         t_acumulado_empaque_diario.n_coscor_aed,   
+         t_acumulado_empaque_diario.n_cosaca_aed,   
+         t_acumulado_empaque_diario.n_cosmao_aed,   
+         t_acumulado_empaque_diario.n_costot_aed,   
+         t_acumulado_empaque_diario.c_codigo_usu,   
+         t_acumulado_empaque_diario.d_creacion_aed,   
+         t_acumulado_empaque_diario.c_usumod_aed,   
+         t_acumulado_empaque_diario.d_modifi_aed,   
+         t_acumulado_empaque_diario.c_activo_aed,   
+         t_acumulado_empaque_diario.n_porcen_aed,   
+         t_acumulado_empaque_diario.n_cosumn_aed,   
+         t_acumulado_empaque_diario.n_cosume_aed,   
+         t_acumulado_empaque_diario.n_porpro_aed,   
+         t_acumulado_empaque_diario.n_cosmat_aed,   
+         t_acumulado_empaque_diario.n_cosgas_aed,   
+         t_acumulado_empaque_diario.n_costotme_aed  
+    FROM t_acumulado_empaque_diario  
+   WHERE t_acumulado_empaque_diario.c_codigo_tem = :as_tem
+	AND   t_acumulado_empaque_diario.c_activo_aed = '1'    
+" update="t_acumulado_empaque_diario" updatewhere=0 updatekeyinplace=yes arguments=(("as_tem", string)) )
+text(band=header alignment="2" text="C Codigo Tem"border="0" color="0" x="9" y="8" height="52" width="306"  name=c_codigo_tem_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Codigo Pro"border="0" color="0" x="325" y="8" height="52" width="283"  name=c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Codigo Cul"border="0" color="0" x="617" y="8" height="52" width="279"  name=c_codigo_cul_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Merdes Aed"border="0" color="0" x="905" y="8" height="52" width="306"  name=c_merdes_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Bulemp Aed"border="0" color="0" x="1221" y="8" height="52" width="311"  name=n_bulemp_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Pesbul Aed"border="0" color="0" x="1541" y="8" height="52" width="297"  name=n_pesbul_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Pestot Aed"border="0" color="0" x="1847" y="8" height="52" width="288"  name=n_pestot_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Coscor Aed"border="0" color="0" x="2144" y="8" height="52" width="302"  name=n_coscor_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Cosaca Aed"border="0" color="0" x="2455" y="8" height="52" width="315"  name=n_cosaca_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Cosmao Aed"border="0" color="0" x="2779" y="8" height="52" width="325"  name=n_cosmao_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N Costot Aed"border="0" color="0" x="3113" y="8" height="52" width="288"  name=n_costot_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Codigo Usu"border="0" color="0" x="3410" y="8" height="52" width="480"  name=c_codigo_usu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="D Creacion Aed"border="0" color="0" x="3899" y="8" height="52" width="343"  name=d_creacion_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Usumod Aed"border="0" color="0" x="4251" y="8" height="52" width="480"  name=c_usumod_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="D Modifi Aed"border="0" color="0" x="4741" y="8" height="52" width="279"  name=d_modifi_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Activo Aed"border="0" color="0" x="5029" y="8" height="52" width="283"  name=c_activo_aed_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="N Porcen Aed"border="0" color="0" x="5321" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="N Cosumn Aed"border="0" color="0" x="6309" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="N Cosume Aed"border="0" color="0" x="7296" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="N Porpro Aed"border="0" color="0" x="8283" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="N Cosmat Aed"border="0" color="0" x="9271" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="N Cosgas Aed"border="0" color="0" x="10258" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="N Costotme Aed"border="0" color="0" x="11246" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="9" y="8" height="64" width="306" format="[general]"  name=c_codigo_tem edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="325" y="8" height="64" width="283" format="[general]"  name=c_codigo_pro edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="617" y="8" height="64" width="279" format="[general]"  name=c_codigo_cul edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="905" y="8" height="64" width="306" format="[general]"  name=c_merdes_aed edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="0" x="1221" y="8" height="64" width="311" format="[general]"  name=n_bulemp_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="1541" y="8" height="64" width="297" format="[general]"  name=n_pesbul_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="1847" y="8" height="64" width="288" format="[general]"  name=n_pestot_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="0" x="2144" y="8" height="64" width="302" format="[general]"  name=n_coscor_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=90 border="0" color="0" x="2455" y="8" height="64" width="315" format="[general]"  name=n_cosaca_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=100 border="0" color="0" x="2779" y="8" height="64" width="325" format="[general]"  name=n_cosmao_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=110 border="0" color="0" x="3113" y="8" height="64" width="288" format="[general]"  name=n_costot_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=120 border="0" color="0" x="3410" y="8" height="64" width="480" format="[general]"  name=c_codigo_usu edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=130 border="0" color="0" x="3899" y="8" height="64" width="343" format="[general]"  name=d_creacion_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=140 border="0" color="0" x="4251" y="8" height="64" width="480" format="[general]"  name=c_usumod_aed edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=150 border="0" color="0" x="4741" y="8" height="64" width="279" format="[general]"  name=d_modifi_aed edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=160 border="0" color="0" x="5029" y="8" height="64" width="283" format="[general]"  name=c_activo_aed edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="5321" y="0" height="52" width="978" format="[general]"  name=n_porcen_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="6309" y="0" height="52" width="978" format="[general]"  name=n_cosumn_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="7296" y="0" height="52" width="978" format="[general]"  name=n_cosume_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="8283" y="0" height="52" width="978" format="[general]"  name=n_porpro_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="9271" y="0" height="52" width="978" format="[general]"  name=n_cosmat_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="0" x="10258" y="0" height="52" width="978" format="[general]"  name=n_cosgas_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="11246" y="0" height="52" width="978" format="[general]"  name=n_costotme_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

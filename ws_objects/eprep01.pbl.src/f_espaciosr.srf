@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_espaciosr.srf
+global type f_espaciosr from function_object
+end type
+
+forward prototypes
+global function string f_espaciosr (string as_cad, integer n_num)
+end prototypes
+
+global function string f_espaciosr (string as_cad, integer n_num);String ls_aux
+as_cad=f_trim(as_cad)
+
+ls_aux=right(space(n_num)+as_cad,n_num)
+
+Return ls_aux
+end function
+

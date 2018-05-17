@@ -1,0 +1,113 @@
+﻿$PBExportHeader$d_mant_distribuidor_edit.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1316 color="536870912" )
+table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=c_codigo_dis dbname="t_distribuidor.c_codigo_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_nomcom_dis dbname="t_distribuidor.v_nomcom_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=c_rfc_dis dbname="t_distribuidor.c_rfc_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_direcc_dis dbname="t_distribuidor.v_direcc_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_ciudad_dis dbname="t_distribuidor.v_ciudad_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=v_apapos_dis dbname="t_distribuidor.v_apapos_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=v_codpos_dis dbname="t_distribuidor.v_codpos_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=v_telef1_dis dbname="t_distribuidor.v_telef1_dis" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=v_telef2_dis dbname="t_distribuidor.v_telef2_dis" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=v_ptoemb_dis dbname="t_distribuidor.v_ptoemb_dis" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_distribuidor.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion dbname="t_distribuidor.d_creacion_dis" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod dbname="t_distribuidor.c_usumod_dis" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi dbname="t_distribuidor.d_modifi_dis" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo dbname="t_distribuidor.c_activo_dis" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=c_claveasoc_dis dbname="t_distribuidor.c_claveasoc_dis" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=c_ctacliente_dis dbname="c_ctacliente_dis" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=c_ctaclienteme_dis dbname="c_ctaclienteme_dis" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=c_ctaacredor_dis dbname="c_ctaacredor_dis" )
+ column=(type=char(14) update=yes updatewhereclause=yes name=c_ctaacredorme_dis dbname="c_ctaacredorme_dis" )
+ column=(type=char(100) updatewhereclause=yes name=nomcli dbname="nomcli" )
+ column=(type=char(100) updatewhereclause=yes name=nomclime dbname="nomclime" )
+ column=(type=char(100) updatewhereclause=yes name=nomacre dbname="nomacre" )
+ column=(type=char(100) updatewhereclause=yes name=nomacreme dbname="nomacreme" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_tipo_dis dbname="c_tipo_dis" values="Si	S/No	N/" )
+ retrieve="  SELECT t_distribuidor.c_codigo_dis,   
+         t_distribuidor.v_nombre_dis,   
+         t_distribuidor.v_nomcom_dis,   
+         t_distribuidor.c_rfc_dis,   
+         t_distribuidor.v_direcc_dis,   
+         t_distribuidor.v_ciudad_dis,   
+         t_distribuidor.v_apapos_dis,   
+         t_distribuidor.v_codpos_dis,   
+         t_distribuidor.v_telef1_dis,   
+         t_distribuidor.v_telef2_dis,   
+         t_distribuidor.v_ptoemb_dis,   
+         t_distribuidor.c_codigo_usu,   
+         t_distribuidor.d_creacion_dis,   
+         t_distribuidor.c_usumod_dis,   
+         t_distribuidor.d_modifi_dis,   
+         t_distribuidor.c_activo_dis,   
+         t_distribuidor.c_claveasoc_dis,
+			c_ctacliente_dis = t_distribuidor.c_ctacliente_dis,
+			c_ctaclienteme_dis = t_distribuidor.c_ctaclienteme_dis,
+ 			c_ctaacredor_dis = t_distribuidor.c_ctaacredor_dis,
+ 			c_ctaacredorme_dis = t_distribuidor.c_ctaacredorme_dis,
+			nomcli = (select v_nombre_cta From concuenta(nolock) where c_codigo_cta = t_distribuidor.c_ctacliente_dis
+										And v_ejercicio_cta = (Select year(v_Valor_par) from t_parametro(nolock) where c_Codigo_par = '020')),
+
+			nomclime = (select v_nombre_cta From concuenta(nolock) where c_codigo_cta = t_distribuidor.c_ctaclienteme_dis
+										And v_ejercicio_cta = (Select year(v_Valor_par) from t_parametro(nolock) where c_Codigo_par = '020')),
+
+			nomacre = (select v_nombre_cta From concuenta(nolock) where c_codigo_cta = t_distribuidor.c_ctaacredor_dis
+										And v_ejercicio_cta = (Select year(v_Valor_par) from t_parametro(nolock) where c_Codigo_par = '020')),
+
+			nomacreme = (select v_nombre_cta From concuenta(nolock) where c_codigo_cta = t_distribuidor.c_ctaacredorme_dis
+										And v_ejercicio_cta = (Select year(v_Valor_par) from t_parametro(nolock) where c_Codigo_par = '020')),
+			c_tipo_dis = t_distribuidor.c_tipo_dis   
+    FROM t_distribuidor (nolock)
+   WHERE t_distribuidor.c_codigo_dis = :as_cod    
+" update="t_distribuidor" updatewhere=0 updatekeyinplace=yes arguments=(("as_cod", string)) )
+text(band=detail alignment="0" text="Código:"border="0" color="33554432" x="41" y="48" height="52" width="439"  name=c_codigo_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Distribuidor:"border="0" color="33554432" x="1509" y="48" height="52" width="251"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=20 border="0" color="33554432" x="1778" y="48" height="60" width="201" format="[general]"  name=c_tipo_dis ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.useasborder=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="5" color="33554432" x="507" y="48" height="64" width="238" format="[general]"  name=c_codigo_dis edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=4 alignment="0" tabsequence=60 border="5" color="33554432" x="1490" y="324" height="64" width="489" format="[general]"  name=c_rfc_dis edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=8 alignment="0" tabsequence=100 border="5" color="33554432" x="1490" y="600" height="64" width="489" format="[general]"  name=v_codpos_dis edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=10 alignment="0" tabsequence=120 border="5" color="33554432" x="1490" y="692" height="64" width="489" format="[general]"  name=v_telef2_dis edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=2 alignment="0" tabsequence=30 border="5" color="33554432" x="507" y="140" height="64" width="1472" format="[general]"  name=v_nombre_dis edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=3 alignment="0" tabsequence=40 border="5" color="33554432" x="507" y="232" height="64" width="1472" format="[general]"  name=v_nomcom_dis edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=17 alignment="0" tabsequence=50 border="5" color="33554432" x="512" y="324" height="52" width="507" format="[general]"  name=c_claveasoc_dis edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=5 alignment="0" tabsequence=70 border="5" color="33554432" x="507" y="416" height="64" width="1472" format="[general]"  name=v_direcc_dis edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=11 alignment="0" tabsequence=130 border="5" color="33554432" x="507" y="784" height="64" width="1472" format="[general]"  name=v_ptoemb_dis edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=6 alignment="0" tabsequence=80 border="5" color="33554432" x="507" y="508" height="64" width="1472" format="[general]"  name=v_ciudad_dis edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=7 alignment="0" tabsequence=90 border="5" color="33554432" x="507" y="600" height="64" width="489" format="[general]"  name=v_apapos_dis edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=9 alignment="0" tabsequence=110 border="5" color="33554432" x="507" y="692" height="64" width="489" format="[general]"  name=v_telef1_dis edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Nombre:"border="0" color="33554432" x="41" y="140" height="52" width="439"  name=v_nombre_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Nombre Comercial:"border="0" color="33554432" x="41" y="232" height="52" width="439"  name=v_nomcom_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Dirección:"border="0" color="33554432" x="41" y="416" height="52" width="439"  name=v_direcc_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Ciudad:"border="0" color="33554432" x="41" y="508" height="52" width="439"  name=v_ciudad_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Punto de Embarque:"border="0" color="33554432" x="41" y="784" height="52" width="439"  name=v_ptoemb_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Clave Asociación:"border="0" color="33554432" x="41" y="324" height="52" width="416"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="R.F.C.:"border="0" color="33554432" x="1106" y="324" height="52" width="439"  name=c_rfc_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Apartado Postal:"border="0" color="33554432" x="41" y="600" height="52" width="439"  name=v_apapos_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Código Postal:"border="0" color="33554432" x="1106" y="600" height="52" width="352"  name=v_codpos_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Teléfono 1:"border="0" color="33554432" x="41" y="692" height="52" width="439"  name=v_telef1_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Teléfono 2:"border="0" color="33554432" x="1106" y="692" height="52" width="352"  name=v_telef2_emb_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+button(band=detail text="..."filename=""action="0" border="0" color="33554432" x="882" y="940" height="80" width="96" vtextalign="0" htextalign="0"  name=cb_cli  tag="Buscar Cta. de Cliente MN"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15790320" )
+text(band=detail alignment="0" text="Cliente MN:"border="0" color="33554432" x="46" y="940" height="52" width="343"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="32" y1="884" x2="1975" y2="884" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Cuentas"border="0" color="33554432" x="41" y="860" height="52" width="242"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="82899184" )
+column(band=detail id=18 alignment="0" tabsequence=140 border="5" color="33554432" x="512" y="940" height="64" width="347" format="[general]"  name=c_ctacliente_dis edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=19 alignment="0" tabsequence=150 border="5" color="33554432" x="512" y="1032" height="64" width="347" format="[general]"  name=c_ctaclienteme_dis edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="5" color="33554432" x="1010" y="940" height="64" width="974" format="[general]"  name=nomcli edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="5" color="33554432" x="1010" y="1036" height="64" width="974" format="[general]"  name=nomclime edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Acreedor Div. MN:"border="0" color="33554432" x="41" y="1128" height="52" width="402"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=20 alignment="0" tabsequence=160 border="5" color="33554432" x="512" y="1128" height="64" width="347" format="[general]"  name=c_ctaacredor_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+button(band=detail text="..."filename=""action="0" border="0" color="33554432" x="882" y="1128" height="80" width="96" vtextalign="0" htextalign="0"  name=cb_acre  tag="Buscar Cta. de Acreedor Div.MN"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15790320" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="5" color="33554432" x="1010" y="1128" height="64" width="974" format="[general]"  name=nomacre edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=21 alignment="0" tabsequence=170 border="5" color="33554432" x="512" y="1224" height="64" width="347" format="[general]"  name=c_ctaacredorme_dis edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="5" color="33554432" x="1010" y="1224" height="64" width="974" format="[general]"  name=nomacreme edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Cliente ME:"border="0" color="33554432" x="46" y="1028" height="52" width="338"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Acreedor Div. ME:"border="0" color="33554432" x="41" y="1224" height="52" width="407"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+button(band=detail text="..."filename=""action="0" border="0" color="33554432" x="882" y="1032" height="80" width="96" vtextalign="0" htextalign="0"  name=cb_cli2  tag="Buscar Cta. de Cliente ME"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15790320" )
+button(band=detail text="..."filename=""action="0" border="0" color="33554432" x="882" y="1216" height="80" width="96" vtextalign="0" htextalign="0"  name=cb_acre2  tag="Buscar Cta. de Acreedor Div. ME"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15790320" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

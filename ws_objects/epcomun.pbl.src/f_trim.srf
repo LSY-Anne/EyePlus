@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_trim.srf
+global type f_trim from function_object
+end type
+
+forward prototypes
+global function string f_trim (string as_data)
+end prototypes
+
+global function string f_trim (string as_data);/* 
+	Limpia de espacios o null a un dato tipo string 
+	f_trim( as_data )
+
+*/
+
+as_data = Trim( as_data )
+If IsNull( as_data ) Then as_data = ''
+
+Return as_data
+end function
+

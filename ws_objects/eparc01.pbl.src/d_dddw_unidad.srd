@@ -1,0 +1,14 @@
+﻿$PBExportHeader$d_dddw_unidad.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=c_codigo_uni dbname="invunidad.c_codigo_uni" )
+ column=(type=char(10) updatewhereclause=yes name=v_abrevia_uni dbname="invunidad.v_abrevia_uni" )
+ retrieve="  SELECT invunidad.c_codigo_uni,   
+         invunidad.v_abrevia_uni  
+    FROM invunidad   (Nolock)
+" update="invunidad" updatewhere=1 updatekeyinplace=no )
+column(band=detail id=2 alignment="0" tabsequence=0 border="0" color="33554432" x="0" y="0" height="56" width="507"  name=v_abrevia_uni  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

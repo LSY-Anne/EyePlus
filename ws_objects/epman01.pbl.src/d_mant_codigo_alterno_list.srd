@@ -1,0 +1,58 @@
+﻿$PBExportHeader$d_mant_codigo_alterno_list.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=68 color="81324524" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_alt dbname="t_codigo_alterno.c_codigo_alt" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_alt dbname="t_codigo_alterno.v_nombre_alt" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_pro dbname="t_codigo_alterno.c_codigo_pro" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=c_codigo_dis dbname="t_codigo_alterno.c_codigo_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_codigo_alterno.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion_alt dbname="t_codigo_alterno.d_creacion_alt" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod_alt dbname="t_codigo_alterno.c_usumod_alt" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi_alt dbname="t_codigo_alterno.d_modifi_alt" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo dbname="t_codigo_alterno.c_activo_alt" )
+ column=(type=char(30) updatewhereclause=yes name=c_codigo dbname="c_codigo" )
+ retrieve="  SELECT t_codigo_alterno.c_codigo_alt,   
+         t_codigo_alterno.v_nombre_alt,   
+         t_codigo_alterno.c_codigo_pro,   
+         t_producto.v_nombre_pro,   
+         t_codigo_alterno.c_codigo_dis,   
+         t_distribuidor.v_nombre_dis,   
+         t_codigo_alterno.c_codigo_usu,   
+         t_codigo_alterno.d_creacion_alt,   
+         t_codigo_alterno.c_usumod_alt,   
+         t_codigo_alterno.d_modifi_alt,   
+         t_codigo_alterno.c_activo_alt,   
+         t_distribuidor.c_codigo_dis + t_producto.c_codigo_pro + c_codigo_alt As c_codigo  
+    FROM t_codigo_alterno,   
+         t_producto,   
+         t_distribuidor  
+   WHERE ( t_producto.c_codigo_pro = t_codigo_alterno.c_codigo_pro ) and  
+         ( t_distribuidor.c_codigo_dis = t_codigo_alterno.c_codigo_dis )    
+"  sort="c_codigo_dis A c_codigo_pro A c_codigo_alt A " )
+text(band=header alignment="2" text="Activo"border="6" color="33554432" x="9" y="4" height="56" width="160"  name=c_activo_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Distribuidor"border="6" color="33554432" x="178" y="4" height="56" width="1111"  name=v_nombre_dis_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Cód. Prod."border="6" color="33554432" x="1298" y="4" height="56" width="251"  name=c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Producto"border="6" color="33554432" x="1559" y="4" height="56" width="905"  name=v_nombre_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Código Alterno"border="6" color="33554432" x="2473" y="4" height="56" width="475"  name=c_codigo_alt_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Nombre Según Distribuidor"border="6" color="33554432" x="2958" y="4" height="56" width="965"  name=v_nombre_alt_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Usuario Creador"border="6" color="33554432" x="3931" y="4" height="56" width="507"  name=c_codigo_usu_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Fecha"border="6" color="33554432" x="4448" y="4" height="56" width="334"  name=d_creacion_alt_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Modificador"border="6" color="33554432" x="4791" y="4" height="56" width="517"  name=c_usumod_alt_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text=" Fecha"border="6" color="33554432" x="5317" y="4" height="56" width="329"  name=d_modifi_alt_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="2473" y="4" height="52" width="475" format="[general]"  name=c_codigo_alt edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="1298" y="4" height="52" width="251" format="[general]"  name=c_codigo_pro edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="1559" y="4" height="52" width="905" format="[general]"  name=v_nombre_pro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="178" y="4" height="52" width="1111" format="[general]"  name=v_nombre_dis edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="3931" y="4" height="52" width="507" format="[general]"  name=c_codigo_usu edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="4448" y="4" height="52" width="334" format="dd/mm/yyyy"  name=d_creacion_alt edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="4791" y="4" height="52" width="517" format="[general]"  name=c_usumod_alt edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="5317" y="4" height="52" width="329" format="dd/mm/yyyy"  name=d_modifi_alt edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="2" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="52" width="160" format="[general]"  name=c_activo edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Wingdings" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="2" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="2958" y="4" height="52" width="965" format="[general]"  name=v_nombre_alt edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_usuario.srf
+global type f_usuario from function_object
+end type
+
+forward prototypes
+global function string f_usuario ()
+end prototypes
+
+global function string f_usuario ();Return gs_usuario
+end function
+

@@ -1,0 +1,60 @@
+﻿$PBExportHeader$d_rpt_tabla_empaque_x_producto.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=96 color="536870912" )
+summary(height=112 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="t_producto.c_codigo_pro" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_pro dbname="t_producto.c_merdes_pro" )
+ column=(type=decimal(2) updatewhereclause=yes name=totalbultos dbname="TotalButos" )
+ retrieve="  SELECT t_producto.c_codigo_pro,   
+         t_producto.v_nombre_pro, 
+         t_producto.c_merdes_pro, 
+         TotalButos = Sum( t_palet.n_bulxpa_pal ) 
+         - IsNull((SELECT SUM(o.n_afecto_otm) FROM t_otro_movimiento o
+         WHERE o.d_movimi_otm = DATEADD(DAY, -1, :ad_ini)
+         AND t_producto.c_codigo_pro=o.c_codigo_pro AND o.c_tipmov_otm='S'), 0)
+         + IsNull((SELECT SUM(o.n_afecto_otm) FROM t_otro_movimiento o
+         WHERE o.d_movimi_otm = :ad_fin
+         AND t_producto.c_codigo_pro=o.c_codigo_pro AND o.c_tipmov_otm='S'), 0)
+    FROM 
+         t_palet,   
+         t_cultivo,   
+         t_producto
+   WHERE 
+         ( t_palet.c_codigo_pro = t_producto.c_codigo_pro ) and  
+         ( t_producto.c_codigo_cul = t_cultivo.c_codigo_cul ) and  
+         ( t_producto.c_codigo_cul = :as_cul ) and  
+         ( ( t_palet.c_codigo_tem = :as_tem ) AND  
+         ( t_palet.d_empaque_pal >= :ad_ini ) AND  
+         ( t_palet.d_empaque_pal <= :ad_fin ) AND  
+         ( c_activo_pal = '1' ) AND  
+         ( c_activo_pro = '1' ) AND  
+         ( c_merdes_pro = :as_mdo ) )    
+Group By t_producto.c_merdes_pro,
+         t_producto.c_codigo_pro,   
+         t_producto.v_nombre_pro,   
+         t_producto.v_nombre_pro" arguments=(("as_tem", string),("ad_ini", datetime),("ad_fin", datetime),("as_cul", string),("as_mdo", string)) )
+rectangle(band=header x="5" y="4" height="80" width="1490" brush.hatch="6" brush.color="33539782" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="% Bultos"border="0" color="0" x="1266" y="16" height="56" width="210"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33539782" )
+line(band=header x1="841" y1="4" x2="841" y2="84" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Total de Bultos"border="0" color="0" x="855" y="16" height="56" width="389"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33539782" )
+line(band=header x1="1253" y1="4" x2="1253" y2="84" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'Producto ' +  If ( as_mdo = 'N', 'Nacional', 'Extranjero' ) "border="0" color="0" x="18" y="16" height="56" width="809" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression=" c_codigo_pro + ' ' + v_nombre_pro "border="0" color="0" x="27" y="8" height="64" width="800" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="855" y="8" height="64" width="389" format="#,##0.00"  name=totalbultos edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1490" y1="0" x2="1490" y2="80" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="5" y1="0" x2="1495" y2="0" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="5" y1="0" x2="5" y2="80" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="841" y1="0" x2="841" y2="80" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="1253" y1="0" x2="1253" y2="80" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" (totalbultos * 100 ) / totalgralbultos"border="0" color="0" x="1280" y="12" height="56" width="183" format="#,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=summary x1="5" y1="0" x2="1495" y2="0" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+rectangle(band=summary x="837" y="20" height="72" width="658" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="0" )
+compute(band=summary alignment="1" expression=" sum(totalbultos for all) "border="0" color="0" x="855" y="24" height="64" width="389" format="#,##0.00"  name=totalgralbultos  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=summary x1="1253" y1="20" x2="1253" y2="88" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum( (totalbultos * 100 ) / totalgralbultos for all)"border="0" color="0" x="1280" y="28" height="56" width="183" format="#,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="' Total ' +  If ( as_mdo = 'N', 'Nacional', 'Extranjero' ) "border="2" color="0" x="9" y="24" height="64" width="827" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33539782" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

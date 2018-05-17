@@ -1,0 +1,131 @@
+﻿$PBExportHeader$f_arch_factura.srf
+global type f_arch_factura from function_object
+end type
+
+forward prototypes
+global function boolean f_arch_factura (string as_title, boolean ab_new, datawindow adw_cab, datawindow adw_list)
+end prototypes
+
+global function boolean f_arch_factura (string as_title, boolean ab_new, datawindow adw_cab, datawindow adw_list);String ls_lit, ls_fac, ls_fec, ls_ref, ls_fecpru, ls_man, ls_manpru
+Integer  i
+DateTime ld_hoy, ld_fec, ld_fecpru, ld_fecman
+dec{2} ldc_imp, ldc_iva, ldc_ret, ldc_impman
+
+ld_hoy = datetime(today())
+
+adw_cab.AcceptText()
+adw_list.AcceptText()
+
+If adw_list.RowCount() = 0 Then
+	MessageBox(as_title,'No hay detalle en el listado.',Exclamation!)
+	Return False
+End If
+
+ls_lit = f_trim(adw_cab.Object.c_codigo_lit[1])
+
+If ls_lit ='' Then
+	MessageBox(as_title,'Favor de seleccionar la linea de transporte.',Exclamation!)
+	Return False
+End If
+
+ls_fac = f_trim(adw_cab.Object.c_codigo_flt[1])
+
+If ls_fac ='' Then
+	MessageBox(as_title,'Favor de ingresar el codigo de la factura.',Exclamation!)
+	Return False
+End If
+
+ld_fec= adw_cab.object.d_fecha_flt[1]
+ls_fec= string (ld_fec,'dd/mm/yyyy')
+
+If ls_fec ='' Then
+	MessageBox(as_title,'Favor de ingresar la fecha de la factura.',Exclamation!)
+	Return False
+End If
+
+ls_ref = f_trim(adw_cab.Object.c_codref_flt[1])
+
+If ls_ref ='' Then
+	MessageBox(as_title,'Favor de ingresar la referencia de pago.',Exclamation!)
+	Return False
+End If
+
+ldc_imp = f_zero(adw_cab.Object.n_importe_flt[1])
+
+If (string(ldc_imp) ='') or (ldc_imp = 0) Then
+	MessageBox(as_title,'Favor de ingresar el importe de la factura.',Exclamation!)
+	Return False
+End If
+
+ldc_iva = f_zero(adw_cab.Object.n_iva_flt[1])
+
+If (string(ldc_iva) ='') or (ldc_iva = 0) Then
+	MessageBox(as_title,'Favor de ingresar el iva de la factura.',Exclamation!)
+	Return False
+End If
+
+ldc_ret = f_zero(adw_cab.Object.n_retencion_flt[1])
+
+If (string(ldc_ret) ='') or (ldc_ret = 0) Then
+	MessageBox(as_title,'Favor de ingresar la retencion de la factura.',Exclamation!)
+	Return False
+End If
+
+ls_fac = Trim(Right( '00000000000000' + Trim(ls_fac),14))
+
+select c_codigo_man
+into :ls_manpru
+from t_manifiesto
+where c_codigo_lit = :ls_lit
+and   c_facturaflete_man = :ls_fac
+using sqlca;
+
+If f_SqlError( SqlCa, 'No se pudo obtener informacion de la tabla t_facturalt.') < 0 Then 
+	RollBack Using SqlCa ;
+	Return False
+End If
+
+ls_manpru = f_trim(ls_manpru)
+
+if (ls_manpru <> '')  then
+	MessageBox(as_title,'La factura con el codigo: '+ls_fac+', para la Linea de Transporte: '+ls_lit+', ya han sido guardados previamente en el manifiesto: '+ls_manpru+'.',Exclamation!)
+	return false
+end if
+
+insert into t_facturalt
+(c_codigo_lit, c_codigo_flt, d_fecha_flt, n_importe_flt, c_codigo_usu, d_creacion_flt, c_usumod_flt, d_modifi_flt, c_activo_flt, c_codref_flt, n_iva_flt, n_retencion_flt)
+Values
+(:ls_lit, :ls_fac, :ld_fec, :ldc_imp, :gs_usuario, :ld_hoy, Null, Null, '1', :ls_ref, :ldc_iva, : ldc_ret )
+Using SqlCa;
+
+If f_SqlError( SqlCa, 'No se pudo actualizar la tabla t_facturalt . (Insert)' ) < 0 Then 
+	RollBack Using SqlCa ;
+	Return False
+End If
+
+//Actualizar valores de la t_manifiesto
+For i =1 to adw_list.RowCount()
+	ls_man = f_trim(adw_list.Object.c_codigo_man[i])
+	ld_fecman = adw_list.Object.d_embarque_man[i]
+	ldc_impman = f_zero(adw_list.Object.n_totalflete_man[i])
+	
+	
+	update t_manifiesto
+	set c_facturaflete_man = :ls_fac, n_totalflete_man = :ldc_impman
+	where c_codigo_man = :ls_man
+	and   d_embarque_man = :ld_fecman
+	and   c_codigo_lit = :ls_lit
+	using sqlca;
+	
+	If f_SqlError( SqlCa, 'No se pudo actualizar la tabla t_manifiesto . (update)' ) < 0 Then 
+		RollBack Using SqlCa ;
+		Return False
+	End If	
+Next
+
+Commit Using SQlCa;
+ab_new = False
+
+Return True
+end function
+

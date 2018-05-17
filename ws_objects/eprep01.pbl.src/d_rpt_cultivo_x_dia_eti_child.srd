@@ -1,0 +1,165 @@
+﻿$PBExportHeader$d_rpt_cultivo_x_dia_eti_child.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=208 color="536870912" )
+summary(height=88 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912"  height.autosize=yes)
+table(column=(type=char(2) updatewhereclause=yes name=c_codigo_tem dbname="c_codigo_tem" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_pro dbname="c_codigo_pro" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_eti dbname="c_codigo_eti" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_cul dbname="c_codigo_cul" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_pesbul_aed dbname="n_pesbul_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_bultosemp dbname="n_bultosemp" )
+ column=(type=decimal(18) updatewhereclause=yes name=n_porcul dbname="n_porcul" )
+ column=(type=decimal(18) updatewhereclause=yes name=n_pormer dbname="n_pormer" )
+ column=(type=decimal(18) updatewhereclause=yes name=n_porproeti dbname="n_porproeti" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosmat_aed dbname="n_cosmat_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosgas_aed dbname="n_cosgas_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_coscor_aed dbname="n_coscor_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosaca_aed dbname="n_cosaca_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosmao_aed dbname="n_cosmao_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_costot_aed dbname="n_costot_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosumn_aed dbname="n_cosumn_aed" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_cosume_aed dbname="n_cosume_aed" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_pro dbname="v_nombre_pro" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="v_nombre_cul" )
+ column=(type=char(30) updatewhereclause=yes name=v_nombre_tem dbname="v_nombre_tem" )
+ column=(type=char(40) updatewhereclause=yes name=v_nombre_eti dbname="v_nombre_eti" )
+ retrieve="  SELECT c_codigo_tem = p.c_codigo_tem,
+			c_codigo_pro = p.c_codigo_pro,
+			c_codigo_eti = p.c_codigo_eti,
+         c_codigo_cul = c.c_codigo_cul,
+			n_pesbul_aed = a.n_pesbul_aed, 
+         n_bultosemp =  (p.n_emphoy_acu+p.n_sobhoy_acu-p.n_sobant_acu),
+			n_porcul		=  ((p.n_emphoy_acu+p.n_sobhoy_acu-p.n_sobant_acu)/(
+					SELECT Sum(IsNull(p2.n_emphoy_acu+p2.n_sobhoy_acu-p2.n_sobant_acu,0))
+					FROM t_acumulado p2, t_producto pro2
+					WHERE c.c_codigo_cul = pro2.c_codigo_cul
+					AND p2.c_codigo_pro = pro2.c_codigo_pro)), 
+			n_pormer		=  ((p.n_emphoy_acu+p.n_sobhoy_acu-p.n_sobant_acu)/(
+					SELECT Sum(IsNull(p2.n_emphoy_acu+p2.n_sobhoy_acu-p2.n_sobant_acu,0))
+					FROM t_acumulado p2
+					WHERE p2.c_merdes_acu = p.c_merdes_acu)),
+			n_porproeti		=  ((p.n_emphoy_acu+p.n_sobhoy_acu-p.n_sobant_acu)/(
+					SELECT Sum(IsNull(p2.n_emphoy_acu+p2.n_sobhoy_acu-p2.n_sobant_acu,0))
+					FROM t_acumulado p2
+					WHERE p2.c_codigo_pro = p.c_codigo_pro)),
+ 			n_cosmat_aed = IsNull(a.n_cosmat_aed,0),   
+ 			n_cosgas_aed = IsNull(a.n_cosgas_aed,0),   
+ 			n_coscor_aed = IsNull(a.n_coscor_aed,0),   
+ 			n_cosaca_aed = IsNull(a.n_cosaca_aed,0),   
+ 			n_cosmao_aed = IsNull(a.n_cosmao_aed,0),   
+ 			n_costot_aed = IsNull(a.n_costot_aed,0),   
+ 			n_cosumn_aed = IsNull(a.n_cosumn_aed,0),   
+ 			n_cosume_aed = IsNull(a.n_cosume_aed,0),    
+
+         v_nombre_pro = pro.v_nombre_pro,   
+         v_nombre_cul = c.v_nombre_cul,   
+         v_nombre_tem = t.v_nombre_tem,   
+         v_nombre_eti = e.v_nombre_eti
+         
+    FROM t_acumulado p,
+			t_acumulado_empaque_diario a,   
+         t_producto pro,   
+         t_cultivo c,   
+         t_temporada t,   
+         t_etiqueta e 
+   WHERE 
+		   p.c_codigo_eti = e.c_codigo_eti
+	AND	p.c_codigo_pro = a.c_codigo_pro
+	AND	a.c_codigo_pro = pro.c_codigo_pro
+	AND	c.c_codigo_cul = a.c_codigo_cul
+	AND	pro.c_codigo_cul = c.c_codigo_cul
+	AND	p.c_codigo_tem = t.c_codigo_tem
+	AND 	a.c_codigo_tem = t.c_codigo_tem
+	AND   (p.n_emphoy_acu+p.n_sobhoy_acu-p.n_sobant_acu)> 0
+	AND	pro.c_activo_pro = '1'
+	AND	c.c_activo_cul = '1'
+	AND	t.c_activo_tem = '1'
+	AND	c.c_codigo_cul = :as_cul
+	AND	p.c_codigo_tem = :as_tem
+	AND   p.c_merdes_acu = :as_mer
+	AND	a.c_merdes_aed = :as_mer" arguments=(("as_tem", string),("as_cul", string),("ad_sys", datetime),("as_mer", string))  sort="c_codigo_eti A c_codigo_cul A c_codigo_pro A " )
+group(level=1 header.height=72 trailer.height=68 by=("c_codigo_eti" ) header.color="536870912" trailer.color="536870912" )
+rectangle(band=header x="0" y="88" height="120" width="4270" brush.hatch="6" brush.color="32754885" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="32754885" )
+compute(band=header alignment="0" expression="'ACUMULADO DE COSTOS DEL DIA ' + String( ad_sys, 'dd/mm/yyyy' )"border="0" color="0" x="5" y="12" height="44" width="1541" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+line(band=header x1="1010" y1="88" x2="1010" y2="208" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="224" y1="88" x2="224" y2="208" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Código Prod"border="0" color="0" x="14" y="96" height="104" width="206"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Bultos
+Empacados"border="0" color="0" x="1024" y="100" height="96" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Kgs. x
+Bulto"border="0" color="0" x="1280" y="100" height="96" width="146"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Kgs.
+Empacados"border="0" color="0" x="1458" y="100" height="96" width="229"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="%Cultivo"border="0" color="0" x="1723" y="100" height="96" width="137"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="%Mercado"border="0" color="0" x="1893" y="100" height="96" width="169"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=header x1="2903" y1="92" x2="2903" y2="208" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="1262" y1="100" x2="1262" y2="200" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="1440" y1="100" x2="1440" y2="200" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="1705" y1="96" x2="1705" y2="200" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="1874" y1="100" x2="1874" y2="200" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="2075" y1="92" x2="2075" y2="200" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="2336" y1="92" x2="2336" y2="200" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="2615" y1="96" x2="2615" y2="204" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="3182" y1="100" x2="3182" y2="200" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="3465" y1="92" x2="3465" y2="192" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="3726" y1="96" x2="3726" y2="204" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="3991" y1="96" x2="3991" y2="204" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="GastosOperativos"border="0" color="0" x="2354" y="100" height="96" width="247"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Costo Uni.
+Extranjero"border="0" color="0" x="3744" y="100" height="96" width="233"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Costo Uni.
+Nacional"border="0" color="0" x="3488" y="100" height="96" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Costo
+De Acarreo"border="0" color="0" x="2921" y="100" height="96" width="242"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Costo Mano
+De Obra"border="0" color="0" x="3205" y="100" height="96" width="247"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Costo
+Del Corte"border="0" color="0" x="2633" y="100" height="96" width="256"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Total
+Del Dia"border="0" color="0" x="4009" y="100" height="96" width="224"  name=grand_sum_n_importe_apd_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="CostoMateriales"border="0" color="0" x="2094" y="100" height="96" width="229"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Producto"border="0" color="0" x="238" y="100" height="48" width="763"  name=v_nombre_pro_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header.1 alignment="0" expression="'Eiqueta: [' +c_codigo_eti +'] '+ v_nombre_eti"border="0" color="0" x="50" y="8" height="60" width="809" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="c_codigo_pro + c_codigo_eti"border="0" color="0" x="23" y="8" height="48" width="215" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1029" y="8" height="48" width="247" format="#,##0"  name=n_bultosemp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1294" y="8" height="48" width="146" format="#,##0.00"  name=n_pesbul_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="0" color="0" x="3744" y="8" height="48" width="233" format="[general]"  name=n_cosume_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="1" tabsequence=32766 border="0" color="0" x="3488" y="8" height="48" width="224" format="[general]"  name=n_cosumn_aed edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="n_cosaca_aed * n_porproeti "border="0" color="0" x="2921" y="8" height="48" width="242" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="n_cosmao_aed * n_porproeti "border="0" color="0" x="3205" y="8" height="48" width="247" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="n_coscor_aed * n_porproeti "border="0" color="0" x="2633" y="8" height="48" width="256" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="n_cosmat_aed * n_porproeti "border="0" color="0" x="2094" y="8" height="48" width="229" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="n_cosmat_aed * n_porproeti + n_cosgas_aed * n_porproeti  +n_coscor_aed * n_porproeti +n_cosaca_aed * n_porproeti +n_cosmao_aed * n_porproeti "border="0" color="0" x="4009" y="8" height="48" width="224" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="n_cosgas_aed * n_porproeti "border="0" color="0" x="2391" y="8" height="48" width="210" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" n_bultosemp * n_pesbul_aed "border="0" color="0" x="1454" y="8" height="48" width="261" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="n_porcul"border="0" color="0" x="1733" y="8" height="48" width="155" format="0.00%"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" n_pormer "border="0" color="0" x="1915" y="8" height="48" width="146" format="0.00%"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="v_nombre_pro"border="0" color="0" x="256" y="8" height="48" width="763" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="0" expression="'TOTAL DE ETIQUETA ' + v_nombre_eti"border="0" color="0" x="233" y="12" height="48" width="754" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="955" y1="0" x2="4233" y2="0" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=summary x1="955" y1="4" x2="4233" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=summary x1="955" y1="12" x2="4233" y2="12" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(n_porcul  for group 1)"border="0" color="32768" x="1733" y="12" height="48" width="155" format="0.00%"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum( n_bultosemp * n_pesbul_aed  for group 1)"border="0" color="32768" x="1458" y="12" height="48" width="256" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum( n_bultosemp for group 1)"border="0" color="32768" x="1024" y="12" height="48" width="247" format="#,##0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(  n_pormer for group 1) "border="0" color="32768" x="1906" y="12" height="48" width="155" format="0.00%"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosmat_aed * n_porproeti  for group 1)"border="0" color="32768" x="2094" y="12" height="48" width="233" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosgas_aed * n_porproeti  for group 1)"border="0" color="32768" x="2391" y="12" height="48" width="210" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_coscor_aed for group 1)"border="0" color="32768" x="2633" y="12" height="48" width="256" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosaca_aed for group 1)"border="0" color="32768" x="2935" y="12" height="48" width="229" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosmao_aed for group 1)"border="0" color="32768" x="3205" y="12" height="48" width="247" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(n_cosmat_aed * n_porproeti + n_cosgas_aed * n_porproeti  +n_coscor_aed * n_porproeti +n_cosaca_aed * n_porproeti +n_cosmao_aed * n_porproeti  for group 1)"border="0" color="32768" x="4009" y="12" height="48" width="224" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum( n_bultosemp for all)"border="0" color="32768" x="1024" y="24" height="48" width="247" format="#,##0"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(  n_bultosemp * n_pesbul_aed  for all) "border="0" color="32768" x="1445" y="24" height="48" width="270" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(  n_porcul for all) "border="0" color="32768" x="1737" y="24" height="48" width="155" format="0.00%"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(  n_pormer  for all) "border="0" color="32768" x="1911" y="24" height="48" width="155" format="0.00%"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_cosmat_aed * n_porproeti  for all)"border="0" color="32768" x="2094" y="24" height="48" width="233" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_cosgas_aed * n_porproeti  for all)"border="0" color="32768" x="2395" y="24" height="48" width="206" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_coscor_aed * n_porproeti  for all)"border="0" color="32768" x="2633" y="24" height="48" width="256" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_cosaca_aed * n_porproeti  for all)"border="0" color="32768" x="2935" y="24" height="48" width="229" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_cosmao_aed * n_porproeti  for all)"border="0" color="32768" x="3205" y="24" height="48" width="247" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_cosmat_aed * n_porproeti + n_cosgas_aed * n_porproeti  +n_coscor_aed * n_porproeti +n_cosaca_aed * n_porproeti +n_cosmao_aed * n_porproeti  for all)"border="0" color="32768" x="4009" y="24" height="48" width="224" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,129 @@
+﻿$PBExportHeader$d_rpt_rendimiento_x_lote_anterior.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=288 color="536870912" )
+summary(height=4 color="536870912" )
+footer(height=92 color="536870912" )
+detail(height=260 color="536870912"  height.autosize=yes)
+table(column=(type=decimal(2) updatewhereclause=yes name=baldes dbname="Baldes" )
+ column=(type=decimal(4) updatewhereclause=yes name=kgsxbultos dbname="t_lote.KgsxBultos" )
+ column=(type=decimal(2) updatewhereclause=yes name=t_lote_cajas dbname="t_lote.cajas" )
+ column=(type=char(2) updatewhereclause=yes name=t_lote_c_codigo_tem dbname="t_lote.c_codigo_tem" )
+ column=(type=char(2) updatewhereclause=yes name=t_cultivo_c_codigo_cul dbname="t_cultivo.c_codigo_cul" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_cul dbname="t_cultivo.v_nombre_cul" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_kgsxur_cul dbname="t_cultivo.n_kgsxur_cul" )
+ column=(type=char(4) updatewhereclause=yes name=c_codigo_lot dbname="t_lote.c_codigo_lot" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_lot dbname="t_lote.v_nombre_lot" )
+ retrieve=" SELECT 
+         IsNull(sum(t_produccion_campo.n_baldes_prc),0) as Baldes,   
+         0 as KgsxBultos,
+         0  as      cajas, 
+         t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul,
+         t_cultivo.v_nombre_cul,   
+         t_cultivo.n_kgsxur_cul,   
+         t_lote.c_codigo_lot,   
+         t_lote.v_nombre_lot   
+    FROM t_lote,   
+         t_cultivo,   
+         t_produccion_campo  
+   WHERE ( t_lote.c_codigo_cul = t_cultivo.c_codigo_cul ) and  
+         ( t_produccion_campo.c_codigo_cul = t_cultivo.c_codigo_cul ) and  
+         ( t_produccion_campo.c_codigo_tem = t_lote.c_codigo_tem ) and  
+         ( t_produccion_campo.c_codigo_lot = t_lote.c_codigo_lot ) and  
+         ( t_lote.c_codigo_tem = :as_temp ) AND
+         ( t_produccion_campo.d_trabajo_prc BETWEEN :ad_fecini  AND :ad_fecfin ) and
+          t_produccion_campo.c_activo_prc = '1' and
+          t_lote.c_activo_lot = '1' and
+          t_cultivo.c_activo_cul = '1' 
+
+GROUP BY t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul, 
+         t_cultivo.v_nombre_cul, 
+         t_lote.c_codigo_lot,   
+         t_lote.v_nombre_lot,
+         t_cultivo.n_kgsxur_cul    
+
+UNION
+
+ SELECT 
+         0 as Baldes,
+         sum(t_palet.n_bulxpa_pal*t_producto.n_pesbul_pro) as KgsxBultos,
+         sum(t_palet.n_bulxpa_pal)  as      cajas,   
+         t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul,  
+         t_cultivo.v_nombre_cul, 
+         t_cultivo.n_kgsxur_cul,
+         t_lote.c_codigo_lot,
+         t_lote.v_nombre_lot 
+
+    FROM t_lote,   
+         t_palet,
+         t_producto,
+         t_cultivo
+  
+   WHERE 
+         ( t_palet.c_codigo_pro = t_producto.c_codigo_pro ) and   
+         ( t_palet.c_codigo_tem = t_lote.c_codigo_tem ) and  
+         ( t_palet.c_codigo_lot = t_lote.c_codigo_lot ) and   
+         ( t_lote.c_codigo_tem = '01' ) AND
+           t_producto.c_codigo_cul = t_cultivo.c_codigo_cul and
+         ( t_palet.d_empaque_pal BETWEEN :ad_fecini  AND :ad_fecfin ) and
+          t_palet.c_activo_pal = '1' and
+          t_lote.c_activo_lot = '1' and
+          t_cultivo.c_activo_cul = '1' and  
+          t_producto.c_activo_pro = '1' 
+
+GROUP BY t_lote.c_codigo_tem,
+         t_cultivo.c_codigo_cul, 
+         t_cultivo.v_nombre_cul, 
+         t_lote.c_codigo_lot,   
+         t_lote.v_nombre_lot,
+         t_cultivo.n_kgsxur_cul    
+
+ORDER BY 4,5,6,8,9
+
+
+
+" arguments=(("as_temp", string),("ad_fecini", datetime),("ad_fecfin", datetime)) )
+group(level=1 header.height=124 trailer.height=204 by=("t_cultivo_c_codigo_cul" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression="'Fecha del Sistema: ' + String( f_GetSysDateA( ), 'dd/mm/yyyy' )"border="0" color="0" x="41" y="232" height="52" width="1061" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Temporada:"border="0" color="0" x="2464" y="16" height="44" width="224"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_GetTemporada( )"border="0" color="0" x="2693" y="16" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="1" text="Pagina:"border="0" color="0" x="2953" y="16" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="page() + '/' + pageCount()"border="0" color="0" x="3122" y="16" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Fecha:"border="0" color="0" x="2953" y="64" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'dd/mm/yyyy' )"border="0" color="0" x="3122" y="64" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Hora:"border="0" color="0" x="2953" y="112" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="String( today(), 'hh:mm:ss' )"border="0" color="0" x="3122" y="112" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Usuario:"border="0" color="0" x="2953" y="160" height="44" width="165"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_usuario()"border="0" color="0" x="3122" y="160" height="44" width="256" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="d_rpt_rendimiento_x_lote_anterior"border="0" color="0" x="2354" y="208" height="48" width="1024"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=header filename="logocia.bmp" x="46" y="12" height="216" width="818" border="0" )
+column(band=header.1 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="41" y="4" height="44" width="169" format="[general]"  name=t_cultivo_c_codigo_cul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=header.1 id=6 alignment="0" tabsequence=32766 border="0" color="0" x="256" y="4" height="44" width="485" format="[general]"  name=v_nombre_cul edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+rectangle(band=header.1 x="32" y="56" height="64" width="3310" brush.hatch="6" brush.color="15780518" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="15780518" )
+text(band=header.1 alignment="0" text="CveLote"border="0" color="33554432" x="41" y="64" height="48" width="169"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text="Nombre del Lote"border="0" color="33554432" x="251" y="64" height="48" width="489"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text="Baldes/Cajas Cortadas"border="0" color="33554432" x="1641" y="64" height="48" width="453"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="Kilos x Balde/Caja"border="0" color="0" x="2167" y="64" height="48" width="549"  name=n_precmn_pal_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="Kilos Cortados"border="0" color="0" x="2875" y="64" height="48" width="434"  name=n_precme_pal_t  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="46" y="4" height="52" width="169" format="[general]"  name=c_codigo_lot edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="256" y="4" height="52" width="517" format="[general]"  name=v_nombre_lot edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="1518" y="4" height="52" width="590" format="#,##0"  name=baldes edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="2135" y="4" height="52" width="590" format="#,##0.00"  name=n_kgsxur_cul edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="baldes * n_kgsxur_cul"border="0" color="0" x="2752" y="4" height="52" width="590" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+report(band=detail dataobject="d_rpt_rendimiento_x_lote_sub" x="18" y="84" height="136" width="3323" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_temp"),("ad_fecini"),("ad_fecfin"),("c_codigo_lot"),("t_cultivo_c_codigo_cul"),("baldes * n_kgsxur_cul")) trail_footer = yes  slideup=directlyabove )
+compute(band=trailer.1 alignment="1" expression="sum(baldes * n_kgsxur_cul for group 1)"border="0" color="0" x="2761" y="8" height="52" width="590" format="#,##0.00"  name=kiloscortadosxcultivo  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+column(band=trailer.1 id=6 alignment="0" tabsequence=32766 border="0" color="0" x="613" y="4" height="52" width="594" format="[general]" edit.limit=100 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(baldes for group 1)"border="0" color="0" x="1518" y="4" height="52" width="590" format="#,##0"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="IF (sum(baldes * n_kgsxur_cul for group 1)=0,0,sum(kgsxbultos for group 1)/sum(baldes * n_kgsxur_cul for group 1))"border="0" color="0" x="1239" y="4" height="44" width="242" format="0.00%"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="0" text="% Rendimiento general de"border="0" color="33554432" x="37" y="4" height="44" width="553"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(kgsxbultos for group 1)"border="0" color="0" x="2139" y="4" height="44" width="594" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+line(band=footer x1="0" y1="8" x2="3378" y2="8" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="By INVENTUM"border="0" color="16777437" x="37" y="24" height="56" width="425"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Sistema de Empaque y Embarque"border="0" color="0" x="2053" y="24" height="48" width="1006"  font.face="Verdana" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="f_version()"border="0" color="255" x="3063" y="24" height="56" width="297" format="[general]"  font.face="Verdana" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="f_GetCia( )"border="0" color="0" x="1029" y="8" height="76" width="1417" format="[general]" visible="1~tIf ( f_GetLogo( ) = 0, 1, 0 )"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression="'PRODUCCION Y RENDIMIENTOS POR CULTIVO Y LOTE ~~r~~n POR EL PERIODO: ' +  String( ad_fecini , 'dd/mm/yyyy' ) + ' AL: ' + String( ad_fecfin , 'dd/mm/yyyy' )"border="0" color="33554432" x="1029" y="92" height="116" width="1417" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

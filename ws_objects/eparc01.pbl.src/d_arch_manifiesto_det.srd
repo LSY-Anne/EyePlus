@@ -1,0 +1,131 @@
+﻿$PBExportHeader$d_arch_manifiesto_det.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=68 color="15780518" )
+summary(height=68 color="536870912" )
+footer(height=4 color="536870912" )
+detail(height=68 color="553648127~tIf ( mod( Integer( co_item ) , 2 ) = 0, f_Color( 'cromado2' ), f_Color( 'wndtextback' )  )" )
+table(column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_tem dbname="t_palet.c_codigo_tem" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_pal dbname="t_palet.c_codigo_pal" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codsec_pal dbname="t_palet.c_codsec_pal" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_pro dbname="t_palet.c_codigo_pro" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_eti dbname="t_palet.c_codigo_eti" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_col dbname="t_palet.c_codigo_col" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=c_codigo_lot dbname="t_palet.c_codigo_lot" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_empaque_pal dbname="t_palet.d_empaque_pal" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_man dbname="t_palet.c_codigo_man" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_env dbname="t_palet.c_codigo_env" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_bulxpa_pal dbname="t_palet.n_bulxpa_pal" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_precmn_pal dbname="t_palet.n_precmn_pal" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=n_precme_pal dbname="t_palet.n_precme_pal" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_contab_pal dbname="t_palet.c_contab_pal" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_contab_pal dbname="t_palet.d_contab_pal" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_palet.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion_pal dbname="t_palet.d_creacion_pal" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod_pal dbname="t_palet.c_usumod_pal" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi_pal dbname="t_palet.d_modifi_pal" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo_pal dbname="t_palet.c_activo_pal" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_staemb_pal dbname="t_palet.c_staemb_pal" )
+ column=(type=char(2) updatewhereclause=yes name=c_codigo_cul dbname="t_cultivo.c_codigo_cul" )
+ column=(type=char(6) updatewhereclause=yes name=c_elemento dbname="c_codigo" )
+ column=(type=char(255) updatewhereclause=yes name=v_imagen_pro dbname="v_imagen_pro" )
+ column=(type=char(10) updatewhereclause=yes name=c_ultimo dbname="c_ultimo" )
+ column=(type=char(10) updatewhereclause=yes name=c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=char(1) updatewhereclause=yes name=c_merdes_man dbname="t_manifiesto.c_merdes_man" )
+ column=(type=decimal(2) updatewhereclause=yes name=precio dbname="precio" )
+ column=(type=char(1) updatewhereclause=yes name=c_porkilo_pro dbname="c_porkilo_pro" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_peso_pal dbname="n_peso_pal" )
+ column=(type=decimal(2) updatewhereclause=yes name=peso dbname="peso" )
+ column=(type=char(100) updatewhereclause=yes name=par80 dbname="par80" )
+ column=(type=char(1) updatewhereclause=yes name=c_excedente_pal dbname="t_palet.c_excedente_pal" values="	1/	0" )
+ column=(type=char(1) updatewhereclause=yes name=c_tipo_pal dbname="t_palet.c_tipo_pal" )
+ column=(type=char(100) updatewhereclause=yes name=par101 dbname="par101" )
+ retrieve="  SELECT t_palet.c_codigo_tem,   
+         t_palet.c_codigo_pal,   
+         t_palet.c_codsec_pal,   
+         t_palet.c_codigo_pro,   
+         t_palet.c_codigo_eti,   
+         t_palet.c_codigo_col,   
+         t_palet.c_codigo_lot,   
+         t_palet.d_empaque_pal,   
+         t_palet.c_codigo_man,   
+         t_palet.c_codigo_env,   
+         t_palet.n_bulxpa_pal,   
+         t_palet.n_precmn_pal,   
+         t_palet.n_precme_pal,   
+         t_palet.c_contab_pal,   
+         t_palet.d_contab_pal,   
+         t_palet.c_codigo_usu,   
+         t_palet.d_creacion_pal,   
+         t_palet.c_usumod_pal,   
+         t_palet.d_modifi_pal,   
+         t_palet.c_activo_pal,   
+         t_palet.c_staemb_pal,   
+         t_cultivo.c_codigo_cul,   
+         t_palet.c_codigo_pro + t_palet.c_codigo_eti As c_codigo,   
+         Space(255) As v_imagen_pro,   
+         Space(10) As c_ultimo,   
+         t_manifiesto.c_codigo_man,   
+         t_manifiesto.c_merdes_man,
+			precio = 0.00,
+			c_porkilo_pro = t_producto.c_porkilo_pro,
+			n_peso_pal = 0.00,
+			peso = t_palet.n_peso_pal,
+			par80 = (select isnull(v_valor_par,'') from t_parametro (nolock) where c_codigo_par = '080'),
+			t_palet.c_excedente_pal,
+			t_palet.c_tipo_pal,
+			par101 = (select isnull(v_valor_par,'') from t_parametro (nolock) where c_codigo_par = '101')
+    FROM t_palet (nolock),   
+         t_producto (nolock),   
+         t_cultivo (nolock),   
+         t_manifiesto  (nolock)
+   WHERE ( t_producto.c_codigo_pro = t_palet.c_codigo_pro ) and  
+         ( t_cultivo.c_codigo_cul = t_producto.c_codigo_cul ) and  
+         ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and  
+
+			( ( t_palet.c_codigo_tem = :as_tem ) AND 
+			 (t_manifiesto.c_codigo_tem = :as_tem )and
+			 ( t_palet.c_codigo_man = :as_man ) )
+
+
+" arguments=(("as_tem", string),("as_man", string)) )
+text(band=header alignment="2" text="Item"border="0" color="16711680" x="9" y="8" height="52" width="114"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Pallet"border="0" color="16711680" x="133" y="8" height="52" width="256"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Excedente"border="0" color="16711680" x="416" y="8" height="52" width="274"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Elemento"border="0" color="16711680" x="713" y="8" height="52" width="242"  name=c_elemento_t  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Clr"border="0" color="16711680" x="969" y="8" height="52" width="82"  name=c_codigo_col_t  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Producto"border="0" color="16711680" x="1061" y="8" height="52" width="768"  name=c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Etiqueta"border="0" color="16711680" x="1842" y="8" height="52" width="402"  name=c_codigo_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Bultos "border="0" color="16711680" x="2258" y="8" height="52" width="229"  name=n_bulxpa_pal_t  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Precio "border="0" color="16711680" x="2496" y="8" height="52" width="251"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Prec. Mod"border="0" color="16711680" x="2757" y="8" height="52" width="270"  name=prec visible="1~tif(f_getparmvalue('080')='S',1,0)"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text=" Envase"border="0" color="16711680" x="3035" y="8" height="52" width="338"  name=c_codigo_env_t  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Peso"border="0" color="16711680" x="3470" y="8" height="52" width="151"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Peso Mod"border="0" color="16711680" x="3643" y="8" height="52" width="261"  name=pes visible="1~tif(f_getparmvalue('080')='S',1,0)"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Total "border="0" color="16711680" x="3922" y="8" height="52" width="270"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="String( GetRow( ) ) + ' '"border="0" color="276856960" x="9" y="4" height="56" width="114" format="[general]"  name=co_item  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="133" y="4" height="56" width="293" format="[general]"  name=c_codigo_pal edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=29 alignment="0" tabsequence=32766 border="0" color="33554432" x="4224" y="4" height="56" width="201" format="[general]"  name=c_porkilo_pro visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=33 alignment="0" tabsequence=20 border="0" color="33554432" x="512" y="4" height="52" width="73" format="[general]"  name=c_excedente_pal checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="33554432" x="713" y="4" height="56" width="242" format="@@-@@-@@"  name=c_elemento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="965" y="4" height="56" width="82" format="[general]"  name=c_codigo_col edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="1056" y="4" height="56" width="768" format="[general]"  name=c_codigo_pro dddw.name=d_dddw_producto dddw.displaycolumn=co_nombre dddw.datacolumn=c_codigo_pro dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="1838" y="4" height="56" width="402" format="[general]"  name=c_codigo_eti dddw.name=d_dddw_etiqueta dddw.displaycolumn=co_nombre dddw.datacolumn=c_codigo_eti dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="33554432" x="2254" y="4" height="56" width="229" format="#,##0.00"  name=n_bulxpa_pal edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="If( f_Trim( c_merdes_man ) = 'N' , n_precmn_pal, n_precme_pal ) "border="0" color="33554432" x="2491" y="4" height="56" width="251" format="#,##0.00 "  name=co_precio  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=28 alignment="1" tabsequence=10 border="0" color="33554432" x="2766" y="4" height="56" width="256" format="#,##0.00"  name=precio visible="1~tif(par80='S',1,0)" editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="33554432" x="3031" y="4" height="56" width="338" format="[general]"  name=c_codigo_env dddw.name=d_dddw_envase dddw.displaycolumn=co_nombre dddw.datacolumn=c_codigo_env dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=31 alignment="1" tabsequence=32766 border="0" color="33554432" x="3383" y="4" height="56" width="233" format="#,##0.00"  name=peso editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=30 alignment="1" tabsequence=32766 border="0" color="33554432" x="3648" y="4" height="56" width="251" format="#,##0.00"  name=n_peso_pal editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="if(c_porkilo_pro = 'S' ,  precio * n_peso_pal, precio  *  n_bulxpa_pal )"border="0" color="33554432" x="3922" y="4" height="56" width="270" format="#,##0.00"  name=total1 visible="1~tif(par80='S',1,0)"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="if(c_porkilo_pro = 'S' ,  co_precio * peso , co_precio  *  n_bulxpa_pal)"border="0" color="33554432" x="3922" y="4" height="56" width="270" format="#,##0.00"  name=co_totalxregi visible="1~tif(par80='S',0,1)"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="if(c_porkilo_pro = 'S',  precio * peso, precio  *  n_bulxpa_pal )"border="0" color="33554432" x="3922" y="4" height="56" width="270" format="#,##0.00"  name=total2 visible="1~tif(par80='S',1,0)"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="If (par101 = 'S', if(c_porkilo_pro = 'S' ,  co_precio * n_peso_pal , co_precio  *  n_bulxpa_pal) ,   if(c_porkilo_pro = 'S' ,  co_precio * peso , co_precio  *  n_bulxpa_pal) )
+"border="0" color="33554432" x="3922" y="4" height="56" width="270" format="#,##0.00"  name=co_totalxreg visible="1~tif(par80='S',0,1)"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(co_totalxreg for all)"border="0" color="16711680" x="3675" y="12" height="52" width="233" format="#,##0.00"  name=n_importe_man visible="1~tif(par80='S',0,1)"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum( total1  for all)"border="0" color="16711680" x="3675" y="12" height="52" width="233" format="#,##0.00"  name=n_importe_man2 visible="1~tif(par80='S',1,0)"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(co_totalxregi for all)"border="0" color="16711680" x="3675" y="12" height="52" width="233" format="#,##0.00"  name=n_importe_man3 visible="1~tif(par80='S',0,1)"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum( total2  for all)"border="0" color="16711680" x="3675" y="12" height="52" width="233" format="#,##0.00"  name=n_importe_man4 visible="1~tif(par80='S',1,0)"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="0" text=" Total Bultos:"border="0" color="16711680" x="1527" y="12" height="52" width="434"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=summary alignment="1" expression="sum(n_bulxpa_pal for all)"border="0" color="16711680" x="1979" y="12" height="52" width="229" format="#,##0.00"  name=n_totbul_man  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

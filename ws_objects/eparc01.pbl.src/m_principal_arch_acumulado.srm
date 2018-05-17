@@ -1,0 +1,311 @@
+﻿$PBExportHeader$m_principal_arch_acumulado.srm
+forward
+global type m_principal_arch_acumulado from m_principal
+end type
+end forward
+
+global type m_principal_arch_acumulado from m_principal
+end type
+global m_principal_arch_acumulado m_principal_arch_acumulado
+
+on m_principal_arch_acumulado.create
+m_principal_arch_acumulado=this
+call super::create
+end on
+
+on m_principal_arch_acumulado.destroy
+call super::destroy
+end on
+
+on m_pallet.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_manifiesto.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_otrosmovimientos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_tipodecambio.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_archacumulados.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_acumuladosdecostos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_archivosep1.create
+call super::create
+this.Visible=true
+end on
+
+on m_cerrar.create
+call super::create
+this.ToolBarItemName="Exit!"
+this.ToolBarItemText="Cerrar, Cerrar esta Ventana"
+this.Visible=true
+this.ToolBarItemOrder=100
+this.ToolBarItemSpace=1
+end on
+
+on m_guardar.create
+call super::create
+this.ToolBarItemName="Save!"
+this.ToolBarItemText="Guardar, Guardar la tabla en un archivo"
+this.Visible=true
+this.ToolBarItemSpace=1
+end on
+
+on m_imprimir.create
+call super::create
+this.ToolBarItemName="Print!"
+this.Visible=true
+end on
+
+on m_zoom.create
+call super::create
+this.ToolBarItemName="NestedReport!"
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_archivosep6.create
+call super::create
+this.Visible=true
+end on
+
+on m_salir1.create
+call super::create
+this.ToolBarItemName=""
+this.ToolBarItemText=""
+this.ToolBarItemOrder=0
+this.ToolBarItemVisible=false
+this.ToolBarItemSpace=0
+end on
+
+on m_producto.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_preciospro.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_etiqueta.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_envase.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_cultivo.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_lote.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_opcionsheet.create
+call super::create
+this.Text="Re&gistro"
+this.Visible=true
+this.Enabled=false
+end on
+
+on m_opcionsheet1.create
+call super::create
+this.Text="&Adicionar~tCtrl+I"
+this.ToolBarItemText="Adicionar"
+this.Visible=true
+this.Enabled=true
+this.Shortcut=329
+end on
+
+event m_opcionsheet1::clicked;Window	lw_win
+
+lw_win = gw_frame.GetActiveSheet()
+
+If IsValid(lw_win) Then
+	This.ToolBarItemDown = True
+	lw_win.TriggerEvent( 'ue_adicionar' ) // wf_Adicionar( )
+	This.ToolBarItemDown = False
+End If
+end event
+
+on m_opcionsheet2.create
+call super::create
+this.Text="&Modificar~tCtrl+M"
+this.ToolBarItemText="Modificar"
+this.Visible=true
+this.Enabled=true
+this.Shortcut=333
+end on
+
+event m_opcionsheet2::clicked;Window	lw_win
+
+lw_win = gw_frame.GetActiveSheet()
+
+If IsValid(lw_win) Then
+	This.ToolBarItemDown = True
+	lw_win.TriggerEvent( 'ue_Modificar' ) // wf_Modificar( )
+	This.ToolBarItemDown = False
+End If
+end event
+
+on m_opcionsheet3.create
+call super::create
+this.Text="&Eliminar~tDel"
+this.ToolBarItemText="Eliminar"
+this.Visible=true
+this.Enabled=true
+this.Shortcut=46
+end on
+
+event m_opcionsheet3::clicked;Window	lw_win
+
+lw_win = gw_frame.GetActiveSheet()
+
+If IsValid(lw_win) Then
+	This.ToolBarItemDown = True
+	lw_win.TriggerEvent( 'ue_Eliminar' ) // wf_Eliminar( )
+	This.ToolBarItemDown = False
+End If
+end event
+
+on m_opcionsheet4.create
+call super::create
+this.Text="&Recuperar~tCtrl+R"
+this.ToolBarItemText="Recuperar"
+this.Visible=true
+this.Enabled=true
+this.Shortcut=338
+end on
+
+event m_opcionsheet4::clicked;Window	lw_win
+
+lw_win = gw_frame.GetActiveSheet()
+
+If IsValid(lw_win) Then
+	This.ToolBarItemDown = True
+	lw_win.TriggerEvent( 'ue_recuperar' ) // wf_Recuperar( )
+	This.ToolBarItemDown = False
+End If
+end event
+
+on m_opcionsheet5.create
+call super::create
+this.Text="-"
+this.Visible=true
+end on
+
+event m_opcionsheet6::clicked;Window	lw_win
+
+lw_win = gw_frame.GetActiveSheet()
+
+If IsValid(lw_win) Then
+	This.ToolBarItemDown = True
+	lw_win.TriggerEvent( 'ue_buscar' ) // wf_Buscar( )
+	This.ToolBarItemDown = False
+End If
+end event
+
+on m_opcionsheet6.create
+call super::create
+this.Text="&Buscar~tCtrl+F"
+this.ToolBarItemText="Buscar"
+this.Visible=true
+this.Enabled=true
+this.Shortcut=326
+end on
+
+on m_opcionsheet7.create
+call super::create
+this.Text="-"
+this.Visible=true
+end on
+
+on m_opcionsheet8.create
+call super::create
+this.Text="M&ostrar Registros Eliminados"
+this.ToolBarItemText="Eliminados, Mostrar Registros Eliminados"
+this.Visible=true
+this.Enabled=true
+this.ToolBarItemSpace=1
+end on
+
+event m_opcionsheet8::clicked;Window	lw_win
+
+lw_win = gw_frame.GetActiveSheet()
+
+If IsValid(lw_win) Then
+	//If Not This.ToolBarItemDown Then
+		This.ToolBarItemDown = True
+		lw_win.TriggerEvent( 'ue_filter' )
+	//Else
+		This.ToolBarItemDown = False
+	//End If
+End If
+end event
+
+on m_cierrededia.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_cambiarcontrasenia.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_importardatos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_copiarcostosdeproductos.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_opciones.create
+call super::create
+this.ToolBarItemName=""
+end on
+
+on m_seleccionartemporada.create
+call super::create
+this.ToolBarItemVisible=false
+end on
+
+on m_bloquearsistema.create
+call super::create
+this.ToolBarItemVisible=false
+end on
+
+on m_contenidodeayuda.create
+call super::create
+this.ToolBarItemName=""
+this.ToolBarItemText=""
+end on
+

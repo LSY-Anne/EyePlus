@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_zero.srf
+global type f_zero from function_object
+end type
+
+forward prototypes
+global function decimal f_zero (decimal adc_eval)
+end prototypes
+
+global function decimal f_zero (decimal adc_eval);/* Retorna 0 Cuando adc_eval es null */
+
+If IsNull( adc_eval ) Then adc_eval = 0
+
+Return adc_eval
+end function
+

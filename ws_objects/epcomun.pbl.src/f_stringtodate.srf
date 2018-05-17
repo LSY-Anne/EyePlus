@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_stringtodate.srf
+global type f_stringtodate from function_object
+end type
+
+forward prototypes
+global function datetime f_stringtodate (string as_fec)
+end prototypes
+
+global function datetime f_stringtodate (string as_fec);/* Autor: Cesar Vilela 14/01/2003
+	f_StringToDate( as_fec )  
+	Objetivo: Convertir una cadena, enviada generalmente por EditMask,
+				en una fecha y devolverla
+	Retorna: {DateTime}
+*/
+
+DateTime	ld_ret
+
+/* Se cambiar el formato de dd/mm/yyyy a yyyy/mm/dd */
+as_fec = Right( as_fec, 4 ) + '/'  + Mid( as_fec, 4, 2 ) + '/' + Left( as_fec, 2 )
+ld_ret = DateTime( Date( as_fec ) )
+
+Return ld_ret
+
+end function
+

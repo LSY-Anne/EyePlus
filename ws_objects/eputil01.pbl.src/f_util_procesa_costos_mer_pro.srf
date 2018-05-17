@@ -1,0 +1,820 @@
+﻿$PBExportHeader$f_util_procesa_costos_mer_pro.srf
+global type f_util_procesa_costos_mer_pro from function_object
+end type
+
+forward prototypes
+global function integer f_util_procesa_costos_mer_pro (string as_todo, datetime ad_fec)
+end prototypes
+
+global function integer f_util_procesa_costos_mer_pro (string as_todo, datetime ad_fec);//============================================
+//= FUNCION		: f_util_procesa_costos(as_solodia, ad_fec)
+//= PARAMETROS	: 1) as_todo = N-> solo recalcular el dia actual del sistema (gd_sys), S-> Recalcular todo hasta la fecha 
+//			indicada en ad_fec. 2) ad_fec = Fecha a la que se desea procesar los costos si ad_fec=gd_sys se reprocesa TODA la temporada
+//= DESCRIPCION: Funcion para regenerar los costos de empaque y embarque, basandose en la configuracion actual de costos,
+//			tipos de cambio y registros historicos de Corte, Acarreo y Mano de Obra, esta funcion debe correrse antes de sacar
+//			cualquier reporte de costos para recalcular solo el dia actual: f_util_procesa_costos('N', dFecha) o en utilerias 
+//			para reprocesar toda la temporada: f_util_procesa_costos('S', dFecha) en ambos casos dFecha=Fecha Actual del EyePlus
+//= NOTA			: Falta agregar la opcion para sacar los costos a cualquier fecha, para esto se deberia guardar en una tabla
+//			temporal y de ahi sacar el reporte para no alterar la tabla de acumulados de costos actual.
+//============================================
+//t_acumulado_empaque_diario	--Acumulado por Mercado/Cultivo/Producto de costos diarios y acumulados
+//t_acumulado_producto_diario	--Costo Por Producto/Tipo de Costo -> Total
+//t_acumulado_producto_costo	--Costo Por Producto/Tipo de Costo -> xDia
+//t_acumulado_mano_obra			--MOB Por Mercado/Cultivo/Producto -> Del Dia y Acumulado
+
+String			ls_tem, ls_aux
+DateTime			ld_aux
+
+ls_tem = gs_codtem
+
+//Si no se va a recalcular TODO a la fecha indicada SOLO se recalculara el dia actual del EyePlus
+If as_todo<>'S' Then
+	ad_fec = gd_sys
+End If	
+
+//============================================
+//= 01.00 Verificar que todos los Palet+SobDia-SobAnt+Merma+Reempaque tengan registrado sus Costos
+//============================================
+ls_aux = ''
+SELECT 	TOP 1 c_codigo_pro
+INTO		:ls_aux
+FROM 		t_palet t (NOLOCK)
+WHERE 	d_empaque_pal <= :ad_fec
+	AND 	c_codigo_tem = :ls_tem
+	AND 	t.c_codigo_pro NOT IN (SELECT c_codigo_pro FROM t_producto_costo (NOLOCK))
+USING		SqlCa ;
+If f_SqlError( SqlCa, 'No se pudo leer de la tabla t_palet y t_producto_costo. [01.10]' ) = -1 Then
+	Return -1
+End If
+ls_aux=f_trim(ls_aux)
+
+If ls_aux<>'' Then
+	If MessageBox( 'ATENCION:', 'No estan dados de alta los costos para el producto:~r~n' + &
+		'[Codigo:' + ls_aux +'] y algun otro puede estar en la misma situación.~r~n' + &
+		'¿Desea continuar de todas formas?', Exclamation!, YesNo! ) <> 1 Then
+		Return -1
+	End If	
+End If		
+
+//============================================
+//= 02.00 Verificar que exista el Tipo de Cambio para todos los dias con registro de Acarreo, Corte y MOB del Empaque
+//============================================
+SetNull(ld_aux)
+SELECT 	TOP 1 d_empaque_pal
+INTO		:ld_aux
+FROM 		t_palet t (NOLOCK)
+WHERE		d_empaque_pal <= :ad_fec
+	AND 	c_codigo_tem = :ls_tem
+	AND	IsNull(c_staemb_pal,'1')='1'
+	AND 	t.d_empaque_pal NOT IN (SELECT d_trabajo_tic FROM t_tipo_cambio (NOLOCK) WHERE IsNull(n_factor_tic,0)<>0)
+USING		SqlCa ;
+If f_SqlError( SqlCa, 'No se pudo leer de la tabla t_palet y t_tipo_cambio. [02.01]' ) = -1 Then
+	Return -1
+End If
+
+If NOT IsNull(ld_aux) Then
+	MessageBox( 'ATENCION:', 'Falta registrar el tipo de cambio del día:~r~n' + &
+	'[DIA:' + String(ld_aux,'dd/mm/yyyy') +'] y puede faltar algun otro día.~r~n' + &
+	'Favor de revisar. Gracias!', Exclamation!)
+	Return -1
+End If		
+
+//============================================
+//= 02.10 Acarreo
+//============================================
+SetNull(ld_aux)
+SELECT 	TOP 1 d_trabajo_cua
+INTO		:ld_aux
+FROM 		t_cultivo_acarreo t (NOLOCK)
+WHERE		d_trabajo_cua  <= :ad_fec
+	AND 	t.d_trabajo_cua NOT IN (SELECT d_trabajo_tic FROM t_tipo_cambio (NOLOCK) WHERE IsNull(n_factor_tic,0)<>0)
+USING		SqlCa ;
+If f_SqlError( SqlCa, 'No se pudo leer de la tabla t_cultivo_acarreo. [02.11]' ) = -1 Then
+	Return -1
+End If
+
+If NOT IsNull(ld_aux) Then
+	MessageBox( 'ATENCION:', 'Falta registrar el tipo de cambio del día:~r~n' + &
+	'[DIA:' + String(ld_aux,'dd/mm/yyyy') +'] y puede faltar algun otro día.~r~n' + &
+	'Favor de revisar. Gracias!', Exclamation!)
+	Return -1
+End If		
+
+SetNull(ld_aux)
+SELECT 	TOP 1 d_trabajo_acg
+INTO		:ld_aux
+FROM 		t_acarreo_general t (NOLOCK)
+WHERE		d_trabajo_acg  <= :ad_fec
+	AND 	t.d_trabajo_acg NOT IN (SELECT d_trabajo_tic FROM t_tipo_cambio (NOLOCK) WHERE IsNull(n_factor_tic,0)<>0)
+USING		SqlCa ;
+If f_SqlError( SqlCa, 'No se pudo leer de la tabla t_acarreo_general. [02.12]' ) = -1 Then
+	Return -1
+End If
+
+If NOT IsNull(ld_aux) Then
+	MessageBox( 'ATENCION:', 'Falta registrar el tipo de cambio del día:~r~n' + &
+	'[DIA:' + String(ld_aux,'dd/mm/yyyy') +'] y puede faltar algun otro día.~r~n' + &
+	'Favor de revisar. Gracias!', Exclamation!)
+	Return -1
+End If		
+
+//============================================
+//= 02.20 Corte
+//============================================
+SetNull(ld_aux)
+SELECT 	TOP 1 d_trabajo_prc
+INTO		:ld_aux
+FROM 		t_produccion_campo t (NOLOCK)
+WHERE		d_trabajo_prc  <= :ad_fec
+	AND 	t.d_trabajo_prc NOT IN (SELECT d_trabajo_tic FROM t_tipo_cambio (NOLOCK) WHERE IsNull(n_factor_tic,0)<>0)
+USING		SqlCa ;
+If f_SqlError( SqlCa, 'No se pudo leer de la tabla t_produccion_campo. [02.21]' ) = -1 Then
+	Return -1
+End If
+
+If NOT IsNull(ld_aux) Then
+	MessageBox( 'ATENCION:', 'Falta registrar el tipo de cambio del día:~r~n' + &
+	'[DIA:' + String(ld_aux,'dd/mm/yyyy') +'] y puede faltar algun otro día.~r~n' + &
+	'Favor de revisar. Gracias!', Exclamation!)
+	Return -1
+End If
+
+//============================================
+//= 02.30 MOB
+//============================================
+SetNull(ld_aux)
+SELECT 	TOP 1 d_trabajo_mao
+INTO		:ld_aux
+FROM 		t_mano_obra t (NOLOCK)
+WHERE		d_trabajo_mao  <= :ad_fec
+	AND 	t.d_trabajo_mao NOT IN (SELECT d_trabajo_tic FROM t_tipo_cambio (NOLOCK) WHERE IsNull(n_factor_tic,0)<>0)
+USING		SqlCa ;
+If f_SqlError( SqlCa, 'No se pudo leer de la tabla t_mano_obra. [02.31]' ) = -1 Then
+	Return -1
+End If
+
+If NOT IsNull(ld_aux) Then
+	MessageBox( 'ATENCION:', 'Falta registrar el tipo de cambio del día:~r~n' + &
+	'[DIA:' + String(ld_aux,'dd/mm/yyyy') +'] y puede faltar algun otro día.~r~n' + &
+	'Favor de revisar. Gracias!', Exclamation!)
+	Return -1
+End If
+
+SetNull(ld_aux)
+SELECT 	TOP 1 d_trabajo_mog
+INTO		:ld_aux
+FROM 		t_mano_obra_general t (NOLOCK)
+WHERE		d_trabajo_mog  <= :ad_fec
+	AND 	t.d_trabajo_mog NOT IN (SELECT d_trabajo_tic FROM t_tipo_cambio (NOLOCK) WHERE IsNull(n_factor_tic,0)<>0)
+USING		SqlCa ;
+If f_SqlError( SqlCa, 'No se pudo leer de la tabla t_mano_obra_general. [02.32]' ) = -1 Then
+	Return -1
+End If
+
+If NOT IsNull(ld_aux) Then
+	MessageBox( 'ATENCION:', 'Falta registrar el tipo de cambio del día:~r~n' + &
+	'[DIA:' + String(ld_aux,'dd/mm/yyyy') +'] y puede faltar algun otro día.~r~n' + &
+	'Favor de revisar. Gracias!', Exclamation!)
+	Return -1
+End If
+
+
+//============================================
+//= 03.00 Borrar registros de tabla de costos (si el dia es el del sistema) y Borrar tabla auxiliar t_acumulado_empaque_diario_aux
+//============================================
+If as_todo = 'S' Then
+	DELETE 	t_acumulado_empaque_diario 
+	WHERE		c_codigo_tem = :ls_tem
+	USING		SqlCa ;
+	If f_SqlError( SqlCa, 'No se pudo inicializar la tabla t_acumulado_empaque_diario. [03.10]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+Else
+	UPDATE	t_acumulado_empaque_diario 
+	SET		n_bulemp_aed = 0, n_pestot_aed = 0, n_porcen_aed = 0,	n_porpro_aed = 0, n_cosmat_aed = 0,
+				n_cosgas_aed = 0, n_coscor_aed = 0,	n_cosaca_aed = 0,	n_cosmao_aed = 0, n_costot_aed = 0,
+				n_costotme_aed = 0, n_cosumn_aed = 0, n_cosume_aed = 0
+	WHERE		c_codigo_tem = :ls_tem
+	USING		SqlCa ;
+	If f_SqlError( SqlCa, 'No se pudo actualizar la tabla t_acumulado_empaque_diario. [03.11]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+End If
+
+//============================================
+//= 04.00 Borrar tabla de registros diarios de costos 
+//============================================
+If as_todo = 'S' Then
+	DELETE 	t_acumulado_empaque_diario 
+	WHERE		c_codigo_tem = :ls_tem
+	USING		SqlCa ;
+	If f_SqlError( SqlCa, 'No se pudo inicializar la tabla t_acumulado_producto_diario. [04.10]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+Else
+	UPDATE	t_acumulado_producto_diario 
+	SET		n_importe_apd = 0
+	WHERE		c_codigo_tem = :ls_tem
+	USING		SqlCa ;
+	If f_SqlError( SqlCa, 'No se pudo limpiar la tabla t_acumulado_producto_diario. [04.11]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+End If
+
+//============================================
+//= 05.00 Insertar/Actualizar renglones de empaque y kilos en t_acumulado_empaque_diario 
+//============================================
+If as_todo = 'S' Then
+	INSERT INTO t_acumulado_empaque_diario
+	(c_codigo_tem,c_codigo_pro,c_codigo_cul,c_merdes_aed,n_bulemp_aed, n_acubulemp_aed, 
+	n_pesbul_aed, n_pestot_aed, n_acupestot_aed, n_porcen_aed, n_acuporcen_aed, n_porpro_aed, 
+	n_acuporpro_aed, n_cosmat_aed, n_acucosmat_aed, n_cosgas_aed, n_acucosgas_aed, 
+	n_coscor_aed, n_acucoscor_aed, n_cosaca_aed, n_acucosaca_aed, n_cosmao_aed, n_acucosmao_aed, 
+	n_costot_aed, n_acucostot_aed, n_costotme_aed, n_acucostotme_aed, n_cosumn_aed, n_acucosumn_aed, 
+	n_cosume_aed, n_acucosume_aed, c_codigo_usu, d_creacion_aed, c_usumod_aed, d_modifi_aed, c_activo_aed,
+	n_porkgsmn_aed, n_porkgsmnacu_aed, n_porkgsme_aed, n_porkgsmeacu_aed)
+	SELECT
+		Tem=:ls_tem, tAux.c_codigo_pro, tAux.c_codigo_cul, tAux.c_merdes_aed,
+		n_bulemp_aed = SUM(tAux.n_bulemp_aed), n_acubulemp_aed=SUM(tAux.n_acubulemp_aed),
+		n_pesbul_aed = p.n_pesbul_pro, 
+		n_pestot_aed = p.n_pesbul_pro * SUM(tAux.n_bulemp_aed),
+		n_acupestot_aed = p.n_pesbul_pro * SUM(tAux.n_acubulemp_aed),
+		0,0,0,  0,0,0,0,0,  0,0,0,0,0,0,  0,0,0,0,0,0,  0,0,'ADMIN',GETDATE(),NULL,NULL,'1',
+		0,0,0,0
+	FROM (
+		SELECT t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro, 
+			n_bulemp_aed = SUM(CASE WHEN t.d_empaque_pal=:ad_fec THEN IsNull(n_bulxpa_pal,0) ELSE 0 END), 
+			n_acubulemp_aed = SUM(CASE WHEN t.d_empaque_pal<:ad_fec THEN IsNull(n_bulxpa_pal,0) ELSE 0 END)
+		FROM t_palet t (NOLOCK) 
+			LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+		WHERE		d_empaque_pal <= :ad_fec
+			AND 	c_codigo_tem = :ls_tem
+		GROUP BY t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+		UNION ALL
+		SELECT t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro, 
+			n_bulemp_aed = SUM(IsNull(n_afecto_otm,0)), 
+			n_acubulemp_aed = 0
+		FROM t_otro_movimiento t (NOLOCK) 
+			LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+		WHERE		d_movimi_otm = :ad_fec
+			AND 	c_codigo_tem = :ls_tem
+			AND		 c_tipmov_otm = 'S'
+		GROUP BY t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+		UNION ALL
+		SELECT t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro, 
+			n_bulemp_aed = SUM(-1*IsNull(n_afecto_otm,0)), 
+			n_acubulemp_aed = 0
+		FROM t_otro_movimiento t (NOLOCK) 
+			LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+		WHERE		d_movimi_otm = DateAdd(day, -1, :ad_fec)
+			AND 	c_codigo_tem = :ls_tem
+			AND		 c_tipmov_otm = 'S'
+		GROUP BY t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+		) tAux LEFT JOIN t_producto p (NOLOCK) ON (tAux.c_codigo_pro=p.c_codigo_pro)
+	GROUP BY 	tAux.c_codigo_pro, tAux.c_codigo_cul, tAux.c_merdes_aed, p.n_pesbul_pro
+	ORDER BY 4,3,2
+	USING SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo insertar en la tabla t_acumulado_empaque_diario. [05.10]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+Else
+	INSERT INTO t_acumulado_empaque_diario
+	(c_codigo_tem,c_codigo_pro,c_codigo_cul,c_merdes_aed,n_bulemp_aed, n_acubulemp_aed, 
+	n_pesbul_aed, n_pestot_aed, n_acupestot_aed, n_porcen_aed, n_acuporcen_aed, n_porpro_aed, 
+	n_acuporpro_aed, n_cosmat_aed, n_acucosmat_aed, n_cosgas_aed, n_acucosgas_aed, 
+	n_coscor_aed, n_acucoscor_aed, n_cosaca_aed, n_acucosaca_aed, n_cosmao_aed, n_acucosmao_aed, 
+	n_costot_aed, n_acucostot_aed, n_costotme_aed, n_acucostotme_aed, n_cosumn_aed, n_acucosumn_aed, 
+	n_cosume_aed, n_acucosume_aed, c_codigo_usu, d_creacion_aed, c_usumod_aed, d_modifi_aed, c_activo_aed,
+	n_porkgsmn_aed, n_porkgsmnacu_aed, n_porkgsme_aed, n_porkgsmeacu_aed)
+	SELECT
+		tAux.c_codigo_tem, tAux.c_codigo_pro, tAux.c_codigo_cul, tAux.c_merdes_aed,
+		0,0,0,0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,0,  0,0,0,0,0,0,  0,0,'ADMIN',GETDATE(),NULL,NULL,'1', 0,0,0,0
+	FROM (
+		SELECT t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro
+		FROM t_palet t (NOLOCK) 
+			LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+		WHERE		d_empaque_pal = :ad_fec
+			AND 	c_codigo_tem = :ls_tem
+		GROUP BY t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+		UNION ALL
+		SELECT t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro
+		FROM t_otro_movimiento t (NOLOCK) 
+			LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+		WHERE		d_movimi_otm = :ad_fec
+			AND 	c_codigo_tem = :ls_tem
+			AND		 c_tipmov_otm = 'S'
+		GROUP BY t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+		UNION ALL
+		SELECT t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro
+		FROM t_otro_movimiento t (NOLOCK) 
+			LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+		WHERE		d_movimi_otm = DateAdd(day, -1, :ad_fec)
+			AND 	c_codigo_tem = :ls_tem
+			AND		 c_tipmov_otm = 'S'
+		GROUP BY t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+		) tAux LEFT JOIN t_producto p (NOLOCK) ON (tAux.c_codigo_pro=p.c_codigo_pro)
+	WHERE tAux.c_codigo_tem+tAux.c_codigo_pro+tAux.c_codigo_cul+tAux.c_merdes_aed 
+			NOT IN (SELECT c_codigo_tem+c_codigo_pro+c_codigo_cul+c_merdes_aed FROM t_acumulado_empaque_diario (NOLOCK))
+	GROUP BY 	tAux.c_codigo_tem, tAux.c_codigo_pro, tAux.c_codigo_cul, tAux.c_merdes_aed, p.n_pesbul_pro
+	ORDER BY 4,3,2
+	USING SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo insertar en la tabla t_acumulado_empaque_diario. [05.20]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+
+	UPDATE t_acumulado_empaque_diario SET
+		n_bulemp_aed = tAux2.n_bulemp_aed, 
+		n_pesbul_aed = tAux2.n_pesbul_aed, 
+		n_pestot_aed = tAux2.n_pestot_aed
+	FROM t_acumulado_empaque_diario aed (NOLOCK),( 
+		SELECT
+			tAux.c_codigo_tem, tAux.c_codigo_pro, tAux.c_codigo_cul, tAux.c_merdes_aed,
+			n_bulemp_aed = SUM(tAux.n_bulemp_aed),
+			n_pesbul_aed = p.n_pesbul_pro, 
+			n_pestot_aed = p.n_pesbul_pro * SUM(tAux.n_bulemp_aed)
+		FROM (
+			SELECT t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro, 
+				n_bulemp_aed = SUM(IsNull(n_bulxpa_pal,0))
+			FROM t_palet t (NOLOCK) 
+				LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+			WHERE		d_empaque_pal = :ad_fec
+				AND 	c_codigo_tem = :ls_tem
+			GROUP BY t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+			UNION ALL
+			SELECT t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro, 
+				n_bulemp_aed = SUM(IsNull(n_afecto_otm,0))
+			FROM t_otro_movimiento t (NOLOCK) 
+				LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+			WHERE		d_movimi_otm = :ad_fec
+				AND 	c_codigo_tem = :ls_tem
+				AND		 c_tipmov_otm = 'S'
+			GROUP BY t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+			UNION ALL
+			SELECT t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro, 
+				n_bulemp_aed = SUM(-1*IsNull(n_afecto_otm,0))
+			FROM t_otro_movimiento t (NOLOCK) 
+				LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+			WHERE		d_movimi_otm = DateAdd(day, -1, :ad_fec)
+				AND 	c_codigo_tem = :ls_tem
+				AND		 c_tipmov_otm = 'S'
+			GROUP BY t.c_codigo_tem, t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+			) tAux LEFT JOIN t_producto p (NOLOCK) ON (tAux.c_codigo_pro=p.c_codigo_pro)
+		GROUP BY tAux.c_codigo_tem, tAux.c_codigo_pro, tAux.c_codigo_cul, tAux.c_merdes_aed, p.n_pesbul_pro) tAux2
+	WHERE aed.c_codigo_tem=tAux2.c_codigo_tem
+	 AND aed.c_codigo_pro=tAux2.c_codigo_pro
+	 AND aed.c_codigo_cul=tAux2.c_codigo_cul
+	 AND aed.c_merdes_aed=tAux2.c_merdes_aed
+	USING SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_empaque_diario. [05.30]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+End If
+
+//============================================
+//= 06.00 Crear % Diarios Historico y Dia actual de los Porcentajes necesarios para 
+//============================================
+DELETE t_acumulado_costo_aux
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [06.10]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+INSERT INTO t_acumulado_costo_aux
+SELECT
+	c_codigo_tem=:ls_tem, tAux.d_empaque_pal, tAux.c_codigo_pro, tAux.c_codigo_cul, tAux.c_merdes_aed, TC=IsNull(tc.n_factor_tic,0),
+	n_BultoDia = SUM(tAux.n_bulemp_aed), 
+	n_PesoxBulto = IsNull(p.n_pesbul_pro,0),
+	nPesoDia = p.n_pesbul_pro * SUM(tAux.n_bulemp_aed),
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+FROM (
+	SELECT t.d_empaque_pal, t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro, 
+		n_bulemp_aed = SUM(IsNull(n_bulxpa_pal,0))
+	FROM t_palet t (NOLOCK) 
+		LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+	WHERE		t.d_empaque_pal <= :ad_fec
+		AND 	t.c_codigo_tem = :ls_tem
+	GROUP BY t.d_empaque_pal, t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+	UNION ALL
+	SELECT t.d_movimi_otm, t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro, 
+		n_bulemp_aed = SUM(IsNull(n_afecto_otm,0))
+	FROM t_otro_movimiento t (NOLOCK) 
+		LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+	WHERE		t.d_movimi_otm = :ad_fec
+		AND 	t.c_codigo_tem = :ls_tem
+		AND		t.c_tipmov_otm = 'S'
+	GROUP BY t.d_movimi_otm, t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+	UNION ALL
+	SELECT t.d_movimi_otm, t.c_codigo_pro, p.c_codigo_cul, c_merdes_aed=p.c_merdes_pro, 
+		n_bulemp_aed = SUM(-1*IsNull(n_afecto_otm,0))
+	FROM t_otro_movimiento t (NOLOCK) 
+		LEFT JOIN t_producto p (NOLOCK) ON (t.c_codigo_pro=p.c_codigo_pro)
+	WHERE		t.d_movimi_otm = DateAdd(day, -1, :ad_fec)
+		AND 	t.c_codigo_tem = :ls_tem
+		AND		t.c_tipmov_otm = 'S'
+	GROUP BY t.d_movimi_otm, t.c_codigo_pro, p.c_codigo_cul, p.c_merdes_pro
+	) tAux 
+	LEFT JOIN t_producto p (NOLOCK) ON (tAux.c_codigo_pro=p.c_codigo_pro)
+	LEFT JOIN t_tipo_cambio tc (NOLOCK) ON (tAux.d_empaque_pal=tc.d_trabajo_tic)
+GROUP BY 	
+	tAux.d_empaque_pal, tAux.c_codigo_pro, tAux.c_codigo_cul, tAux.c_merdes_aed, p.n_pesbul_pro, IsNull(tc.n_factor_tic,0)
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo insertar en la tabla t_acumulado_costo_aux. [06.20]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+UPDATE t_acumulado_costo_aux SET
+	n_pornoacarreo = IsNull((SELECT COUNT(*)
+							FROM t_cultivo_acarreo ca (NOLOCK) 
+							WHERE ca.d_trabajo_cua=t_acumulado_costo_aux.d_fecha
+							AND t_acumulado_costo_aux.c_codigo_cul=ca.c_codigo_cul), 0)
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [06.30]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+UPDATE t_acumulado_costo_aux SET
+	n_pordia = n_pesodia/(SELECT SUM(IsNull(t2.n_pesodia,0))
+				FROM t_acumulado_costo_aux t2 (NOLOCK) 
+				WHERE t_acumulado_costo_aux.d_fecha=t2.d_fecha),
+	n_porcul = n_pesodia/(SELECT SUM(IsNull(t2.n_pesodia,0))
+				FROM t_acumulado_costo_aux t2 (NOLOCK) 
+				WHERE t_acumulado_costo_aux.d_fecha=t2.d_fecha 
+				AND t_acumulado_costo_aux.c_codigo_cul=t2.c_codigo_cul),
+	n_pormer = n_pesodia/(SELECT SUM(IsNull(t2.n_pesodia,0))
+				FROM t_acumulado_costo_aux t2 (NOLOCK) 
+				WHERE t_acumulado_costo_aux.d_fecha=t2.d_fecha 
+				AND t_acumulado_costo_aux.c_mercado=t2.c_mercado),
+	n_porculmer = n_pesodia/(SELECT SUM(IsNull(t2.n_pesodia,0))
+				FROM t_acumulado_costo_aux t2 (NOLOCK) 
+				WHERE t_acumulado_costo_aux.d_fecha=t2.d_fecha 
+				AND t_acumulado_costo_aux.c_codigo_cul=t2.c_codigo_cul 
+				AND t_acumulado_costo_aux.c_mercado=t2.c_mercado),
+	n_pornoacarreo = 
+				CASE WHEN n_pornoacarreo=0
+				THEN n_pesodia/IsNull((SELECT SUM(IsNull(t2.n_pesodia,0))
+					FROM t_acumulado_costo_aux t2 (NOLOCK) 
+					WHERE t_acumulado_costo_aux.d_fecha=t2.d_fecha 
+					AND t2.n_pornoacarreo=0),0)
+				ELSE 0 END
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [06.30]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//============================================
+//= 07.00 Sacar MAT, GAS, Acarreo, Corte, MOB (PESOS y DOLARES) por dia
+//============================================
+//MATyGAS: Actualizar Materiales y Gastos (Pesos y Dolares)
+UPDATE t_acumulado_costo_aux SET
+	n_MAT_mn = n_TipoCambio*n_BultoDia*IsNull((SELECT SUM(IsNull(tpc.n_importe_prc,0))
+		FROM t_producto_costo tpc (NOLOCK), t_costo tc (NOLOCK)
+		WHERE t_acumulado_costo_aux.c_codigo_pro = tpc.c_codigo_pro
+		AND tpc.c_codigo_cos=tc.c_codigo_cos
+		AND (tc.c_mercado_cos='A' OR tc.c_mercado_cos=t_acumulado_costo_aux.c_mercado)
+		AND tc.c_tipo_cos='M'
+		AND tc.c_activo_cos='1'),0),
+	n_MAT_me = n_BultoDia*IsNull((SELECT SUM(IsNull(tpc.n_importe_prc,0))
+		FROM t_producto_costo tpc (NOLOCK), t_costo tc (NOLOCK)
+		WHERE t_acumulado_costo_aux.c_codigo_pro = tpc.c_codigo_pro
+		AND tpc.c_codigo_cos=tc.c_codigo_cos
+		AND (tc.c_mercado_cos='A' OR tc.c_mercado_cos=t_acumulado_costo_aux.c_mercado)
+		AND tc.c_tipo_cos='M'
+		AND tc.c_activo_cos='1'),0),
+	n_GAS_mn = n_TipoCambio*n_BultoDia*IsNull((SELECT SUM(IsNull(tpc.n_importe_prc,0))
+		FROM t_producto_costo tpc (NOLOCK), t_costo tc (NOLOCK)
+		WHERE t_acumulado_costo_aux.c_codigo_pro = tpc.c_codigo_pro
+		AND tpc.c_codigo_cos=tc.c_codigo_cos
+		AND (tc.c_mercado_cos='A' OR tc.c_mercado_cos=t_acumulado_costo_aux.c_mercado)
+		AND tc.c_tipo_cos='G'
+		AND tc.c_activo_cos='1'),0),
+	n_GAS_me = n_BultoDia*IsNull((SELECT SUM(IsNull(tpc.n_importe_prc,0))
+		FROM t_producto_costo tpc (NOLOCK), t_costo tc (NOLOCK)
+		WHERE t_acumulado_costo_aux.c_codigo_pro = tpc.c_codigo_pro
+		AND tpc.c_codigo_cos=tc.c_codigo_cos
+		AND (tc.c_mercado_cos='A' OR tc.c_mercado_cos=t_acumulado_costo_aux.c_mercado)
+		AND tc.c_tipo_cos='G'
+		AND tc.c_activo_cos='1'),0)
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [07.10]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//============================================
+//= 08.00 Sacar Acarreo x Cultivo O General (PESOS y DOLARES)
+//============================================
+//ACARREO: Actualizar Registros en Dolares del Acarreo segun Tipo de Cambio Actual
+UPDATE t_cultivo_acarreo SET
+	n_costoe_cua= CASE WHEN IsNull(tc.n_factor_tic,0)<>0 THEN IsNull(n_coston_cua,0)/IsNull(tc.n_factor_tic,0) ELSE 0 END
+FROM t_cultivo_acarreo acc (NOLOCK), t_tipo_cambio tc (NOLOCK)
+WHERE tc.d_trabajo_tic=acc.d_trabajo_cua
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_cultivo_acarreo. [08.10]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+UPDATE t_acarreo_general SET
+	n_costoe_acg= CASE WHEN IsNull(tc.n_factor_tic,0)<>0 THEN IsNull(n_coston_acg,0)/IsNull(tc.n_factor_tic,0) ELSE 0 END
+FROM t_acarreo_general acg (NOLOCK), t_tipo_cambio tc (NOLOCK)
+WHERE tc.d_trabajo_tic=acg.d_trabajo_acg
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acarreo_general. [08.20]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//ACARREO: Actualizar Acarreo POR CULTIVO (Pesos y Dolares)
+UPDATE t_acumulado_costo_aux SET
+	n_ACA_mn = n_porcul*IsNUll((SELECT SUM(IsNull(cua.n_coston_cua,0))
+		FROM t_cultivo_acarreo cua (NOLOCK)
+		WHERE t_acumulado_costo_aux.c_codigo_cul = cua.c_codigo_cul
+		AND cua.d_trabajo_cua=t_acumulado_costo_aux.d_fecha
+		AND cua.c_codigo_tem=t_acumulado_costo_aux.c_codigo_tem
+		AND cua.c_activo_cua='1'), 0),
+	n_ACA_me = n_porcul*IsNUll((SELECT SUM(IsNull(cua.n_costoe_cua,0))
+		FROM t_cultivo_acarreo cua (NOLOCK)
+		WHERE t_acumulado_costo_aux.c_codigo_cul = cua.c_codigo_cul
+		AND cua.d_trabajo_cua=t_acumulado_costo_aux.d_fecha
+		AND cua.c_codigo_tem=t_acumulado_costo_aux.c_codigo_tem
+		AND cua.c_activo_cua='1'), 0)
+WHERE IsNull(t_acumulado_costo_aux.n_pornoacarreo,0)=0
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [08.30]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//ACARREO: Actualizar Acarreo GENERAL (Pesos y Dolares)
+UPDATE t_acumulado_costo_aux SET
+	n_ACA_mn = n_pornoacarreo*IsNUll((SELECT SUM(IsNull(acg.n_coston_acg,0))
+		FROM t_acarreo_general acg (NOLOCK)
+		WHERE acg.d_trabajo_acg=t_acumulado_costo_aux.d_fecha
+		AND acg.c_codigo_tem=t_acumulado_costo_aux.c_codigo_tem
+		AND acg.c_activo_acg='1'), 0),
+	n_ACA_me = n_pornoacarreo*IsNUll((SELECT SUM(IsNull(acg.n_costoe_acg,0))
+		FROM t_acarreo_general acg (NOLOCK)
+		WHERE acg.d_trabajo_acg=t_acumulado_costo_aux.d_fecha
+		AND acg.c_codigo_tem=t_acumulado_costo_aux.c_codigo_tem
+		AND acg.c_activo_acg='1'), 0)
+WHERE IsNull(t_acumulado_costo_aux.n_pornoacarreo,0)<>0
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [08.40]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//============================================
+//= 09.00 Sacar Corte x Cultivo (PESOS y DOLARES)
+//============================================
+//CORTE: Actualizar CORTE (Pesos y Dolares)
+UPDATE t_acumulado_costo_aux SET
+	n_COR_mn = n_porcul*IsNUll((SELECT SUM(IsNull(prc.n_manobr_prc,0))
+		FROM t_produccion_campo prc (NOLOCK)
+		WHERE t_acumulado_costo_aux.c_codigo_cul = prc.c_codigo_cul
+		AND prc.d_trabajo_prc=t_acumulado_costo_aux.d_fecha
+		AND prc.c_activo_prc='1'), 0),
+	n_COR_me = CASE WHEN t_acumulado_costo_aux.n_tipocambio<>0 
+			THEN (1/t_acumulado_costo_aux.n_tipocambio)*n_porcul*IsNUll((SELECT SUM(IsNull(prc.n_manobr_prc,0))
+					FROM t_produccion_campo prc (NOLOCK)
+					WHERE t_acumulado_costo_aux.c_codigo_cul = prc.c_codigo_cul
+					AND prc.d_trabajo_prc=t_acumulado_costo_aux.d_fecha
+					AND prc.c_activo_prc='1'), 0)
+			ELSE 0 END
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [09.10]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//============================================
+//= 10.00 Sacar MOB x Cultivo + MOB General (PESOS y DOLARES)
+//============================================
+//MOB: Actualizar MOB por cultivo (Pesos y Dolares)
+UPDATE t_acumulado_costo_aux SET
+	n_MOB_mn = n_porcul*IsNUll((SELECT SUM(IsNull(mao.n_monjor_mao,0))
+		FROM t_mano_obra mao (NOLOCK)
+		WHERE t_acumulado_costo_aux.c_codigo_cul = mao.c_codigo_cul
+		AND mao.d_trabajo_mao=t_acumulado_costo_aux.d_fecha
+		AND mao.c_codigo_tem=t_acumulado_costo_aux.c_codigo_tem
+		AND mao.c_activo_mao='1'), 0),
+	n_MOB_me = CASE WHEN t_acumulado_costo_aux.n_tipocambio<>0 
+			THEN (1/t_acumulado_costo_aux.n_tipocambio)*n_porcul*IsNUll((SELECT SUM(IsNull(mao.n_monjor_mao,0))
+				FROM t_mano_obra mao (NOLOCK)
+				WHERE t_acumulado_costo_aux.c_codigo_cul = mao.c_codigo_cul
+				AND mao.d_trabajo_mao=t_acumulado_costo_aux.d_fecha
+				AND mao.c_codigo_tem=t_acumulado_costo_aux.c_codigo_tem
+				AND mao.c_activo_mao='1'), 0)
+			ELSE 0 END
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [10.10]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//MOB: Agregar a MOB por cultivo + MOB General (Pesos y Dolares)
+UPDATE t_acumulado_costo_aux SET
+	n_MOB_mn = n_MOB_mn + (n_pordia*IsNUll((SELECT SUM(IsNull(mog.n_monjor_mog,0))
+		FROM t_mano_obra_general mog (NOLOCK)
+		WHERE mog.d_trabajo_mog=t_acumulado_costo_aux.d_fecha
+		AND mog.c_codigo_tem=t_acumulado_costo_aux.c_codigo_tem
+		AND mog.c_activo_mog='1'), 0)),
+	n_MOB_me = n_MOB_me + (CASE WHEN t_acumulado_costo_aux.n_tipocambio<>0 
+			THEN (1/t_acumulado_costo_aux.n_tipocambio)*n_pordia*IsNUll((SELECT SUM(IsNull(mog.n_monjor_mog,0))
+		FROM t_mano_obra_general mog (NOLOCK)
+		WHERE mog.d_trabajo_mog=t_acumulado_costo_aux.d_fecha
+		AND mog.c_codigo_tem=t_acumulado_costo_aux.c_codigo_tem
+		AND mog.c_activo_mog='1'), 0)
+			ELSE 0 END)
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [10.20]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//============================================
+//= 11.00 Actualizar Tabla de Acumulados
+//============================================
+//TOT: ACTUALIZAR TOTALES DE LA TABLA DE COSTOS
+If as_todo = 'S' Then
+	UPDATE t_acumulado_empaque_diario SET
+		n_bulemp_aed = tAux. n_bulemp_aed,
+		n_acubulemp_aed = tAux.n_acubulemp_aed,
+		n_pestot_aed = tAux.n_pestot_aed,
+		n_acupestot_aed = tAux.n_acupestot_aed,
+		n_cosmat_aed = tAux.n_cosmat_aed,
+		n_acucosmat_aed = tAux.n_acucosmat_aed,
+		n_cosgas_aed = tAux.n_cosgas_aed,
+		n_acucosgas_aed = tAux.n_acucosgas_aed,
+		n_cosaca_aed = tAux.n_cosaca_aed,
+		n_acucosaca_aed = tAux.n_acucosaca_aed,
+		n_coscor_aed = tAux.n_coscor_aed,
+		n_acucoscor_aed = tAux.n_acucoscor_aed,
+		n_cosmao_aed = tAux.n_cosmao_aed,
+		n_acucosmao_aed = tAux.n_acucosmao_aed, 
+		n_costotme_aed = tAux.n_costotme_aed,
+		n_acucostotme_aed = tAux.n_acucostotme_aed
+	FROM t_acumulado_empaque_diario aed, (
+		SELECT c_codigo_tem, c_codigo_pro, c_codigo_cul, c_merdes_aed=c_mercado,
+			n_bulemp_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_BultoDia ELSE 0 END),
+			n_acubulemp_aed = SUM(CASE WHEN d_fecha<:ad_fec THEN n_BultoDia ELSE 0 END),
+			n_pestot_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_PesoDia ELSE 0 END),
+			n_acupestot_aed = SUM(CASE WHEN d_fecha<:ad_fec THEN n_PesoDia ELSE 0 END),
+			n_cosmat_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_MAT_mn ELSE 0 END),
+			n_acucosmat_aed = SUM(CASE WHEN d_fecha<:ad_fec THEN n_MAT_mn ELSE 0 END),
+			n_cosgas_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_GAS_mn ELSE 0 END),
+			n_acucosgas_aed = SUM(CASE WHEN d_fecha<:ad_fec THEN n_GAS_mn ELSE 0 END),
+			n_cosaca_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_ACA_mn ELSE 0 END),
+			n_acucosaca_aed = SUM(CASE WHEN d_fecha<:ad_fec THEN n_ACA_mn ELSE 0 END),
+			n_coscor_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_COR_mn ELSE 0 END),
+			n_acucoscor_aed = SUM(CASE WHEN d_fecha<:ad_fec THEN n_COR_mn ELSE 0 END),
+			n_cosmao_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_MOB_mn ELSE 0 END),
+			n_acucosmao_aed = SUM(CASE WHEN d_fecha<:ad_fec THEN n_MOB_mn ELSE 0 END),
+			n_costotme_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN (n_MAT_me+n_GAS_me+n_ACA_me+n_COR_me+n_MOB_me) ELSE 0 END),
+			n_acucostotme_aed = SUM(CASE WHEN d_fecha<=:ad_fec THEN (n_MAT_me+n_GAS_me+n_ACA_me+n_COR_me+n_MOB_me) ELSE 0 END)
+		FROM t_acumulado_costo_aux
+		GROUP BY c_codigo_tem, c_codigo_pro, c_codigo_cul, c_Mercado) tAux
+	WHERE aed.c_codigo_tem=tAux.c_codigo_tem
+	 AND aed.c_codigo_pro=tAux.c_codigo_pro
+	 AND aed.c_codigo_cul=tAux.c_codigo_cul
+	 AND aed.c_merdes_aed=tAux.c_merdes_aed
+	USING SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [11.10]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+ELSE
+	UPDATE t_acumulado_empaque_diario SET
+		n_bulemp_aed = tAux. n_bulemp_aed,
+		n_pestot_aed = tAux.n_pestot_aed,
+		n_cosmat_aed = tAux.n_cosmat_aed,
+		n_cosgas_aed = tAux.n_cosgas_aed,
+		n_cosaca_aed = tAux.n_cosaca_aed,
+		n_coscor_aed = tAux.n_coscor_aed,
+		n_cosmao_aed = tAux.n_cosmao_aed,
+		n_costotme_aed = tAux.n_costotme_aed
+	FROM t_acumulado_empaque_diario aed, (
+		SELECT c_codigo_tem, c_codigo_pro, c_codigo_cul, c_merdes_aed=c_mercado,
+			n_bulemp_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_BultoDia ELSE 0 END),
+			n_pestot_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_PesoDia ELSE 0 END),
+			n_cosmat_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_MAT_mn ELSE 0 END),
+			n_cosgas_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_GAS_mn ELSE 0 END),
+			n_cosaca_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_ACA_mn ELSE 0 END),
+			n_coscor_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_COR_mn ELSE 0 END),
+			n_cosmao_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN n_MOB_mn ELSE 0 END),
+			n_costotme_aed = SUM(CASE WHEN d_fecha=:ad_fec THEN (n_MAT_me+n_GAS_me+n_ACA_me+n_COR_me+n_MOB_me) ELSE 0 END)
+		FROM t_acumulado_costo_aux
+		GROUP BY c_codigo_tem, c_codigo_pro, c_codigo_cul, c_Mercado) tAux
+	WHERE aed.c_codigo_tem=tAux.c_codigo_tem
+	 AND aed.c_codigo_pro=tAux.c_codigo_pro
+	 AND aed.c_codigo_cul=tAux.c_codigo_cul
+	 AND aed.c_merdes_aed=tAux.c_merdes_aed
+	USING SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_costo_aux. [11.20]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+End If
+
+//TOT: ACTUALIZAR COLUMNAS DE TOTALES DE LA TABLA DE COSTOS
+If as_todo = 'S' Then
+	UPDATE t_acumulado_empaque_diario SET
+		n_costot_aed	= (n_cosmat_aed+n_cosgas_aed+n_cosaca_aed+n_coscor_aed+n_cosmao_aed),
+		n_acucostot_aed = (n_acucosmat_aed+n_acucosgas_aed+n_acucosaca_aed+n_acucoscor_aed+n_acucosmao_aed)
+	USING SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_empaque_diario. [11.30]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+Else	
+	UPDATE t_acumulado_empaque_diario SET
+		n_costot_aed	= (n_cosmat_aed+n_cosgas_aed+n_cosaca_aed+n_coscor_aed+n_cosmao_aed)
+	USING SqlCa;
+	If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_empaque_diario. [11.30]' ) = -1 Then
+		RollBack Using SqlCa ;
+		Return -1
+	End If
+End If
+
+//TOT: ACTUALIZAR COSTOS PROMEDIOS X BULTO X KILO DEL DIA Y ACUMULADOS EN PESOS Y DOLARES
+UPDATE t_acumulado_empaque_diario SET
+	n_cosumn_aed = CASE WHEN n_bulemp_aed<>0 THEN n_costot_aed/n_bulemp_aed ELSE 0 END,
+	n_acucosumn_aed = CASE WHEN (n_bulemp_aed+n_acubulemp_aed)<>0 
+				THEN (n_costot_aed+n_acucostot_aed)/(n_bulemp_aed+n_acubulemp_aed) ELSE 0 END,
+	n_cosume_aed = CASE WHEN n_bulemp_aed<>0 THEN n_costotme_aed/n_bulemp_aed ELSE 0 END,
+	n_acucosume_aed = CASE WHEN (n_bulemp_aed+n_acubulemp_aed)<>0 
+				THEN (n_costotme_aed+n_acucostotme_aed)/(n_bulemp_aed+n_acubulemp_aed) ELSE 0 END,
+	n_porkgsmn_aed = CASE WHEN n_pestot_aed<>0 THEN n_costot_aed/n_pestot_aed ELSE 0 END,
+	n_porkgsmnacu_aed = CASE WHEN (n_pestot_aed+n_acupestot_aed)<>0 
+				THEN (n_costot_aed+n_acucostot_aed)/(n_pestot_aed+n_acupestot_aed) ELSE 0 END,
+	n_porkgsme_aed = CASE WHEN n_pestot_aed<>0 THEN n_costotme_aed/n_pestot_aed ELSE 0 END,
+	n_porkgsmeacu_aed = CASE WHEN (n_pestot_aed+n_acupestot_aed)<>0 
+				THEN (n_costotme_aed+n_acucostotme_aed)/(n_pestot_aed+n_acupestot_aed) ELSE 0 END
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_empaque_diario. [11.40]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//============================================
+//= 12.00 Actualizar porcentajes de Tabla de Acumulados
+//============================================
+UPDATE t_acumulado_empaque_diario SET
+	n_porcen_aed = 100*CASE WHEN n_pestot_aed<>0 
+			THEN(n_pestot_aed)/IsNull((
+				SELECT SUM(IsNull(t2.n_pestot_aed,0))
+				FROM t_acumulado_empaque_diario t2 (NOLOCK) 
+				WHERE t_acumulado_empaque_diario.c_codigo_cul=t2.c_codigo_cul
+				 AND  t_acumulado_empaque_diario.c_codigo_tem=t2.c_codigo_tem
+				 AND  t_acumulado_empaque_diario.c_activo_aed='1'),0)
+			ELSE 0 END,
+	n_acuporcen_aed = 100*CASE WHEN (n_pestot_aed+n_acupestot_aed)<>0 
+			THEN(n_pestot_aed+n_acupestot_aed)/IsNull((
+				SELECT SUM((IsNull(t2.n_pestot_aed,0)+IsNull(t2.n_acupestot_aed,0)))
+				FROM t_acumulado_empaque_diario t2 (NOLOCK) 
+				WHERE t_acumulado_empaque_diario.c_codigo_cul=t2.c_codigo_cul
+				 AND  t_acumulado_empaque_diario.c_codigo_tem=t2.c_codigo_tem
+				 AND  t_acumulado_empaque_diario.c_activo_aed='1'),0)
+			ELSE 0 END,
+	n_porpro_aed = 100*CASE WHEN n_pestot_aed<>0 
+			THEN(n_pestot_aed)/IsNull((
+				SELECT SUM(IsNull(t2.n_pestot_aed,0))
+				FROM t_acumulado_empaque_diario t2 (NOLOCK) 
+				WHERE t_acumulado_empaque_diario.c_codigo_tem=t2.c_codigo_tem
+				 AND  t_acumulado_empaque_diario.c_merdes_aed=t2.c_merdes_aed
+				 AND  t_acumulado_empaque_diario.c_activo_aed='1'),0)
+			ELSE 0 END,
+	n_acuporpro_aed = 100*CASE WHEN (n_pestot_aed+n_acupestot_aed)<>0 
+			THEN(n_pestot_aed+n_acupestot_aed)/IsNull((
+				SELECT SUM((IsNull(t2.n_pestot_aed,0)+IsNull(t2.n_acupestot_aed,0)))
+				FROM t_acumulado_empaque_diario t2 (NOLOCK) 
+				WHERE t_acumulado_empaque_diario.c_codigo_tem=t2.c_codigo_tem
+				 AND  t_acumulado_empaque_diario.c_merdes_aed=t2.c_merdes_aed
+				 AND  t_acumulado_empaque_diario.c_activo_aed='1'),0)
+			ELSE 0 END
+USING SqlCa;
+If f_SqlError( SqlCa, 'No se pudo actualizar en la tabla t_acumulado_empaque_diario. [12.10]' ) = -1 Then
+	RollBack Using SqlCa ;
+	Return -1
+End If
+
+//============================================
+//= 13.00 FIN
+//============================================
+COMMIT USING SqlCa;
+
+Return 1
+
+end function
+

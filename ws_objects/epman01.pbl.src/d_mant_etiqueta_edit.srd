@@ -1,0 +1,44 @@
+﻿$PBExportHeader$d_mant_etiqueta_edit.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=660 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=c_codigo_eti dbname="t_etiqueta.c_codigo_eti" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=v_nombre_eti dbname="t_etiqueta.v_nombre_eti" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=v_imagen_eti dbname="t_etiqueta.v_imagen_eti" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_codigo_usu dbname="t_etiqueta.c_codigo_usu" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_creacion dbname="t_etiqueta.d_creacion_eti" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=c_usumod dbname="t_etiqueta.c_usumod_eti" )
+ column=(type=datetime update=yes updatewhereclause=yes name=d_modifi dbname="t_etiqueta.d_modifi_eti" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=c_activo dbname="t_etiqueta.c_activo_eti" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=v_nombreingles_eti dbname="t_etiqueta.v_nombreingles_eti" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=c_clave_eti dbname="t_etiqueta.c_clave_eti" )
+ retrieve="  SELECT t_etiqueta.c_codigo_eti,   
+         t_etiqueta.v_nombre_eti,   
+         t_etiqueta.v_imagen_eti,   
+         t_etiqueta.c_codigo_usu,   
+         t_etiqueta.d_creacion_eti,   
+         t_etiqueta.c_usumod_eti,   
+         t_etiqueta.d_modifi_eti,   
+         t_etiqueta.c_activo_eti,   
+         t_etiqueta.v_nombreingles_eti,   
+         t_etiqueta.c_clave_eti  
+    FROM t_etiqueta  
+   WHERE t_etiqueta.c_codigo_eti = :as_cod    
+" update="t_etiqueta" updatewhere=1 updatekeyinplace=no arguments=(("as_cod", string)) )
+compute(band=detail alignment="0" expression=" bitmap ( v_imagen_eti ) "border="1" color="33554432" x="1687" y="40" height="264" width="334" format="[general]"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="5" color="33554432" x="407" y="148" height="64" width="1248" format="[general]"  name=v_nombre_eti edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Nombre:"border="0" color="33554432" x="46" y="148" height="52" width="251"  name=v_nombre_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Nombre Ingles:"border="0" color="33554432" x="46" y="252" height="52" width="325"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="5" color="33554432" x="407" y="44" height="64" width="137" format="[general]"  name=c_codigo_eti editmask.autoskip=yes editmask.mask="XX" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Código:"border="0" color="33554432" x="46" y="44" height="52" width="224"  name=c_codigo_eti_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Clave:"border="0" color="33554432" x="46" y="352" height="52" width="187"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=30 border="5" color="33554432" x="407" y="252" height="52" width="1248" format="[general]"  name=v_nombreingles_eti edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=10 alignment="0" tabsequence=40 border="5" color="33554432" x="407" y="352" height="52" width="192" format="[general]"  name=c_clave_eti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+line(band=detail x1="46" y1="476" x2="1655" y2="476" pen.style="0" pen.width="5" pen.color="276856960"  background.mode="2" background.color="1090519039" )
+line(band=detail x1="46" y1="480" x2="1637" y2="480" pen.style="0" pen.width="5" pen.color="1090519039"  background.mode="2" background.color="1090519039" )
+text(band=detail alignment="2" text="Imagen"border="0" color="33554432" x="69" y="456" height="52" width="219"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=detail alignment="0" text="Archivo:"border="0" color="33554432" x="46" y="556" height="52" width="238"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=50 border="5" color="33554432" x="407" y="556" height="64" width="1248" format="[general]"  name=v_imagen_eti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

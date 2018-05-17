@@ -1,0 +1,20 @@
+﻿$PBExportHeader$d_mant_producto_basico.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=60 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes key=yes name=c_codigo dbname="t_producto.c_codigo_pro" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=v_nombre_pro dbname="t_producto.v_nombre_pro" )
+ retrieve="  SELECT t_producto.c_codigo_pro,   
+         t_producto.v_nombre_pro  
+    FROM t_producto   (Nolock)
+where ((t_producto.c_codigo_pro like :as_cod) or (t_producto.v_nombre_pro like :as_cod))
+order by t_producto.c_codigo_pro, t_producto.v_nombre_pro
+" update="t_producto" updatewhere=1 updatekeyinplace=no arguments=(("as_cod", string)) )
+text(band=header alignment="0" text=" Producto"border="6" color="33554432" x="9" y="4" height="52" width="283"  name=c_codigo_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+text(band=header alignment="0" text=" Nombre del Producto"border="6" color="33554432" x="302" y="4" height="52" width="923"  name=v_nombre_pro_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80269524" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="0" height="56" width="283" format=" [general]"  name=c_codigo edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="302" y="0" height="56" width="923" format=" [general]"  name=v_nombre_pro edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

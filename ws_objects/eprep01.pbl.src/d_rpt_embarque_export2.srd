@@ -1,0 +1,160 @@
+﻿$PBExportHeader$d_rpt_embarque_export2.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=120 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(9) updatewhereclause=yes name=col1 dbname="col1" )
+ column=(type=char(1) updatewhereclause=yes name=col10 dbname="col10" )
+ column=(type=char(30) updatewhereclause=yes name=col11 dbname="col11" )
+ column=(type=char(1) updatewhereclause=yes name=col21 dbname="col21" )
+ column=(type=char(255) updatewhereclause=yes name=col22 dbname="col22" )
+ column=(type=char(12) updatewhereclause=yes name=col62 dbname="col62" )
+ column=(type=char(40) updatewhereclause=yes name=col74 dbname="col74" )
+ column=(type=char(40) updatewhereclause=yes name=col114 dbname="col114" )
+ column=(type=char(5) updatewhereclause=yes name=col154 dbname="col154" )
+ column=(type=char(12) updatewhereclause=yes name=col159 dbname="col159" )
+ column=(type=char(12) updatewhereclause=yes name=col171 dbname="col171" )
+ column=(type=char(12) updatewhereclause=yes name=col183 dbname="col183" )
+ column=(type=char(1) updatewhereclause=yes name=col195 dbname="col195" )
+ column=(type=char(12) updatewhereclause=yes name=col196 dbname="col196" )
+ column=(type=char(40) updatewhereclause=yes name=col208 dbname="col208" )
+ column=(type=char(12) updatewhereclause=yes name=col248 dbname="col248" )
+ column=(type=char(10) updatewhereclause=yes name=col260 dbname="col260" )
+ column=(type=char(16) updatewhereclause=yes name=col270 dbname="col270" )
+ column=(type=char(10) updatewhereclause=yes name=col286 dbname="col286" )
+ column=(type=char(10) updatewhereclause=yes name=col296 dbname="col296" )
+ column=(type=char(10) updatewhereclause=yes name=col306 dbname="col306" )
+ column=(type=char(16) updatewhereclause=yes name=col316 dbname="col316" )
+ column=(type=char(255) updatewhereclause=yes name=col332 dbname="col332" )
+ column=(type=char(16) updatewhereclause=yes name=col348 dbname="col348" )
+ column=(type=char(16) updatewhereclause=yes name=col364 dbname="col364" )
+ column=(type=char(16) updatewhereclause=yes name=col380 dbname="col380" )
+ column=(type=char(16) updatewhereclause=yes name=col396 dbname="col396" )
+ column=(type=char(16) updatewhereclause=yes name=col412 dbname="col412" )
+ column=(type=char(1) updatewhereclause=yes name=col428 dbname="col428" )
+ column=(type=char(11) updatewhereclause=yes name=col429 dbname="col429" )
+ column=(type=char(11) updatewhereclause=yes name=col440 dbname="col440" )
+ column=(type=char(5) updatewhereclause=yes name=col451 dbname="col451" )
+ column=(type=char(4) updatewhereclause=yes name=col456 dbname="col456" )
+ column=(type=char(12) updatewhereclause=yes name=col460 dbname="col460" )
+ column=(type=char(10) updatewhereclause=yes name=col472 dbname="col472" )
+ retrieve="Select col1=space(9),
+col10='1',
+col11=rtrim(ltrim(convert(char ,p.d_empaque_pal,101))),
+col21='N',
+col22=substring(d.v_ciudad_dis,1,40)+replicate(' ',40-len(d.v_ciudad_dis)),
+col62=space(12),
+col74=space(40),
+col114=space(40),
+col154=space(5),
+col159=( select left(rtrim(ltrim(t_parametro.v_valor_par))+ltrim(rtrim(p.c_codigo_pal))+space(12),12) from t_parametro where c_codigo_par='048'),
+col171=substring(ltrim(rtrim(IsNull(l.c_codigoalt_lot,'')))+space(12),1,12),
+col183=space(12),
+col195=space(1),
+col196=( select left(ltrim(rtrim(t_parametro.v_valor_par))+rtrim(ltrim(p.c_codigo_man))+space(12),12) from t_parametro where c_codigo_par='048'),
+col208=space(40),
+col248=space(12),
+col260=left(ltrim(rtrim(IsNull(o.id_commodity,'')))+space(10),10),
+col270=space(16),
+col286=left(ltrim(rtrim(IsNull(o.id_style,'')))+space(10),10),
+col296=left(ltrim(rtrim(IsNull(o.id_size,'')))+space(10),10),
+col306=space(10),
+col316=left(ltrim(rtrim(IsNull(e.v_nombre_eti,'')))+space(16),16),
+col332=( select substring(t_parametro.v_valor_par,1,16) + replicate(' ',16-len(t_parametro.v_valor_par)) from t_parametro where c_codigo_par='049'),
+col348=space(16),
+col364=space(16),
+col380=left(ltrim(rtrim(IsNull(c.c_codigoalt_col,'')))+space(16),16),
+col396=space(16),
+col412=space(16),
+col428='Y',
+col429=right(space(11)+rtrim(convert(char,cast(round( p.n_bulxpa_pal ,0) as integer )))+'000' ,11),
+col440=space(11),
+col451=space(5),
+col456=right(space(4)+rtrim(convert(char,cast(round( o.n_bulxpa_pro ,0) as integer ))),4),
+col460=space(12),
+col472=space(10)
+from  t_palet p,t_manifiesto m,t_distribuidor d,t_producto o,t_etiqueta e,t_color c,t_lote l
+Where  p.d_empaque_pal ='2004/16/03'
+
+and  d.c_codigo_dis=m.c_codigo_dis
+And p.c_codigo_man=m.c_codigo_man
+and p.c_codigo_tem=m.c_codigo_tem
+And p.c_codigo_pro=o.c_codigo_pro
+And e.c_codigo_eti=p.c_codigo_eti
+And c.c_codigo_col=p.c_codigo_col
+And l.c_codigo_lot=p.c_codigo_lot
+And l.c_codigo_tem=p.c_codigo_tem 
+And p.c_codigo_tem=(select v_valor_par from t_parametro where c_codigo_par='001')" )
+text(band=header alignment="2" text="Col1"border="0" color="0" x="9" y="8" height="52" width="229"  name=col1_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col10"border="0" color="0" x="247" y="8" height="52" width="123"  name=col10_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col11"border="0" color="0" x="379" y="8" height="52" width="709"  name=col11_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col21"border="0" color="0" x="1097" y="8" height="52" width="123"  name=col21_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col22"border="0" color="0" x="1230" y="8" height="52" width="4389"  name=col22_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col62"border="0" color="0" x="5627" y="8" height="52" width="297"  name=col62_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col74"border="0" color="0" x="5934" y="8" height="52" width="937"  name=col74_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col114"border="0" color="0" x="6880" y="8" height="52" width="937"  name=col114_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col154"border="0" color="0" x="7826" y="8" height="52" width="151"  name=col154_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col159"border="0" color="0" x="7986" y="8" height="52" width="297"  name=col159_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col171"border="0" color="0" x="8293" y="8" height="52" width="297"  name=col171_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col183"border="0" color="0" x="8599" y="8" height="52" width="297"  name=col183_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col195"border="0" color="0" x="8905" y="8" height="52" width="151"  name=col195_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col196"border="0" color="0" x="9065" y="8" height="52" width="297"  name=col196_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col208"border="0" color="0" x="9371" y="8" height="52" width="937"  name=col208_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col248"border="0" color="0" x="10318" y="8" height="52" width="297"  name=col248_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col260"border="0" color="0" x="10624" y="8" height="52" width="251"  name=col260_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col270"border="0" color="0" x="10885" y="8" height="52" width="389"  name=col270_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col286"border="0" color="0" x="11282" y="8" height="52" width="251"  name=col286_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col296"border="0" color="0" x="11543" y="8" height="52" width="251"  name=col296_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col306"border="0" color="0" x="11803" y="8" height="52" width="251"  name=col306_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col316"border="0" color="0" x="12064" y="8" height="52" width="389"  name=col316_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col332"border="0" color="0" x="12462" y="8" height="52" width="4389"  name=col332_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col348"border="0" color="0" x="16859" y="8" height="52" width="389"  name=col348_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col364"border="0" color="0" x="17257" y="8" height="52" width="389"  name=col364_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col380"border="0" color="0" x="17655" y="8" height="52" width="4389"  name=col380_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col396"border="0" color="0" x="22053" y="8" height="52" width="389"  name=col396_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col412"border="0" color="0" x="22450" y="8" height="52" width="389"  name=col412_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col428"border="0" color="0" x="22848" y="8" height="52" width="151"  name=col428_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col429"border="0" color="0" x="23008" y="8" height="52" width="274"  name=col429_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col440"border="0" color="0" x="23291" y="8" height="52" width="274"  name=col440_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col451"border="0" color="0" x="23575" y="8" height="52" width="151"  name=col451_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col456"border="0" color="0" x="23735" y="8" height="52" width="151"  name=col456_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col460"border="0" color="0" x="23895" y="8" height="52" width="297"  name=col460_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Col472"border="0" color="0" x="24201" y="8" height="52" width="251"  name=col472_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="64" width="229" format="[general]"  name=col1 edit.limit=9 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="247" y="8" height="64" width="123" format="[general]"  name=col10 edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="379" y="8" height="64" width="709" format="[general]"  name=col11 edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1097" y="8" height="64" width="123" format="[general]"  name=col21 edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1230" y="8" height="64" width="4389" format="[general]"  name=col22 edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="5627" y="8" height="64" width="297" format="[general]"  name=col62 edit.limit=12 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="5934" y="8" height="64" width="937" format="[general]"  name=col74 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="6880" y="8" height="64" width="937" format="[general]"  name=col114 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="7826" y="8" height="64" width="151" format="[general]"  name=col154 edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="7986" y="8" height="64" width="297" format="[general]"  name=col159 edit.limit=12 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="8293" y="8" height="64" width="297" format="[general]"  name=col171 edit.limit=12 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="8599" y="8" height="64" width="297" format="[general]"  name=col183 edit.limit=12 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="8905" y="8" height="64" width="151" format="[general]"  name=col195 edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="9065" y="8" height="64" width="297" format="[general]"  name=col196 edit.limit=12 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="9371" y="8" height="64" width="937" format="[general]"  name=col208 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="10318" y="8" height="64" width="297" format="[general]"  name=col248 edit.limit=12 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="10624" y="8" height="64" width="251" format="[general]"  name=col260 edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="10885" y="8" height="64" width="389" format="[general]"  name=col270 edit.limit=16 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="11282" y="8" height="64" width="251" format="[general]"  name=col286 edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="11543" y="8" height="64" width="251" format="[general]"  name=col296 edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="11803" y="8" height="64" width="251" format="[general]"  name=col306 edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="0" x="12064" y="8" height="64" width="389" format="[general]"  name=col316 edit.limit=16 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="12462" y="8" height="64" width="4389" format="[general]"  name=col332 edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="0" x="16859" y="8" height="64" width="389" format="[general]"  name=col348 edit.limit=16 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="0" x="17257" y="8" height="64" width="389" format="[general]"  name=col364 edit.limit=16 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="0" x="17655" y="8" height="64" width="4389" format="[general]"  name=col380 edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="0" tabsequence=32766 border="0" color="0" x="22053" y="8" height="64" width="389" format="[general]"  name=col396 edit.limit=16 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=28 alignment="0" tabsequence=32766 border="0" color="0" x="22450" y="8" height="64" width="389" format="[general]"  name=col412 edit.limit=16 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=29 alignment="0" tabsequence=32766 border="0" color="0" x="22848" y="8" height="64" width="151" format="[general]"  name=col428 edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=30 alignment="0" tabsequence=32766 border="0" color="0" x="23008" y="8" height="64" width="274" format="[general]"  name=col429 edit.limit=11 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=31 alignment="0" tabsequence=32766 border="0" color="0" x="23291" y="8" height="64" width="274" format="[general]"  name=col440 edit.limit=11 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=32 alignment="0" tabsequence=32766 border="0" color="0" x="23575" y="8" height="64" width="151" format="[general]"  name=col451 edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=33 alignment="0" tabsequence=32766 border="0" color="0" x="23735" y="8" height="64" width="151" format="[general]"  name=col456 edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=34 alignment="0" tabsequence=32766 border="0" color="0" x="23895" y="8" height="64" width="297" format="[general]"  name=col460 edit.limit=12 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=35 alignment="0" tabsequence=32766 border="0" color="0" x="24201" y="8" height="64" width="251" format="[general]"  name=col472 edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,52 @@
+﻿$PBExportHeader$d_rpt_embarque_export_txtdet_teresa.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(255) updatewhereclause=yes name=manifiesto dbname="Manifiesto" )
+ column=(type=char(10) updatewhereclause=yes name=pallet dbname="pallet" )
+ column=(type=char(2) updatewhereclause=yes name=label dbname="Label" )
+ column=(type=char(10) updatewhereclause=yes name=producto dbname="Producto" )
+ column=(type=char(10) updatewhereclause=yes name=tamanio dbname="Tamanio" )
+ column=(type=decimal(2) updatewhereclause=yes name=cases dbname="Cases" )
+ column=(type=char(2) updatewhereclause=yes name=lote dbname="Lote" )
+ column=(type=datetime updatewhereclause=yes name=packdate dbname="PackDate" )
+ retrieve="Select Manifiesto = Replace(Replace(Isnull(m.c_codigo_man,''),'E',''),'N',''),/*MANIFIESTO*/
+		 pallet = Isnull(p.c_codigo_pal,''),/*PALLET*/
+		 Label = Isnull(e.c_clave_eti,''),/*ETIQUETA*/
+		 Producto = Isnull(pro.id_commodity,''),/*PRODUCTO*/
+		 Tamanio = Isnull(pro.id_size,''),/*TAMAÑO*/
+		 Cases = Isnull(p.n_bulxpa_pal,0),/*BULTOS*/
+		 Lote = Left(Isnull(l.c_codigo_lot,''),2),/*LOTE*/
+		 PackDate = Isnull(p.d_empaque_pal,'')/*FECHA DE EMPAQUE*/
+From   t_palet p (NOLOCK), t_manifiesto m (NOLOCK), t_producto pro (NOLOCK), t_tamanio t (NOLOCK), t_lote l (NOLOCK), t_etiqueta e (NOLOCK)
+Where (m.d_embarque_man >= :ad_ini
+And 	 m.d_embarque_man <= :ad_fin)
+And 	 p.c_codigo_man = m.c_codigo_man
+And 	 p.c_codigo_pro = pro.c_codigo_pro
+And 	 pro.c_codigo_tam = t.c_codigo_tam
+AND	 P.c_excedente_pal<> '1'
+And    l.c_codigo_tem = p.c_codigo_tem
+And    l.c_codigo_lot = p.c_codigo_lot
+And    e.c_codigo_eti = p.c_codigo_eti
+And 	 p.c_codigo_tem = (Select v_valor_par From t_parametro (NOLOCK) Where c_codigo_par = '001')
+Order by m.c_codigo_man, p.c_codigo_pal" arguments=(("ad_ini", datetime),("ad_fin", datetime)) )
+text(band=header alignment="0" text="Cases"border="0" color="0" x="1033" y="8" height="56" width="192"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Manifiesto"border="0" color="0" x="9" y="8" height="56" width="265"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Pallet"border="0" color="0" x="283" y="8" height="56" width="142"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Label"border="0" color="0" x="434" y="8" height="56" width="146"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Producto"border="0" color="0" x="590" y="8" height="56" width="219"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Tamanio"border="0" color="0" x="818" y="8" height="56" width="206"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Lote"border="0" color="0" x="1234" y="8" height="56" width="114"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Packdate"border="0" color="0" x="1358" y="8" height="56" width="233"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1033" y="4" height="56" width="192" format="[general]"  name=cases edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="56" width="265" format="[general]"  name=manifiesto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="283" y="4" height="56" width="142" format="[general]"  name=pallet edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="434" y="4" height="56" width="146" format="[general]"  name=label edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="590" y="4" height="56" width="219" format="[general]"  name=producto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="818" y="4" height="56" width="206" format="[general]"  name=tamanio edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1234" y="4" height="56" width="114" format="[general]"  name=lote edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1358" y="4" height="56" width="233" format="[shortdate] [time]"  name=packdate edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

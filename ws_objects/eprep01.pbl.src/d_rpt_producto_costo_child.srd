@@ -1,0 +1,54 @@
+﻿$PBExportHeader$d_rpt_producto_costo_child.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=4 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no  crosstab.dynamic = yes grid.lines=2 grid.columnmove=no selected.mouse=no )
+header[1](height=0 color="536870912" )
+header[2](height=96 color="536870912" )
+summary(height=76 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=c_codigo_cul dbname="c_codigo_cul" )
+ column=(type=char(20) updatewhereclause=yes name=v_nombre_cul dbname="v_nombre_cul" )
+ column=(type=char(20) updatewhereclause=yes name=c_codigo_pro dbname="c_codigo_pro" )
+ column=(type=char(20) updatewhereclause=yes name=v_nombre_pro dbname="v_nombre_pro" )
+ column=(type=number updatewhereclause=yes name=n_importe_prc dbname="n_importe_prc" )
+ retrieve="  SELECT 
+
+         t_cultivo.c_codigo_cul,   
+         t_cultivo.v_nombre_cul,   
+         t_producto.c_codigo_pro,   
+         t_producto.v_nombre_pro,   
+         t_producto_costo.c_codigo_cos,   
+         t_costo.v_nombre_cos,   
+         t_producto_costo.n_importe_prc, 
+         t_costo.c_codigo_cos  
+    FROM t_producto_costo,   
+         t_costo,   
+         t_producto,   
+         t_cultivo  
+   WHERE ( t_costo.c_codigo_cos *= t_producto_costo.c_codigo_cos) and  
+         ( t_producto.c_codigo_pro *= t_producto_costo.c_codigo_pro ) and  
+         ( t_cultivo.c_codigo_cul = t_producto.c_codigo_cul ) and  
+         ( ( c_activo_cos = '1' ) AND  
+         ( c_activo_prc = '1' ) AND  
+         ( c_activo_cul = '1' ) )    
+"  sort="c_codigo_cul A v_nombre_cul A c_codigo_pro A v_nombre_pro A " )
+group(level=1 header.height=76 trailer.height=88 by=("c_codigo_cul" ) header.color="536870912" trailer.color="536870912" )
+text(band=header[2] alignment="0" text=" Código"border="0" color="8388608" x="41" y="4" height="84" width="165"  name=c_codigo_pro_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="31960978" )
+text(band=header[2] alignment="0" text=" Producto/Costo"border="0" color="8388608" x="215" y="4" height="84" width="786"  name=v_nombre_pro_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="31960978" )
+text(band=header[2] alignment="2" text="@v_nombre_cos"border="0" color="8388608" x="1010" y="4" height="84" width="265"  name=n_importe_prc_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="31960978" )
+text(band=header[2] alignment="1" text="Total "border="0" color="8388608" x="1285" y="4" height="84" width="261"  name=grand_sum_n_importe_prc_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="31960978" )
+compute(band=header.1 alignment="0" expression="c_codigo_cul"border="0" color="16711680" x="41" y="12" height="48" width="165" format=" [general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+compute(band=header.1 alignment="0" expression="v_nombre_cul"border="0" color="16711680" x="215" y="12" height="48" width="786" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="41" y="4" height="48" width="165" format=" [general]"  name=c_codigo_pro edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="215" y="4" height="48" width="786" format="[general]~tWordCap( v_nombre_pro )"  name=v_nombre_pro edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1010" y="4" height="48" width="265" format="#,##0.00000"  name=n_importe_prc edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes crosstab.repeat=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="0" color="0" x="1285" y="4" height="48" width="261" format="#,##0.00000"  name=grand_sum_n_importe_prc  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="15793151" x="9" y="4" height="48" width="9" format="[general]"  name=c_codigo_cul edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="15793151" x="27" y="4" height="48" width="5" format="[general]"  name=v_nombre_cul edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(n_importe_prc for group 1)"border="0" color="15793151" x="1010" y="4" height="52" width="265" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(grand_sum_n_importe_prc for group 1)"border="0" color="15793151" x="1285" y="4" height="52" width="261" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(n_importe_prc for all )"border="0" color="15793151" x="1010" y="4" height="48" width="265" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(grand_sum_n_importe_prc for all )"border="0" color="15793151" x="1285" y="4" height="48" width="261" format="#,##0.00"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "v_nombre_cos" rows = "c_codigo_cul, v_nombre_cul, c_codigo_pro, v_nombre_pro" values = "sum(n_importe_prc for crosstab)" sourcenames = "c_codigo_cul, v_nombre_cul, c_codigo_pro, v_nombre_pro, c_codigo_cos, v_nombre_cos, n_importe_prc, c_codigo_cos_0")
+sparse(names="c_codigo_cul	v_nombre_cul	c_codigo_pro")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

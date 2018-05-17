@@ -1,0 +1,109 @@
+﻿$PBExportHeader$d_rpt_fitosanitario_terra.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=876 color="536870912" )
+summary(height=2020 color="536870912" )
+footer(height=1548 color="536870912" )
+detail(height=0 color="536870912"  height.autosize=yes)
+table(column=(type=char(10) update=yes updatewhereclause=yes name=c_codigo_man dbname="t_manifiesto.c_codigo_man" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=c_codigo_tem dbname="t_manifiesto.c_codigo_tem" )
+ column=(type=datetime updatewhereclause=yes name=d_embarque_man dbname="t_manifiesto.d_embarque_man" )
+ column=(type=char(30) updatewhereclause=yes name=v_medtra_man dbname="t_manifiesto.v_medtra_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_placaj_man dbname="t_manifiesto.v_placaj_man" )
+ column=(type=char(20) updatewhereclause=yes name=v_flejesagarpa_man dbname="t_manifiesto.v_flejesagarpa_man" )
+ column=(type=char(60) updatewhereclause=yes name=v_nombre_dis dbname="t_distribuidor.v_nombre_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_direcc_dis dbname="t_distribuidor.v_direcc_dis" )
+ column=(type=char(60) updatewhereclause=yes name=v_ciudad_dis dbname="t_distribuidor.v_ciudad_dis" )
+ column=(type=char(100) updatewhereclause=yes name=v_nombre_emb dbname="t_embarcador.v_nombre_emb" )
+ column=(type=char(100) updatewhereclause=yes name=v_direcc_emb dbname="t_embarcador.v_direcc_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ciudad_emb dbname="t_embarcador.v_ciudad_emb" )
+ column=(type=char(40) updatewhereclause=yes name=v_ptoemb_emb dbname="t_embarcador.v_ptoemb_emb" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="t_envase.v_nombre_env" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_totbul_man dbname="t_manifiesto.n_totbul_man" )
+ column=(type=char(100) updatewhereclause=yes name=coordinador dbname="coordinador" )
+ column=(type=char(100) updatewhereclause=yes name=nombredelcor dbname="nombredelcor" )
+ column=(type=char(100) updatewhereclause=yes name=cedula dbname="cedula" )
+ column=(type=char(100) updatewhereclause=yes name=vigencia dbname="vigencia" )
+ column=(type=char(15) updatewhereclause=yes name=v_telef1_emb dbname="v_telef1_emb" )
+ column=(type=char(15) updatewhereclause=yes name=v_telef1_dis dbname="v_telef1_dis" )
+ column=(type=decimal(2) updatewhereclause=yes name=n_totbul_man dbname="n_totbul_man" )
+ column=(type=char(25) updatewhereclause=yes name=v_nombre_env dbname="v_nombre_env" )
+ column=(type=char(100) updatewhereclause=yes name=tecnico dbname="tecnico" )
+ retrieve="  SELECT t_manifiesto.c_codigo_man,   
+         t_manifiesto.c_codigo_tem,   
+         t_manifiesto.d_embarque_man,   
+         t_manifiesto.v_medtra_man,   
+         t_manifiesto.v_placaj_man,   
+         t_manifiesto.v_flejesagarpa_man,   
+         t_distribuidor.v_nombre_dis,   
+         t_distribuidor.v_direcc_dis,   
+         t_distribuidor.v_ciudad_dis,   
+         t_embarcador.v_nombre_emb,   
+         t_embarcador.v_direcc_emb,   
+         t_embarcador.v_ciudad_emb,   
+         t_embarcador.v_ptoemb_emb,   
+         t_envase.v_nombre_env,   
+         t_manifiesto.n_totbul_man,
+			coordinador= (SELECT t_parametro.v_nombre_par  
+								FROM t_parametro (nolock)  
+								WHERE   t_parametro.c_codigo_par = '043'),
+			nombredelcor= (SELECT t_parametro.v_valor_par  
+								FROM t_parametro  (nolock)
+								WHERE   t_parametro.c_codigo_par = '043'),
+			cedula= (SELECT t_parametro.v_valor_par  
+								FROM t_parametro (nolock) 
+								WHERE   t_parametro.c_codigo_par = '077'),
+			vigencia= (SELECT t_parametro.v_valor_par  
+								FROM t_parametro (nolock) 
+								WHERE   t_parametro.c_codigo_par = '076'),
+			
+			v_telef1_emb = t_embarcador.v_telef1_emb,
+			v_telef1_dis = t_distribuidor.v_telef1_dis,
+			n_totbul_man = t_manifiesto.n_totbul_man,
+			v_nombre_env = t_envase.v_nombre_env,
+
+			tecnico= (SELECT t_parametro.v_valor_par  
+								FROM t_parametro (nolock) 
+								WHERE   t_parametro.c_codigo_par = '075')
+			
+
+
+    FROM t_manifiesto (nolock),   
+         t_distribuidor (nolock),   
+         t_embarcador (nolock),   
+         t_envase (nolock),   
+         t_palet (nolock) 
+   WHERE ( t_distribuidor.c_codigo_dis = t_manifiesto.c_codigo_dis ) and  
+         ( t_embarcador.c_codigo_emb = t_manifiesto.c_codigo_emb ) and  
+         ( t_palet.c_codigo_env = t_envase.c_codigo_env ) and  
+         ( t_manifiesto.c_codigo_man = t_palet.c_codigo_man ) and  
+         ( ( t_manifiesto.c_codigo_tem = :as_tem ) AND  
+         ( t_manifiesto.c_codigo_man = :as_cod ) )   and
+		(t_palet.c_excedente_pal='0')
+" arguments=(("as_tem", string),("as_cod", string)) )
+compute(band=header alignment="0" expression="'Acuerdo por el que se instrumenta el '"border="0" color="0" x="2144" y="656" height="64" width="987" format="[general]" visible="1~tif(mid(F_TRIM(f_getparmvalue('004')),1,7)<>'VIÑEDOS',1,0)"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'dispositivo nacional de emergencia contra el piojo harinoso de la vid'"border="0" color="0" x="338" y="736" height="64" width="2793" format="[general]" visible="1~tif(mid(F_TRIM(f_getparmvalue('004')),1,7)<>'VIÑEDOS',1,0)"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=16 alignment="0" tabsequence=32766 border="0" color="0" x="2039" y="1604" height="64" width="1271" format="[general]"  name=coordinador edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion1', '' )),1,1) + '        ' +  mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion1', '' )),2,1)"border="0" color="0" x="2866" y="216" height="60" width="475" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion9', '' ))"border="0" color="0" x="2039" y="1420" height="60" width="475" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=summary dataobject="d_rpt_fitosanitario_cultivo_terra" x="91" y="156" height="136" width="1646" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_tem"),("as_cod")) trail_footer = yes  slideup=directlyabove )
+report(band=summary dataobject="d_rpt_fitosanitario_etiqueta_terra" x="91" y="452" height="84" width="2793" border="0"  height.autosize=yes criteria="" nest_arguments=(("as_tem"),("as_cod")) trail_footer = yes  slideup=directlyabove )
+compute(band=summary alignment="0" expression="v_nombre_dis + ' , ' + v_direcc_dis + ', ' + v_ciudad_dis + ', ' + v_telef1_dis"border="0" color="0" x="91" y="1072" height="216" width="1554" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=6 alignment="0" tabsequence=32766 border="0" color="0" x="91" y="1420" height="64" width="782" format="[general]"  name=v_flejesagarpa_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=18 alignment="2" tabsequence=32766 border="0" color="0" x="91" y="1604" height="64" width="549" format="[general]"  name=cedula edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion7', '' )),1,1) + '        ' +  mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion7', '' )),2,1)"border="0" color="0" x="2706" y="724" height="60" width="635" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion6', '' )),1,1) + '          ' +  mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion6', '' )),2,1)"border="0" color="0" x="1198" y="724" height="60" width="475" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion8', '' )),1,1) + '          ' +  mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion8', '' )),2,1)"border="0" color="0" x="1198" y="852" height="60" width="475" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="v_nombre_emb + ' , ' + v_direcc_emb + ', ' + v_ciudad_emb + ', ' + v_telef1_emb"border="0" color="0" x="1870" y="1072" height="216" width="1445" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1870" y="852" height="60" width="992" format="[general]"  name=v_placaj_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion3', '' )),1,1) + '        ' + mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion3', '' )),2,1) "border="0" color="0" x="2866" y="340" height="60" width="475" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion4', '' )),1,1) + '         ' + mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion4', '' )),2,1)  + '         ' + mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion4', '' )),3,1) "border="0" color="0" x="1225" y="588" height="60" width="448" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion5', '' )),1,1) + '          ' + mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion5', '' )),2,1)  +  '        ' + mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion5', '' )),3,1) "border="0" color="0" x="2679" y="588" height="60" width="663" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion2', '' )),1,1) + '            ' + mid(f_trim(ProfileString( 'eyeplus.ini', 'opciones', 'opcion2', '' )),2,1)"border="0" color="0" x="1902" y="340" height="60" width="475" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=22 alignment="1" tabsequence=32766 border="0" color="0" x="91" y="340" height="64" width="407" format="#,##0"  name=n_totbul_man edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="f_trim(f_getparmvalue('004')) + '  ' + string(today(),'dd/mm/yyyy')"border="0" color="0" x="1280" y="196" height="160" width="1230" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=19 alignment="0" tabsequence=32766 border="0" color="0" x="2565" y="196" height="64" width="635" format="[general]"  name=vigencia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="upper('El producto fue inspeccionado encontrandose libre de mielecilla y piojo harinoso de la vid')"border="0" color="0" x="91" y="12" height="164" width="3127" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="f_trim(f_getparmvalue('004'))"border="0" color="0" x="91" y="196" height="124" width="1125" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=footer id=24 alignment="0" tabsequence=32766 border="0" color="0" x="91" y="348" height="164" width="1125" format="[general]"  name=tecnico edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")
