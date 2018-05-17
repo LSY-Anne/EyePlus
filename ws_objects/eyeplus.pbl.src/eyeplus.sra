@@ -76,6 +76,6 @@ destroy(message)
 end on
 
 event open;Open(w_logo)
-//uys
+//uysa
 end event
 
